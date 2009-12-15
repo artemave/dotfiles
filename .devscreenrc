@@ -1,0 +1,26 @@
+sessionname dev
+
+shell bash
+
+hardstatus lastline "%{= dR} %-Lw%50>%{= dG}%n%f* %{= dR}%t%+Lw%<"
+
+#caption splitonly "%{= dC} %-Lw%50>%{= dR}%n%f* %{= dC}%t%+Lw%<"
+
+screen -t sh
+
+screen -t vim
+exec vim
+
+screen -t root
+
+screen -t mysql
+exec mysql
+
+screen -t dev_log
+exec tail -f /home/litecast/live/log/litecast_root.log
+
+screen -t apache_log
+exec tail -f /var/log/httpd/error_log
+
+select 0
+
