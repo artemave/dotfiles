@@ -9,18 +9,14 @@ hardstatus lastline "%{= dR} %-Lw%50>%{= dG}%n%f* %{= dR}%t%+Lw%<"
 screen -t sh
 
 screen -t vim
-exec vim
 
-screen -t root
+screen -t irb
 
 screen -t mysql
-exec mysql
 
-screen -t dev_log
-exec tail -f /home/litecast/live/log/litecast_root.log
+screen -t log
 
-screen -t apache_log
-exec tail -f /var/log/httpd/error_log
+screen -t root
 
 select 0
 
