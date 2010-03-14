@@ -401,10 +401,12 @@ surround.txt	surround.txt	/*surround.txt*
 tailminusf-about	tailminusf.txt	/*tailminusf-about*
 tailminusf-commands	tailminusf.txt	/*tailminusf-commands*
 tailminusf-configure	tailminusf.txt	/*tailminusf-configure*
+vS	surround.txt	/*vS*
 v_[%	matchit.txt	/*v_[%*
 v_]%	matchit.txt	/*v_]%*
 v_a%	matchit.txt	/*v_a%*
 v_g%	matchit.txt	/*v_g%*
+vgS	surround.txt	/*vgS*
 vs	surround.txt	/*vs*
 yS	surround.txt	/*yS*
 ySS	surround.txt	/*ySS*
