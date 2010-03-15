@@ -1,9 +1,3 @@
-au BufNewFile,BufRead *.html setf tt2html
-
-"TT2 and HTML"
-":let b:tt2_syn_tags = '\[% %] <!-- -->'
-:let b:tt2_syn_tags = '\[% %]'
-
 setlocal iskeyword+=:  " make tags with :: in them useful
 
 if ! exists("s:defined_functions")

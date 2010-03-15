@@ -7,7 +7,6 @@ set nowrap
 set autoindent|set smartindent
 set tabstop=2|set shiftwidth=2|set expandtab|set softtabstop=2
 set showmatch
-" autocmd FileType perl set number
 
 " make tab in v mode ident code
 vmap <tab> >gv
@@ -31,7 +30,6 @@ let perl_extended_vars = 1
 nnoremap <silent> _t :%!perltidy -q<Enter>
 vnoremap <silent> _t :!perltidy -q<Enter>
 
-
 " Deparse obfuscated code
 nnoremap <silent> _d :.!perl -MO=Deparse 2>/dev/null<cr>
 vnoremap <silent> _d :!perl -MO=Deparse 2>/dev/null<cr>
@@ -40,7 +38,6 @@ set backspace=indent,eol,start
 set shiftround
 "set textwidth=80
 set fileformat=unix
-"set mouse=a
 syntax on
 set incsearch
 
@@ -50,8 +47,6 @@ let perl_fold_blocks=1
 hi Comment ctermfg=12
 hi Folded ctermbg=0
 hi Statement ctermfg=3
-
-let g:dbext_default_profile_mysql = 'type=DBI:user=root:passwd=*Xh932iI^:driver=mysql:conn_parms=database=litecast;host=db1'
 
 " for rails vim to handle ruby indent nicely
 filetype plugin indent on
