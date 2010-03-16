@@ -51,3 +51,6 @@ hi Statement ctermfg=3
 
 " for rails vim to handle ruby indent nicely
 filetype plugin indent on
+
+" this is supposed to help cucumber highlighting
+set fileencodings=ucs-bom,utf-8,latin1
