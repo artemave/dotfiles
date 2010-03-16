@@ -2,9 +2,10 @@ hi Search NONE
 set t_Co=256
 imap <TAB> <C-P>
 imap <esc>[Z <s-tab>
-inoremap # X#
+" this is provided by language indents (perl, ruby, etc)
+" inoremap # X#
+" set autoindent|set smartindent
 set nowrap
-set autoindent|set smartindent
 set tabstop=2|set shiftwidth=2|set expandtab|set softtabstop=2
 set showmatch
 
