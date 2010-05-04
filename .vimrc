@@ -15,7 +15,7 @@ vmap <s-tab> <gv
 
 " paste mode - this will avoid unexpected effects when you
 " cut or copy some text from one window and paste it in Vim.
-set pastetoggle=<F11>
+set pastetoggle=<F12>
 
 " comment/uncomment blocks of code (in vmode)
 vmap _c :s/^/#/gi<Enter>
@@ -54,3 +54,5 @@ filetype plugin indent on
 
 " this is supposed to help cucumber highlighting
 set fileencodings=ucs-bom,utf-8,latin1
+
+set autoread
