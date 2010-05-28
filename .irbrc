@@ -1,6 +1,13 @@
-require 'hirb'
+require 'rubygems'
 require 'pp'
 
-Hirb::View.enable
-ActiveRecord::Base.logger = Logger.new(STDOUT)
+#require 'hirb'
+#Hirb::View.enable
 
+require 'interactive_editor'
+
+puts 'loaded'
+
+def ar2console
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+end

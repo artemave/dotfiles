@@ -159,3 +159,5 @@ function cabalinst() {
     cabal install "$@"
     chmod -R go+rX /usr/local/share/cabal/packages
 }
+
+export ORACLE_HOME="/usr/local/oracle/OraHome1"
