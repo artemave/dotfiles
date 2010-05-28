@@ -1,3 +1,5 @@
 [user]
 	email = artemave@gmail.com
 	name = artemave
+[alias]
+	wtf = !git-wtf
