@@ -151,8 +151,6 @@ esac
 
 export PS1="\[$PS_COLOR\]\u:\w\[$YELLOW\]\$(parsegitbranch)$ \[$NO_COLOR\]"
 
-export PATH=$PATH:"/var/lib/gems/1.8/bin"
-
 if [[ -s /home/artem/.rvm/scripts/rvm ]] ; then source /home/artem/.rvm/scripts/rvm ; fi
 
 function cabalinst() {
@@ -160,4 +158,7 @@ function cabalinst() {
     chmod -R go+rX /usr/local/share/cabal/packages
 }
 
-export ORACLE_HOME="/usr/local/oracle/OraHome1"
+function take() {
+  mkdir $1
+  cd $1
+}
