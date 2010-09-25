@@ -3,7 +3,6 @@
 require 'ftools'
 
 BACKUP_DIR = '/tmp/myrcs'
-pwd = File.dirname( File.expand_path(__FILE__) )
 
 def backup(file)
   File.makedirs BACKUP_DIR
@@ -28,6 +27,8 @@ end
 
 
 puts "Installing dot files..."
+
+pwd = File.dirname( File.expand_path(__FILE__) )
 
 Dir.glob("#{pwd}/*", File::FNM_DOTMATCH).each do |f|
   next if f =~ /\.$|\.\.|.git$|.gitignore|.swp$|install.rb/
