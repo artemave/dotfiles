@@ -8,22 +8,22 @@ pwd = File.dirname( File.expand_path(__FILE__) )
 def backup(file)
   File.makedirs BACKUP_DIR
 
-  existing_file = File.expand_path('~/') + '/' + File.basename(file)
+  current_file = File.expand_path('~/') + '/' + File.basename(file)
   
-  if File.exists? existing_file
-    if File.symlink? existing_file
-      `rm #{existing_file}`
-      puts "Removing old link: #{existing_file}"
+  if File.exists? current_file
+    if File.symlink? current_file
+      puts "Removing old link: #{current_file}"
+      `rm #{current_file}`
     else
-      `mv #{existing_file} #{BACKUP_DIR}/#{File.basename(existing_file)}`
-      puts "Backing up: mv #{existing_file} #{BACKUP_DIR}/#{File.basename(existing_file)}"
+      puts "Backing up: mv #{current_file} #{BACKUP_DIR}/#{File.basename(current_file)}"
+      `mv #{current_file} #{BACKUP_DIR}/#{File.basename(current_file)}`
     end
   end
 end
 
-def link(file)
-  `ln -s #{file} ~/`
+def link_to_home(file)
   puts "ln -s #{file} ~/"
+  `ln -s #{file} ~/`
 end
 
 
@@ -33,8 +33,7 @@ Dir.glob("#{pwd}/*", File::FNM_DOTMATCH).each do |f|
   next if f =~ /\.$|\.\.|.git$|.gitignore|.swp$|install.rb/
 
   backup f
-
-  link f
+  link_to_home f
 end
 
 puts "\nDone!"
