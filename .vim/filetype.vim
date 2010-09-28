@@ -31,3 +31,5 @@ let s:defined_functions = 1
 endif
 
 "call s:do_tags(expand('%'))
+"
+au! BufRead,BufNewFile *.haml         setfiletype haml
