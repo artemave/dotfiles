@@ -1,4 +1,4 @@
-sessionname dev
+scrollback 1000
 
 shell bash
 

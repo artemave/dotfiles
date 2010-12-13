@@ -3,3 +3,5 @@
 	name = artemave
 [alias]
 	wtf = !git-wtf
+[core]
+	excludesfile = /Users/artem/.gitignore

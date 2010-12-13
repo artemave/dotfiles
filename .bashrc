@@ -74,6 +74,14 @@ esac
 #    . ~/.bash_aliases
 #fi
 
+#if [ -f ~/.profile ]; then
+#    . ~/.profile
+#fi
+
+if [ -f ~/.amazon_keys ]; then
+    . ~/.amazon_keys
+fi
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
@@ -151,9 +159,7 @@ esac
 
 export PS1="\[$PS_COLOR\]\u:\w\[$YELLOW\]\$(parsegitbranch)$ \[$NO_COLOR\]"
 
-if [[ -s /home/artem/.rvm/scripts/rvm ]] ; then source /home/artem/.rvm/scripts/rvm ; fi
-
-export PATH=$PATH:"/var/lib/gems/1.8/bin"
+if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
 
 function cabalinst() {
     cabal install "$@"
