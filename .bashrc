@@ -74,10 +74,6 @@ esac
 #    . ~/.bash_aliases
 #fi
 
-#if [ -f ~/.profile ]; then
-#    . ~/.profile
-#fi
-
 if [ -f ~/.amazon_keys ]; then
     . ~/.amazon_keys
 fi
@@ -98,6 +94,10 @@ fi
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
+
+if [ `uname` == 'Darwin' ]; then
+  alias gitk="/usr/bin/wish $(which gitk)"
+fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

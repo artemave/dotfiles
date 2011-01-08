@@ -31,7 +31,7 @@ puts "Installing dot files..."
 pwd = File.dirname( File.expand_path(__FILE__) )
 
 Dir.glob("#{pwd}/*", File::FNM_DOTMATCH).each do |f|
-  next if f =~ /\.$|\.\.|.git$|.gitignore|.swp$|install.rb/
+  next if f =~ /\.$|\.\.|.git$|.swp$|install.rb/
 
   backup f
   link_to_home f
