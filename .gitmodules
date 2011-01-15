@@ -10,9 +10,6 @@
 [submodule ".vim/bundle/bufexplorer"]
 	path = .vim/bundle/bufexplorer
 	url = https://github.com/vim-scripts/bufexplorer.zip.git
-[submodule ".vim/bundle/dbext"]
-	path = .vim/bundle/dbext
-	url = https://github.com/zklinger/dbext.git
 [submodule ".vim/bundle/matchit"]
 	path = .vim/bundle/matchit
 	url = https://github.com/vim-scripts/matchit.zip.git
@@ -28,3 +25,6 @@
 [submodule ".vim/bundle/vimball"]
 	path = .vim/bundle/vimball
 	url = https://github.com/vim-scripts/Vimball.git
+[submodule ".vim/bundle/dbext"]
+	path = .vim/bundle/dbext
+	url = https://github.com/vim-scripts/dbext.vim.git
