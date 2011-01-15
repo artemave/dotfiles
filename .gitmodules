@@ -10,3 +10,6 @@
 [submodule ".vim/bundle/autoclose"]
 	path = .vim/bundle/autoclose
 	url = https://github.com/vim-scripts/AutoClose.git
+[submodule ".vim/bundle/bufexplorer"]
+	path = .vim/bundle/bufexplorer
+	url = https://github.com/vim-scripts/bufexplorer.zip.git
