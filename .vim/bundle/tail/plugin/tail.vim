@@ -1,13 +1,13 @@
 "------------------------------------------------------------------------------
 "  Description: Works like "tail -f" .
-"          $Id: tail.vim 773 2007-09-17 08:58:57Z krischik $
+"          $Id: tail.vim 29 2007-09-24 11:40:36Z krischik@users.sourceforge.net $
 "   Maintainer: Martin Krischik (krischik@users.sourceforge.net)
 "               Jason Heddings (vim at heddway dot com)
-"      $Author: krischik $
-"        $Date: 2007-09-17 10:58:57 +0200 (Mo, 17 Sep 2007) $
+"      $Author: krischik@users.sourceforge.net $
+"        $Date: 2007-09-24 12:40:36 +0100 (Mon, 24 Sep 2007) $
 "      Version: 3.0
-"    $Revision: 773 $
-"     $HeadURL: https://gnuada.svn.sourceforge.net/svnroot/gnuada/trunk/tools/vim/plugin/tail.vim $
+"    $Revision: 29 $
+"     $HeadURL: http://vim-scripts.googlecode.com/svn/trunk/1714%20Tail%20Bundle/plugin/tail.vim $
 "      History: 22.09.2006 MK Improve for vim 7.0
 "               15.10.2006 MK Bram's suggestion for runtime integration
 "		05.11.2006 MK Bram suggested to save on spaces
