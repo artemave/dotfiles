@@ -86,4 +86,4 @@ nnoremap <Leader>0 :10b<CR>
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+" call pathogen#helptags() " commented out to no get annoying message from dbext help every time vim starts
