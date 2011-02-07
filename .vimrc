@@ -1,3 +1,6 @@
+call pathogen#runtime_append_all_bundles()
+" call pathogen#helptags() " commented out to no get annoying message from dbext help every time vim starts
+
 hi Search NONE
 set t_Co=256
 imap <TAB> <C-P>
@@ -84,6 +87,3 @@ nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 " It's useful to show the buffer number in the status line.
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-
-call pathogen#runtime_append_all_bundles()
-" call pathogen#helptags() " commented out to no get annoying message from dbext help every time vim starts
