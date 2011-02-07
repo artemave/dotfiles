@@ -34,3 +34,6 @@
 [submodule ".vim/bundle/snipmate-snippets/snippets"]
 	path = .vim/bundle/snipmate-snippets/snippets
 	url = https://github.com/spf13/snipmate-snippets.git
+[submodule ".vim/bundle/vim-ruby"]
+	path = .vim/bundle/vim-ruby
+	url = https://github.com/vim-ruby/vim-ruby.git
