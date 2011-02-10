@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-require 'ftools'
+require RUBY_VERSION =~ /1\.9/ ? 'fileutils' : 'ftools'
 
 BACKUP_DIR = '/tmp/myrcs'
 
 def backup(file)
-  File.makedirs BACKUP_DIR
+  (RUBY_VERSION =~ /1\.9/ ? FileUtils : File).makedirs BACKUP_DIR
 
   current_file = File.expand_path('~/') + '/' + File.basename(file)
   
