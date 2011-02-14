@@ -97,6 +97,9 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
+export sp="$HOME/.vim/bundle/snipmate-snippets/snippets/"
+alias fr='fgrep -r'
+
 if [ `uname` == 'Darwin' ]; then
   alias gitk="/usr/bin/wish $(which gitk)"
 fi
