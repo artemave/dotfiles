@@ -1,24 +1,21 @@
-scrollback 1000
-
 shell bash
 
 hardstatus lastline "%{= dR} %-Lw%50>%{= dG}%n%f* %{= dR}%t%+Lw%<"
 
 #caption splitonly "%{= dC} %-Lw%50>%{= dR}%n%f* %{= dC}%t%+Lw%<"
 
-screen -t sh
+screen -t sh -h 1000
 
-screen -t vim
+screen -t vim -h 1000
 
-screen -t irb
+screen -t irb -h 1000
 
-screen -t mysql
+screen -t mysql -h 1000
 
-screen -t server
+screen -t server -h 1000
 
-screen -t log
+screen -t log -h 1000
 
-screen -t root
+screen -t root -h 1000
 
 select 0
-
