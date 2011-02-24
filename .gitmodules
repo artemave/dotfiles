@@ -37,3 +37,6 @@
 [submodule ".vim/bundle/vim-ruby"]
 	path = .vim/bundle/vim-ruby
 	url = https://github.com/vim-ruby/vim-ruby.git
+[submodule ".vim/bundle/rename"]
+	path = .vim/bundle/rename
+	url = https://github.com/vim-scripts/rename.vim.git
