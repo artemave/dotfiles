@@ -4,4 +4,4 @@
 [alias]
 	wtf = !git-wtf
 [core]
-	excludesfile = /Users/artem/.gitignore
+	excludesfile = /Users/kashif/.gitignore
