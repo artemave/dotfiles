@@ -1,0 +1,57 @@
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    eval "`dircolors -b`"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+
+parsegitbranch() {
+    git branch &>/dev/null;
+    if [ $? -eq 0 ]; then
+        echo " ($(git branch 2> /dev/null | grep '^*' |sed s/\*\ //))";
+    fi
+}
+
+function cabalinst() {
+    cabal install "$@"
+    chmod -R go+rX /usr/local/share/cabal/packages
+}
+
+function take() {
+  mkdir $1
+  cd $1
+}
+
+export EDITOR="vim"
+
+if [ -f ~/.amazon_keys ]; then
+    . ~/.amazon_keys
+fi
+
+export sp="$HOME/.vim/bundle/snipmate-snippets/snippets/"
+alias fr='fgrep -r'
+
+# homebrew
+export PATH="/usr/local/bin:$PATH:~/bin"
+
+if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
+
+function cabalinst() {
+    cabal install "$@"
+    chmod -R go+rX /usr/local/share/cabal/packages
+}
+
+function take() {
+  mkdir $1
+  cd $1
+}
