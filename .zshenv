@@ -2,11 +2,12 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory autocd nomatch notify extendedglob
+setopt appendhistory autocd nomatch notify
 bindkey -v
+bindkey '^R' history-incremental-search-backward
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename "$HOME/.zshrc"
+zstyle :compinstall filename "$HOME/.zshenv"
 
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion::complete:*' use-cache 1
