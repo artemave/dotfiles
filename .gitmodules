@@ -40,3 +40,6 @@
 [submodule ".vim/bundle/EasyGrep"]
 	path = .vim/bundle/EasyGrep
 	url = https://github.com/vim-scripts/EasyGrep.git
+[submodule ".vim/bundle/vim-coffee-script"]
+	path = .vim/bundle/vim-coffee-script
+	url = https://github.com/kchmck/vim-coffee-script.git
