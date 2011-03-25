@@ -42,7 +42,12 @@ export sp="$HOME/.vim/bundle/snipmate-snippets/snippets/"
 alias fr='fgrep -r'
 
 # homebrew
-export PATH="/usr/local/bin:$PATH:$HOME/bin"
+export PATH="/usr/local/bin:$PATH"
+
+export PATH="$PATH:$HOME/bin"
+export PATH="/usr/local/share/npm/bin:$PATH"
+
+export NODE_PATH="/usr/local/lib/node"
 
 if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
 
