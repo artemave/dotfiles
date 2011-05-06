@@ -2,9 +2,9 @@ call pathogen#runtime_append_all_bundles()
 " call pathogen#helptags() " commented out to no get annoying message from dbext help every time vim starts
 
 hi Search NONE
-set t_Co=256
-imap <TAB> <C-P>
-imap <esc>[Z <s-tab>
+""set t_Co=256
+""imap <TAB> <C-P>
+""imap <esc>[Z <s-tab>
 imap jj <esc>
 " this is provided by language indents (perl, ruby, etc)
 " inoremap # X#
@@ -57,7 +57,7 @@ hi Statement ctermfg=3
 filetype plugin indent on
 
 " this is supposed to help cucumber highlighting
-set fileencodings=ucs-bom,utf-8,latin1
+""set fileencodings=ucs-bom,utf-8,latin1
 
 set autoread
 
