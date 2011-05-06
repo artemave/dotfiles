@@ -1,40 +1,60 @@
 #!/usr/bin/env ruby
 
-require RUBY_VERSION =~ /1\.9/ ? 'fileutils' : 'ftools'
+require 'fileutils'
+require 'tmpdir'
 
-BACKUP_DIR = '/tmp/myrcs'
+BACKUP_DIR = "#{Dir.tmpdir}/myrcs"
 
 def backup(file)
-  (RUBY_VERSION =~ /1\.9/ ? FileUtils : File).makedirs BACKUP_DIR
+  FileUtils.mkdir_p BACKUP_DIR
 
-  current_file = File.expand_path('~/') + '/' + File.basename(file)
+  basename = File.basename file
+  existing_file = File.join Dir.home, basename
+  backup_copy = File.join BACKUP_DIR, basename
   
-  if File.exists? current_file
-    if File.symlink? current_file
-      puts "Removing old link: #{current_file}"
-      `rm #{current_file}`
+  if File.exists? existing_file
+    if File.symlink? existing_file
+      puts "Removing old link: #{existing_file}"
+      FileUtils.rm existing_file
     else
-      puts "Backing up: mv #{current_file} #{BACKUP_DIR}/#{File.basename(current_file)}"
-      `mv #{current_file} #{BACKUP_DIR}/#{File.basename(current_file)}`
+      puts "Backing up: mv #{existing_file} #{backup_copy}"
+      FileUtils.mv existing_file, backup_copy
     end
   end
 end
 
 def link_to_home(file)
   puts "ln -s #{file} ~/"
-  `ln -s #{file} ~/`
+  FileUtils.ln_s file, Dir.home
 end
 
+def snippify
+  snipmate_path = File.join(Dir.home, '.vim', 'bundle', 'snipmate')
+  snipmate_snippets_path = File.join(Dir.home, '.vim', 'bundle', 'snipmate-snippets')
+  if Dir.exists?(snipmate_path) and Dir.exists?(snipmate_snippets_path)
+    current_dir = Dir.pwd
+    puts 'Installing more cool snippets...'
+    begin
+      Dir.chdir snipmate_snippets_path
+      `rake deploy_local`
+      puts 'Done with snippets.'
+    ensure
+      Dir.chdir current_dir
+    end
+  else
+    puts 'No cool vim snippets. Skipping.'
+  end
+end
 
 puts "Installing dot files..."
 
-pwd = File.dirname( File.expand_path(__FILE__) )
-
-Dir.glob("#{pwd}/*", File::FNM_DOTMATCH).each do |f|
+Dir.glob("#{Dir.pwd}/*", File::FNM_DOTMATCH).each do |f|
   next if f =~ /\.$|\.\.|.git$|.swp$|install.rb/
 
   backup f
   link_to_home f
 end
+
+snippify()
 
 puts "\nDone!"
