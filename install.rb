@@ -3,7 +3,7 @@
 require 'fileutils'
 require 'tmpdir'
 
-BACKUP_DIR = "#{Dir.tmpdir}/myrcs"
+BACKUP_DIR = File.join Dir.tmpdir, Time.now.to_i.to_s, 'myrcs'
 
 def backup(file)
   FileUtils.mkdir_p BACKUP_DIR
