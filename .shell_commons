@@ -14,6 +14,7 @@ fi
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
+alias fr='fgrep -r'
 
 parsegitbranch() {
     git branch &>/dev/null;
@@ -35,19 +36,19 @@ function take() {
 export EDITOR="vim"
 
 if [ -f ~/.amazon_keys ]; then
-    . ~/.amazon_keys
+  . ~/.amazon_keys
 fi
 
-export sp="$HOME/.vim/bundle/snipmate-snippets/snippets/"
-alias fr='fgrep -r'
+if [ -f /usr/local/bin/brew ]; then
+  export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+  #node.js
+  export PATH="/usr/local/share/npm/bin:$PATH"
+  export NODE_PATH="/usr/local/lib/node"
 
-# homebrew
-export PATH="/usr/local/bin:$PATH"
+  export ANDROID_SDK_ROOT="/usr/local/Cellar/android-sdk/r10"
+fi
 
 export PATH="$PATH:$HOME/bin"
-export PATH="/usr/local/share/npm/bin:$PATH"
-
-export NODE_PATH="/usr/local/lib/node"
 
 if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
 
@@ -59,4 +60,9 @@ function cabalinst() {
 function take() {
   mkdir $1
   cd $1
+}
+
+# find snippet
+function fsnip() {
+  egrep -r $1 "$HOME/.vim/bundle/snipmate/snippets/"
 }
