@@ -4,12 +4,13 @@ require 'fileutils'
 require 'tmpdir'
 
 BACKUP_DIR = File.join Dir.tmpdir, Time.now.to_i.to_s, 'myrcs'
+HOME_DIR = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
 
 def backup(file)
   FileUtils.mkdir_p BACKUP_DIR
 
   basename = File.basename file
-  existing_file = File.join Dir.home, basename
+  existing_file = File.join HOME_DIR, basename
   backup_copy = File.join BACKUP_DIR, basename
   
   if File.exists? existing_file
@@ -25,13 +26,13 @@ end
 
 def link_to_home(file)
   puts "ln -s #{file} ~/"
-  FileUtils.ln_s file, Dir.home
+  FileUtils.ln_s file, HOME_DIR
 end
 
 def snippify
-  snipmate_path = File.join(Dir.home, '.vim', 'bundle', 'snipmate')
-  snipmate_snippets_path = File.join(Dir.home, '.vim', 'bundle', 'snipmate-snippets')
-  if Dir.exists?(snipmate_path) and Dir.exists?(snipmate_snippets_path)
+  snipmate_path = File.join(HOME_DIR, '.vim', 'bundle', 'snipmate')
+  snipmate_snippets_path = File.join(HOME_DIR, '.vim', 'bundle', 'snipmate-snippets')
+  if File.exists?(snipmate_path) and File.exists?(snipmate_snippets_path)
     current_dir = Dir.pwd
     puts 'Installing more cool snippets...'
     begin
