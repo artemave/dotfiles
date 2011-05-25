@@ -47,6 +47,8 @@ def snippify
   end
 end
 
+`git submodule update --init`
+
 puts "Installing dot files..."
 
 Dir.glob("#{Dir.pwd}/*", File::FNM_DOTMATCH).each do |f|
