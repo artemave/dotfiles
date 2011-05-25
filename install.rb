@@ -50,7 +50,7 @@ end
 puts "Installing dot files..."
 
 Dir.glob("#{Dir.pwd}/*", File::FNM_DOTMATCH).each do |f|
-  next if f =~ /\.$|\.\.|.git$|.swp$|install.rb/
+  next if f =~ /\.$|\.\.|.git$|.swp$|.gitmodules|install.rb/
 
   backup f
   link_to_home f

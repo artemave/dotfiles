@@ -39,6 +39,10 @@ if [ -f ~/.amazon_keys ]; then
   . ~/.amazon_keys
 fi
 
+if [ -f ~/.local_env ]; then
+  . ~/.local_env
+fi
+
 if [ -f /usr/local/bin/brew ]; then
   export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
   #node.js
