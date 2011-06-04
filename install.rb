@@ -31,17 +31,13 @@ end
 
 def snippify
   snipmate_path = File.join(HOME_DIR, '.vim', 'bundle', 'snipmate')
-  snipmate_snippets_path = File.join(HOME_DIR, '.vim', 'bundle', 'snipmate-snippets')
-  if File.exists?(snipmate_path) and File.exists?(snipmate_snippets_path)
-    current_dir = Dir.pwd
+  more_snippets_path = File.join(HOME_DIR, '.vim', 'bundle', 'snipmate-snippets', 'snippets')
+  if File.exists?(snipmate_path) and File.exists?(more_snippets_path)
     puts 'Installing more cool snippets...'
-    begin
-      Dir.chdir snipmate_snippets_path
-      `rake deploy_local`
-      puts 'Done with snippets.'
-    ensure
-      Dir.chdir current_dir
-    end
+    FileUtils.rm_rf "#{snipmate_path}/snippets"
+    FileUtils.cp "#{more_snippets_path}/support_functions.vim", "#{snipmate_path}/plugin"
+    #FileUtils.ln_s more_snippets_path, snippets_path
+    puts 'Done with snippets.'
   else
     puts 'No cool vim snippets. Skipping.'
   end
