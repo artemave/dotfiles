@@ -1,5 +1,5 @@
 call pathogen#runtime_append_all_bundles()
-""call pathogen#helptags() " commented out to no get annoying message from dbext help every time vim starts
+call pathogen#helptags() " commented out to no get annoying message from dbext help every time vim starts
 
 hi Search NONE
 set t_Co=256
