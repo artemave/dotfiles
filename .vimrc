@@ -69,6 +69,8 @@ autocmd User fugitive
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
+autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
+
 function! Find(name)
   let l:list=system("find . -name '".a:name."' | grep -v \".svn/\" | perl -ne 'print \"$.\\t$_\"'")
   let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
