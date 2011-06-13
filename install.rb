@@ -38,6 +38,13 @@ def snippify
   end
 end
 
+def git_config
+  `git config --global core.excludesfile ~/.gitignore`
+  `git config --global user.name artemave`
+  `git config --global user.email artemave@gmail.com`
+  `git config --global alias.wtf !git-wtf`
+end
+
 puts 'Updating git submodules...'
 puts `git submodule update --init`
 puts 'Done!'
@@ -53,6 +60,7 @@ Dir.glob("#{Dir.pwd}/*", File::FNM_DOTMATCH).each do |f|
   link_to_home f
 end
 
+git_config()
 snippify()
 
 puts "\nDone!"

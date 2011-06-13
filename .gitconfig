@@ -1,7 +1,0 @@
-[user]
-	email = artemave@gmail.com
-	name = artemave
-[alias]
-	wtf = !git-wtf
-[core]
-	excludesfile = /Users/kashif/.gitignore
