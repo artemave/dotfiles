@@ -14,7 +14,7 @@ vmap <s-tab> <gv
 
 " paste mode - this will avoid unexpected effects when you
 " cut or copy some text from one window and paste it in Vim.
-set pastetoggle=<F12>
+set pastetoggle=<F5>
 
 " Tidy selected lines (or entire file) with _t:
 nnoremap <silent> _t :%!perltidy -q<Enter>
@@ -68,3 +68,39 @@ autocmd User fugitive
   \ endif
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
+
+"" json highlighting
+autocmd BufNewFile,BufRead *.json set ft=javascript
+
+autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
+
+function! Find(name)
+  let l:list=system("find . -name '".a:name."' | grep -v \".svn/\" | perl -ne 'print \"$.\\t$_\"'")
+  let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
+  if l:num < 1
+    echo "'".a:name."' not found"
+    return
+  endif
+  if l:num != 1
+    echo l:list
+    let l:input=input("Which ? (CR=nothing)\n")
+    if strlen(l:input)==0
+      return
+    endif
+    if strlen(substitute(l:input, "[0-9]", "", "g"))>0
+      echo "Not a number"
+      return
+    endif
+    if l:input<1 || l:input>l:num
+      echo "Out of range"
+      return
+    endif
+    let l:line=matchstr("\n".l:list, "\n".l:input."\t[^\n]*")
+  else
+    let l:line=l:list
+  endif
+  let l:line=substitute(l:line, "^[^\t]*\t./", "", "")
+  execute ":e ".l:line
+endfunction
+command! -nargs=1 Find :call Find("<args>")
+
