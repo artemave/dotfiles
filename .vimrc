@@ -14,7 +14,7 @@ vmap <s-tab> <gv
 
 " paste mode - this will avoid unexpected effects when you
 " cut or copy some text from one window and paste it in Vim.
-set pastetoggle=<F12>
+set pastetoggle=<F5>
 
 " Tidy selected lines (or entire file) with _t:
 nnoremap <silent> _t :%!perltidy -q<Enter>
@@ -68,3 +68,6 @@ autocmd User fugitive
   \ endif
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
+
+"" json highlighting
+autocmd BufNewFile,BufRead *.json set ft=javascript
