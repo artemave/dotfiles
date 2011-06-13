@@ -40,8 +40,8 @@ end
 
 def git_config
   `git config --global core.excludesfile ~/.gitignore`
-  `git config --global user.name artemave`
-  `git config --global user.email artemave@gmail.com`
+  `git config --global user.name avetia01`
+  `git config --global user.email artem.avetisyan@bbc.co.uk`
   `git config --global alias.wtf !git-wtf`
 end
 
