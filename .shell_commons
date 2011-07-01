@@ -1,5 +1,5 @@
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
+if command -v dircolors &> /dev/null; then
     eval "`dircolors -b`"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
@@ -35,6 +35,12 @@ function take() {
 
 export EDITOR="vim"
 
+if command -v vimpager &> /dev/null; then
+  export PAGER="vimpager"
+  alias less=$PAGER 
+  alias zless=$PAGER
+fi
+
 if [ -f ~/.amazon_keys ]; then
   . ~/.amazon_keys
 fi
@@ -43,7 +49,7 @@ if [ -f ~/.local_env ]; then
   . ~/.local_env
 fi
 
-if [ -f /usr/local/bin/brew ]; then
+if command -v brew &> /dev/null; then
   export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
   #node.js
   export PATH="/usr/local/share/npm/bin:$PATH"
@@ -55,16 +61,6 @@ fi
 export PATH="$PATH:$HOME/bin"
 
 if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
-
-function cabalinst() {
-    cabal install "$@"
-    chmod -R go+rX /usr/local/share/cabal/packages
-}
-
-function take() {
-  mkdir $1
-  cd $1
-}
 
 # find snippet
 function fsnip() {
