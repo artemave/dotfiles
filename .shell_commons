@@ -64,5 +64,5 @@ if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
 
 # find snippet
 function fsnip() {
-  egrep -r $1 "$HOME/.vim/bundle/snipmate/snippets/"
+  egrep -r $1 "$HOME/.vim/bundle/snipmate-snippets/snippets/"
 }
