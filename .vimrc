@@ -117,13 +117,11 @@ function! s:align()
   endif
 endfunction
 
-if exists(":Tabularize")
-  nmap <Leader>a= :Tabularize /=<CR>
-  vmap <Leader>a= :Tabularize /=<CR>
-  nmap <Leader>a: :Tabularize /:\zs<CR>
-  vmap <Leader>a: :Tabularize /:\zs<CR>
-  nmap <Leader>a> :Tabularize /=><CR>
-  vmap <Leader>a> :Tabularize /=><CR>
-endif
+nnoremap <Leader>a= :Tabularize /=<CR>
+vnoremap <Leader>a= :Tabularize /=<CR>
+nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
+vnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
+nnoremap <Leader>a> :Tabularize /=><CR>
+vnoremap <Leader>a> :Tabularize /=><CR>
 
 let g:LustyJugglerSuppressRubyWarning = 1
