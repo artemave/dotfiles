@@ -173,3 +173,18 @@ function! s:RunShellCommand(cmdline)
 endfunction
 
 nnoremap <Leader>F :FufCoverageFile<CR>
+
+function! s:GrepOpenBuffers(search, jump)
+    call setqflist([])
+    let cur = getpos('.')
+    silent! exe 'bufdo vimgrepadd /' . a:search . '/ %'
+    let matches = len(getqflist())
+    if a:jump && matches > 0
+        sil! cfirst
+    else
+        call setpos('.', cur)
+    endif
+    echo 'BufGrep:' ((matches) ? matches : 'No') 'matches found'
+endfunction
+com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
+nnoremap <Leader>S :BufGrep 
