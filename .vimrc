@@ -171,3 +171,5 @@ function! s:RunShellCommand(cmdline)
   silent execute '$read !'. expanded_cmdline
   1
 endfunction
+
+nnoremap <Leader>F :FufCoverageFile<CR>
