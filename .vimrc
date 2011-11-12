@@ -188,3 +188,8 @@ function! s:GrepOpenBuffers(search, jump)
 endfunction
 com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
 nnoremap <Leader>S :BufGrep 
+
+let g:EasyGrepRecursive = 1
+let g:EasyGrepIgnoreCase = 1
+let g:EasyGrepJumpToMatch = 1
+let g:EasyGrepReplaceWindowMode = 2
