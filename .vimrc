@@ -191,3 +191,8 @@ nnoremap <Leader>S :BufGrep
 
 " remap 'increase number' since C-a is captured by tmux/screen
 :nnoremap <C-S-x> <C-a>
+
+let g:EasyGrepRecursive = 1
+let g:EasyGrepIgnoreCase = 1
+let g:EasyGrepJumpToMatch = 1
+let g:EasyGrepReplaceWindowMode = 2
