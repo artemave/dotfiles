@@ -15,6 +15,8 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 alias fr='fgrep -r'
+alias rsd='bundle exec rspec --drb --color spec'
+alias cud='bundle exec cucumber --drb'
 
 parsegitbranch() {
     git branch &>/dev/null;
@@ -35,11 +37,11 @@ function take() {
 
 export EDITOR="vim"
 
-if command -v vimpager &> /dev/null; then
-  export PAGER="vimpager"
-  alias less=$PAGER 
-  alias zless=$PAGER
-fi
+#if command -v vimpager &> /dev/null; then
+  #export PAGER="vimpager"
+  #alias less=$PAGER 
+  #alias zless=$PAGER
+#fi
 
 if [ -f ~/.amazon_keys ]; then
   . ~/.amazon_keys

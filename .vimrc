@@ -188,3 +188,6 @@ function! s:GrepOpenBuffers(search, jump)
 endfunction
 com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
 nnoremap <Leader>S :BufGrep 
+
+" remap 'increase number' since C-a is captured by tmux/screen
+:nnoremap <C-S-x> <C-a>
