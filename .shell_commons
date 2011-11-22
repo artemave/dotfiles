@@ -62,7 +62,11 @@ fi
 
 export PATH="$PATH:$HOME/bin"
 
-if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi
+if [[ -s ~/.rvm/scripts/rvm ]] ; then
+  source ~/.rvm/scripts/rvm
+elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
+  source "/usr/local/rvm/scripts/rvm"
+fi
 
 # find snippet
 function fsnip() {
