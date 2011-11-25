@@ -72,7 +72,8 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 "" json highlighting
 autocmd BufNewFile,BufRead *.json set ft=javascript
 
-autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
+"" coffee script autocompile on save
+""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
 
 function! Find(name)
   let l:list=system("find . -name '".a:name."' | grep -v \".svn/\" | perl -ne 'print \"$.\\t$_\"'")
