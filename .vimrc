@@ -1,5 +1,5 @@
 call pathogen#runtime_append_all_bundles()
-call pathogen#helptags() " commented out to no get annoying message from dbext help every time vim starts
+call pathogen#helptags()
 
 hi Search NONE
 set t_Co=256
@@ -74,6 +74,9 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 
 "" coffee script autocompile on save
 ""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
+
+au BufNewFile,BufRead Vagrantfile set filetype=ruby
+au BufNewFile,BufRead Guardfile set filetype=ruby
 
 function! Find(name)
   let l:list=system("find . -name '".a:name."' | grep -v \".svn/\" | perl -ne 'print \"$.\\t$_\"'")
