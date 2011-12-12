@@ -200,3 +200,5 @@ let g:EasyGrepRecursive = 1
 let g:EasyGrepIgnoreCase = 1
 let g:EasyGrepJumpToMatch = 1
 let g:EasyGrepReplaceWindowMode = 2
+
+set nu
