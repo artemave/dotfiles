@@ -1,11 +1,18 @@
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-hi Search NONE
+syntax on
+
 set t_Co=256
 imap jj <esc>
-set nowrap
-set tabstop=2|set shiftwidth=2|set expandtab|set softtabstop=2
+
+"" Whitespace
+set nowrap                      " don't wrap lines
+set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
+set softtabstop=2
+set expandtab                   " use spaces, not tabs (optional)
+set backspace=indent,eol,start  " backspace through everything in insert mode
+set shiftround
 set showmatch
 
 " make tab in v mode ident code
@@ -20,11 +27,13 @@ set pastetoggle=<F5>
 nnoremap <silent> _t :%!perltidy -q<Enter>
 vnoremap <silent> _t :!perltidy -q<Enter>
 
-set backspace=indent,eol,start
-set shiftround
 set fileformat=unix
-syntax on
-set incsearch
+
+"" Searching
+set hlsearch                    " highlight matches
+set incsearch                   " incremental searching
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
 
 hi Comment ctermfg=12
 hi Folded ctermbg=0
