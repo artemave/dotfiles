@@ -1,8 +1,9 @@
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory autocd nomatch notify
+HISTSIZE=SAVEHIST=10000
+setopt incappendhistory sharehistory extendedhistory
+setopt autocd nomatch notify extended_glob equals
+autoload -U zmv
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 # End of lines configured by zsh-newuser-install
@@ -11,10 +12,20 @@ zstyle :compinstall filename "$HOME/.zshenv"
 
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion:*:killall:*' command 'ps -u $USER -o cmd'
 
 autoload -Uz compinit
 compinit
+
+# Tab completion from both ends.
+setopt completeinword
+
 # End of lines added by compinstall
+
+setopt interactivecomments # pound sign in interactive prompt
+
+# Display CPU usage stats for commands taking more than 10 seconds
+REPORTTIME=10
 
 source ~/.shell_commons
 
@@ -49,7 +60,7 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-# override stupid ubuntu defaults
+# override stupid ubuntu defaults for viins mode
 [[ -z "$terminfo[cuu1]" ]] || bindkey -M viins "$terminfo[cuu1]" up-line-or-history
 [[ -z "$terminfo[kcuu1]" ]] || bindkey -M viins "$terminfo[kcuu1]" up-line-or-history
 [[ "$terminfo[kcuu1]" == "^[O"* ]] && bindkey -M viins "${terminfo[kcuu1]/O/[}" up-line-or-history
