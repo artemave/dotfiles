@@ -8,12 +8,16 @@ if command -v dircolors &> /dev/null; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+elif [[ `uname` == 'Darwin' ]]; then
+    alias ls='ls -GF'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 # some more ls aliases
 alias ll='ls -l'
 alias la='ls -A'
-alias l='ls -CF'
 alias fr='fgrep -r'
 alias rsd='bundle exec rspec --drb --color spec'
 alias cud='bundle exec cucumber --drb'
