@@ -9,7 +9,7 @@ HOME_DIR = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
 def backup(file)
   basename = File.basename file
   existing_file = File.join HOME_DIR, basename
-  backup_copy = File.join BACKUP_DIR, basename
+  backup_copy = File.join BACKUP_DIR, "#{Time.now}_#{basename}"
   
   if File.exists? existing_file
     if File.symlink? existing_file
@@ -42,7 +42,6 @@ def git_config
   `git config --global core.excludesfile ~/.gitignore`
   `git config --global user.name artemave`
   `git config --global user.email artemave@gmail.com`
-  `git config --global alias.wtf !git-wtf`
 end
 
 puts 'Updating git submodules...'
