@@ -64,7 +64,10 @@ end
 
 git_config()
 
-`git clone http://github.com/gmarik/vundle.git #{File.join BUNDLE_PATH, 'vundle'}`
+vundle_install_path = File.join BUNDLE_PATH, 'vundle'
+unless File.exists?(vundle_install_path)
+  `git clone http://github.com/gmarik/vundle.git #{vundle_install_path}`
+end
 
 #snippify()
 
