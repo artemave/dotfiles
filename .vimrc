@@ -1,6 +1,5 @@
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-
+source .bundles.vim
+ 
 syntax on
 
 set t_Co=256
@@ -39,9 +38,6 @@ hi Comment ctermfg=12
 hi Folded ctermbg=0
 hi Statement ctermfg=3
 hi Search ctermbg=black
-
-" for rails vim to handle ruby indent nicely
-filetype plugin indent on
 
 set autoread
 

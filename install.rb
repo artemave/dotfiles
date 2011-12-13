@@ -5,6 +5,7 @@ require 'tmpdir'
 
 BACKUP_DIR = File.join Dir.tmpdir, Time.now.to_i.to_s, 'myrcs'
 HOME_DIR = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
+BUNDLE_PATH = File.join(HOME_DIR, '.vim', 'bundle')
 
 def backup(file)
   basename = File.basename file
@@ -24,9 +25,11 @@ def link_to_home(file)
   FileUtils.ln_s file, HOME_DIR, :verbose => true
 end
 
+# this is now obsolete. It used to be useful when snipmate.vim itself contained snippets
 def snippify
-  snipmate_path = File.join(HOME_DIR, '.vim', 'bundle', 'snipmate')
-  more_snippets_path = File.join(HOME_DIR, '.vim', 'bundle', 'snipmate-snippets', 'snippets')
+  snipmate_path = File.join(BUNDLE_PATH, 'snipmate')
+  more_snippets_path = File.join(BUNDLE_PATH, 'snipmate-snippets', 'snippets')
+
   if File.exists?(snipmate_path) and File.exists?(more_snippets_path)
     puts 'Installing more cool snippets...'
     FileUtils.rm_rf "#{snipmate_path}/snippets", :verbose => true
@@ -60,6 +63,9 @@ Dir.glob("#{Dir.pwd}/*", File::FNM_DOTMATCH).each do |f|
 end
 
 git_config()
-snippify()
+
+`git clone http://github.com/gmarik/vundle.git #{File.join BUNDLE_PATH, 'vundle'}`
+
+#snippify()
 
 puts "\nDone!"
