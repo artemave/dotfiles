@@ -28,7 +28,7 @@ bindkey '^R' history-incremental-search-backward
 autoload -Uz compinit
 compinit
 
-setopt completaliases
+setopt completealiases
 zstyle ':completion:*:killall:*' command 'ps -u $USER -o cmd'
 zstyle ':completion:*' list-colors "=(#b) #([0-9]#)*=36=31"
 zstyle ':completion:*:descriptions' format '%U%d%u'
