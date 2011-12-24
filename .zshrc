@@ -1,6 +1,6 @@
 HISTFILE=~/.histfile
 HISTSIZE=SAVEHIST=10000
-setopt incappendhistory sharehistory extendedhistory
+setopt incappendhistory extendedhistory
 
 setopt autocd
 setopt nomatch
@@ -16,7 +16,6 @@ setopt PUSHDTOHOME
 setopt CDABLEVARS
 setopt NOCLOBBER # prevents accidentally overwriting an existing file.
 setopt SH_WORD_SPLIT # var are split into words when passed.
-setopt NOHUP # do not kil background jobs on logout.
 setopt NOMATCH # If a pattern for filename has no matches = error.
 setopt PRINT_EXIT_VALUE
 setopt LONG_LIST_JOBS
