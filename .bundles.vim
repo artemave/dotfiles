@@ -29,6 +29,9 @@ call vundle#rc()
  Bundle 'garbas/vim-snipmate'
  Bundle 'olegkovalenko/snipmate-snippets'
  Bundle 'godlygeek/tabular'
+ Bundle 'scrooloose/syntastic'
+ Bundle 'mattn/gist-vim'
+ Bundle 'sjl/gundo.vim'
 
  ""Bundle 'Lokaltog/vim-easymotion'
  " vim-scripts repos

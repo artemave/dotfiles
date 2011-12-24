@@ -42,9 +42,11 @@ hi Search ctermbg=black
 set autoread
 
 set hidden
-set wildchar=<Tab> wildmenu wildmode=full
-set wildcharm=<C-Z>
-nnoremap <F10> :b <C-Z>
+
+" command line completion
+set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
+
 set switchbuf=useopen
 " Mappings to access buffers (don't use "\p" because a
 " delay before pressing "p" would accidentally paste).
@@ -81,8 +83,11 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 "" coffee script autocompile on save
 ""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
 
-au BufNewFile,BufRead Vagrantfile set filetype=ruby
-au BufNewFile,BufRead Guardfile set filetype=ruby
+" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
+au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
+
+
+au BufNewFile,BufRead *.hamlc set filetype=haml
 
 function! Find(name)
   let l:list=system("find . -name '".a:name."' | grep -v \".svn/\" | perl -ne 'print \"$.\\t$_\"'")
@@ -209,3 +214,33 @@ let g:EasyGrepReplaceWindowMode = 2
 
 set nu
 
+" Opens an edit command with the path of the currently edited file filled in
+" Normal mode: <Leader>e
+map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+" CTags
+map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
+map <C-\> :tnext<CR>
+
+" Remember last location in file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal g'\"" | endif
+endif
+
+" Enable syntastic syntax checking
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+
+" gist-vim defaults
+if has("mac")
+  let g:gist_clip_command = 'pbcopy'
+elseif has("unix")
+  let g:gist_clip_command = 'xclip -selection clipboard'
+endif
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+
+" Gundo configuration
+nmap <F6> :GundoToggle<CR>
+imap <F6> <ESC>:GundoToggle<CR>
