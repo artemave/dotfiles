@@ -212,7 +212,7 @@ let g:EasyGrepIgnoreCase = 1
 let g:EasyGrepJumpToMatch = 1
 let g:EasyGrepReplaceWindowMode = 2
 
-set nu
+set relativenumber
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
