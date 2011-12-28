@@ -34,10 +34,10 @@ set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 
-hi Comment ctermfg=12
-hi Folded ctermbg=0
-hi Statement ctermfg=3
-hi Search ctermbg=black
+"hi Comment ctermfg=12
+"hi Folded ctermbg=0
+"hi Statement ctermfg=3
+"hi Search ctermbg=black
 
 set autoread
 
@@ -219,6 +219,10 @@ set relativenumber
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " CTags
+"
+" $PATH appears different to vim for some reason and hence wrong ctags gets picked
+" until then, you need to manually override ctags in /usr/bin/ with those from homebrew
+" TODO fix vim path
 map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
 map <C-\> :tnext<CR>
 
@@ -244,3 +248,6 @@ let g:gist_open_browser_after_post = 1
 " Gundo configuration
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
+
+colorscheme molokai
+hi Search ctermbg=black
