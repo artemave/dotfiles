@@ -22,6 +22,12 @@ alias fr='fgrep -r'
 alias rsd='bundle exec rspec --drb --color spec'
 alias cud='bundle exec cucumber --drb'
 
+if command -v mvim &> /dev/null; then
+  export EDITOR="mvim -v"
+else
+  export EDITOR="vim"
+fi
+
 parsegitbranch() {
     git branch &>/dev/null;
     if [ $? -eq 0 ]; then
@@ -38,8 +44,6 @@ function take() {
   mkdir $1
   cd $1
 }
-
-export EDITOR="vim"
 
 #if command -v vimpager &> /dev/null; then
   #export PAGER="vimpager"
