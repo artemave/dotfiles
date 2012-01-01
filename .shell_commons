@@ -21,6 +21,7 @@ alias la='ls -A'
 alias fr='fgrep -r'
 alias rsd='bundle exec rspec --drb --color spec'
 alias cud='bundle exec cucumber --drb'
+alias tmux='TERM=screen-256color-bce tmux'
 
 if command -v mvim &> /dev/null; then
   export EDITOR="mvim -v"
