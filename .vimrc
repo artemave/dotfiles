@@ -251,3 +251,5 @@ imap <F6> <ESC>:GundoToggle<CR>
 
 colorscheme molokai
 hi Search ctermbg=black
+
+let g:slime_target = "tmux"
