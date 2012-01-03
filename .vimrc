@@ -251,3 +251,5 @@ imap <F6> <ESC>:GundoToggle<CR>
 
 colorscheme molokai
 hi Search ctermbg=black
+
+set scrolloff=5 " Keep 3 lines below and above the cursor"
