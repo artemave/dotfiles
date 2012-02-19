@@ -259,4 +259,4 @@ set scrolloff=5 " Keep 3 lines below and above the cursor"
 
 let g:slime_target = "tmux"
 
-nnoremap <CR> :nohls<CR>
+nnoremap <CR> :nohls<CR><CR>
