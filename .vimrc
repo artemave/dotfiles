@@ -138,6 +138,8 @@ nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
 vnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
 nnoremap <Leader>a> :Tabularize /=><CR>
 vnoremap <Leader>a> :Tabularize /=><CR>
+nnoremap <Leader>ae :Tabularize /==<CR>
+vnoremap <Leader>ae :Tabularize /==<CR>
 
 let g:LustyJugglerSuppressRubyWarning = 1
 
@@ -187,7 +189,8 @@ function! s:RunShellCommand(cmdline)
   1
 endfunction
 
-nnoremap <Leader>F :FufCoverageFile<CR>
+nnoremap <Leader>f :FufCoverageFile<CR>
+nnoremap <Leader>b :FufBuffer<CR>
 
 function! s:GrepOpenBuffers(search, jump)
     call setqflist([])
@@ -258,3 +261,5 @@ let g:slime_target = "tmux"
 
 " Store swap files in fixed location, not current directory.
 set dir=~/.vimswap//,/var/tmp//,/tmp//,."
+
+nnoremap <CR> :nohls<CR><CR>
