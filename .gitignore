@@ -35,3 +35,17 @@ Thumbs.db
 
 # VIM temp files
 *.swp
+tags
+
+# eclispe/maven rubbish
+.classpath
+.project
+.settings
+target
+
+# ruby
+.bundle
+
+screenshots
+rest-assured.db
+rest-assured.log

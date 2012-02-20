@@ -255,3 +255,6 @@ hi Search ctermbg=black
 set scrolloff=5 " Keep 3 lines below and above the cursor"
 
 let g:slime_target = "tmux"
+
+" Store swap files in fixed location, not current directory.
+set dir=~/.vimswap//,/var/tmp//,/tmp//,."
