@@ -44,6 +44,7 @@ Bundle 'The-NERD-tree'
 Bundle 'EasyGrep'
 Bundle 'AnsiEsc.vim'
 Bundle 'Rename'
+Bundle 'TwitVim'
 " non github repos
 ""Bundle 'git://git.wincent.com/command-t.git'
 
