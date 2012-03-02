@@ -208,7 +208,9 @@ com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
 nnoremap <Leader>S :BufGrep 
 
 " remap 'increase number' since C-a is captured by tmux/screen
-:nnoremap <C-S-x> <C-a>
+" Easier increment/decrement
+nnoremap + <C-a>
+nnoremap - <C-x>
 
 let g:EasyGrepRecursive = 1
 let g:EasyGrepIgnoreCase = 1
@@ -263,3 +265,38 @@ let g:slime_target = "tmux"
 set dir=~/.vimswap//,/var/tmp//,/tmp//,."
 
 nnoremap <CR> :nohls<CR><CR>
+
+" Make Y behave like other capitals
+nnoremap Y y$
+
+" Improve up/down movement on wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+" Force Saving Files that Require Root Permission
+cmap w!! %!sudo tee > /dev/null %
+" cnoremap w!! w !sudo dd of=%"
+
+" Use very magic regexes
+nnoremap / /\v
+vnoremap / /\v
+
+" Insert blank lines without going into insert mode
+nmap t o<ESC>k
+nmap T O<ESC>j
+
+" Better comand-line editing
+cnoremap <C-j> <t_kd>
+cnoremap <C-k> <t_ku>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
+" Drag Current Line/s Vertically
+nnoremap <M-j> :m+<CR>
+nnoremap <M-k> :m-2<CR>
+inoremap <M-j> <Esc>:m+<CR>
+inoremap <M-k> <Esc>:m-2<CR>
+vnoremap <M-j> :m'>+<CR>gv
+
+" Disable paste mode when leaving Insert Mode
+au InsertLeave * set nopaste
