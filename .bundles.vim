@@ -33,6 +33,7 @@ Bundle 'scrooloose/syntastic'
 Bundle 'mattn/gist-vim'
 Bundle 'sjl/gundo.vim'
 Bundle 'jpalardy/vim-slime'
+Bundle 'lucapette/vim-ruby-doc'
 ""Bundle 'Lokaltog/vim-easymotion'
 " vim-scripts repos
 Bundle 'L9'
