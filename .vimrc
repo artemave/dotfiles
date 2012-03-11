@@ -50,13 +50,9 @@ set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
 set switchbuf=useopen
 " Mappings to access buffers (don't use "\p" because a
 " delay before pressing "p" would accidentally paste).
-" \l       : list buffers
-" \b \f \g : go back/forward/last-used
+" \L       : list buffers
 " \1 \2 \3 : go to buffer 1/2/3 etc
-nnoremap <Leader>l :ls<CR>
-nnoremap <Leader>b :bp<CR>
-nnoremap <Leader>f :bn<CR>
-nnoremap <Leader>g :e#<CR>
+nnoremap <Leader>L :ls<CR>
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
 nnoremap <Leader>3 :3b<CR>
@@ -190,7 +186,7 @@ function! s:RunShellCommand(cmdline)
 endfunction
 
 nnoremap <Leader>f :FufCoverageFile<CR>
-nnoremap <Leader>b :FufBuffer<CR>
+nnoremap <Leader>B :FufBuffer<CR>
 
 function! s:GrepOpenBuffers(search, jump)
     call setqflist([])
