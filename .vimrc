@@ -80,7 +80,7 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 ""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
+au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
 
 au BufNewFile,BufRead *.hamlc set filetype=haml
@@ -212,6 +212,7 @@ let g:EasyGrepRecursive = 1
 let g:EasyGrepIgnoreCase = 1
 let g:EasyGrepJumpToMatch = 1
 let g:EasyGrepReplaceWindowMode = 2
+let g:EasyGrepMode = 2 " Track extension
 
 set relativenumber
 
@@ -296,3 +297,5 @@ vnoremap <M-j> :m'>+<CR>gv
 
 " Disable paste mode when leaving Insert Mode
 au InsertLeave * set nopaste
+
+let g:ackprg="ack -H --nocolor --nogroup --column --type-set coffee=.coffee --type-set hamlc=.hamlc --type-set haml=.haml"

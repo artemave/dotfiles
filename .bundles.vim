@@ -34,6 +34,8 @@ Bundle 'mattn/gist-vim'
 Bundle 'sjl/gundo.vim'
 Bundle 'jpalardy/vim-slime'
 Bundle 'lucapette/vim-ruby-doc'
+Bundle 'benmills/vimux'
+Bundle 'mileszs/ack.vim'
 ""Bundle 'Lokaltog/vim-easymotion'
 " vim-scripts repos
 Bundle 'L9'
