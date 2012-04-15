@@ -278,10 +278,6 @@ cmap w!! %!sudo tee > /dev/null %
 nnoremap / /\v
 vnoremap / /\v
 
-" Insert blank lines without going into insert mode
-nmap t o<ESC>k
-nmap T O<ESC>j
-
 " Better comand-line editing
 cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
