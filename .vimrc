@@ -294,4 +294,4 @@ vnoremap <M-j> :m'>+<CR>gv
 " Disable paste mode when leaving Insert Mode
 au InsertLeave * set nopaste
 
-let g:ackprg="ack -H --nocolor --nogroup --column --type-set coffee=.coffee --type-set hamlc=.hamlc --type-set haml=.haml"
+let g:ackprg="ack -H --nocolor --nogroup --column"
