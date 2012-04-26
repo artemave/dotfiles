@@ -295,3 +295,9 @@ vnoremap <M-j> :m'>+<CR>gv
 au InsertLeave * set nopaste
 
 let g:ackprg="ack -H --nocolor --nogroup --column"
+
+
+" Stop messing with my arrow keys
+if !has("gui_running")
+  let g:AutoClosePreservDotReg = 0
+endif
