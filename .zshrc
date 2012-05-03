@@ -75,7 +75,8 @@ vcs_info_wrapper() {
 }
 
 setopt prompt_subst
-PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)%F{yellow}%% %f'
+PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)
+%F{yellow}%% %f'
 #RPROMPT=$'$(vcs_info_wrapper)'
 
 function zle-line-init zle-keymap-select {
