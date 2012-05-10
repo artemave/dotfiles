@@ -22,10 +22,6 @@ vmap <s-tab> <gv
 " cut or copy some text from one window and paste it in Vim.
 set pastetoggle=<F5>
 
-" Tidy selected lines (or entire file) with _t:
-nnoremap <silent> _t :%!perltidy -q<Enter>
-vnoremap <silent> _t :!perltidy -q<Enter>
-
 set fileformat=unix
 
 "" Searching
@@ -33,11 +29,6 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-
-"hi Comment ctermfg=12
-"hi Folded ctermbg=0
-"hi Statement ctermfg=3
-"hi Search ctermbg=black
 
 set autoread
 
@@ -84,36 +75,6 @@ au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} 
 
 
 au BufNewFile,BufRead *.hamlc set filetype=haml
-
-function! Find(name)
-  let l:list=system("find . -name '".a:name."' | grep -v \".svn/\" | perl -ne 'print \"$.\\t$_\"'")
-  let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
-  if l:num < 1
-    echo "'".a:name."' not found"
-    return
-  endif
-  if l:num != 1
-    echo l:list
-    let l:input=input("Which ? (CR=nothing)\n")
-    if strlen(l:input)==0
-      return
-    endif
-    if strlen(substitute(l:input, "[0-9]", "", "g"))>0
-      echo "Not a number"
-      return
-    endif
-    if l:input<1 || l:input>l:num
-      echo "Out of range"
-      return
-    endif
-    let l:line=matchstr("\n".l:list, "\n".l:input."\t[^\n]*")
-  else
-    let l:line=l:list
-  endif
-  let l:line=substitute(l:line, "^[^\t]*\t./", "", "")
-  execute ":e ".l:line
-endfunction
-command! -nargs=1 Find :call Find("<args>")
 
 " cucumber auto outline
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
@@ -295,7 +256,6 @@ vnoremap <M-j> :m'>+<CR>gv
 au InsertLeave * set nopaste
 
 let g:ackprg="ack -H --nocolor --nogroup --column"
-
 
 " Stop messing with my arrow keys
 if !has("gui_running")
