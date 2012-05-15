@@ -25,7 +25,12 @@ Bundle 'skalnik/vim-vroom'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
-Bundle 'scrooloose/nerdcommenter'
+Bundle 'tomtom/tcomment_vim'
+
+" dependency of vim-textobj-rubyblock"
+Bundle 'kana/vim-textobj-user'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+
 Bundle 'sjbach/lusty'
 Bundle 'garbas/vim-snipmate'
 Bundle 'olegkovalenko/snipmate-snippets'
