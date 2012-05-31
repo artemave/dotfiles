@@ -79,6 +79,9 @@ au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} 
 
 au BufNewFile,BufRead *.hamlc set filetype=haml
 
+" Don't syntax highlight markdown because it's often wrong
+autocmd! FileType mkd setlocal syn=off
+
 " cucumber auto outline
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
