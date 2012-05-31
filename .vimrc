@@ -237,10 +237,6 @@ nnoremap Y y$
 nnoremap j gj
 nnoremap k gk
 
-" Force Saving Files that Require Root Permission
-cmap w!! %!sudo tee > /dev/null %
-" cnoremap w!! w !sudo dd of=%"
-
 " Use very magic regexes
 nnoremap / /\v
 vnoremap / /\v
