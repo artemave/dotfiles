@@ -79,6 +79,9 @@ au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} 
 
 au BufNewFile,BufRead *.hamlc set filetype=haml
 
+" Don't syntax highlight markdown because it's often wrong
+autocmd! FileType mkd setlocal syn=off
+
 " cucumber auto outline
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
@@ -234,10 +237,6 @@ nnoremap Y y$
 nnoremap j gj
 nnoremap k gk
 
-" Force Saving Files that Require Root Permission
-cmap w!! %!sudo tee > /dev/null %
-" cnoremap w!! w !sudo dd of=%"
-
 " Use very magic regexes
 nnoremap / /\v
 vnoremap / /\v
@@ -287,3 +286,7 @@ function! PromoteToLet()
 endfunction
 :command! PromoteToLet :call PromoteToLet()
 :map <leader>p :PromoteToLet<cr>
+
+" Prevent Vim from clobbering the scrollback buffer. See
+" http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
