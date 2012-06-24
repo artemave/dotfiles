@@ -53,8 +53,6 @@ setopt interactivecomments # pound sign in interactive prompt
 # Display CPU usage stats for commands taking more than 10 seconds
 REPORTTIME=10
 
-source ~/.shell_commons
-
 autoload -U colors && colors
 autoload -Uz vcs_info
 
