@@ -24,6 +24,7 @@ alias cud='bundle exec cucumber --drb'
 alias tmux='TERM=screen-256color-bce tmux'
 
 if command -v mvim &> /dev/null; then
+  alias vim="mvim -v"
   export EDITOR="mvim -v"
 else
   export EDITOR="vim"
