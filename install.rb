@@ -3,9 +3,10 @@
 require 'fileutils'
 require 'tmpdir'
 
-BACKUP_DIR = File.join Dir.tmpdir, Time.now.to_i.to_s, 'myrcs'
-HOME_DIR = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
-BUNDLE_PATH = File.join(HOME_DIR, '.vim', 'bundle')
+BACKUP_DIR  = File.join Dir.tmpdir, Time.now.to_i.to_s, 'myrcs'
+HOME_DIR    = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
+VIM_PATH    = File.join HOME_DIR, '.vim'
+BUNDLE_PATH = File.join VIM_PATH, 'bundle'
 
 def backup(file)
   basename = File.basename file
@@ -25,17 +26,23 @@ def link_to_home(file)
   FileUtils.ln_s file, HOME_DIR, :verbose => true
 end
 
-# this is now obsolete. It used to be useful when snipmate.vim itself contained snippets
 def snippify
-  snipmate_path = File.join(BUNDLE_PATH, 'snipmate')
-  more_snippets_path = File.join(BUNDLE_PATH, 'snipmate-snippets', 'snippets')
+  if File.exists?(bundled_snippets_path = File.join(BUNDLE_PATH, 'snipmate', 'snippets'))
+    FileUtils.rm_rf bundled_snippets_path, :verbose => true
+  end
 
-  if File.exists?(snipmate_path) and File.exists?(more_snippets_path)
-    puts 'Installing more cool snippets...'
-    FileUtils.rm_rf "#{snipmate_path}/snippets", :verbose => true
-    FileUtils.cp "#{more_snippets_path}/support_functions.vim", "#{snipmate_path}/plugin", :verbose => true
-    #FileUtils.ln_s more_snippets_path, snippets_path, :verbose => true
-    puts 'Done with snippets.'
+  more_snippets_path = File.join BUNDLE_PATH, 'snipmate-snippets'
+  dest_snippets_path = File.join VIM_PATH, 'snippets'
+
+  if File.exists?(more_snippets_path)
+    puts 'Installing snippets...'
+    if File.exists?(File.join more_snippets_path, 'snippets')
+      puts 'Snippets are already where they should be. Nothing to do.'
+    else
+      FileUtils.rm_rf dest_snippets_path, :verbose => true rescue nil
+      FileUtils.ln_s more_snippets_path, dest_snippets_path, :verbose => true
+      puts 'Done.'
+    end
   else
     puts 'No cool vim snippets. Skipping.'
   end
@@ -54,6 +61,9 @@ puts 'Done!'
 puts "Installing dot files..."
 
 FileUtils.mkdir_p BACKUP_DIR, :verbose => true
+File.open 'path_to_backup.txt', 'w' do |file|
+  file.write BACKUP_DIR
+end
 
 Dir.glob("#{Dir.pwd}/*", File::FNM_DOTMATCH).each do |f|
   next if f =~ /\.$|\.\.|.git$|.swp$|.gitmodules|install.rb/
@@ -69,6 +79,6 @@ unless File.exists?(vundle_install_path)
   `git clone http://github.com/gmarik/vundle.git #{vundle_install_path}`
 end
 
-#snippify()
+snippify
 
 puts "\nDone!"

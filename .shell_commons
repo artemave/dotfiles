@@ -80,5 +80,5 @@ fi
 
 # find snippet
 function fsnip() {
-  egrep -r $1 "$HOME/.vim/bundle/snipmate-snippets/snippets/"
+  egrep -RS $1 "$HOME/.vim/snippets/"
 }

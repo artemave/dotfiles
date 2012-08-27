@@ -36,7 +36,7 @@ Bundle 'nelstrom/vim-textobj-rubyblock'
 
 Bundle 'sjbach/lusty'
 Bundle 'garbas/vim-snipmate'
-Bundle 'olegkovalenko/snipmate-snippets'
+Bundle 'honza/snipmate-snippets'
 Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
 Bundle 'mattn/gist-vim'
@@ -56,6 +56,7 @@ Bundle 'The-NERD-tree'
 Bundle 'EasyGrep'
 Bundle 'AnsiEsc.vim'
 Bundle 'TwitVim'
+Bundle 'haskell.vim'
 " non github repos
 ""Bundle 'git://git.wincent.com/command-t.git'
 
