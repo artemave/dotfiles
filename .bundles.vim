@@ -41,9 +41,10 @@ Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
 Bundle 'mattn/gist-vim'
 Bundle 'sjl/gundo.vim'
-Bundle 'jpalardy/vim-slime'
 Bundle 'lucapette/vim-ruby-doc'
-Bundle 'benmills/vimux'
+""Bundle 'benmills/vimux' original
+" using viml native version of vimux - no dependency on ruby
+Bundle 'NickLaMuro/vimux'
 Bundle 'mileszs/ack.vim'
 ""Bundle 'Lokaltog/vim-easymotion'
 " vim-scripts repos

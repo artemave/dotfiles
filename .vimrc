@@ -76,7 +76,6 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
-
 au BufNewFile,BufRead *.hamlc set filetype=haml
 
 " Don't syntax highlight markdown because it's often wrong
@@ -193,7 +192,6 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
 map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
-map <C-\> :tnext<CR>
 
 " Remember last location in file
 if has("autocmd")
@@ -221,9 +219,7 @@ imap <F6> <ESC>:GundoToggle<CR>
 colorscheme molokai
 hi Search ctermbg=black
 
-set scrolloff=5 " Keep 3 lines below and above the cursor"
-
-let g:slime_target = "tmux"
+set scrolloff=3 " Keep 3 lines below and above the cursor"
 
 " Store swap files in fixed location, not current directory.
 set dir=~/.vimswap//,/var/tmp//,/tmp//,."
@@ -345,56 +341,6 @@ function! AlternateForCurrentFile()
 endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>t :call RunTestFile()<cr>
-map <leader>T :call RunNearestTest()<cr>
-""map <leader>a :call RunTests('')<cr>
-
-function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    endif
-
-    " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
-    if in_test_file
-        call SetTestFile()
-    elseif !exists("t:grb_test_file")
-        return
-    end
-    call RunTests(t:grb_test_file . command_suffix)
-endfunction
-
-function! RunNearestTest()
-    let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number . " -b")
-endfunction
-
-function! SetTestFile()
-    " Set the spec file that tests will be run for.
-    let t:grb_test_file=@%
-endfunction
-
-function! RunTests(filename)
-    " Write the file and run tests for the given filename
-    :w
-    if match(a:filename, '\.feature$') != -1
-        exec ":!script/features " . a:filename
-    else
-        if filereadable("script/test")
-            exec ":!script/test " . a:filename
-        elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec --color " . a:filename
-        else
-            exec ":!rspec --color " . a:filename
-        end
-    end
-endfunction
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ARROW KEYS ARE UNACCEPTABLE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -403,3 +349,12 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
+let g:vroom_use_vimux=1
+
+nnoremap <Leader>vp :VimuxPromptCommand<CR>
+nnoremap <Leader>vl :VimuxRunLastCommand<CR>
+nnoremap <Leader>vi :VimuxInspectRunner<CR>
+nnoremap <Leader>vq :VimuxCloseRunner<CR>
+nnoremap <Leader>vx :VimuxClosePanes<CR>
+nnoremap <Leader>vs :VimuxInterruptRunner<CR>
+nnoremap <Leader>vc :VimuxClearRunnerHistory<CR>
