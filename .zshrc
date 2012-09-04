@@ -107,3 +107,6 @@ zle -N zle-keymap-select
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
 bindkey "^[s" insert-sudo
+
+# particularly useful to undo glob expansion
+bindkey '^_' undo
