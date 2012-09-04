@@ -58,6 +58,7 @@ Bundle 'EasyGrep'
 Bundle 'AnsiEsc.vim'
 Bundle 'TwitVim'
 Bundle 'haskell.vim'
+Bundle 'keepcase.vim'
 " non github repos
 ""Bundle 'git://git.wincent.com/command-t.git'
 
