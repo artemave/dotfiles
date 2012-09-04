@@ -72,8 +72,6 @@ zstyle ':vcs_info:*' formats       \
     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 
-#zstyle ':vcs_info:*' enable git cvs svn
-
 # or use pre_cmd, see man zshcontrib
 vcs_info_wrapper() {
   vcs_info
@@ -82,10 +80,11 @@ vcs_info_wrapper() {
   fi
 }
 
+local rvm_ruby="%{$fg[red]%}[$(~/.rvm/bin/rvm-prompt i v g s)]%{$reset_color%}"
+
 setopt prompt_subst
-PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)
+PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)${rvm_ruby}
 %F{yellow}%% %f'
-#RPROMPT=$'$(vcs_info_wrapper)'
 
 function zle-line-init zle-keymap-select {
     RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
