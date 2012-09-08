@@ -63,11 +63,6 @@ fi
 
 if command -v brew &> /dev/null; then
   export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-  #node.js
-  export PATH="/usr/local/share/npm/bin:$PATH"
-  export NODE_PATH="/usr/local/lib/node"
-
-  export ANDROID_SDK_ROOT="/usr/local/Cellar/android-sdk/r10"
 fi
 
 PATH=$PATH:$HOME/bin:$HOME/.rvm/bin
