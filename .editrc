@@ -1,0 +1,3 @@
+bind -v
+bind 'jj' vi-command-mode
+bind '^R' vi-search-prev
