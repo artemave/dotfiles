@@ -20,7 +20,6 @@ setopt NOMATCH # If a pattern for filename has no matches = error.
 setopt PRINT_EXIT_VALUE
 setopt LONG_LIST_JOBS
 autoload -U zmv
-bindkey -v
 bindkey '^R' history-incremental-search-backward
 
 # COMPLETION
@@ -93,6 +92,10 @@ function zle-line-init zle-keymap-select {
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+# VI MODE
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
 
 # override stupid ubuntu defaults for viins mode
 [[ -z "$terminfo[cuu1]" ]] || bindkey -M viins "$terminfo[cuu1]" up-line-or-history
