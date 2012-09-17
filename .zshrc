@@ -8,7 +8,6 @@ setopt notify
 setopt extended_glob
 setopt equals
 setopt MULTIOS # pipe to multiple outputs.
-setopt RM_STAR_WAIT
 setopt AUTOPUSHD
 setopt PUSHDMINUS
 setopt PUSHDSILENT
