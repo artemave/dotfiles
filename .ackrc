@@ -2,3 +2,4 @@
 --type-set=coffee=.coffee
 --type-set=hamlc=.hamlc
 --type-set=haml=.haml
+--type-set=less=.less

@@ -29,6 +29,7 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
 Bundle 'tomtom/tcomment_vim'
+Bundle 'groenewege/vim-less'
 
 " dependency of vim-textobj-rubyblock"
 Bundle 'kana/vim-textobj-user'
