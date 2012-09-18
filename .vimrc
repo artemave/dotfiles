@@ -359,6 +359,9 @@ nnoremap <Leader>vx :VimuxClosePanes<CR>
 nnoremap <Leader>vs :VimuxInterruptRunner<CR>
 nnoremap <Leader>vc :VimuxClearRunnerHistory<CR>
 
+let g:VimuxOrientation = "h"
+let g:VimuxHeight = "40"
+
 " Fake '|' as text object
 nnoremap di\| T\|d,
 nnoremap da\| F\|d,
