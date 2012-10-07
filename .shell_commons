@@ -75,5 +75,5 @@ fi
 
 # find snippet
 function fsnip() {
-  egrep -RS $1 "$HOME/.vim/snippets/"
+  egrep -C1 -RS $1 "$HOME/.vim/snippets/"
 }
