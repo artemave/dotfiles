@@ -77,11 +77,15 @@ vcs_info_wrapper() {
     echo " %{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
   fi
 }
-
-local rvm_ruby="%{$fg[red]%}[$(~/.rvm/bin/rvm-prompt i v g s)]%{$reset_color%}"
+function rbenv_prompt_info() {
+  local ruby_version
+  ruby_version=$(rbenv version 2> /dev/null) || return
+  echo "‹$ruby_version" | sed 's/[ \t].*$/›/'
+}
+local rbenv_ruby="%{$fg[blue]%}$(rbenv_prompt_info)%{$reset_color%}"
 
 setopt prompt_subst
-PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)${rvm_ruby}
+PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)${rbenv_ruby}
 %F{yellow}%% %f'
 
 function zle-line-init zle-keymap-select {

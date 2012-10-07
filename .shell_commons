@@ -47,12 +47,6 @@ function take() {
   cd $1
 }
 
-#if command -v vimpager &> /dev/null; then
-  #export PAGER="vimpager"
-  #alias less=$PAGER 
-  #alias zless=$PAGER
-#fi
-
 if [ -f ~/.amazon_keys ]; then
   . ~/.amazon_keys
 fi
@@ -65,15 +59,9 @@ if command -v brew &> /dev/null; then
   export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 fi
 
-PATH=$PATH:$HOME/bin:$HOME/.rvm/bin
-
-if [[ -s ~/.rvm/scripts/rvm ]] ; then
-  source ~/.rvm/scripts/rvm
-elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
-  source "/usr/local/rvm/scripts/rvm"
-fi
-
 # find snippet
 function fsnip() {
   egrep -C1 -RS $1 "$HOME/.vim/snippets/"
 }
+
+eval "$(rbenv init -)"
