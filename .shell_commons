@@ -64,7 +64,9 @@ function fsnip() {
   egrep -C1 -RS $1 "$HOME/.vim/snippets/"
 }
 
-eval "$(rbenv init -)"
+if command -v rbenv &> /dev/null; then
+  eval "$(rbenv init -)"
+fi
 
 export RUBY_HEAP_MIN_SLOTS=1000000
 export RUBY_HEAP_SLOTS_INCREMENT=1000000
