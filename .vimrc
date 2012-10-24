@@ -381,3 +381,7 @@ nnoremap yi/ T/y,
 nnoremap ya/ F/y,
 nnoremap vi/ T/v,
 nnoremap va/ F/v,
+
+set list listchars=trail:·
+
+""imap <C-n> <C-n><C-p>
