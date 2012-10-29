@@ -39,7 +39,7 @@ set hidden
 
 " command line completion
 set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
+set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,*.swp,*.zip,*/images/*,*/cache/*,scrapers/products/*
 
 set switchbuf=useopen
 " Mappings to access buffers (don't use "\p" because a
@@ -150,9 +150,6 @@ function! s:RunShellCommand(cmdline)
   silent execute '$read !'. expanded_cmdline
   1
 endfunction
-
-nnoremap <Leader>f :FufCoverageFile<CR>
-nnoremap <Leader>B :FufBuffer<CR>
 
 function! s:GrepOpenBuffers(search, jump)
     call setqflist([])
@@ -384,4 +381,4 @@ nnoremap va/ F/v,
 
 set list listchars=trail:·
 
-""imap <C-n> <C-n><C-p>
+nnoremap <Leader>f :CtrlPBuffer<CR>
