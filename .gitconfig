@@ -24,7 +24,7 @@
   b = branch
   ds = diff --stat=160,120
   dh1 = diff HEAD~1
-  gdp = 'git diff --color-words HEAD'
+  gdp = diff --color-words HEAD
 
   head = !git l -1
   h = !git head
