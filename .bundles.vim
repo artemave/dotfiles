@@ -59,6 +59,7 @@ Bundle 'AnsiEsc.vim'
 Bundle 'TwitVim'
 Bundle 'haskell.vim'
 Bundle 'keepcase.vim'
+Bundle 'Lokaltog/vim-powerline'
 " non github repos
 ""Bundle 'git://git.wincent.com/command-t.git'
 
