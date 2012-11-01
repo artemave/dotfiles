@@ -235,7 +235,7 @@ vnoremap / /\v
 " Better comand-line editing
 cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
-cnoremap <C-a> <Home>
+cnoremap <C-^> <Home>
 cnoremap <C-e> <End>
 
 " Drag Current Line/s Vertically
@@ -380,3 +380,16 @@ nnoremap va/ F/v,
 set list listchars=trail:·
 
 nnoremap <Leader>f :CtrlPBuffer<CR>
+
+" disable folding
+set nofoldenable
+
+" alias backtick to signle quote
+map ' `
+
+nnoremap <Leader>tt :TagbarOpenAutoClose<CR>
+
+let g:neocomplcache_enable_at_startup = 1
+
+" omni completion"
+set ofu=syntaxcomplete#Complete

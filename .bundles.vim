@@ -40,14 +40,13 @@ Bundle 'garbas/vim-snipmate'
 Bundle 'honza/snipmate-snippets'
 Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
-Bundle 'mattn/gist-vim'
 Bundle 'sjl/gundo.vim'
 Bundle 'lucapette/vim-ruby-doc'
 ""Bundle 'benmills/vimux' original
 " using viml native version of vimux - no dependency on ruby
 Bundle 'NickLaMuro/vimux'
 Bundle 'mileszs/ack.vim'
-""Bundle 'Lokaltog/vim-easymotion'
+Bundle 'Lokaltog/vim-easymotion'
 " vim-scripts repos
 Bundle 'kien/ctrlp.vim'
 Bundle 'AutoClose'
@@ -60,6 +59,8 @@ Bundle 'TwitVim'
 Bundle 'haskell.vim'
 Bundle 'keepcase.vim'
 Bundle 'Lokaltog/vim-powerline'
+Bundle 'majutsushi/tagbar'
+Bundle 'Shougo/neocomplcache'
 " non github repos
 ""Bundle 'git://git.wincent.com/command-t.git'
 
