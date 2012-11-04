@@ -393,3 +393,9 @@ let g:neocomplcache_enable_at_startup = 1
 
 " omni completion"
 set ofu=syntaxcomplete#Complete
+
+function! SlowDown()
+  let l:rand = localtime() % 200
+  execute 'sleep ' . l:rand . 'm'
+endfunction
+au CursorMoved,CursorMovedI * :call SlowDown()
