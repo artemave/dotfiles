@@ -380,6 +380,7 @@ nnoremap va/ F/v,
 set list listchars=trail:·
 
 nnoremap <Leader>f :CtrlPBuffer<CR>
+let g:ctrlp_show_hidden = 1
 
 " disable folding
 set nofoldenable
