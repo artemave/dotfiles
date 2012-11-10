@@ -403,4 +403,12 @@ set ofu=syntaxcomplete#Complete
 set laststatus=2   " Always show the statusline"
 set encoding=utf-8 " Necessary to show Unicode glyphs"
 
-au CursorMoved,CursorMovedI * :call SlowDown()
+fun! RangerChooser()
+  exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
+  if filereadable('/tmp/chosenfile')
+    exec 'edit ' . system('cat /tmp/chosenfile')
+    call system('rm /tmp/chosenfile')
+  endif
+  redraw!
+endfun
+map <Leader>rr :call RangerChooser()<CR>
