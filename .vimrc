@@ -399,8 +399,8 @@ let g:neocomplcache_enable_underbar_completion = 1
 " omni completion"
 set ofu=syntaxcomplete#Complete
 
-function! SlowDown()
-  let l:rand = localtime() % 200
-  execute 'sleep ' . l:rand . 'm'
-endfunction
+" PowerLine recommeneded:
+set laststatus=2   " Always show the statusline"
+set encoding=utf-8 " Necessary to show Unicode glyphs"
+
 au CursorMoved,CursorMovedI * :call SlowDown()
