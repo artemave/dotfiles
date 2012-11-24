@@ -12,7 +12,7 @@ def backup(file)
   basename = File.basename file
   existing_file = File.join HOME_DIR, basename
   backup_copy = File.join BACKUP_DIR, "#{Time.now}_#{basename}"
-  
+
   if File.exists? existing_file
     if File.symlink? existing_file
       FileUtils.rm existing_file, :verbose => true
