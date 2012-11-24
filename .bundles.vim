@@ -33,7 +33,7 @@ Bundle 'tomtom/tlib_vim'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'groenewege/vim-less'
 Bundle 'artemave/slowdown.vim'
-""Bundle 'VimClojure'
+Bundle 'VimClojure'
 
 " dependency of vim-textobj-rubyblock"
 Bundle 'kana/vim-textobj-user'

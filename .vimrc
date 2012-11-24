@@ -345,6 +345,8 @@ map <Up> <Nop>
 map <Down> <Nop>
 
 let g:vroom_use_vimux=1
+let g:vroom_use_bundle_exec=0
+let g:vroom_spec_command='zeus rspec '
 
 nnoremap <Leader>vp :VimuxPromptCommand<CR>
 nnoremap <Leader>vl :VimuxRunLastCommand<CR>
@@ -411,4 +413,6 @@ fun! RangerChooser()
   endif
   redraw!
 endfun
-map <Leader>rr :call RangerChooser()<CR>
+map <Leader><Leader>r :call RangerChooser()<CR>
+
+""set cursorline

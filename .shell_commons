@@ -59,6 +59,8 @@ if command -v brew &> /dev/null; then
   export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 fi
 
+export PATH="/usr/local/heroku/bin:$PATH"
+
 # find snippet
 function fsnip() {
   egrep -C1 -RS $1 "$HOME/.vim/snippets/"
@@ -83,5 +85,3 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 alias man='man -P less'
-# retain output on screen after exit
-export LESS="-X"
