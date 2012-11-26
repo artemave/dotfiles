@@ -24,7 +24,6 @@ Bundle 'tpope/vim-cucumber'
 Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-repeat'
-Bundle 'skalnik/vim-vroom'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'csexton/jekyll.vim'
 Bundle 'kchmck/vim-coffee-script'
@@ -46,9 +45,7 @@ Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
 Bundle 'lucapette/vim-ruby-doc'
-""Bundle 'benmills/vimux' original
-" using viml native version of vimux - no dependency on ruby
-Bundle 'NickLaMuro/vimux'
+Bundle 'jgdavey/tslime.vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'Lokaltog/vim-easymotion'
 " vim-scripts repos

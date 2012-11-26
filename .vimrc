@@ -344,21 +344,6 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
-let g:vroom_use_vimux=1
-let g:vroom_use_bundle_exec=0
-let g:vroom_spec_command='zeus rspec '
-
-nnoremap <Leader>vp :VimuxPromptCommand<CR>
-nnoremap <Leader>vl :VimuxRunLastCommand<CR>
-nnoremap <Leader>vi :VimuxInspectRunner<CR>
-nnoremap <Leader>vq :VimuxCloseRunner<CR>
-nnoremap <Leader>vx :VimuxClosePanes<CR>
-nnoremap <Leader>vs :VimuxInterruptRunner<CR>
-nnoremap <Leader>vc :VimuxClearRunnerHistory<CR>
-
-let g:VimuxOrientation = "h"
-let g:VimuxHeight = "40"
-
 " Fake '|' as text object
 nnoremap di\| T\|d,
 nnoremap da\| F\|d,
@@ -416,3 +401,52 @@ endfun
 map <Leader><Leader>r :call RangerChooser()<CR>
 
 ""set cursorline
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING TESTS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>t :call RunTestFile()<cr>
+map <leader>T :call RunNearestTest()<cr>
+
+function! RunTestFile(...)
+  if a:0
+    let command_suffix = a:1
+  else
+    let command_suffix = ""
+  endif
+
+  " Run the tests for the previously-marked file.
+  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+  if in_test_file
+    call SetTestFile()
+  elseif !exists("t:grb_test_file")
+    return
+  end
+  call RunTests(t:grb_test_file . command_suffix)
+endfunction
+
+function! RunNearestTest()
+  let spec_line_number = line('.')
+  call RunTestFile(":" . spec_line_number . " -b")
+endfunction
+
+function! SetTestFile()
+  " Set the spec file that tests will be run for.
+  let t:grb_test_file=@%
+endfunction
+
+""let g:tmux_sessionname = system("tmux display-message -p '#S'")
+let g:tmux_sessionname = 'shopa'
+let g:tmux_windowname = 1
+let g:tmux_panenumber = 0
+
+function! RunTests(filename)
+  :wa
+  if match(a:filename, '\.feature$') != -1
+    call SendToTmux("zeus cucumber " . a:filename . "\n")
+  else
+    call SendToTmux("zeus rspec -c " . a:filename . "\n")
+  end
+  call system("tmux select-window -t 1")
+endfunction
+
