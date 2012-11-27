@@ -435,18 +435,20 @@ function! SetTestFile()
   let t:grb_test_file=@%
 endfunction
 
-""let g:tmux_sessionname = system("tmux display-message -p '#S'")
-let g:tmux_sessionname = 'shopa'
-let g:tmux_windowname = 1
-let g:tmux_panenumber = 0
-
 function! RunTests(filename)
   :wa
   if match(a:filename, '\.feature$') != -1
-    call SendToTmux("zeus cucumber " . a:filename . "\n")
+    let l:command = "zeus cucumber " . a:filename
   else
-    call SendToTmux("zeus rspec -c " . a:filename . "\n")
+    let l:command = "zeus rspec -c " . a:filename
   end
-  call system("tmux select-window -t 1")
+  call system("tmux select-window -t " . g:tmux_windowname)
+  call system('tmux set-buffer "' . l:command . "\n\"")
+  call system('tmux paste-buffer -d -t ' . g:run_tests_in_window)
 endfunction
 
+let g:run_tests_in_window = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING TESTS (END)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
