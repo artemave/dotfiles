@@ -427,7 +427,7 @@ endfunction
 
 function! RunNearestTest()
   let spec_line_number = line('.')
-  call RunTestFile(":" . spec_line_number . " -b")
+  call RunTestFile(":" . spec_line_number)
 endfunction
 
 function! SetTestFile()
@@ -437,12 +437,12 @@ endfunction
 
 function! RunTests(filename)
   :wa
-  if match(a:filename, '\.feature$') != -1
+  if match(a:filename, '\.feature') != -1
     let l:command = "zeus cucumber " . a:filename
   else
     let l:command = "zeus rspec -c " . a:filename
   end
-  call system("tmux select-window -t " . g:tmux_windowname)
+  call system("tmux select-window -t " . g:run_tests_in_window)
   call system('tmux set-buffer "' . l:command . "\n\"")
   call system('tmux paste-buffer -d -t ' . g:run_tests_in_window)
 endfunction
