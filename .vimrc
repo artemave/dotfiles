@@ -452,3 +452,29 @@ let g:run_tests_in_window = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS (END)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SHOW SPEC INDEX
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! ShowSpecIndex()
+  call setloclist(0, [])
+
+  for line_number in range(1,line('$'))
+    if getline(line_number) =~ '^ *\(\<its\?\>\|\<describe\>\|\<context\>\)'
+      let expr = printf('%s:%s:%s', expand("%"), line_number, substitute(getline(line_number), ' ', nr2char(160), ''))
+      laddexpr expr
+    endif
+  endfor
+
+  lopen
+
+  " hide filename and linenumber
+  set conceallevel=2 concealcursor=nc
+  syntax match qfFileName /^[^|]*|[^|]*| / transparent conceal
+endfunction
+
+nnoremap <Leader>si :call ShowSpecIndex()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SHOW SPEC INDEX (END)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
