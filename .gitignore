@@ -49,3 +49,8 @@ target
 screenshots
 rest-assured.db
 rest-assured.log
+
+# zeus
+
+zeus.json
+custom_plan.rb
