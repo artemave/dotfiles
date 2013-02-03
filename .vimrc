@@ -1,5 +1,5 @@
 source ~/.bundles.vim
- 
+
 syntax on
 
 set t_Co=256
@@ -452,6 +452,10 @@ let g:run_tests_in_window = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS (END)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Quick grep for word under the cursor in rails app
+noremap <Leader>aa :Ack <cword> app<cr>
+noremap <Leader>as :Ack <cword> spec<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SHOW SPEC INDEX
