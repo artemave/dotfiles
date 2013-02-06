@@ -3,7 +3,8 @@ source ~/.bundles.vim
 syntax on
 
 set t_Co=256
-imap jj <esc>
+inoremap <Tab> <Esc>`^
+""au VimEnter * imap <Tab> <Esc>`^
 
 "" Whitespace
 set nowrap                      " don't wrap lines
@@ -482,3 +483,9 @@ nnoremap <Leader>si :call ShowSpecIndex()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SHOW SPEC INDEX (END)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:yankring_replace_n_pkey = '<c-n>'
+let g:yankring_replace_n_nkey = ''
+nnoremap <Leader>re :YRShow<cr>
+
+let g:snips_trigger_key='<C-@>' " this is <C-Space> that works

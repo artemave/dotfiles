@@ -34,6 +34,7 @@ Bundle 'groenewege/vim-less'
 Bundle 'artemave/slowdown.vim'
 Bundle 'skryl/tslime.vim'
 Bundle 'VimClojure'
+Bundle 'YankRing.vim'
 
 " dependency of vim-textobj-rubyblock"
 Bundle 'kana/vim-textobj-user'
