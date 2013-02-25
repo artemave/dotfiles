@@ -38,6 +38,8 @@ set autoread
 
 set hidden
 
+set cryptmethod=blowfish
+
 " command line completion
 set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,*.swp,*.zip,*/images/*,*/cache/*,scrapers/products/*
