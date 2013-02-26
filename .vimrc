@@ -378,8 +378,6 @@ set nofoldenable
 " alias backtick to signle quote
 map ' `
 
-nnoremap <Leader>tt :TagbarOpenAutoClose<CR>
-
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_min_syntax_length = 3
