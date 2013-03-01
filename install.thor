@@ -16,8 +16,8 @@ class DotsInstaller < Thor
   desc 'install', "installs dot files into your home dir"
   def install
     install_dot_files
-    vundlize
-    snippify
+    setup_vim
+    #install_rbenv
   end
 
   desc 'install_dot_files', "installs dot files only"
@@ -27,11 +27,35 @@ class DotsInstaller < Thor
     deploy_dot_files basenames
   end
 
-  desc 'install_vim', 'installs only Vim bits and bobs'
-  def install_vim
-    install_dot_files
+  desc 'setup_vim', 'installs only Vim bits and bobs'
+  def setup_vim
     vundlize
     snippify
+  end
+
+  desc 'install_rbenv', 'install rbenv and plugins'
+  def install_rbenv
+    rbenv_source  = File.join SOURCE_ROOT, 'rbenv'
+    rbenv_home    = File.join HOME_DIR, '.rbenv'
+    rbenv_plugins = File.join rbenv_home, 'plugins'
+
+    `git clone git://github.com/sstephenson/rbenv.git #{rbenv_home}`
+    FileUtils.mkdir_p rbenv_plugins
+
+    `git clone git://github.com/sstephenson/ruby-build.git #{File.join rbenv_plugins, 'ruby-build'}`
+    `git clone git://github.com/tpope/rbenv-ctags.git #{File.join rbenv_plugins, 'rbenv-ctags'}`
+    `git clone git://github.com/sstephenson/rbenv-default-gems.git #{File.join rbenv_plugins, 'rbenv-default-gems'}`
+    `git clone git://github.com/tpope/rbenv-communal-gems.git #{File.join rbenv_plugins, 'rbenv-communal-gems'}`
+    `rbenv communize --all`
+    `git clone git://github.com/tpope/rbenv-aliases.git #{File.join rbenv_plugins, 'rbenv-aliases'}`
+    `rbenv alias --auto`
+    `git clone git://github.com/tpope/rbenv-readline.git #{File.join rbenv_plugins, 'rbenv-readline'}`
+    `git clone git://github.com/sstephenson/rbenv-vars.git #{File.join rbenv_plugins, 'rbenv-vars'}`
+    `git clone git://github.com/sstephenson/rbenv-gem-rehash.git #{File.join rbenv_plugins, 'rbenv-gem-rehash'}`
+
+    backup [File.join(rbenv_home, 'default-gems'), File.join(rbenv_home, 'vars')]
+    FileUtils.ln_s (File.join rbenv_source, 'default-gems'), File.join(rbenv_home, 'default-gems'), :verbose => true
+    FileUtils.ln_s (File.join rbenv_source, 'vars'), File.join(rbenv_home, 'vars'), :verbose => true
   end
 
   desc 'git_config USERNAME EMAIL', 'sets global git user settings'
@@ -39,7 +63,6 @@ class DotsInstaller < Thor
     `git config --global core.excludesfile ~/.gitignore`
     `git config --global user.name #{username}`
     `git config --global user.email #{email}`
-    `git config --global --bool pull.rebase true`
   end
 
   no_tasks do

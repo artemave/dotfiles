@@ -60,7 +60,7 @@ if command -v brew &> /dev/null; then
   export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
 fi
 
-export PATH="/usr/local/heroku/bin:$PATH"
+export PATH="/usr/local/heroku/bin:$HOME/.rbenv/bin:$PATH"
 
 # find snippet
 function fsnip() {
@@ -70,12 +70,6 @@ function fsnip() {
 if command -v rbenv &> /dev/null; then
   eval "$(rbenv init -)"
 fi
-
-export RUBY_HEAP_MIN_SLOTS=1000000
-export RUBY_HEAP_SLOTS_INCREMENT=1000000
-export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
-export RUBY_GC_MALLOC_LIMIT=100000000
-export RUBY_HEAP_FREE_MIN=500000
 
 # less colors (for man)
 export LESS_TERMCAP_mb=$'\E[01;31m'

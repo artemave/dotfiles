@@ -54,3 +54,6 @@ rest-assured.log
 
 zeus.json
 custom_plan.rb
+
+.rbenv-version
+.rbenv-vars
