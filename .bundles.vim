@@ -61,8 +61,7 @@ Bundle 'keepcase.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'kyangk/sessionman.vim'
-" non github repos
-""Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'ecomba/vim-ruby-refactoring'
 
 filetype plugin indent on     " required! 
 "
