@@ -15,18 +15,21 @@ class DotsInstaller < Thor
 
   desc 'install', "installs dot files into your home dir"
   def install
-    inflate_submodules
-    backup basenames
-    deploy_dot_files basenames
+    install_dot_files
     vundlize
     snippify
   end
 
+  desc 'install_dot_files', "installs dot files only"
+  def install_dot_files
+    inflate_submodules
+    backup basenames
+    deploy_dot_files basenames
+  end
+
   desc 'install_vim', 'installs only Vim bits and bobs'
   def install_vim
-    inflate_submodules
-    backup vim_basenames
-    deploy_dot_files vim_basenames
+    install_dot_files
     vundlize
     snippify
   end
@@ -36,6 +39,7 @@ class DotsInstaller < Thor
     `git config --global core.excludesfile ~/.gitignore`
     `git config --global user.name #{username}`
     `git config --global user.email #{email}`
+    `git config --global --bool pull.rebase true`
   end
 
   no_tasks do
