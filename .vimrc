@@ -214,6 +214,7 @@ let g:gist_open_browser_after_post = 1
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
+let g:molokai_original = 1
 colorscheme molokai
 hi Search ctermbg=black
 
