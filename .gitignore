@@ -56,4 +56,5 @@ zeus.json
 custom_plan.rb
 
 .rbenv-version
+.ruby-version
 .rbenv-vars

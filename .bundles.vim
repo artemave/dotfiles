@@ -62,6 +62,7 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'kyangk/sessionman.vim'
 Bundle 'ecomba/vim-ruby-refactoring'
+Bundle 'airblade/vim-gitgutter'
 
 filetype plugin indent on     " required! 
 "

@@ -82,10 +82,9 @@ function rbenv_prompt_info() {
   ruby_version=$(rbenv version 2> /dev/null) || return
   echo "‹$ruby_version" | sed 's/[ \t].*$/›/'
 }
-local rbenv_ruby="%{$fg[blue]%}$(rbenv_prompt_info)%{$reset_color%}"
 
 setopt prompt_subst
-PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)${rbenv_ruby}
+PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)%{%F{blue}%}$(rbenv_prompt_info)%{${reset_color}%}
 %F{yellow}%% %f'
 
 function zle-line-init zle-keymap-select {
