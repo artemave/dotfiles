@@ -46,7 +46,6 @@ Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
 Bundle 'lucapette/vim-ruby-doc'
-Bundle 'mileszs/ack.vim'
 Bundle 'Lokaltog/vim-easymotion'
 " vim-scripts repos
 Bundle 'kien/ctrlp.vim'

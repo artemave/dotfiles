@@ -252,7 +252,10 @@ vnoremap <M-j> :m'>+<CR>gv
 " Disable paste mode when leaving Insert Mode
 au InsertLeave * set nopaste
 
-let g:ackprg="ack -H --nocolor --nogroup --column"
+""let g:ackprg="ack -H --nocolor --nogroup --column"
+if executable("ag")
+  set grepprg=ag\ --noheading\ --nogroup\ --nocolor
+endif
 
 " Stop messing with my arrow keys
 if !has("gui_running")
@@ -455,10 +458,6 @@ let g:run_tests_in_window = 1
 " RUNNING TESTS (END)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Quick grep for word under the cursor in rails app
-noremap <Leader>aa :Ack <cword> app<cr>
-noremap <Leader>as :Ack <cword> spec<cr>
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SHOW SPEC INDEX
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -490,3 +489,5 @@ let g:yankring_replace_n_nkey = ''
 nnoremap <Leader>re :YRShow<cr>
 
 let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
+
+nnoremap <c-7> :echo 1<cr>
