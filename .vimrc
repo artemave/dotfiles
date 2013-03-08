@@ -172,12 +172,6 @@ nnoremap <Leader>S :BufGrep
 nnoremap + <C-a>
 nnoremap - <C-x>
 
-let g:EasyGrepRecursive = 1
-let g:EasyGrepIgnoreCase = 1
-let g:EasyGrepJumpToMatch = 1
-let g:EasyGrepReplaceWindowMode = 2
-let g:EasyGrepMode = 2 " Track extension
-
 set relativenumber
 
 " Opens an edit command with the path of the currently edited file filled in
@@ -252,10 +246,15 @@ vnoremap <M-j> :m'>+<CR>gv
 " Disable paste mode when leaving Insert Mode
 au InsertLeave * set nopaste
 
-""let g:ackprg="ack -H --nocolor --nogroup --column"
+let g:ackprg="ack -H --nocolor --nogroup --column"
 if executable("ag")
+  let g:ackprg="ag --nogroup --nocolor --column"
   set grepprg=ag\ --noheading\ --nogroup\ --nocolor
 endif
+
+" Quick grep for word under the cursor in rails app
+noremap <Leader>aa :Ack <cword> app<cr>
+noremap <Leader>as :Ack <cword> spec features<cr>
 
 " Stop messing with my arrow keys
 if !has("gui_running")
@@ -489,5 +488,3 @@ let g:yankring_replace_n_nkey = ''
 nnoremap <Leader>re :YRShow<cr>
 
 let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
-
-nnoremap <c-7> :echo 1<cr>
