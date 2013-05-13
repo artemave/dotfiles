@@ -62,6 +62,7 @@ if command -v brew &> /dev/null; then
 fi
 
 export PATH="/usr/local/heroku/bin:$HOME/.rbenv/bin:$PATH"
+export PATH=/usr/local/tranquil/bin:$PATH
 
 # find snippet
 function fsnip() {

@@ -58,3 +58,7 @@ custom_plan.rb
 .rbenv-version
 .ruby-version
 .rbenv-vars
+
+# gimp
+
+*.xcf

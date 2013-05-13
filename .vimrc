@@ -3,8 +3,10 @@ source ~/.bundles.vim
 syntax on
 
 set t_Co=256
-inoremap <Tab> <Esc>`^
-""au VimEnter * imap <Tab> <Esc>`^
+" inoremap <Tab> <Esc>`^
+inoremap kj <Esc>`^
+
+set noswapfile
 
 "" Whitespace
 set nowrap                      " don't wrap lines
@@ -45,21 +47,6 @@ set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,*.swp,*.zip,*/images/*,*/cache/*,scrapers/products/*
 
 set switchbuf=useopen
-" Mappings to access buffers (don't use "\p" because a
-" delay before pressing "p" would accidentally paste).
-" \L       : list buffers
-" \1 \2 \3 : go to buffer 1/2/3 etc
-nnoremap <Leader>L :ls<CR>
-nnoremap <Leader>1 :1b<CR>
-nnoremap <Leader>2 :2b<CR>
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
 
 autocmd User fugitive
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
@@ -73,6 +60,9 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 
 "" coffee script autocompile on save
 ""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
+
+"" pogo script autocompile on save
+autocmd BufWritePost *.pogo !pogo -c %
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
@@ -194,15 +184,6 @@ endif
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_warnings=1
-
-" gist-vim defaults
-if has("mac")
-  let g:gist_clip_command = 'pbcopy'
-elseif has("unix")
-  let g:gist_clip_command = 'xclip -selection clipboard'
-endif
-let g:gist_detect_filetype = 1
-let g:gist_open_browser_after_post = 1
 
 " Gundo configuration
 nmap <F6> :GundoToggle<CR>
@@ -487,4 +468,23 @@ let g:yankring_replace_n_pkey = '<c-n>'
 let g:yankring_replace_n_nkey = ''
 nnoremap <Leader>re :YRShow<cr>
 
-let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
+" useful when <Tab> -> <Esc>
+" let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
+
+vmap <C-c><C-c> <Plug>SendSelectionToTmux
+nmap <C-c><C-c> <Plug>jormalModeSendToTmux
+nmap <C-c>r <Plug>SetTmuxVars
+
+" substitute variable
+nnoremap <Leader>sv :%s/<c-r><c-w>/
+vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
+
+" function! ReplaceSelectionWith()
+"   y
+"   let pattern = @"
+"   call inputsave()
+"   let sub = input("Replace with: ")
+"   call inputrestore()
+"   execute ':%s/\V'.escape(pattern, '/\').'/'.escape(sub, '&/\').'/g'
+" endfunction
+" vnoremap <Leader>sv :call ReplaceSelectionWith()<cr>

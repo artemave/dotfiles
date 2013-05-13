@@ -11,6 +11,7 @@ if ! $(tmux has-session -t $project_name) && [ -f ./config/routes.rb ]; then
   tmux new-window -t $project_name:4 -n server
   tmux new-window -t $project_name:5 -n console
   tmux new-window -t $project_name:6 -n logs
+  tmux new-window -t $project_name:7 -n guard
 
   tmux select-window -t $project_name:1
 fi
