@@ -54,8 +54,8 @@ class DotsInstaller < Thor
     `git clone git://github.com/sstephenson/rbenv-gem-rehash.git #{File.join rbenv_plugins, 'rbenv-gem-rehash'}`
 
     backup [File.join(rbenv_home, 'default-gems'), File.join(rbenv_home, 'vars')]
-    FileUtils.ln_s (File.join rbenv_source, 'default-gems'), File.join(rbenv_home, 'default-gems'), :verbose => true
-    FileUtils.ln_s (File.join rbenv_source, 'vars'), File.join(rbenv_home, 'vars'), :verbose => true
+    FileUtils.ln_s((File.join rbenv_source, 'default-gems'), File.join(rbenv_home, 'default-gems'), :verbose => true)
+    FileUtils.ln_s((File.join rbenv_source, 'vars'), File.join(rbenv_home, 'vars'), :verbose => true)
   end
 
   desc 'git_config USERNAME EMAIL', 'sets global git user settings'
@@ -87,7 +87,7 @@ class DotsInstaller < Thor
 
       basenames.each do |basename|
         prefix = File.dirname basename
-        FileUtils.ln_s (File.join SOURCE_ROOT, basename), File.join(HOME_DIR, prefix), :verbose => true
+        FileUtils.ln_s((File.join SOURCE_ROOT, basename), File.join(HOME_DIR, prefix), :verbose => true)
       end
     end
 
