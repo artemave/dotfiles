@@ -68,7 +68,7 @@ export PATH=/usr/local/tranquil/bin:$PATH
 
 # find snippet
 function fsnip() {
-  egrep -C1 -RS $1 "$HOME/.vim/bundle/snipmate-snippets/snippets/"
+  egrep -C1 -RS $1 "$HOME/.vim/bundle/vim-snippets/snippets/"
 }
 
 if command -v rbenv &> /dev/null; then

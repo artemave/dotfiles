@@ -43,12 +43,11 @@ Bundle 'nelstrom/vim-textobj-rubyblock'
 
 Bundle 'sjbach/lusty'
 Bundle 'garbas/vim-snipmate'
-Bundle 'honza/snipmate-snippets'
+Bundle 'honza/vim-snippets'
 Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
 Bundle 'lucapette/vim-ruby-doc'
-Bundle 'Lokaltog/vim-easymotion'
 " vim-scripts repos
 Bundle 'kien/ctrlp.vim'
 Bundle 'AutoClose'
