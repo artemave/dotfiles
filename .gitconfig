@@ -48,3 +48,5 @@
 ; 	proxy = http://www-cache.reith.bbc.co.uk:80
 [pull]
 	rebase = true
+[push]
+	default = simple

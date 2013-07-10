@@ -62,7 +62,7 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 ""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
 
 "" pogo script autocompile on save
-autocmd BufWritePost *.pogo !pogo -c %
+""autocmd BufWritePost *.pogo !pogo -c %
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
@@ -488,3 +488,8 @@ vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
 "   execute ':%s/\V'.escape(pattern, '/\').'/'.escape(sub, '&/\').'/g'
 " endfunction
 " vnoremap <Leader>sv :call ReplaceSelectionWith()<cr>
+
+nmap <buffer> <Leader>xr <Plug>(xmpfilter-run)
+nmap <buffer> <Leader>xm <Plug>(xmpfilter-mark)
+
+

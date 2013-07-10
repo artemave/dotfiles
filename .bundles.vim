@@ -61,6 +61,7 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'ecomba/vim-ruby-refactoring'
 Bundle 'featurist/vim-pogoscript'
+Bundle 't9md/vim-ruby-xmpfilter'
 
 filetype plugin indent on     " required! 
 "
