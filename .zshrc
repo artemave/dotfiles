@@ -54,8 +54,6 @@ expand-or-complete-with-dots() {
 zle -N expand-or-complete-with-dots
 bindkey "^I" expand-or-complete-with-dots
 
-# End COMPLETION
-
 setopt interactivecomments # pound sign in interactive prompt
 
 # Display CPU usage stats for commands taking more than 10 seconds
@@ -114,3 +112,5 @@ bindkey "^[s" insert-sudo
 
 # particularly useful to undo glob expansion
 bindkey '^_' undo
+
+source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
