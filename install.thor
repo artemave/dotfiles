@@ -37,25 +37,45 @@ class DotsInstaller < Thor
   def install_rbenv
     rbenv_source  = File.join SOURCE_ROOT, 'rbenv'
     rbenv_home    = File.join HOME_DIR, '.rbenv'
-    rbenv_plugins = File.join rbenv_home, 'plugins'
 
     `git clone git://github.com/sstephenson/rbenv.git #{rbenv_home}`
-    FileUtils.mkdir_p rbenv_plugins
 
-    `git clone git://github.com/sstephenson/ruby-build.git #{File.join rbenv_plugins, 'ruby-build'}`
-    `git clone git://github.com/tpope/rbenv-ctags.git #{File.join rbenv_plugins, 'rbenv-ctags'}`
-    `git clone git://github.com/sstephenson/rbenv-default-gems.git #{File.join rbenv_plugins, 'rbenv-default-gems'}`
-    `git clone git://github.com/tpope/rbenv-communal-gems.git #{File.join rbenv_plugins, 'rbenv-communal-gems'}`
-    `rbenv communize --all`
-    `git clone git://github.com/tpope/rbenv-aliases.git #{File.join rbenv_plugins, 'rbenv-aliases'}`
-    `rbenv alias --auto`
-    `git clone git://github.com/tpope/rbenv-readline.git #{File.join rbenv_plugins, 'rbenv-readline'}`
-    `git clone git://github.com/sstephenson/rbenv-vars.git #{File.join rbenv_plugins, 'rbenv-vars'}`
-    `git clone git://github.com/sstephenson/rbenv-gem-rehash.git #{File.join rbenv_plugins, 'rbenv-gem-rehash'}`
+    rbenv_plugins
 
     backup [File.join(rbenv_home, 'default-gems'), File.join(rbenv_home, 'vars')]
+
     FileUtils.ln_s((File.join rbenv_source, 'default-gems'), File.join(rbenv_home, 'default-gems'), :verbose => true)
     FileUtils.ln_s((File.join rbenv_source, 'vars'), File.join(rbenv_home, 'vars'), :verbose => true)
+  end
+
+  desc 'rbenv_plugins', 'install or update rbenv plugins'
+  def rbenv_plugins
+    rbenv_home    = File.join HOME_DIR, '.rbenv'
+    rbenv_plugins = File.join rbenv_home, 'plugins'
+
+    FileUtils.mkdir_p rbenv_plugins, :verbose => true
+
+    %w[
+      sstephenson/ruby-build
+      tpope/rbenv-ctags
+      sstephenson/rbenv-default-gems
+      tpope/rbenv-aliases
+      tpope/rbenv-readline
+      sstephenson/rbenv-vars
+      sstephenson/rbenv-gem-rehash
+      carsomyr/rbenv-bundler
+    ].each do |plugin|
+      plugin_name = plugin[/\/(.*?)$/, 1]
+      dest_path = File.join rbenv_plugins, plugin_name
+      begin
+        FileUtils.cd dest_path, :verbose => true
+        puts `git pull`
+      rescue
+        puts `git clone git://github.com/#{plugin}.git #{dest_path}`
+      end
+    end
+    FileUtils.cd File.expand_path(File.dirname __FILE__), :verbose => true
+    puts `rbenv alias --auto`
   end
 
   desc 'git_config USERNAME EMAIL', 'sets global git user settings'
