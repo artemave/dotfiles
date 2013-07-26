@@ -478,18 +478,3 @@ nmap <C-c>r <Plug>SetTmuxVars
 " substitute variable
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
-
-" function! ReplaceSelectionWith()
-"   y
-"   let pattern = @"
-"   call inputsave()
-"   let sub = input("Replace with: ")
-"   call inputrestore()
-"   execute ':%s/\V'.escape(pattern, '/\').'/'.escape(sub, '&/\').'/g'
-" endfunction
-" vnoremap <Leader>sv :call ReplaceSelectionWith()<cr>
-
-nmap <buffer> <Leader>xr <Plug>(xmpfilter-run)
-nmap <buffer> <Leader>xm <Plug>(xmpfilter-mark)
-
-

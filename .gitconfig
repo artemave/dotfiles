@@ -39,13 +39,6 @@
 
 [merge]
   tool = vimdiff
-; [http]
-;   sslKey = /Users/avetia01/.subversion/artem_proper_cert.p12
-; 	proxy = http://www-cache.reith.bbc.co.uk:80
-; [svn]
-;   rmdir = true
-; [https]
-; 	proxy = http://www-cache.reith.bbc.co.uk:80
 [pull]
 	rebase = true
 [push]

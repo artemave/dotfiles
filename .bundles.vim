@@ -54,14 +54,12 @@ Bundle 'AutoClose'
 Bundle 'matchit.zip'
 Bundle 'The-NERD-tree'
 Bundle 'AnsiEsc.vim'
-Bundle 'TwitVim'
 Bundle 'haskell.vim'
 Bundle 'keepcase.vim'
-Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'ecomba/vim-ruby-refactoring'
 Bundle 'featurist/vim-pogoscript'
-Bundle 't9md/vim-ruby-xmpfilter'
+Bundle 'Lokaltog/vim-powerline'
 
 filetype plugin indent on     " required! 
 "
