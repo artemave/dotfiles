@@ -63,7 +63,6 @@ class DotsInstaller < Thor
       tpope/rbenv-readline
       sstephenson/rbenv-vars
       sstephenson/rbenv-gem-rehash
-      carsomyr/rbenv-bundler
     ].each do |plugin|
       plugin_name = plugin[/\/(.*?)$/, 1]
       dest_path = File.join rbenv_plugins, plugin_name
