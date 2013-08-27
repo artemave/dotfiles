@@ -60,6 +60,8 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'ecomba/vim-ruby-refactoring'
 Bundle 'featurist/vim-pogoscript'
 Bundle 'Lokaltog/vim-powerline'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'juvenn/mustache.vim'
 
 filetype plugin indent on     " required! 
 "

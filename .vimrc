@@ -353,7 +353,7 @@ nnoremap va/ F/v,
 
 set list listchars=trail:·
 
-nnoremap <Leader>f :CtrlPBuffer<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 let g:ctrlp_show_hidden = 1
 
 " disable folding
@@ -478,3 +478,6 @@ nmap <C-c>r <Plug>SetTmuxVars
 " substitute variable
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
+
+" mustache with m
+let g:surround_109 = "{{\r}}"
