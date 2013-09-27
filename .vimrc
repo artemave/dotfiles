@@ -481,3 +481,12 @@ vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
 
 " mustache with m
 let g:surround_109 = "{{\r}}"
+
+function! GoogleSearch()
+  normal gv"xy
+  let query = 'http://google.com/search?q=' .
+        \ system('perl -MURI::Escape -e "print uri_escape(q#'. escape(@x, '#"') .'#)"')
+  silent execute "! open " .
+        \ shellescape(query, 'yes_please_escape_vim_special_characters_too_thank_you')
+endfunction
+vnoremap <Leader>s :call GoogleSearch()<cr>
