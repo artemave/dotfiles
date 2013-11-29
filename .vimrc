@@ -5,6 +5,7 @@ syntax on
 set t_Co=256
 " inoremap <Tab> <Esc>`^
 inoremap kj <Esc>`^
+inoremap jj <Esc>`^
 
 set noswapfile
 
@@ -16,6 +17,12 @@ set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 set shiftround
 set showmatch
+
+" suggest correct spelling in CTRL_N/CTRL_P
+set complete+=kspell
+
+" copy/paste to clipboard without prepending "*
+set clipboard=unnamed
 
 " display incomplete commands
 set showcmd
@@ -61,8 +68,8 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 "" coffee script autocompile on save
 ""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
 
-"" pogo script autocompile on save
-""autocmd BufWritePost *.pogo !pogo -c %
+" pogo script autocompile on save
+autocmd BufWritePost *.pogo silent !pogo -c % &
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
@@ -471,8 +478,9 @@ nnoremap <Leader>re :YRShow<cr>
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
 
+" tslime
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
-nmap <C-c><C-c> <Plug>jormalModeSendToTmux
+nmap <C-c><C-c> <Plug>NormalModeSendToTmux
 nmap <C-c>r <Plug>SetTmuxVars
 
 " substitute variable
@@ -490,3 +498,12 @@ function! GoogleSearch()
         \ shellescape(query, 'yes_please_escape_vim_special_characters_too_thank_you')
 endfunction
 vnoremap <Leader>s :call GoogleSearch()<cr>
+
+autocmd BufWritePre *.go Fmt
+" don't show ^I for go files
+aut BufRead,BufNewFile *.go set nolist
+
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadBraces

@@ -89,5 +89,15 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 alias man='man -P less'
 
 export GOPATH=~/projects/gocode
+export PATH="$GOPATH/bin:$PATH"
 
 alias ccat="pygmentize -g"
+
+alias be="bundle exec"
+alias bec="bundle exec cucumber"
+alias ber="bundle exec rspec"
+alias g="git "
+alias gs="g status"
+alias gp="g push "
+alias gd="g diff -w "
+alias gc="g commit -a "
