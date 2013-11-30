@@ -35,7 +35,6 @@ Bundle 'groenewege/vim-less'
 " Bundle 'artemave/slowdown.vim'
 Bundle 'jgdavey/tslime.vim'
 Bundle 'YankRing.vim'
-Bundle 'mileszs/ack.vim'
 
 " dependency of vim-textobj-rubyblock"
 Bundle 'kana/vim-textobj-user'
@@ -65,6 +64,7 @@ Bundle 'uggedal/go-vim'
 Bundle 'dgryski/vim-godef'
 Bundle 'Blackrush/vim-gocode'
 Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'rking/ag.vim'
 
 filetype plugin indent on     " required! 
 "
