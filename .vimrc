@@ -454,16 +454,16 @@ let g:run_tests_in_window = 1
 " SHOW SPEC INDEX
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ShowSpecIndex()
-  call setloclist(0, [])
+  call setqflist([])
 
   for line_number in range(1,line('$'))
     if getline(line_number) =~ '^ *\(\<its\?\>\|\<describe\>\|\<context\>\)'
       let expr = printf('%s:%s:%s', expand("%"), line_number, substitute(getline(line_number), ' ', nr2char(160), ''))
-      laddexpr expr
+      caddexpr expr
     endif
   endfor
 
-  lopen
+  copen
 
   " hide filename and linenumber
   set conceallevel=2 concealcursor=nc
