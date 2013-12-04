@@ -101,3 +101,5 @@ alias gs="g status"
 alias gp="g push "
 alias gd="g diff -w "
 alias gc="g commit -a "
+
+export PATH="~/bin:$PATH"

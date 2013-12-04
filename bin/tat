@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Attach to tmux session named the same as current directory.
+#
+
+if [ -z "$1" ]; then
+  name=`basename $PWD`
+else
+  name=$1
+fi
+
+tmux has -t $name && tmux attach -t $name || tmux new -s $name
