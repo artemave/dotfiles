@@ -37,11 +37,6 @@ parsegitbranch() {
     fi
 }
 
-function cabalinst() {
-    cabal install "$@"
-    chmod -R go+rX /usr/local/share/cabal/packages
-}
-
 function take() {
   mkdir $1
   cd $1
@@ -54,29 +49,10 @@ if [ -d ~/.ec2 ]; then
   export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
 fi
 
-if [ -f ~/.local_env ]; then
-  . ~/.local_env
-fi
-
-if command -v brew &> /dev/null; then
-  export ANDROID_HOME=/Users/artem/adt-bundle/sdk
-  export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
-  if [ -f `brew --prefix`/etc/profile.d/z.sh ]; then
-    source `brew --prefix`/etc/profile.d/z.sh
-  fi
-fi
-
-export PATH="/usr/local/heroku/bin:$HOME/.rbenv/bin:$PATH"
-export PATH=/usr/local/tranquil/bin:$PATH
-
 # find snippet
 function fsnip() {
   egrep -C1 -RS $1 "$HOME/.vim/bundle/vim-snippets/snippets/"
 }
-
-if command -v rbenv &> /dev/null; then
-  eval "$(rbenv init -)"
-fi
 
 # less colors (for man)
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -88,9 +64,6 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 alias man='man -P less'
 
-export GOPATH=~/projects/gocode
-export PATH="$GOPATH/bin:$PATH"
-
 alias ccat="pygmentize -g"
 
 alias be="bundle exec"
@@ -101,5 +74,3 @@ alias gs="g status"
 alias gp="g push "
 alias gd="g diff -w "
 alias gc="g commit -a "
-
-export PATH="~/bin:$PATH"

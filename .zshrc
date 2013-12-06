@@ -114,3 +114,5 @@ bindkey "^[s" insert-sudo
 bindkey '^_' undo
 
 source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source ~/.common_shrc

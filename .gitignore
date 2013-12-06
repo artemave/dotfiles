@@ -62,3 +62,5 @@ custom_plan.rb
 # gimp
 
 *.xcf
+
+.vagrant*

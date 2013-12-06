@@ -39,7 +39,7 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-source ~/.shell_commons
+source ~/.common_shrc
 
 # misc
 NO_COLOR='\e[0m' #disable any colors

@@ -1,3 +1,1 @@
-if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
-fi
+source ~/.shell_env
