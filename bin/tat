@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 # Attach to tmux session named the same as current directory.
+# or create a new one
 #
 
 if [ -z "$1" ]; then
@@ -9,4 +10,19 @@ else
   name=$1
 fi
 
-tmux has -t $name && tmux attach -t $name || tmux new -s $name
+tmux has -t $name && tmux attach -t $name && exit
+
+if [ -f ./config/routes.rb ]; then
+  tmux new-session -d -s $name -n shell
+  tmux new-window -t $name -n vim
+  tmux new-window -t $name -n server
+  tmux new-window -t $name -n console
+  tmux new-window -t $name -n logs
+  tmux new-window -t $name -n guard
+
+  tmux select-window -t $name:1
+
+  tmux attach -t $name
+else
+  tmux new -s $name
+fi

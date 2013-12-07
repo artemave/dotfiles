@@ -15,20 +15,13 @@ elif [[ `uname` == 'Darwin' ]]; then
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
-alias ll='ls -l'
-alias la='ls -A'
-alias fr='fgrep -r'
-alias rsd='bundle exec rspec --drb --color spec'
-alias cud='bundle exec cucumber --drb'
-alias tmux='TERM=screen-256color-bce tmux'
-
 if command -v mvim &> /dev/null; then
   alias vim="mvim -v"
-  export EDITOR="mvim -v"
-else
-  export EDITOR="vim"
 fi
+if command -v reattach-to-user-namespace &> /dev/null; then
+  alias vim="reattach-to-user-namespace vim"
+fi
+export EDITOR="vim"
 
 parsegitbranch() {
     git branch &>/dev/null;
@@ -74,3 +67,6 @@ alias gs="g status"
 alias gp="g push "
 alias gd="g diff -w "
 alias gc="g commit -a "
+
+alias ll='ls -l'
+alias la='ls -la'
