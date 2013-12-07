@@ -1,28 +1,23 @@
 # Contains commands to set the command search path, plus other important environment variables. Should not contain commands that produce output or assume the shell is attached to a tty
 
-# Something sources this file twice; I don't know what
-if [ -z "$SHELL_ENV_LOADED" ]; then
-  export SHELL_ENV_LOADED=true
+if command -v brew &> /dev/null; then
+  export ANDROID_HOME=/Users/artem/adt-bundle/sdk
+  export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
+fi
 
-  if command -v brew &> /dev/null; then
-    export ANDROID_HOME=/Users/artem/adt-bundle/sdk
-    export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:/usr/local/share/python:/usr/local/bin:/usr/local/sbin:$PATH"
-  fi
+export PATH="/usr/local/heroku/bin:$HOME/.rbenv/bin:$PATH"
+export PATH=/usr/local/tranquil/bin:$PATH
 
-  export PATH="/usr/local/heroku/bin:$HOME/.rbenv/bin:$PATH"
-  export PATH=/usr/local/tranquil/bin:$PATH
+export GOPATH=~/projects/gocode
+export PATH="$GOPATH/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
-  export GOPATH=~/projects/gocode
-  export PATH="$GOPATH/bin:$PATH"
-  export PATH="$HOME/bin:$PATH"
+eval "$(direnv hook $SHELL)"
 
-  eval "$(direnv hook $SHELL)"
+if command -v rbenv &> /dev/null; then
+  eval "$(rbenv init -)"
+fi
 
-  if command -v rbenv &> /dev/null; then
-    eval "$(rbenv init -)"
-  fi
-
-  if [ -f ~/.local_env ]; then
-    . ~/.local_env
-  fi
+if [ -f ~/.local_env ]; then
+  . ~/.local_env
 fi
