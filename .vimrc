@@ -432,9 +432,9 @@ endfunction
 function! RunTests(filename)
   :wa
   if match(a:filename, '\.feature') != -1
-    let l:command = "zeus cucumber " . a:filename
+    let l:command = "cucumber " . a:filename
   else
-    let l:command = "zeus rspec -c " . a:filename
+    let l:command = "rspec -c " . a:filename
   end
   call system("tmux select-window -t " . g:run_tests_in_window)
   call system('tmux set-buffer "' . l:command . "\n\"")
@@ -509,3 +509,20 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadBraces
+
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+
+nnoremap <C-l> :redraw!<cr>

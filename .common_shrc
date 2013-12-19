@@ -20,6 +20,7 @@ if command -v mvim &> /dev/null; then
 fi
 if command -v reattach-to-user-namespace &> /dev/null; then
   alias vim="reattach-to-user-namespace vim"
+  alias pbcopy="reattach-to-user-namespace pbcopy"
 fi
 export EDITOR="vim"
 
