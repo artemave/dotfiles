@@ -51,7 +51,7 @@ set cryptmethod=blowfish
 
 " command line completion
 set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,*.swp,*.zip,*/images/*,*/cache/*,scrapers/products/*
+set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,*.swp,*.zip,*/images/*,*/cache/*
 
 set switchbuf=useopen
 
@@ -364,6 +364,7 @@ set list listchars=trail:·
 
 nnoremap <Leader>b :CtrlPBuffer<CR>
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_custom_ignore = 'node_modules/*'
 
 " disable folding
 set nofoldenable
