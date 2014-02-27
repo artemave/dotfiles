@@ -190,15 +190,13 @@ endif
 
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
 
 " Gundo configuration
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-let g:molokai_original = 1
 colorscheme molokai
-hi Search ctermbg=black
+set background=dark
 
 set scrolloff=3 " Keep 3 lines below and above the cursor"
 

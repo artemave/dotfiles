@@ -74,7 +74,6 @@ class DotsInstaller < Thor
       end
     end
     FileUtils.cd File.expand_path(File.dirname __FILE__), :verbose => true
-    puts `rbenv alias --auto`
   end
 
   desc 'git_config USERNAME EMAIL', 'sets global git user settings'

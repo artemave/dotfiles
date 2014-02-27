@@ -65,6 +65,7 @@ Bundle 'dgryski/vim-godef'
 Bundle 'Blackrush/vim-gocode'
 Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'rking/ag.vim'
+Bundle 'tomasr/molokai'
 
 filetype plugin indent on     " required! 
 "

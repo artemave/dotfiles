@@ -45,7 +45,7 @@ fi
 
 # find snippet
 function fsnip() {
-  egrep -C1 -RS $1 "$HOME/.vim/bundle/vim-snippets/snippets/"
+  egrep -C1 -R $1 "$HOME/.vim/bundle/vim-snippets/snippets/"
 }
 
 # less colors (for man)
@@ -68,6 +68,7 @@ alias gs="g status"
 alias gp="g push "
 alias gd="g diff -w "
 alias gc="g commit -a "
+alias tmux="tmux -2"
 
 alias ll='ls -l'
 alias la='ls -la'

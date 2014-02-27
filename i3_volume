@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+ 
+MIN = 0
+MAX = 65536
+ 
+SINK = `pactl stat |grep "Default Sink: "`.split(" ")[2]
+STEP = MAX / 16
+ 
+volume = `pacmd dump | grep "set-sink-volume #{SINK}"`.split(" ")[2].to_i(16)
+muted =`pacmd dump | grep "set-sink-mute #{SINK}"`.split(" ")[2] == "yes"
+ 
+def play_sound; `ogg123 /usr/share/sounds/ubuntu/stereo/bell.ogg` end
+def mute; puts `pactl set-sink-mute #{SINK} 1` end
+def unmute; puts `pactl set-sink-mute #{SINK} 0` end
+ 
+if ARGV[0] == "up"
+  unmute
+  exit if volume == MAX
+  volume = [volume + STEP, MAX].min
+  `pactl set-sink-volume #{SINK} -- 0x#{volume.to_s(16)}`
+  play_sound
+elsif ARGV[0] == "down"
+  unmute
+  volume = [volume - STEP, MIN].max
+  `pactl set-sink-volume #{SINK} -- 0x#{volume.to_s(16)}`
+  play_sound
+elsif ARGV[0] == "toggle"
+  if muted
+    unmute
+  else
+    mute
+  end
+end

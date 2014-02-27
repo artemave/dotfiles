@@ -10,19 +10,19 @@ else
   name=$1
 fi
 
-tmux has -t $name && tmux attach -t $name && exit
+tmux -2 has -t $name && tmux attach -t $name && exit
 
 if [ -f ./config/routes.rb ]; then
-  tmux new-session -d -s $name -n shell
-  tmux new-window -t $name -n vim
-  tmux new-window -t $name -n server
-  tmux new-window -t $name -n console
-  tmux new-window -t $name -n logs
-  tmux new-window -t $name -n guard
+  tmux -2 new-session -d -s $name -n shell
+  tmux -2 new-window -t $name -n vim
+  tmux -2 new-window -t $name -n server
+  tmux -2 new-window -t $name -n console
+  tmux -2 new-window -t $name -n logs
+  tmux -2 new-window -t $name -n guard
 
-  tmux select-window -t $name:1
+  tmux -2 select-window -t $name:1
 
-  tmux attach -t $name
+  tmux -2 attach -t $name
 else
-  tmux new -s $name
+  tmux -2 new -s $name
 fi
