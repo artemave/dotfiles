@@ -21,3 +21,5 @@ fi
 if [ -f ~/.local_env ]; then
   . ~/.local_env
 fi
+
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"

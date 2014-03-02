@@ -195,8 +195,10 @@ let g:syntastic_enable_signs=1
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
+let g:molokai_original = 1
 colorscheme molokai
 set background=dark
+hi LineNr ctermbg=none guibg=none ctermfg=14 guifg=#80a0ff
 
 set scrolloff=3 " Keep 3 lines below and above the cursor"
 
@@ -211,7 +213,6 @@ nnoremap Y y$
 " Improve up/down movement on wrapped lines
 nnoremap j gj
 nnoremap k gk
-
 " Use very magic regexes
 nnoremap / /\v
 vnoremap / /\v
