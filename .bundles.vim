@@ -25,12 +25,10 @@ Bundle 'tpope/vim-eunuch'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-obsession'
+Bundle 'tpope/vim-commentary'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'csexton/jekyll.vim'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'tomtom/tcomment_vim'
 Bundle 'groenewege/vim-less'
 " Bundle 'artemave/slowdown.vim'
 Bundle 'jgdavey/tslime.vim'
@@ -41,8 +39,14 @@ Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
 
 Bundle 'sjbach/lusty'
+
+" dependency of vim-snipmate
+Bundle "MarcWeber/vim-addon-mw-utils"
+" dependency of vim-snipmate
+Bundle "tomtom/tlib_vim"
 Bundle 'garbas/vim-snipmate'
 Bundle 'honza/vim-snippets'
+
 Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
