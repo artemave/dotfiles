@@ -30,7 +30,6 @@ class DotsInstaller < Thor
   desc 'setup_vim', 'installs only Vim bits and bobs'
   def setup_vim
     vundlize
-    snippify
   end
 
   desc 'install_rbenv', 'install rbenv and plugins'
@@ -117,28 +116,6 @@ class DotsInstaller < Thor
 
       bundle_file = File.join HOME_DIR, '.bundles.vim'
       system "vim --noplugin -u #{bundle_file} +BundleInstall +qa"
-    end
-
-    def snippify
-      if File.exists?(bundled_snippets_path = File.join(BUNDLE_PATH, 'snipmate', 'snippets'))
-        FileUtils.rm_rf bundled_snippets_path, :verbose => true
-      end
-
-      more_snippets_path = File.join BUNDLE_PATH, 'snipmate-snippets'
-      dest_snippets_path = File.join VIM_PATH, 'snippets'
-
-      if File.exists?(more_snippets_path)
-        if File.exists?(File.join more_snippets_path, 'snippets')
-          puts 'Snippets are already where they should be. Nothing to do.'
-        else
-          puts 'Installing snippets...'
-          FileUtils.rm_rf dest_snippets_path, :verbose => true rescue nil
-          FileUtils.ln_s more_snippets_path, dest_snippets_path, :verbose => true
-          puts 'Done.'
-        end
-      else
-        puts 'No cool vim snippets. Skipping.'
-      end
     end
 
     def dot_file_list
