@@ -526,3 +526,7 @@ let g:rbpt_colorpairs = [
     \ ]
 
 nnoremap <C-l> :redraw!<cr>
+
+let g:ruby_doc_command='open'
+let g:ruby_doc_ruby_host='http://apidock.com/ruby/'
+let g:ruby_doc_rails_host='http://apidock.com/rails/'
