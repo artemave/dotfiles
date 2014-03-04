@@ -371,11 +371,19 @@ set nofoldenable
 " alias backtick to signle quote
 map ' `
 
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
+if has('lua')
+  let g:neocomplete_enable_at_startup = 1
+  let g:neocomplete_enable_smart_case = 1
+  let g:neocomplete_min_syntax_length = 3
+  let g:neocomplete_enable_camel_case_completion = 1
+  let g:neocomplete_enable_underbar_completion = 1
+else
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_smart_case = 1
+  let g:neocomplcache_min_syntax_length = 3
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
+endif
 
 " omni completion"
 set ofu=syntaxcomplete#Complete

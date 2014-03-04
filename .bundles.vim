@@ -59,7 +59,10 @@ Bundle 'The-NERD-tree'
 Bundle 'AnsiEsc.vim'
 Bundle 'haskell.vim'
 Bundle 'keepcase.vim'
+
+Bundle 'Shougo/neocomplete'
 Bundle 'Shougo/neocomplcache'
+
 Bundle 'ecomba/vim-ruby-refactoring'
 Bundle 'featurist/vim-pogoscript'
 Bundle 'Lokaltog/vim-powerline'
