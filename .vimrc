@@ -51,7 +51,7 @@ set cryptmethod=blowfish
 
 " command line completion
 set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,*.swp,*.zip,*/images/*,*/cache/*
+set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,*.swp,*.zip,*/images/*,*/cache/*,dist/,platforms/
 
 set switchbuf=useopen
 
@@ -180,7 +180,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " $PATH appears different to vim for some reason and hence wrong ctags gets picked
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
-map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
+map <Leader>rt :!ctags --exclude=node_modules --exclude=platforms --extra=+f -R *<CR><CR>
 
 " Remember last location in file
 if has("autocmd")
@@ -364,6 +364,7 @@ set list listchars=trail:·
 nnoremap <Leader>b :CtrlPBuffer<CR>
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = 'node_modules/*'
+let g:ctrlp_working_path_mode = 0
 
 " disable folding
 set nofoldenable
@@ -497,8 +498,9 @@ nmap <C-c>r <Plug>SetTmuxVars
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
 
-" mustache with m
+" mustache/handlebars with m M
 let g:surround_109 = "{{\r}}"
+let g:surround_77 = "{{{\r}}}"
 
 function! GoogleSearch()
   normal gv"xy
@@ -509,7 +511,6 @@ function! GoogleSearch()
 endfunction
 vnoremap <Leader>s :call GoogleSearch()<cr>
 
-autocmd BufWritePre *.go Fmt
 " don't show ^I for go files
 aut BufRead,BufNewFile *.go set nolist
 
@@ -538,3 +539,5 @@ nnoremap <C-l> :redraw!<cr>
 let g:ruby_doc_command='open'
 let g:ruby_doc_ruby_host='http://apidock.com/ruby/'
 let g:ruby_doc_rails_host='http://apidock.com/rails/'
+
+let g:mustache_abbreviations = 1

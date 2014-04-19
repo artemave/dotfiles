@@ -21,6 +21,8 @@ fi
 if command -v reattach-to-user-namespace &> /dev/null; then
   alias vim="reattach-to-user-namespace vim"
   alias pbcopy="reattach-to-user-namespace pbcopy"
+  alias ios-sim="reattach-to-user-namespace ios-sim"
+  alias appium="reattach-to-user-namespace appium"
 fi
 export EDITOR="vim"
 
@@ -77,3 +79,5 @@ alias la='ls -la'
 function rmdups() {
   awk '{if ($0 ~ /'$0'/) { if (!a[$2]++) { print $0 } } else { print $0 }}' $1
 }
+
+alias shopa="cd ~/projects/gocode/src/github.com/shopa/shopa"

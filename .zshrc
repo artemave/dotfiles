@@ -115,4 +115,8 @@ bindkey '^_' undo
 
 source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
 source ~/.common_shrc

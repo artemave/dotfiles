@@ -94,3 +94,6 @@ esac
 
 export PS1="\[$PS_COLOR\]\u:\w\[$YELLOW\]\$(parsegitbranch)$ \[$NO_COLOR\]"
 
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook bash)"
+fi
