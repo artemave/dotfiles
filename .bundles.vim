@@ -32,9 +32,13 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'jgdavey/tslime.vim'
 Bundle 'YankRing.vim'
 
+Bundle 'michaeljsmith/vim-indent-object'
+
 " dependency of vim-textobj-rubyblock"
 Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
+
+Bundle 'AndrewVos/vim-aaa'
 
 Bundle 'sjbach/lusty'
 

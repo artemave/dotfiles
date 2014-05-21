@@ -237,10 +237,8 @@ au InsertLeave * set nopaste
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 " Quick grep for word under the cursor in rails app
 noremap <Leader>f :Ag <cword><cr>
@@ -541,3 +539,16 @@ let g:ruby_doc_ruby_host='http://apidock.com/ruby/'
 let g:ruby_doc_rails_host='http://apidock.com/rails/'
 
 let g:mustache_abbreviations = 1
+
+" else syntastic breaks ]l
+let g:syntastic_always_populate_loc_list=1
+
+" My remapping of <C-^>. If there is no alternate file, then switch to
+" previous buffer.
+function! MySwitch()
+  if expand('#')=="" | silent! bprev
+  else
+    exe "normal! \<c-^>"
+  endif
+endfu
+map <C-^> :call MySwitch()<CR>

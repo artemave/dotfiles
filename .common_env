@@ -19,6 +19,11 @@ if command -v rbenv &> /dev/null; then
   eval "$(rbenv init -)"
 fi
 
+if command -v hub &> /dev/null; then
+  eval "$(hub alias -s)"
+  alias git=hub
+fi
+
 if [ -f ~/.local_env ]; then
   . ~/.local_env
 fi
