@@ -31,6 +31,7 @@ Bundle 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 Bundle 'jgdavey/tslime.vim'
 Bundle 'YankRing.vim'
+Bundle 'lucapette/vim-ruby-doc'
 
 Bundle 'michaeljsmith/vim-indent-object'
 

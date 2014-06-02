@@ -233,11 +233,7 @@ vnoremap <M-j> :m'>+<CR>gv
 " Disable paste mode when leaving Insert Mode
 au InsertLeave * set nopaste
 
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
+let g:agprg = 'agprg.sh'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 " Quick grep for word under the cursor in rails app
@@ -545,10 +541,10 @@ let g:syntastic_always_populate_loc_list=1
 
 " My remapping of <C-^>. If there is no alternate file, then switch to
 " previous buffer.
-function! MySwitch()
+function! SwitchToPrevBuffer()
   if expand('#')=="" | silent! bprev
   else
     exe "normal! \<c-^>"
   endif
 endfu
-map <C-^> :call MySwitch()<CR>
+nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
