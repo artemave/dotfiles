@@ -121,3 +121,4 @@ if command -v direnv &> /dev/null; then
 fi
 
 source ~/.common_shrc
+source ~/.fzf.zsh
