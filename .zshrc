@@ -23,6 +23,8 @@ bindkey '^R' history-incremental-search-backward
 
 # COMPLETION
 fpath=(~/.zsh/completions $fpath)
+fpath=($GOPATH/src/github.com/AndrewVos/garrison/zsh-completion $fpath)
+
 autoload -Uz compinit
 compinit
 
@@ -121,4 +123,3 @@ if command -v direnv &> /dev/null; then
 fi
 
 source ~/.common_shrc
-source ~/.fzf.zsh

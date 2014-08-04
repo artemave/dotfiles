@@ -69,7 +69,7 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 ""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
 
 " pogo script autocompile on save
-autocmd BufWritePost *.pogo silent !pogo -c % &
+" autocmd BufWritePost *.pogo silent !pogo -c % &
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
@@ -233,7 +233,7 @@ vnoremap <M-j> :m'>+<CR>gv
 " Disable paste mode when leaving Insert Mode
 au InsertLeave * set nopaste
 
-let g:agprg = 'agprg.sh'
+""let g:agprg = 'agprg.sh'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 " Quick grep for word under the cursor in rails app
