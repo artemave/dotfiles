@@ -180,7 +180,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " $PATH appears different to vim for some reason and hence wrong ctags gets picked
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
-map <Leader>rt :!ctags --exclude=node_modules --exclude=platforms --extra=+f -R *<CR><CR>
+map <Leader>rt :!ctags --languages=-javascript,sql --extra=+f -R *<CR><CR>
 
 " Remember last location in file
 if has("autocmd")
@@ -235,6 +235,9 @@ au InsertLeave * set nopaste
 
 ""let g:agprg = 'agprg.sh'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_working_path_mode = 0
+nnoremap <Leader>b :CtrlPBuffer<CR>
 
 " Quick grep for word under the cursor in rails app
 noremap <Leader>f :Ag <cword><cr>
@@ -355,33 +358,19 @@ nnoremap va/ F/v,
 
 set list listchars=trail:·
 
-nnoremap <Leader>b :CtrlPBuffer<CR>
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = 'node_modules/*'
-let g:ctrlp_working_path_mode = 0
-
 " disable folding
 set nofoldenable
 
 " alias backtick to signle quote
 map ' `
 
-if has('lua')
-  let g:neocomplete_enable_at_startup = 1
-  let g:neocomplete_enable_smart_case = 1
-  let g:neocomplete_min_syntax_length = 3
-  let g:neocomplete_enable_camel_case_completion = 1
-  let g:neocomplete_enable_underbar_completion = 1
-else
-  let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_enable_smart_case = 1
-  let g:neocomplcache_min_syntax_length = 3
-  let g:neocomplcache_enable_camel_case_completion = 1
-  let g:neocomplcache_enable_underbar_completion = 1
-endif
-
-" omni completion"
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neosnippet#enable_snipmate_compatibility = 1
 set ofu=syntaxcomplete#Complete
+
+let g:go_snippet_engine = "neosnippet"
 
 " PowerLine recommeneded:
 set laststatus=2   " Always show the statusline"
@@ -548,3 +537,25 @@ function! SwitchToPrevBuffer()
   endif
 endfu
 nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
+
+nmap <F8> :TagbarToggle<CR>
+
+"" NEOSNIPPET
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+"" NEOSNIPPET end

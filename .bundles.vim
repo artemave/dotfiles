@@ -18,6 +18,7 @@ Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-rake'
+Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-cucumber'
@@ -35,27 +36,14 @@ Bundle 'lucapette/vim-ruby-doc'
 
 Bundle 'michaeljsmith/vim-indent-object'
 
-" dependency of vim-textobj-rubyblock"
-Bundle 'kana/vim-textobj-user'
-Bundle 'nelstrom/vim-textobj-rubyblock'
-
 Bundle 'AndrewVos/vim-aaa'
-
 Bundle 'sjbach/lusty'
-
-" dependency of vim-snipmate
-Bundle "MarcWeber/vim-addon-mw-utils"
-" dependency of vim-snipmate
-Bundle "tomtom/tlib_vim"
-Bundle 'garbas/vim-snipmate'
-Bundle 'honza/vim-snippets'
-
 Bundle 'godlygeek/tabular'
 Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
 " vim-scripts repos
 Bundle 'kien/ctrlp.vim'
-Bundle 'AutoClose'
+Bundle 'Raimondi/delimitMate'
 Bundle 'matchit.zip'
 Bundle 'The-NERD-tree'
 Bundle 'AnsiEsc.vim'
@@ -63,7 +51,10 @@ Bundle 'haskell.vim'
 Bundle 'keepcase.vim'
 
 Bundle 'Shougo/neocomplete'
-Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
+Bundle 'honza/vim-snippets'
+
+Bundle 'majutsushi/tagbar'
 
 Bundle 'ecomba/vim-ruby-refactoring'
 Bundle 'featurist/vim-pogoscript'
@@ -75,6 +66,7 @@ Bundle 'rking/ag.vim'
 Bundle 'tomasr/molokai'
 Bundle 'pangloss/vim-javascript'
 Bundle 'mxw/vim-jsx'
+Bundle 'marijnh/tern_for_vim'
 
 filetype plugin indent on     " required! 
 "
