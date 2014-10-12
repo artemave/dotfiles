@@ -14,17 +14,6 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="./node_modules/.bin:$PATH"
 
-eval "$(direnv hook $SHELL)"
-
-if command -v rbenv &> /dev/null; then
-  eval "$(rbenv init -)"
-fi
-
-if command -v hub &> /dev/null; then
-  eval "$(hub alias -s)"
-  alias git=hub
-fi
-
 if [ -f ~/.local_env ]; then
   . ~/.local_env
 fi

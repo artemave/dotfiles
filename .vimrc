@@ -367,10 +367,10 @@ map ' `
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neosnippet#enable_snipmate_compatibility = 1
-set ofu=syntaxcomplete#Complete
-
-let g:go_snippet_engine = "neosnippet"
+let g:echodoc_enable_at_startup = 1
+set noshowmode
+set completeopt+=menuone
+set completeopt-=preview
 
 " PowerLine recommeneded:
 set laststatus=2   " Always show the statusline"
@@ -539,23 +539,3 @@ endfu
 nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
 
 nmap <F8> :TagbarToggle<CR>
-
-"" NEOSNIPPET
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-"" NEOSNIPPET end

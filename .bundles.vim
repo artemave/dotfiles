@@ -15,6 +15,7 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 "
 " original repos on github
+Bundle 'tpope/vim-dispatch'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-rake'
@@ -51,7 +52,8 @@ Bundle 'haskell.vim'
 Bundle 'keepcase.vim'
 
 Bundle 'Shougo/neocomplete'
-Bundle 'Shougo/neosnippet'
+Bundle 'Shougo/echodoc.vim'
+Plugin 'SirVer/ultisnips'
 Bundle 'honza/vim-snippets'
 
 Bundle 'majutsushi/tagbar'

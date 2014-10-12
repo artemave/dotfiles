@@ -80,4 +80,15 @@ function rmdups() {
   awk '{if ($0 ~ /'$0'/) { if (!a[$2]++) { print $0 } } else { print $0 }}' $1
 }
 
-alias shopa="cd ~/projects/gocode/src/github.com/shopa/shopa"
+alias gocode="cd ~/projects/gocode/src/github.com/artemave"
+
+eval "$(direnv hook $SHELL)"
+
+if command -v rbenv &> /dev/null; then
+  eval "$(rbenv init -)"
+fi
+
+if command -v hub &> /dev/null; then
+  eval "$(hub alias -s)"
+  alias git=hub
+fi
