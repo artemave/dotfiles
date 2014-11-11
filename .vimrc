@@ -74,55 +74,8 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
-au BufNewFile,BufRead *.hamlc set filetype=haml
-
 " Don't syntax highlight markdown because it's often wrong
 autocmd! FileType mkd setlocal syn=off
-
-" cucumber auto outline
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-function! s:align()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
-
-nnoremap <Leader>a= :Tabularize /=<CR>
-vnoremap <Leader>a= :Tabularize /=<CR>
-nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
-vnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
-nnoremap <Leader>a> :Tabularize /=><CR>
-vnoremap <Leader>a> :Tabularize /=><CR>
-nnoremap <Leader>ae :Tabularize /==<CR>
-vnoremap <Leader>ae :Tabularize /==<CR>
-
-let g:LustyJugglerSuppressRubyWarning = 1
-
-function! MyCloseGdiff()
-  if (&diff == 0 || getbufvar('#', '&diff') == 0)
-        \ && (bufname('%') !~ '^fugitive:' && bufname('#') !~ '^fugitive:')
-    echom "Not in diff view."
-    return
-  endif
-
-  " close current buffer if alternate is not fugitive but current one is
-  if bufname('#') !~ '^fugitive:' && bufname('%') =~ '^fugitive:'
-    if bufwinnr("#") == -1
-      b #
-      bd #
-    else
-      bd
-    endif
-  else
-    bd #
-  endif
-endfunction
-nnoremap <Leader>D :call MyCloseGdiff()<cr>
 
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
 function! s:RunShellCommand(cmdline)
@@ -188,18 +141,6 @@ if has("autocmd")
     \| exe "normal g'\"" | endif
 endif
 
-" Enable syntastic syntax checking
-let g:syntastic_enable_signs=1
-
-" Gundo configuration
-nmap <F6> :GundoToggle<CR>
-imap <F6> <ESC>:GundoToggle<CR>
-
-let g:molokai_original = 1
-colorscheme molokai
-set background=dark
-hi LineNr ctermbg=none guibg=none ctermfg=14 guifg=#80a0ff
-
 set scrolloff=3 " Keep 3 lines below and above the cursor"
 
 " Store swap files in fixed location, not current directory.
@@ -223,24 +164,8 @@ cnoremap <C-k> <t_ku>
 cnoremap <C-^> <Home>
 cnoremap <C-e> <End>
 
-" Drag Current Line/s Vertically
-nnoremap <M-j> :m+<CR>
-nnoremap <M-k> :m-2<CR>
-inoremap <M-j> <Esc>:m+<CR>
-inoremap <M-k> <Esc>:m-2<CR>
-vnoremap <M-j> :m'>+<CR>gv
-
 " Disable paste mode when leaving Insert Mode
 au InsertLeave * set nopaste
-
-""let g:agprg = 'agprg.sh'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_working_path_mode = 0
-nnoremap <Leader>b :CtrlPBuffer<CR>
-
-" Quick grep for word under the cursor in rails app
-noremap <Leader>f :Ag <cword><cr>
 
 " Stop messing with my arrow keys
 if !has("gui_running")
@@ -296,39 +221,6 @@ endfunction
 vnoremap <leader>rv :call ExtractVariable()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SWITCH BETWEEN TEST AND PRODUCTION CODE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! OpenTestAlternate()
-  let new_file = AlternateForCurrentFile()
-  exec ':e ' . new_file
-endfunction
-function! AlternateForCurrentFile()
-  let current_file = expand("%")
-  let new_file = current_file
-  let in_spec = match(current_file, '^spec/') != -1
-  let going_to_spec = !in_spec
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1
-  if going_to_spec
-    " if in_app
-    "   let new_file = substitute(new_file, '^app/', '', '')
-    " end
-    let new_file = substitute(new_file, '^\(app\|lib\)/', '', '')
-    let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
-    let new_file = 'spec/' . new_file
-  else
-    let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
-    let new_file = substitute(new_file, '^spec/', '', '')
-    let root_path = 'lib/'
-    if in_app
-      let root_path = 'app/'
-    end
-    let new_file = root_path . new_file
-  endif
-  return new_file
-endfunction
-nnoremap <leader>. :call OpenTestAlternate()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ARROW KEYS ARE UNACCEPTABLE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <Left> <Nop>
@@ -363,18 +255,6 @@ set nofoldenable
 
 " alias backtick to signle quote
 map ' `
-
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:echodoc_enable_at_startup = 1
-set noshowmode
-set completeopt+=menuone
-set completeopt-=preview
-
-" PowerLine recommeneded:
-set laststatus=2   " Always show the statusline"
-set encoding=utf-8 " Necessary to show Unicode glyphs"
 
 fun! RangerChooser()
   exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
@@ -465,25 +345,9 @@ nnoremap <Leader>si :call ShowSpecIndex()<cr>
 " SHOW SPEC INDEX (END)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:yankring_replace_n_pkey = '<c-n>'
-let g:yankring_replace_n_nkey = ''
-nnoremap <Leader>re :YRShow<cr>
-
-" useful when <Tab> -> <Esc>
-" let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
-
-" tslime
-vmap <C-c><C-c> <Plug>SendSelectionToTmux
-nmap <C-c><C-c> <Plug>NormalModeSendToTmux
-nmap <C-c>r <Plug>SetTmuxVars
-
 " substitute variable
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
-
-" mustache/handlebars with m M
-let g:surround_109 = "{{\r}}"
-let g:surround_77 = "{{{\r}}}"
 
 function! GoogleSearch()
   normal gv"xy
@@ -497,36 +361,7 @@ vnoremap <Leader>s :call GoogleSearch()<cr>
 " don't show ^I for go files
 aut BufRead,BufNewFile *.go set nolist
 
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadBraces
-
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-
 nnoremap <C-l> :redraw!<cr>
-
-let g:ruby_doc_command='open'
-let g:ruby_doc_ruby_host='http://apidock.com/ruby/'
-let g:ruby_doc_rails_host='http://apidock.com/rails/'
-
-let g:mustache_abbreviations = 1
-
-" else syntastic breaks ]l
-let g:syntastic_always_populate_loc_list=1
 
 " My remapping of <C-^>. If there is no alternate file, then switch to
 " previous buffer.
@@ -538,4 +373,4 @@ function! SwitchToPrevBuffer()
 endfu
 nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
 
-nmap <F8> :TagbarToggle<CR>
+hi LineNr ctermbg=none guibg=none ctermfg=14 guifg=#80a0ff

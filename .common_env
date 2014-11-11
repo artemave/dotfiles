@@ -6,8 +6,6 @@ if command -v brew &> /dev/null; then
   export DOCKER_HOST="tcp://127.0.0.1:2375"
 fi
 
-export PATH="/usr/local/heroku/bin:$PATH"
-
 export GOPATH=~/projects/gocode
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export PATH="$GOPATH/bin:$PATH"

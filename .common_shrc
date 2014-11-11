@@ -92,3 +92,5 @@ if command -v hub &> /dev/null; then
   eval "$(hub alias -s)"
   alias git=hub
 fi
+
+export PATH="/usr/local/heroku/bin:$PATH"
