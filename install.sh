@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-dotfiles=(.zshrc .zshenv .zlogin .bashrc .bash_profile .common_env .common_rc .ctags \
+dotfiles=(.zshrc .zshenv .zlogin .bashrc .bash_profile .common_env .common_shrc .ctags \
   .editrc .inputrc .tmux.conf .gemrc .gitconfig .gitignore bin)
 
 vimfiles=(.vimrc .vim .bundles.vim)
@@ -22,7 +22,7 @@ function fail() {
 case $1 in
   -dots)
     for file in ${dotfiles[@]}; do
-      ln -f -s "$(pwd)$(file)" ~/
+      ln -f -s "$(pwd)/$file" ~/
     done
     ;;
 
@@ -31,13 +31,13 @@ case $1 in
     bundle_home=~/.vim/bundle
 
     for file in ${vimfiles[@]}; do
-      ln -f -s "$(pwd)$file" ~/
+      ln -f -s "$(pwd)/$file" ~/
     done
 
     if [ ! -d $bundle_home ]; then
       git clone http://github.com/gmarik/vundle.git $bundle_home
     fi
-    vim --noplugin -u $bundle_home +BundleInstall +qa
+    vim --noplugin -u ~/.bundles.vim +BundleInstall +qa
     ;;
 
   -rbenv)
