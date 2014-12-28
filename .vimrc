@@ -75,7 +75,7 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
 " Don't syntax highlight markdown because it's often wrong
-autocmd! FileType mkd setlocal syn=off
+autocmd! FileType {mkd,md} setlocal syn=off
 
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
 function! s:RunShellCommand(cmdline)
@@ -326,7 +326,7 @@ function! ShowSpecIndex()
   call setqflist([])
 
   for line_number in range(1,line('$'))
-    if getline(line_number) =~ '^ *\(\<its\?\>\|\<describe\>\|\<context\>\)'
+    if getline(line_number) =~ '^ *\(\<its\?\>\|\<describe\>\|\<context\>\|\<feature\>\|\<scenario\>\)'
       let expr = printf('%s:%s:%s', expand("%"), line_number, substitute(getline(line_number), ' ', nr2char(160), ''))
       caddexpr expr
     endif

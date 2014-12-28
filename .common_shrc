@@ -15,9 +15,6 @@ elif [[ `uname` == 'Darwin' ]]; then
     alias egrep='egrep --color=auto'
 fi
 
-if command -v mvim &> /dev/null; then
-  alias vim="mvim -v"
-fi
 if command -v reattach-to-user-namespace &> /dev/null; then
   alias vim="reattach-to-user-namespace vim"
   alias pbcopy="reattach-to-user-namespace pbcopy"
@@ -94,3 +91,6 @@ if command -v hub &> /dev/null; then
 fi
 
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# added by travis gem
+[ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
