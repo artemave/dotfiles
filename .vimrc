@@ -326,8 +326,8 @@ function! ShowSpecIndex()
   call setqflist([])
 
   for line_number in range(1,line('$'))
-    if getline(line_number) =~ '^ *\(\<its\?\>\|\<describe\>\|\<context\>\|\<feature\>\|\<scenario\>\)'
-      let expr = printf('%s:%s:%s', expand("%"), line_number, substitute(getline(line_number), ' ', nr2char(160), ''))
+    if getline(line_number) =~ '^[ \t]*\(\<[Ii]ts\?\>\|\<[Dd]escribe\>\|\<[Cc]ontext\>\|\<[Ff]eature\>\|\<[Ss]cenario\>\)'
+      let expr = printf('%s:%s:%s', expand("%"), line_number, substitute(getline(line_number), '[ \t]', nr2char(160), 'g'))
       caddexpr expr
     endif
   endfor
