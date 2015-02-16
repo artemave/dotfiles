@@ -2,7 +2,7 @@
 set -e
 
 dotfiles=(.zshrc .zshenv .zlogin .bashrc .bash_profile .common_env .common_shrc .ctags \
-  .editrc .inputrc .tmux.conf .gemrc .gitconfig .gitignore bin)
+  .editrc .inputrc .tmux.conf .gemrc .gitconfig .gitignore .spacemacs bin)
 
 vimfiles=(.vimrc .vim .bundles.vim)
 
