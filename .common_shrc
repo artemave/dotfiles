@@ -1,18 +1,22 @@
 # enable color support of ls and also add handy aliases
 if command -v dircolors &> /dev/null; then
-    eval "`dircolors -b`"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+  eval "`dircolors -b`"
+  alias ls='ls --color=auto'
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 elif [[ `uname` == 'Darwin' ]]; then
-    alias ls='ls -GF'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias ls='ls -GF'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+
+  if [ -f "/Applications/Emacs.app/Contents/MacOS/Emacs" ]; then
+    alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
+  fi
 fi
 
 if command -v reattach-to-user-namespace &> /dev/null; then
