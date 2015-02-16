@@ -98,3 +98,5 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 # added by travis gem
 [ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
+
+alias fucking=sudo
