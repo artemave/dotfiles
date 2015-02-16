@@ -222,6 +222,8 @@ xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
 
+Bundle 'tommcdo/vim-exchange'
+
 filetype plugin indent on     " required! 
 "
 " Brief help
