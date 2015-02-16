@@ -20,6 +20,7 @@ set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 set shiftround
 set showmatch
+set colorcolumn=80
 
 " suggest correct spelling in CTRL_N/CTRL_P
 set complete+=kspell
