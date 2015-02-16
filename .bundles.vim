@@ -3,6 +3,9 @@
 set nocompatible
 let $GIT_SSL_NO_VERIFY='true'
 
+nnoremap <space> <Nop>
+let mapleader=" "
+
 filetype off " required! by vundle
 
 set rtp+=~/.vim/bundle/vundle/
