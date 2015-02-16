@@ -214,7 +214,13 @@ set background=dark
 Bundle 'pangloss/vim-javascript'
 Bundle 'mxw/vim-jsx'
 Bundle 'marijnh/tern_for_vim'
-Bundle 'PeterRincker/vim-argumentative'
+Bundle 'AndrewRadev/sideways.vim'
+nnoremap <c-h> :SidewaysLeft<cr>
+nnoremap <c-l> :SidewaysRight<cr>
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
 
 filetype plugin indent on     " required! 
 "
