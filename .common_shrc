@@ -13,10 +13,6 @@ elif [[ `uname` == 'Darwin' ]]; then
   alias grep='grep --color=auto'
   alias fgrep='fgrep --color=auto'
   alias egrep='egrep --color=auto'
-
-  if [ -f "/Applications/Emacs.app/Contents/MacOS/Emacs" ]; then
-    alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
-  fi
 fi
 
 if command -v reattach-to-user-namespace &> /dev/null; then

@@ -2,7 +2,7 @@
 
 if command -v brew &> /dev/null; then
   export ANDROID_HOME=/Users/artem/adt-bundle/sdk
-  export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:/usr/local/share/python:$PATH"
+  export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
   export DOCKER_HOST="tcp://127.0.0.1:2375"
 fi
 
