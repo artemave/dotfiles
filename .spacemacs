@@ -10,14 +10,14 @@
  ;; Paths must have a trailing slash (ie. `~/.mycontribs/')
  dotspacemacs-configuration-layer-path '()
  ;; List of configuration layers to load.
- dotspacemacs-configuration-layers '(osx go
+ dotspacemacs-configuration-layers '(osx go my-go-mode
                                          (git :variables
                                               git-magit-status-fullscreen t
                                               git-enable-github-support t
                                               git-gutter-use-fringe t)
                                     )
  ;; A list of packages and/or extensions that will not be install and loaded.
- dotspacemacs-excluded-packages '()
+ dotspacemacs-excluded-packages '(go-mode)
 )
 
 ;; Settings
@@ -92,6 +92,8 @@
  dotspacemacs-default-package-repository nil
  evil-escape-key-sequence "kj"
  gofmt-command "goimports"
+
+ source-directory "/Users/artem/projects/emacs-source/emacs-24.4/src"
  )
 
 ;; Initialization Hooks
@@ -107,6 +109,7 @@
 This function is called at the very end of Spacemacs initialization."
   (evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
   (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
+  (spacemacs/toggle-line-numbers) (linum-relative-toggle)
 )
 
 ;; Custom variables
