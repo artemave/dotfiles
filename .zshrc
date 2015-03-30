@@ -120,6 +120,15 @@ source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
+  # failed attempt to fix emacs <-> direnv integration
+  # autoload -U add-zsh-hook
+
+  # hook_function() {
+  #   eval "$(direnv hook zsh)"
+  # }
+  # add-zsh-hook preexec hook_function
 fi
+
+[[ $EMACS = t ]] && unsetopt zle
 
 source ~/.common_shrc

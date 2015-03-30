@@ -84,8 +84,6 @@ function rmdups() {
 
 alias gocode="cd ~/projects/gocode/src/github.com/artemave"
 
-eval "$(direnv hook $SHELL)"
-
 if command -v rbenv &> /dev/null; then
   eval "$(rbenv init -)"
 fi
