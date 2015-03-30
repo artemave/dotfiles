@@ -154,6 +154,8 @@ nmap <F8> :TagbarToggle<CR>
 Bundle 'ecomba/vim-ruby-refactoring'
 Bundle 'featurist/vim-pogoscript'
 
+au FileType pogo nnoremap <Leader>c :PogoCompile<cr>
+
 Bundle 'Lokaltog/vim-powerline'
 " PowerLine recommeneded:
 set laststatus=2   " Always show the statusline"
