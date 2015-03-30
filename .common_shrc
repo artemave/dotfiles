@@ -23,6 +23,11 @@ if command -v reattach-to-user-namespace &> /dev/null; then
 fi
 export EDITOR="vim"
 
+# batch rename. ex: `mmv **/*2008.mp3 **/*2009.mp3`
+if command -v zmv &> /dev/null; then
+  alias mmv='noglob zmv -W'
+fi
+
 parsegitbranch() {
     git branch &>/dev/null;
     if [ $? -eq 0 ]; then
