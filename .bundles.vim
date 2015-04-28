@@ -8,27 +8,27 @@ let mapleader=" "
 
 filetype off " required! by vundle
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " My Bundles here:
 "
 " original repos on github
-Bundle 'tpope/vim-dispatch'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-rake'
-Bundle 'tpope/vim-bundler'
-Bundle 'tpope/vim-surround'
+Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-bundler'
+Plugin 'tpope/vim-surround'
 
-Bundle 'tpope/vim-haml'
+Plugin 'tpope/vim-haml'
 au BufNewFile,BufRead *.hamlc set filetype=haml
 
-Bundle 'tpope/vim-cucumber'
+Plugin 'tpope/vim-cucumber'
 " cucumber auto outline
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
@@ -63,39 +63,39 @@ function! MyCloseGdiff()
 endfunction
 nnoremap <Leader>D :call MyCloseGdiff()<cr>
 
-Bundle 'tpope/vim-eunuch'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-obsession'
-Bundle 'tpope/vim-commentary'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'kchmck/vim-coffee-script'
+Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-commentary'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
-Bundle 'jgdavey/tslime.vim'
+Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
 nmap <C-c><C-c> <Plug>NormalModeSendToTmux
 nmap <C-c>r <Plug>SetTmuxVars
 
-Bundle 'YankRing.vim'
+Plugin 'YankRing.vim'
 let g:yankring_replace_n_pkey = '<c-n>'
 let g:yankring_replace_n_nkey = ''
 nnoremap <Leader>re :YRShow<cr>
 
-Bundle 'lucapette/vim-ruby-doc'
+Plugin 'lucapette/vim-ruby-doc'
 let g:ruby_doc_command='open'
 let g:ruby_doc_ruby_host='http://apidock.com/ruby/'
 let g:ruby_doc_rails_host='http://apidock.com/rails/'
 
 
-Bundle 'michaeljsmith/vim-indent-object'
+Plugin 'michaeljsmith/vim-indent-object'
 
-Bundle 'AndrewVos/vim-aaa'
+Plugin 'AndrewVos/vim-aaa'
 
-Bundle 'sjbach/lusty'
+Plugin 'sjbach/lusty'
 let g:LustyJugglerSuppressRubyWarning = 1
 
-Bundle 'godlygeek/tabular'
+Plugin 'godlygeek/tabular'
 nnoremap <Leader>a= :Tabularize /=<CR>
 vnoremap <Leader>a= :Tabularize /=<CR>
 nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
@@ -105,18 +105,18 @@ vnoremap <Leader>a> :Tabularize /=><CR>
 nnoremap <Leader>ae :Tabularize /==<CR>
 vnoremap <Leader>ae :Tabularize /==<CR>
 
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
 " else syntastic breaks ]l
 let g:syntastic_always_populate_loc_list=1
 
 
-Bundle 'sjl/gundo.vim'
+Plugin 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-Bundle 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim'
 ""let g:agprg = 'agprg.sh'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 let g:ctrlp_show_hidden = 1
@@ -124,15 +124,15 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_extensions = ['tag', 'buffertag', 'dir', 'undo', 'line', 'mixed']
 nnoremap <Leader>b :CtrlPBuffer<CR>
 
-Bundle 'Raimondi/delimitMate'
-Bundle 'matchit.zip'
-Bundle 'The-NERD-tree'
-Bundle 'AnsiEsc.vim'
-Bundle 'haskell.vim'
-Bundle 'keepcase.vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'matchit.zip'
+Plugin 'The-NERD-tree'
+Plugin 'AnsiEsc.vim'
+Plugin 'haskell.vim'
+Plugin 'keepcase.vim'
 
-Bundle 'Shougo/neocomplete'
-Bundle 'Shougo/echodoc.vim'
+Plugin 'Shougo/neocomplete'
+Plugin 'Shougo/echodoc.vim'
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#disable_auto_complete = 1
@@ -144,30 +144,30 @@ set completeopt+=menuone
 set completeopt-=preview
 
 Plugin 'SirVer/ultisnips'
-Bundle 'honza/vim-snippets'
+Plugin 'honza/vim-snippets'
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
 
-Bundle 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
 
-Bundle 'ecomba/vim-ruby-refactoring'
-Bundle 'featurist/vim-pogoscript'
+Plugin 'ecomba/vim-ruby-refactoring'
+Plugin 'featurist/vim-pogoscript'
 
 au FileType pogo nnoremap <Leader>c :PogoCompile<cr>
 
-Bundle 'Lokaltog/vim-powerline'
+Plugin 'Lokaltog/vim-powerline'
 " PowerLine recommeneded:
 set laststatus=2   " Always show the statusline"
 set encoding=utf-8 " Necessary to show Unicode glyphs"
 
-Bundle 'mustache/vim-mustache-handlebars'
+Plugin 'mustache/vim-mustache-handlebars'
 " mustache/handlebars with m M
 let g:surround_109 = "{{\r}}"
 let g:surround_77 = "{{{\r}}}"
 let g:mustache_abbreviations = 1
 
-Bundle 'fatih/vim-go'
+Plugin 'fatih/vim-go'
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -182,7 +182,7 @@ au FileType go nmap <leader>c <Plug>(go-coverage)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>re <Plug>(go-rename)
 
-Bundle 'kien/rainbow_parentheses.vim'
+Plugin 'kien/rainbow_parentheses.vim'
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadRound
@@ -204,19 +204,19 @@ let g:rbpt_colorpairs = [
     \ ]
 
 
-Bundle 'rking/ag.vim'
+Plugin 'rking/ag.vim'
 " Quick grep for word under the cursor in rails app
 noremap <Leader>f :Ag <cword><cr>
 
-Bundle 'tomasr/molokai'
+Plugin 'tomasr/molokai'
 let g:molokai_original = 1
 colorscheme molokai
 set background=dark
 
-Bundle 'pangloss/vim-javascript'
-Bundle 'mxw/vim-jsx'
-Bundle 'marijnh/tern_for_vim'
-Bundle 'AndrewRadev/sideways.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'AndrewRadev/sideways.vim'
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 omap aa <Plug>SidewaysArgumentTextobjA
@@ -224,16 +224,7 @@ xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
 
-Bundle 'tommcdo/vim-exchange'
+Plugin 'tommcdo/vim-exchange'
 
+call vundle#end()            " required
 filetype plugin indent on     " required! 
-"
-" Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-"
-" see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed.
-
