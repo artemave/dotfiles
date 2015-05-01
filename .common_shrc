@@ -93,8 +93,6 @@ if command -v hub &> /dev/null; then
   alias git=hub
 fi
 
-export PATH="/usr/local/heroku/bin:$PATH"
-
 # added by travis gem
 [ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
 
