@@ -59,7 +59,7 @@ case $1 in
       fi
     done
 
-    ln -f -s "$(pwd)/default-gems" ~/.rbenv/
+    ln -f -s "$(pwd)/rbenv/default-gems" ~/.rbenv/
     ln -f -s "$(pwd)/vars" ~/.rbenv/
     ;;
 
