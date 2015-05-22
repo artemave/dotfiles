@@ -226,5 +226,7 @@ xmap ia <Plug>SidewaysArgumentTextobjI
 
 Plugin 'tommcdo/vim-exchange'
 
+Plugin 'tmux-plugins/vim-tmux-focus-events'
+
 call vundle#end()            " required
 filetype plugin indent on     " required! 
