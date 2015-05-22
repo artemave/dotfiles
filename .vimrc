@@ -308,9 +308,9 @@ endfunction
 function! RunTests(filename)
   :wa
   if match(a:filename, '\.feature') != -1
-    let l:command = "cucumber " . a:filename
+    let l:command = g:test_run_command_prefix . " cucumber " . a:filename
   else
-    let l:command = "rspec -c " . a:filename
+    let l:command = g:test_run_command_prefix . " rspec -c " . a:filename
   end
   call system("tmux select-window -t " . g:run_tests_in_window)
   call system('tmux set-buffer "' . l:command . "\n\"")
@@ -318,6 +318,7 @@ function! RunTests(filename)
 endfunction
 
 let g:run_tests_in_window = 1
+let g:test_run_command_prefix = ''
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS (END)
