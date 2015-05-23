@@ -17,7 +17,7 @@
                                               git-gutter-use-fringe t)
                                     )
  ;; A list of packages and/or extensions that will not be install and loaded.
- dotspacemacs-excluded-packages '(go-mode)
+ ;dotspacemacs-excluded-packages '(go-mode)
 )
 
 ;; Settings
@@ -109,7 +109,9 @@
 This function is called at the very end of Spacemacs initialization."
   (evil-define-key 'visual evil-surround-mode-map "s" 'evil-substitute)
   (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
+  (evil-global-set-key 'normal (kbd "RET") 'evil-search-highlight-persist-remove-all)
   (spacemacs/toggle-line-numbers) (linum-relative-toggle)
+  (add-to-list 'warning-suppress-types '(undo discard-info))
 )
 
 ;; Custom variables
