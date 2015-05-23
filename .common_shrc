@@ -97,3 +97,5 @@ fi
 [ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
 
 alias fucking=sudo
+
+alias fl=fleetctl

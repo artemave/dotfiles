@@ -393,3 +393,6 @@ vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
 " MOVE LINES (END)
+
+" select last pasted text
+nnoremap gp `[v\`]`
