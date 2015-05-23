@@ -19,6 +19,8 @@ function fail() {
   exit 1
 }
 
+command -v git &> /dev/null || fail "Install git first"
+
 case $1 in
   -dots)
     for file in ${dotfiles[@]}; do
@@ -26,23 +28,36 @@ case $1 in
     done
     ;;
 
-  -vim)
-    command -v git &> /dev/null || fail "Install git first"
-    bundle_home=~/.vim/bundle
+  -tmux)
+    command -v tmux &> /dev/null || fail "Install tmux first"
 
+    tpm_home=~/.tmux/plugins/tpm
+    if [ ! -d $tpm_home ]; then
+      git clone https://github.com/tmux-plugins/tpm $tpm_home
+    fi
+
+    tmux -d -s temp
+
+    ~/.tmux/plugins/tpm/tpm
+
+    $tpm_home/scripts/install_plugins.sh >/dev/null 2>&1
+
+    tmux kill-session -t temp
+    ;;
+
+  -vim)
     for file in ${vimfiles[@]}; do
       ln -f -s "$(pwd)/$file" ~/
     done
 
+    bundle_home=~/.vim/bundle/Vundle.vim
     if [ ! -d $bundle_home ]; then
-      git clone http://github.com/gmarik/vundle.git $bundle_home
+      git clone https://github.com/gmarik/Vundle.vim.git $bundle_home
     fi
     vim --noplugin -u ~/.bundles.vim +BundleInstall +qa
     ;;
 
   -rbenv)
-    command -v git &> /dev/null || fail "Install git first"
-
     if [ ! -d ~/.rbenv ]; then
       git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
     else
@@ -64,8 +79,6 @@ case $1 in
     ;;
 
   -git)
-    command -v git &> /dev/null || fail "Install git first"
-
     if [ -z "$2" ] || [ -z "$3" ]; then
       fail "usage:\n./install.sh -git USERNAME EMAIL"
     fi
@@ -75,6 +88,6 @@ case $1 in
     ;;
 
   *)
-    echo "Install what? -dots, -vim, -rbenv or -git USERNAME EMAIL?\n"
+    $0 -dots && $0 -vim && $0 -tmux && $0 -rbenv
     ;;
 esac
