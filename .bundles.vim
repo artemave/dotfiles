@@ -208,10 +208,8 @@ Plugin 'rking/ag.vim'
 " Quick grep for word under the cursor in rails app
 noremap <Leader>f :Ag <cword><cr>
 
-Plugin 'tomasr/molokai'
 let g:molokai_original = 1
-colorscheme molokai
-set background=dark
+Plugin 'tomasr/molokai'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
@@ -231,3 +229,5 @@ Bundle 'chrisbra/NrrwRgn'
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 
+
+colorscheme molokai " this has to come after 'filetype plugin indent on'
