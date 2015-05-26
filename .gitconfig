@@ -31,6 +31,8 @@
   r = !git l -30
   ra = !git r --all
   la = !git l --all
+	local = git @{u}..
+	local = log @{u}..
 
 [color]
   ui = auto

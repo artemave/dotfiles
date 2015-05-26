@@ -82,6 +82,7 @@ case $1 in
     if [ -z "$2" ] || [ -z "$3" ]; then
       fail "usage:\n./install.sh -git USERNAME EMAIL"
     fi
+    git config --global --add alias.local 'log @{u}..'
     git config --global core.excludesfile ~/.gitignore
     git config --global user.name $2
     git config --global user.email $3
