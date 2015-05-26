@@ -396,3 +396,6 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 
 " select last pasted text
 nnoremap gp `[v\`]`
+
+" autocomplete dashes too
+set iskeyword+=-
