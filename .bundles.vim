@@ -116,7 +116,7 @@ Plugin 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 ""let g:agprg = 'agprg.sh'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 let g:ctrlp_show_hidden = 1
