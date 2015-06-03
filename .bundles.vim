@@ -118,14 +118,18 @@ imap <F6> <ESC>:GundoToggle<CR>
 
 Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && make
 Plugin 'Shougo/unite.vim'
+let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 nnoremap <C-p> :Unite -buffer-name=files -no-split -start-insert file_rec/async:!<cr>
 nnoremap <C-b> :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
 nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank history/yank<cr>
-autocmd FileType unite call s:unite_my_settings()
+
+au FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
   " Overwrite settings.
   imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
   imap <silent><buffer><expr> <C-s> unite#do_action('split')
+  nmap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  nmap <silent><buffer><expr> <C-s> unite#do_action('split')
 endfunction
 
 Plugin 'Raimondi/delimitMate'
