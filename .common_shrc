@@ -71,6 +71,7 @@ alias g="git "
 alias gs="g status"
 alias gp="g push "
 alias gd="g diff -w "
+alias gdc="gd --cached"
 alias gc="g commit -a "
 alias tmux="tmux -2"
 

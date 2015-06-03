@@ -116,13 +116,17 @@ Plugin 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-Plugin 'ctrlpvim/ctrlp.vim'
-""let g:agprg = 'agprg.sh'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_extensions = ['tag', 'buffertag', 'dir', 'undo', 'line', 'mixed']
-nnoremap <Leader>b :CtrlPBuffer<CR>
+Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && make
+Plugin 'Shougo/unite.vim'
+nnoremap <C-p> :Unite -buffer-name=files -no-split -start-insert file_rec/async:!<cr>
+nnoremap <C-b> :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
+nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank history/yank<cr>
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()
+  " Overwrite settings.
+  imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  imap <silent><buffer><expr> <C-s> unite#do_action('split')
+endfunction
 
 Plugin 'Raimondi/delimitMate'
 Plugin 'matchit.zip'
