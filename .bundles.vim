@@ -92,9 +92,6 @@ Plugin 'michaeljsmith/vim-indent-object'
 
 Plugin 'AndrewVos/vim-aaa'
 
-Plugin 'sjbach/lusty'
-let g:LustyJugglerSuppressRubyWarning = 1
-
 Plugin 'godlygeek/tabular'
 nnoremap <Leader>a= :Tabularize /=<CR>
 vnoremap <Leader>a= :Tabularize /=<CR>
@@ -120,6 +117,7 @@ Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && mak
 Plugin 'Shougo/unite.vim'
 let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 nnoremap <C-p> :Unite -buffer-name=files -no-split -start-insert file_rec/async:!<cr>
+nnoremap <C-i> :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async:!<cr>
 nnoremap <C-b> :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
 nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank history/yank<cr>
 
