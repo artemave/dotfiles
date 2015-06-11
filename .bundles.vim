@@ -69,6 +69,8 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-commentary'
 Plugin 'vim-ruby/vim-ruby'
+Plugin 'kana/vim-textobj-user'
+Plugin 'rhysd/vim-textobj-ruby'
 Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
