@@ -33,6 +33,7 @@
   la = !git l --all
 	local = git @{u}..
 	local = log @{u}..
+	bc = !git branch | fzf | xargs git checkout
 
 [color]
   ui = auto
