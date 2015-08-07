@@ -1,9 +1,9 @@
 [core]
-	excludesfile = /Users/artem/.gitignore
+  excludesfile = ~/.gitignore
 
 [user]
-	name = artemave
-	email = artemave@gmail.com
+  name = artemave
+  email = artemave@gmail.com
 
 [alias]
   st = status
@@ -31,9 +31,9 @@
   r = !git l -30
   ra = !git r --all
   la = !git l --all
-	local = git @{u}..
-	local = log @{u}..
-	bc = !git branch | fzf | xargs git checkout
+  local = git @{u}..
+  local = log @{u}..
+  bc = !git branch | fzf | xargs git checkout
 
 [color]
   ui = auto
@@ -41,6 +41,9 @@
 [merge]
   tool = vimdiff
 [pull]
-	rebase = true
+  rebase = true
 [push]
-	default = simple
+  default = simple
+
+[commit]
+  template = ~/.gitmessage

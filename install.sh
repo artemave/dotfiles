@@ -2,7 +2,7 @@
 set -e
 
 dotfiles=(.zshrc .zshenv .zlogin .bashrc .bash_profile .common_env .common_shrc .ctags \
-  .editrc .inputrc .tmux.conf .gemrc .gitconfig .gitignore .spacemacs bin)
+  .editrc .inputrc .tmux.conf .gemrc .gitconfig .gitignore .gitmessage .spacemacs bin)
 
 vimfiles=(.vimrc .vim .bundles.vim)
 
@@ -76,17 +76,6 @@ case $1 in
 
     ln -f -s "$(pwd)/rbenv/default-gems" ~/.rbenv/
     ln -f -s "$(pwd)/vars" ~/.rbenv/
-    ;;
-
-  -git)
-    if [ -z "$2" ] || [ -z "$3" ]; then
-      fail "usage:\n./install.sh -git USERNAME EMAIL"
-    fi
-    git config --global --add alias.local 'log @{u}..'
-    git config --global alias.bc '!git branch | fzf | xargs git checkout'
-    git config --global core.excludesfile ~/.gitignore
-    git config --global user.name $2
-    git config --global user.email $3
     ;;
 
   *)
