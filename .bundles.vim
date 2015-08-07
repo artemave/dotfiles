@@ -24,6 +24,7 @@ Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-rake'
 Plugin 'tpope/vim-bundler'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-abolish'
 
 Plugin 'tpope/vim-haml'
 au BufNewFile,BufRead *.hamlc set filetype=haml
@@ -137,7 +138,6 @@ Plugin 'matchit.zip'
 Plugin 'The-NERD-tree'
 Plugin 'AnsiEsc.vim'
 Plugin 'haskell.vim'
-Plugin 'keepcase.vim'
 
 Plugin 'Shougo/neocomplete'
 Plugin 'Shougo/echodoc.vim'
