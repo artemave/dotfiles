@@ -12,6 +12,7 @@ rbenv_plugins=(\
   sstephenson/rbenv-default-gems \
   tpope/rbenv-aliases \
   sstephenson/rbenv-vars \
+  jf/rbenv-gemset \
   sstephenson/rbenv-gem-rehash)
 
 function fail() {
@@ -36,7 +37,7 @@ case $1 in
       git clone https://github.com/tmux-plugins/tpm $tpm_home
     fi
 
-    tmux -d -s temp
+    tmux new -d -s temp
 
     ~/.tmux/plugins/tpm/tpm
 
