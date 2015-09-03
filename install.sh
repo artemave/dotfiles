@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 dotfiles=(.zshrc .zshenv .zlogin .bashrc .bash_profile .common_env .common_shrc .ctags \
