@@ -233,7 +233,9 @@ xmap ia <Plug>SidewaysArgumentTextobjI
 Plugin 'tommcdo/vim-exchange'
 
 Plugin 'tmux-plugins/vim-tmux-focus-events'
-Bundle 'chrisbra/NrrwRgn'
+Plugin 'chrisbra/NrrwRgn'
+
+Plugin 'roman/golden-ratio'
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 
