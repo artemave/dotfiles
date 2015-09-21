@@ -119,7 +119,7 @@ imap <F6> <ESC>:GundoToggle<CR>
 Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && make
 Plugin 'Shougo/unite.vim'
 let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
-nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async:!<cr>
+nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
 nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async:!<cr>
 nnoremap <Leader>b :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
 nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank history/yank<cr>
