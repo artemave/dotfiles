@@ -20,6 +20,8 @@ function fail() {
   exit 1
 }
 
+projects_dir=$HOME/projects
+
 command -v git &> /dev/null || fail "Install git first"
 
 case $1 in
@@ -27,6 +29,14 @@ case $1 in
     for file in ${dotfiles[@]}; do
       ln -f -s "$(pwd)/$file" ~/
     done
+
+    if [[ ! -d $projects_dir ]]; then
+      mkdir $projects_dir
+    fi
+
+    if [[ ! -d $projects_dir/zsh-syntax-highlighting ]]; then
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $projects_dir/zsh-syntax-highlighting
+    fi
     ;;
 
   -tmux)
