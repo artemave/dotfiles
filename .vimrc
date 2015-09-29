@@ -55,9 +55,6 @@ set cryptmethod=blowfish
 
 " command line completion
 set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git*,*.rbc,*.class,.svn,vendor/gems/*,*/tmp/*,*.so,
-  \*.swp,*.zip,*/images/*,*/cache/*,dist/,platforms/,node_modules/*,*Godeps/_workspace*
-call unite#custom#source('file_rec/async', 'ignore_globs', split(&wildignore, ','))
 
 set switchbuf=useopen
 
