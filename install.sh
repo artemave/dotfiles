@@ -37,6 +37,11 @@ case $1 in
     if [[ ! -d $projects_dir/zsh-syntax-highlighting ]]; then
       git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $projects_dir/zsh-syntax-highlighting
     fi
+
+    if [[ ! -d ~/.fzf ]]; then
+      git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+      yes | ~/.fzf/install
+    fi
     ;;
 
   -tmux)
