@@ -26,7 +26,7 @@ set colorcolumn=80
 set complete+=kspell
 
 " copy/paste to clipboard without prepending "*
-set clipboard=unnamed
+set clipboard=unnamed,unnamedplus
 
 " display incomplete commands
 set showcmd
