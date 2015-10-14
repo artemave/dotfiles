@@ -1,8 +1,27 @@
 #!/bin/bash
 set -e
+# set -x
 
-dotfiles=(.zshrc .zshenv .zlogin .bashrc .bash_profile .common_env .common_shrc .ctags \
-  .editrc .inputrc .tmux.conf .gemrc .gitconfig .gitignore .gitmessage .spacemacs bin)
+dotfiles=( \
+  .bash_profile \
+  .bashrc \
+  .common_env \
+  .common_shrc \
+  .ctags \
+  .editrc \
+  .gemrc \
+  .gitconfig \
+  .gitignore \
+  .gitmessage \
+  .inputrc \
+  .spacemacs \
+  .tmux-osx.conf \
+  .tmux.conf \
+  .zlogin \
+  .zshenv \
+  .zshrc \
+  bin \
+)
 
 vimfiles=(.vimrc .vim .bundles.vim)
 
