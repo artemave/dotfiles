@@ -100,3 +100,5 @@ fi
 alias fucking=sudo
 
 alias fl=fleetctl
+alias dc=docker-compose
+alias ts="tmux list-sessions | sed -s 's/:.*//' | fzf | xargs tmux switch -t"
