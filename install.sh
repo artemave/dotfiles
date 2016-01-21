@@ -53,6 +53,8 @@ case $1 in
       mkdir $projects_dir
     fi
 
+    mkdir -p $HOME/.zsh/completion
+
     if [[ ! -d $projects_dir/zsh-syntax-highlighting ]]; then
       git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $projects_dir/zsh-syntax-highlighting
     fi

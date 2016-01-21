@@ -35,6 +35,7 @@ Thumbs.db
 # VIM temp files
 *.swp
 tags
+Session.vim
 
 # eclispe/maven rubbish
 .classpath

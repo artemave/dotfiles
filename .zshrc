@@ -22,11 +22,9 @@ autoload -U zmv
 bindkey '^R' history-incremental-search-backward
 
 # COMPLETION
-fpath=(~/.zsh/completions $fpath)
-fpath=($GOPATH/src/github.com/AndrewVos/garrison/zsh-completion $fpath)
+fpath=(~/.zsh/completion $fpath)
 
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit -i
 
 setopt completealiases
 zstyle ':completion:*:killall:*' command 'ps -u $USER -o cmd'
