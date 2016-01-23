@@ -92,6 +92,10 @@ case $1 in
       git clone https://github.com/gmarik/Vundle.vim.git $bundle_home
     fi
     vim --noplugin -u ~/.bundles.vim +BundleInstall +qa
+
+    if [ -d $bundle_home/vimproc.vim ]; then
+      cd $bundle_home/vimproc.vim && make && cd -
+    fi
     ;;
 
   -rbenv)

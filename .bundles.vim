@@ -116,7 +116,7 @@ Plugin 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && make
+Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && make && cd -
 Plugin 'Shougo/unite.vim'
 " custom command: ag --follow --nocolor --nogroup --hidden -g ""
 let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
