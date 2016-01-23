@@ -95,7 +95,7 @@ if command -v hub &> /dev/null; then
 fi
 
 # added by travis gem
-[ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 alias fucking=sudo
 
