@@ -238,6 +238,8 @@ Plugin 'chrisbra/NrrwRgn'
 
 Plugin 'roman/golden-ratio'
 
+Plugin 'terryma/vim-multiple-cursors'
+
 call vundle#end()            " required
 filetype plugin indent on     " required! 
 
