@@ -149,10 +149,7 @@ set scrolloff=3 " Keep 3 lines below and above the cursor"
 " Store swap files in fixed location, not current directory.
 set dir=~/.vimswap//,/var/tmp//,/tmp//,."
 
-nnoremap <CR> :nohls<CR>
-" http://stackoverflow.com/questions/16359878/vim-how-to-map-shift-enter
-autocmd CmdwinEnter * nnoremap <CR> <CR>
-autocmd BufReadPost quickfix nnoremap <CR> <CR>
+nnoremap <Leader>h :nohls<CR>
 
 " Make Y behave like other capitals
 nnoremap Y y$
