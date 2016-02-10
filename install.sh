@@ -32,6 +32,7 @@ rbenv_plugins=(\
   tpope/rbenv-aliases \
   sstephenson/rbenv-vars \
   jf/rbenv-gemset \
+  rkh/rbenv-update \
   sstephenson/rbenv-gem-rehash)
 
 function fail() {
