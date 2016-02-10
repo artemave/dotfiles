@@ -6,7 +6,7 @@ if command -v brew &> /dev/null; then
 fi
 
 export GOPATH=~/projects/gocode
-export PATH="$HOME/bin:$HOME/.rbenv/bin:/usr/local/bin:/usr/local/sbin:./node_modules/.bin:/usr/local/heroku/bin:$osx_paths$GOPATH/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:./node_modules/.bin:/usr/local/heroku/bin:$osx_paths$GOPATH/bin:$PATH:$HOME/.rbenv/bin"
 
 if [ -f ~/.local_env ]; then
   . ~/.local_env
