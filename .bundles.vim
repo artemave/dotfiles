@@ -81,7 +81,7 @@ nmap <C-c><C-c> <Plug>NormalModeSendToTmux
 nmap <C-c>r <Plug>SetTmuxVars
 
 Plugin 'YankRing.vim'
-let g:yankring_replace_n_pkey = '<c-n>'
+let g:yankring_replace_n_pkey = '<c-p>'
 let g:yankring_replace_n_nkey = ''
 nnoremap <Leader>re :YRShow<cr>
 
@@ -222,7 +222,12 @@ Plugin 'tomasr/molokai'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
-Plugin 'marijnh/tern_for_vim'
+Plugin 'ternjs/tern_for_vim' " don't forget to `npm install` in bundles/tern_for_vim
+au FileType javascript map <buffer> <Leader>td :TernDef<cr>
+au FileType javascript map <buffer> <Leader>tr :TernRefs<cr>
+au FileType javascript map <buffer> <Leader>ta :TernRename<cr>
+au FileType javascript map <buffer> <Leader>tt :TernType<cr>
+
 Plugin 'AndrewRadev/sideways.vim'
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
