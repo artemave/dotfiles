@@ -154,6 +154,8 @@ set completeopt-=preview
 
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
 
