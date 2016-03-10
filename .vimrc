@@ -118,7 +118,7 @@ function! s:GrepOpenBuffers(search, jump)
     echo 'BufGrep:' ((matches) ? matches : 'No') 'matches found'
 endfunction
 com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
-nnoremap <Leader>S :BufGrep 
+nnoremap <Leader>S :BufGrep
 
 " remap 'increase number' since C-a is captured by tmux/screen
 " Easier increment/decrement
@@ -126,6 +126,7 @@ nnoremap + <C-a>
 nnoremap - <C-x>
 
 set relativenumber
+set number
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e

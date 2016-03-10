@@ -65,3 +65,4 @@ custom_plan.rb
 
 .vagrant*
 .git/*
+.envrc
