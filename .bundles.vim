@@ -241,6 +241,8 @@ Plugin 'roman/golden-ratio'
 
 Plugin 'terryma/vim-multiple-cursors'
 
+Plugin 'dbext.vim'
+
 call vundle#end()            " required
 filetype plugin indent on     " required! 
 
