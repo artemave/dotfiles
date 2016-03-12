@@ -275,8 +275,8 @@ map <Leader><Leader>r :call RangerChooser()<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>t :call RunTestFile()<cr>
-map <leader>T :call RunNearestTest()<cr>
+autocmd FileType {ruby,javascript,cucumber} map <buffer> <leader>t :call RunTestFile()<cr>
+autocmd FileType {ruby,javascript,cucumber} map <buffer> <leader>T :call RunNearestTest()<cr>
 
 function! RunTestFile(...)
   if a:0
@@ -286,7 +286,7 @@ function! RunTestFile(...)
   endif
 
   " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|Spec.js\)$') != -1
   if in_test_file
     call SetTestFile()
   elseif !exists("t:grb_test_file")
@@ -308,9 +308,17 @@ endfunction
 function! RunTests(filename)
   :wa
   if match(a:filename, '\.feature') != -1
-    let l:command = g:test_run_command_prefix . " cucumber " . a:filename
+    if filereadable(expand("./features/support/env.rb"))
+      let l:command = g:test_run_command_prefix . " cucumber " . a:filename
+    else
+      let l:command = "cucumberjs " . a:filename
+    endif
   else
-    let l:command = g:test_run_command_prefix . " rspec -c " . a:filename
+    if &filetype == 'javascript'
+      let l:command = "mocha " . a:filename
+    else
+      let l:command = g:test_run_command_prefix . " rspec -c " . a:filename
+    endif
   end
   call system("tmux select-window -t " . g:run_tests_in_window)
   call system('tmux set-buffer "' . l:command . "\n\"")
