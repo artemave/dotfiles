@@ -389,3 +389,5 @@ set iskeyword-=:
 cmap w!! w !sudo tee > /dev/null %
 
 nnoremap <C-c> :bp\|bw #<CR>
+
+au FileType javascript command! Requires execute "Ag -s \"require\\(\\s*['\\\\\\\"][^'\\\\\\\"]*" . expand('%:t:r') . "[^'\\\\\\\"]*['\\\\\\\"]\\s*\\)\""
