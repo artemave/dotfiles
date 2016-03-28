@@ -75,6 +75,9 @@ Plugin 'rhysd/vim-textobj-ruby'
 Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
+Plugin 'artemave/spec-index.vim'
+nnoremap <Leader>si :call ShowSpecIndex()<cr>
+
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
 nmap <C-c><C-c> <Plug>NormalModeSendToTmux

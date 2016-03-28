@@ -332,32 +332,6 @@ let g:test_run_command_prefix = ''
 " RUNNING TESTS (END)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SHOW SPEC INDEX
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! ShowSpecIndex()
-  call setqflist([])
-
-  for line_number in range(1,line('$'))
-    if getline(line_number) =~ '^[ \t]*\(\<[Ii]ts\?\>\|\<[Dd]escribe\>\|\<[Cc]ontext\>\|\<[Ff]eature\>\|\<[Ss]cenario\>\)'
-      let expr = printf('%s:%s:%s', expand("%"), line_number, substitute(getline(line_number), '[ \t]', nr2char(160), 'g'))
-      caddexpr expr
-    endif
-  endfor
-
-  copen
-
-  " hide filename and linenumber
-  set conceallevel=2 concealcursor=nc
-  syntax match qfFileName /^[^|]*|[^|]*| / transparent conceal
-endfunction
-
-nnoremap <Leader>si :call ShowSpecIndex()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SHOW SPEC INDEX (END)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " substitute variable
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
