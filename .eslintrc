@@ -1,0 +1,27 @@
+{
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "plastiq"
+    }
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-unused-vars": 1,
+    "no-console": 0
+  },
+  "globals": {
+    "serverRequire": true
+  },
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "mocha": true
+  }
+}
