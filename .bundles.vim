@@ -261,6 +261,9 @@ Plugin 'terryma/vim-multiple-cursors'
 
 Plugin 'dbext.vim'
 
+Plugin 'Shougo/vimshell.vim'
+nnoremap <Leader>vs :VimShell<cr>
+
 call vundle#end()            " required
 filetype plugin indent on     " required! 
 
