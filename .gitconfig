@@ -26,3 +26,5 @@
 
 [commit]
   template = ~/.gitmessage
+[gui]
+	recentrepo = /Users/artem/projects/booking-services

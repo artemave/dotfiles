@@ -89,6 +89,9 @@ if command -v rbenv &> /dev/null; then
   eval "$(rbenv init -)"
 fi
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
 if command -v hub &> /dev/null; then
   eval "$(hub alias -s)"
   alias git=hub
@@ -101,4 +104,5 @@ alias fucking=sudo
 
 alias fl=fleetctl
 alias dc=docker-compose
+alias dm=docker-machine
 alias ts="tmux list-sessions | sed -s 's/:.*//' | fzf | xargs tmux switch -t"

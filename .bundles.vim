@@ -21,8 +21,6 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-rake'
-Plugin 'tpope/vim-bundler'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-abolish'
 
@@ -43,27 +41,6 @@ function! s:align()
   endif
 endfunction
 
-function! MyCloseGdiff()
-  if (&diff == 0 || getbufvar('#', '&diff') == 0)
-        \ && (bufname('%') !~ '^fugitive:' && bufname('#') !~ '^fugitive:')
-    echom "Not in diff view."
-    return
-  endif
-
-  " close current buffer if alternate is not fugitive but current one is
-  if bufname('#') !~ '^fugitive:' && bufname('%') =~ '^fugitive:'
-    if bufwinnr("#") == -1
-      b #
-      bd #
-    else
-      bd
-    endif
-  else
-    bd #
-  endif
-endfunction
-nnoremap <Leader>D :call MyCloseGdiff()<cr>
-
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
@@ -76,7 +53,7 @@ Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
 Plugin 'artemave/spec-index.vim'
-nnoremap <Leader>si :call ShowSpecIndex()<cr>
+nnoremap <Leader>si :ShowSpecIndex<cr>
 
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -107,8 +84,21 @@ Plugin 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
 " else syntastic breaks ]l
 let g:syntastic_always_populate_loc_list=1
+
+" npm install -g eslint eslint-plugin-react
 let g:syntastic_javascript_checkers = ['eslint']
 
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_style_error_symbol = '✠'
+let g:syntastic_warning_symbol = '∆'
+let g:syntastic_style_warning_symbol = '≈'
+
+highlight SyntasticErrorSign ctermfg=196 guifg=#ff0000
+highlight SyntasticWarningSign ctermfg=226 guifg=#ffff00
 
 Plugin 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
@@ -116,12 +106,13 @@ imap <F6> <ESC>:GundoToggle<CR>
 
 Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && make && cd -
 Plugin 'Shougo/unite.vim'
+Plugin 'Shougo/neoyank.vim'
 " custom command: ag --follow --nocolor --nogroup --hidden -g ""
 let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
+nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert buffer file_rec/async<cr>
 nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async:!<cr>
 nnoremap <Leader>b :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
-nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank history/yank<cr>
+nnoremap <leader>Y :Unite -no-split -buffer-name=yank history/yank<cr>
 
 au FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
@@ -235,7 +226,9 @@ autocmd FileType jsx vnoremap <buffer> <Leader>B :call RangeJsxBeautify()<cr>
 autocmd FileType html vnoremap <buffer> <Leader>B :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <Leader>B :call RangeCSSBeautify()<cr>
 
-Plugin 'mxw/vim-jsx'
+"Plugin 'mxw/vim-jsx'
+Plugin 'jsx/jsx.vim.git'
+let g:jsx_no_default_key_mappings = 1
 Plugin 'ternjs/tern_for_vim' " don't forget to `npm install` in bundles/tern_for_vim
 au FileType javascript map <buffer> <Leader>td :TernDef<cr>
 au FileType javascript map <buffer> <Leader>tr :TernRefs<cr>
@@ -261,8 +254,9 @@ Plugin 'terryma/vim-multiple-cursors'
 
 Plugin 'dbext.vim'
 
-Plugin 'Shougo/vimshell.vim'
-nnoremap <Leader>vs :VimShell<cr>
+Plugin 'airblade/vim-gitgutter'
+
+Plugin 'FooSoft/vim-argwrap'
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 

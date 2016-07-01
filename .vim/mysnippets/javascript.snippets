@@ -5,3 +5,63 @@ endsnippet
 snippet cll
 console.log("${1:var}", $1)
 endsnippet
+
+snippet opt
+var ${1:} = typeof ${2:options} == 'object' && $2.hasOwnProperty('$1')? $2.$1: ${3:undefined};
+endsnippet
+
+snippet =>
+=> {
+	${0}
+}
+endsnippet
+
+snippet desc
+describe('${1:}', function () {
+	${0}
+});
+endsnippet
+
+snippet it
+it('${1:}', function () {
+	${0}
+});
+endsnippet
+
+snippet cont
+context('${1:}', function () {
+	${0}
+});
+endsnippet
+
+snippet be
+beforeEach(function () {
+	${0}
+});
+endsnippet
+
+snippet ae
+afterEach(function () {
+	${0}
+});
+endsnippet
+
+snippet req
+var ${1:} = require('$1');
+endsnippet
+
+snippet pro
+new Promise((resolve, reject) => {
+	${0}
+});
+endsnippet
+
+snippet then
+then((${1}) => {
+	${0}
+});
+endsnippet
+
+snippet expect
+var expect = require('chai').expect;
+endsnippet

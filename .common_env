@@ -1,15 +1,17 @@
 # Contains commands to set the command search path, plus other important environment variables. Should not contain commands that produce output or assume the shell is attached to a tty
 
-if command -v brew &> /dev/null; then
+if command -v /usr/local/bin/brew &> /dev/null; then
   export ANDROID_HOME=/Users/artem/adt-bundle/sdk
-  osx_paths="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$(brew --prefix coreutils)/libexec/gnubin:"
+  osx_paths="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$(/usr/local/bin/brew --prefix coreutils)/libexec/gnubin:"
 fi
 
 export GOPATH=~/projects/gocode
-export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:./node_modules/.bin:/usr/local/heroku/bin:$osx_paths$GOPATH/bin:$PATH:$HOME/.rbenv/bin"
+export PATH="$HOME/bin:$osx_paths/usr/local/bin:/usr/local/sbin:/usr/local/heroku/bin:$GOPATH/bin:$PATH:$HOME/.rbenv/bin"
+export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 if [ -f ~/.local_env ]; then
   . ~/.local_env
 fi
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export HOMEBREW_NO_ANALYTICS=1

@@ -377,3 +377,15 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <C-c> :bp\|bw #<CR>
 
 au FileType javascript command! Requires execute "Ag -s \"require\\(\\s*['\\\\\\\"][^'\\\\\\\"]*" . expand('%:t:r') . "[^'\\\\\\\"]*['\\\\\\\"]\\s*\\)\""
+
+function! MochaOnly()
+  let line = getline(".")
+  if match(line, "\\<\\(\\i\\+\\)\\.only\\>") >= 0
+    let newline = substitute(line, "\\<\\(\\i\\+\\)\\.only\\>", "\\1", "")
+    call setline(".", newline)
+  else
+    let newline = substitute(line, "\\<\\(\\i\\+\\)\\>", "\\1.only", "")
+    call setline(".", newline)
+  endif
+endfunction
+nnoremap <Leader>o :call MochaOnly()<cr>
