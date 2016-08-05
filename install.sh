@@ -90,9 +90,9 @@ case $1 in
       ln -f -s "$(pwd)/$file" ~/
     done
 
-    bundle_home=~/.vim/bundle/Vundle.vim
+    bundle_home=~/.vim/bundle
     if [ ! -d $bundle_home ]; then
-      git clone https://github.com/gmarik/Vundle.vim.git $bundle_home
+      git clone https://github.com/gmarik/Vundle.vim.git $bundle_home/Vundle.vim
     fi
     vim --noplugin -u ~/.bundles.vim +BundleInstall +qa
 
@@ -100,7 +100,7 @@ case $1 in
       cd $bundle_home/vimproc.vim && make && cd -
     fi
     if [ -d $bundle_home/tern_for_vim ]; then
-      if [ command -v git &> /dev/null ]; then
+      if command -v git &> /dev/null; then
         cd $bundle_home/tern_for_vim && npm i && cd -
       else
         echo "Install npm and run '$bundle_home/tern_for_vim && npm i && cd -'\n"
