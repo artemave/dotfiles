@@ -362,7 +362,7 @@ function! SwitchToPrevBuffer()
 endfu
 nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
 
-hi LineNr ctermbg=none guibg=none ctermfg=14 guifg=#80a0ff
+hi LineNr ctermbg=NONE guibg=NONE ctermfg=14 guifg=#80a0ff
 
 " select last pasted text
 nnoremap gp `[v\`]`

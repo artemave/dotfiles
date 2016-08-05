@@ -99,6 +99,13 @@ case $1 in
     if [ -d $bundle_home/vimproc.vim ]; then
       cd $bundle_home/vimproc.vim && make && cd -
     fi
+    if [ -d $bundle_home/tern_for_vim ]; then
+      if [ command -v git &> /dev/null ]; then
+        cd $bundle_home/tern_for_vim && npm i && cd -
+      else
+        echo "Install npm and run '$bundle_home/tern_for_vim && npm i && cd -'\n"
+      fi
+    fi
     ;;
 
   -rbenv)
