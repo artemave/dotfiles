@@ -1,5 +1,7 @@
 source ~/.bundles.vim
 
+colorscheme molokai " this has to come after 'filetype plugin indent on'
+
 set exrc   " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
 
@@ -178,11 +180,6 @@ endif
 
 map <leader>y "*y
 
-" Move around splits with <c-hjkl>
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
 " Insert a hash rocket with <c-l>
 imap <c-l> <space>=><space>
 
@@ -348,7 +345,7 @@ vnoremap <Leader>s :call GoogleSearch()<cr>
 " don't show ^I for go files
 aut BufRead,BufNewFile *.go set nolist
 
-nnoremap <C-l> :redraw!<cr>
+" nnoremap <C-l> :redraw!<cr>
 
 " My remapping of <C-^>. If there is no alternate file, then switch to
 " previous buffer.
@@ -389,3 +386,9 @@ function! MochaOnly()
   endif
 endfunction
 nnoremap <Leader>o :call MochaOnly()<cr>
+
+:" The leader defaults to backslash, so (by default) this
+:" maps \* and \g* (see :help Leader).
+:" These work like * and g*, but do not move the cursor and always set hls.
+map <Leader>* :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>
+map <Leader>g* :let @/ = expand('<cword>')\|set hlsearch<C-M>

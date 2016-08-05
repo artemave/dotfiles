@@ -130,4 +130,4 @@ fi
 [[ $EMACS = t ]] && unsetopt zle
 
 source ~/.common_shrc
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

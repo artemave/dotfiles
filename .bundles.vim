@@ -109,7 +109,7 @@ Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/neoyank.vim'
 " custom command: ag --follow --nocolor --nogroup --hidden -g ""
 let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert buffer file_rec/async<cr>
+nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
 nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async:!<cr>
 nnoremap <Leader>b :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
 nnoremap <leader>Y :Unite -no-split -buffer-name=yank history/yank<cr>
@@ -260,5 +260,3 @@ Plugin 'FooSoft/vim-argwrap'
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 
-
-colorscheme molokai " this has to come after 'filetype plugin indent on'
