@@ -109,6 +109,7 @@ Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/neoyank.vim'
 " custom command: ag --follow --nocolor --nogroup --hidden -g ""
 let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
+" let g:unite_source_rec_async_command = ['rg', '--follow', '--color', 'never', '--hidden']
 nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
 nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async:!<cr>
 nnoremap <Leader>b :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
@@ -171,16 +172,26 @@ Plugin 'fatih/vim-go'
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
-au FileType go nmap <Leader>s <Plug>(go-implements)
-au FileType go nmap <Leader>i <Plug>(go-info)
+
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <Leader>gs <Plug>(go-implements)
+au FileType go nmap <Leader>gi <Plug>(go-info)
 au FileType go nmap <Leader>gd <Plug>(go-doc-browser)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>re <Plug>(go-rename)
+
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:go_list_type = "quickfix"
 
 Plugin 'kien/rainbow_parentheses.vim'
 
@@ -200,9 +211,14 @@ let g:rbpt_colorpairs = [
     \ ]
 
 
-Plugin 'rking/ag.vim'
+Plugin 'mileszs/ack.vim'
 " Quick grep for word under the cursor in rails app
-noremap <Leader><Leader>f :Ag <cword><cr>
+noremap <Leader><Leader>f :Ack <cword><cr>
+let g:ackprg = 'rg --vimgrep'
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
 
 let g:molokai_original = 1
 Plugin 'tomasr/molokai'
@@ -253,6 +269,8 @@ Plugin 'dbext.vim'
 Plugin 'airblade/vim-gitgutter'
 
 Plugin 'FooSoft/vim-argwrap'
+
+Plugin 'lambdatoast/elm.vim'
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 

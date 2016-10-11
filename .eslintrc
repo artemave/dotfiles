@@ -16,8 +16,11 @@
   "globals": {
     "serverRequire": true
   },
-  "ecmaFeatures": {
-    "jsx": true
+  "parserOptions": {
+    sourceType: "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
   },
   "env": {
     "browser": true,

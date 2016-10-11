@@ -397,3 +397,12 @@ nnoremap <Leader>o :call MochaOnly()<cr>
 :" These work like * and g*, but do not move the cursor and always set hls.
 map <Leader>* :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>
 map <Leader>g* :let @/ = expand('<cword>')\|set hlsearch<C-M>
+
+nnoremap <silent> <Leader>d :call DiffToggle()<CR>
+function! DiffToggle()
+  if &diff
+    diffoff
+  else
+    diffthis
+  endif
+:endfunction

@@ -6,6 +6,7 @@ if command -v /usr/local/bin/brew &> /dev/null; then
 fi
 
 export GOPATH=~/projects/gocode
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH="$HOME/bin:$osx_paths/usr/local/bin:/usr/local/sbin:/usr/local/heroku/bin:$GOPATH/bin:$PATH:$HOME/.rbenv/bin"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 

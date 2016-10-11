@@ -106,3 +106,4 @@ alias fl=fleetctl
 alias dc=docker-compose
 alias dm=docker-machine
 alias ts="tmux list-sessions | sed -s 's/:.*//' | fzf | xargs tmux switch -t"
+alias hs=httpstat
