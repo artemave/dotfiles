@@ -226,23 +226,24 @@ let g:molokai_original = 1
 Plugin 'tomasr/molokai'
 
 Plugin 'pangloss/vim-javascript'
+hi def link jsObjectKey Label
+let g:javascript_conceal_function       = "ƒ"
+let g:javascript_conceal_null           = "ø"
+let g:javascript_conceal_this           = "@"
+let g:javascript_conceal_return         = "⇚"
+let g:javascript_conceal_undefined      = "¿"
+let g:javascript_conceal_NaN            = "ℕ"
+let g:javascript_conceal_prototype      = "¶"
+let g:javascript_conceal_static         = "•"
+let g:javascript_conceal_super          = "Ω"
+let g:javascript_conceal_arrow_function = "⇒"
+set conceallevel=2
+set concealcursor=nc
 
-Plugin 'maksimr/vim-jsbeautify'
-autocmd FileType javascript noremap <buffer> <Leader>B :call JsBeautify()<cr>
-autocmd FileType json noremap <buffer> <Leader>B :call JsonBeautify()<cr>
-autocmd FileType jsx noremap <buffer> <Leader>B :call JsxBeautify()<cr>
-autocmd FileType html noremap <buffer> <Leader>B :call HtmlBeautify()<cr>
-autocmd FileType css noremap <buffer> <Leader>B :call CSSBeautify()<cr>
-
-autocmd FileType javascript vnoremap <buffer> <Leader>B :call RangeJsBeautify()<cr>
-autocmd FileType json vnoremap <buffer> <Leader>B :call RangeJsonBeautify()<cr>
-autocmd FileType jsx vnoremap <buffer> <Leader>B :call RangeJsxBeautify()<cr>
-autocmd FileType html vnoremap <buffer> <Leader>B :call RangeHtmlBeautify()<cr>
-autocmd FileType css vnoremap <buffer> <Leader>B :call RangeCSSBeautify()<cr>
-
-"Plugin 'mxw/vim-jsx'
-Plugin 'jsx/jsx.vim.git'
+Plugin 'mxw/vim-jsx'
+" Plugin 'jsx/jsx.vim.git'
 let g:jsx_no_default_key_mappings = 1
+
 Plugin 'ternjs/tern_for_vim' " don't forget to `npm install` in bundles/tern_for_vim
 au FileType javascript map <buffer> <Leader>td :TernDef<cr>
 au FileType javascript map <buffer> <Leader>tr :TernRefs<cr>

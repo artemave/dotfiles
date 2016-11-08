@@ -406,3 +406,5 @@ function! DiffToggle()
     diffthis
   endif
 :endfunction
+
+hi Conceal cterm=NONE ctermbg=NONE ctermfg=green
