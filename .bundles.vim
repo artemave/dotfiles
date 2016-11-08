@@ -249,6 +249,7 @@ Plugin 'mxw/vim-jsx'
 let g:jsx_no_default_key_mappings = 1
 
 Plugin 'ternjs/tern_for_vim' " don't forget to `npm install` in bundles/tern_for_vim
+let g:tern#arguments = ['--persistent'] " so there are less timeouts
 au FileType javascript map <buffer> <Leader>td :TernDef<cr>
 au FileType javascript map <buffer> <Leader>tr :TernRefs<cr>
 au FileType javascript map <buffer> <Leader>ta :TernRename<cr>
