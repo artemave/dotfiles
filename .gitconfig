@@ -4,6 +4,7 @@
 [user]
   name = artemave
   email = artemave@gmail.com
+	signingkey = ED8C1283
 
 [alias]
   st = status
@@ -26,5 +27,6 @@
 
 [commit]
   template = ~/.gitmessage
+	gpgsign = true
 [gui]
 	recentrepo = /Users/artem/projects/booking-services

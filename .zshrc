@@ -114,8 +114,6 @@ bindkey "^[s" insert-sudo
 # particularly useful to undo glob expansion
 bindkey '^_' undo
 
-source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
   # failed attempt to fix emacs <-> direnv integration
@@ -131,3 +129,5 @@ fi
 
 source ~/.common_shrc
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
