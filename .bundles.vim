@@ -139,6 +139,10 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#disable_auto_complete = 1
 let g:neocomplete#enable_fuzzy_completion = 0
 let g:neocomplete#sources#syntax#min_keyword_length = 3
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 let g:echodoc_enable_at_startup = 1
 set noshowmode
 set completeopt+=menuone
@@ -147,6 +151,7 @@ set completeopt-=preview
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
@@ -211,7 +216,6 @@ let g:rbpt_colorpairs = [
     \ ['darkred',     'DarkOrchid3'],
     \ ['red',         'firebrick3'],
     \ ]
-
 
 Plugin 'mileszs/ack.vim'
 " Quick grep for word under the cursor in rails app
