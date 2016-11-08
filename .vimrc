@@ -62,7 +62,7 @@ set autoread
 
 set hidden
 
-set cryptmethod=blowfish
+set cryptmethod=blowfish2
 
 " command line completion
 set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
