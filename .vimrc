@@ -282,7 +282,28 @@ map <Leader><Leader>r :call RangerChooser()<CR>
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType {ruby,javascript,cucumber} map <buffer> <leader>t :call RunTestFile()<cr>
-autocmd FileType {ruby,javascript,cucumber} map <buffer> <leader>T :call RunNearestTest()<cr>
+autocmd FileType {ruby,cucumber} map <buffer> <leader>T :call RunNearestTest()<cr>
+au FileType javascript map <buffer> <leader>T :call RunNearestJsTest()<cr>
+
+function! RunNearestJsTest(...)
+  let in_test_file = match(expand("%"), 'Spec.js$') != -1
+
+  if in_test_file
+    let t:grb_test_file=@%
+  elseif !exists("t:grb_test_file")
+    return
+  end
+
+  :wa
+
+  let nearest_test_line_number = search('\Wit(', 'bn')
+  let nearest_test_title = matchstr(getline(nearest_test_line_number), "['".'"]\zs[^"'."']".'*\ze')
+  let command = "mocha --fgrep '".nearest_test_title."' " . t:grb_test_file
+
+  call system("tmux select-window -t " . g:run_tests_in_window)
+  call system('tmux set-buffer "' . command . "\n\"")
+  call system('tmux paste-buffer -d -t ' . g:run_tests_in_window)
+endfunction
 
 function! RunTestFile(...)
   if a:0
