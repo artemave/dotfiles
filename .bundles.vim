@@ -88,7 +88,7 @@ let g:syntastic_enable_signs=1
 " else syntastic breaks ]l
 let g:syntastic_always_populate_loc_list=1
 
-" npm install -g eslint eslint_d eslint-plugin-react
+" npm install -g eslint eslint_d eslint-plugin-react eslint-plugin-babel eslint-plugin-mocha
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
 
@@ -233,7 +233,7 @@ Plugin 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
 let g:javascript_conceal_function       = "ƒ"
 let g:javascript_conceal_null           = "ø"
-let g:javascript_conceal_this           = "@"
+let g:javascript_conceal_this           = "✪"
 let g:javascript_conceal_return         = "⇚"
 let g:javascript_conceal_undefined      = "¿"
 let g:javascript_conceal_NaN            = "ℕ"
