@@ -283,26 +283,56 @@ map <Leader><Leader>r :call RangerChooser()<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType {ruby,javascript,cucumber} map <buffer> <leader>t :call RunTestFile()<cr>
 autocmd FileType {ruby,cucumber} map <buffer> <leader>T :call RunNearestTest()<cr>
-au FileType javascript map <buffer> <leader>T :call RunNearestJsTest()<cr>
+au FileType javascript map <buffer> <leader>T :call RunNearestMochaTest()<cr>
+au FileType javascript map <buffer> <leader>D :call RunNearestMochaTestDebug()<cr>
 
-function! RunNearestJsTest(...)
+function! SetTestCase()
   let in_test_file = match(expand("%"), 'Spec.js$') != -1
 
   if in_test_file
     let t:grb_test_file=@%
-  elseif !exists("t:grb_test_file")
+    :wa
+
+    let nearest_test_line_number = search('\<\(it\|context\|describe\)(', 'bn')
+    let t:nearest_test_title = matchstr(getline(nearest_test_line_number), "['" . '"]\zs[^"' . "']" . '*\ze')
+  end
+endfunction
+
+function! s:SendToTmux(command)
+  call system("tmux select-window -t " . g:run_tests_in_window)
+  call system('tmux set-buffer "' . a:command . "\n\"")
+  call system('tmux paste-buffer -d -t ' . g:run_tests_in_window)
+endfunction
+
+function! RunNearestMochaTest()
+  call SetTestCase()
+
+  if !exists("t:grb_test_file")
     return
   end
 
-  :wa
+  let command = "mocha --fgrep '".t:nearest_test_title."' " . t:grb_test_file
 
-  let nearest_test_line_number = search('\Wit(', 'bn')
-  let nearest_test_title = matchstr(getline(nearest_test_line_number), "['".'"]\zs[^"'."']".'*\ze')
-  let command = "mocha --fgrep '".nearest_test_title."' " . t:grb_test_file
+  call s:SendToTmux(command)
+endfunction
 
-  call system("tmux select-window -t " . g:run_tests_in_window)
-  call system('tmux set-buffer "' . command . "\n\"")
-  call system('tmux paste-buffer -d -t ' . g:run_tests_in_window)
+function! RunNearestMochaTestDebug()
+  call SetTestCase()
+
+  if !exists("t:grb_test_file")
+    return
+  end
+
+  let command = "mocha --inspect --debug-brk --fgrep '".t:nearest_test_title."' " . t:grb_test_file
+
+  call s:SendToTmux(command)
+
+  call system('tmux capture-pane -J -b mocha-debug')
+  call system('tmux save-buffer -b mocha-debug /tmp/vim-mocha-debug')
+
+  let debug_url=system("grep chrome-devtools /tmp/vim-mocha-debug | tail -n 1 | sed -e 's/ *//'")
+  let @*=debug_url " copy to osx clipboard
+  let @+=debug_url " copy to linux clipboard
 endfunction
 
 function! RunTestFile(...)

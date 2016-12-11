@@ -59,6 +59,7 @@ Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
 nmap <C-c><C-c> <Plug>NormalModeSendToTmux
 nmap <C-c>r <Plug>SetTmuxVars
+let g:tslime_always_current_session = 1
 
 Plugin 'YankRing.vim'
 let g:yankring_replace_n_pkey = '<c-p>'
