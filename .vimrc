@@ -299,9 +299,9 @@ function! SetTestCase()
 endfunction
 
 function! s:SendToTmux(command)
-  call system("tmux select-window -t " . g:run_tests_in_window)
+  call system('tmux select-window -t test || tmux new-window -n test')
   call system('tmux set-buffer "' . a:command . "\n\"")
-  call system('tmux paste-buffer -d -t ' . g:run_tests_in_window)
+  call system('tmux paste-buffer -d -t test')
 endfunction
 
 function! RunNearestMochaTest()
@@ -345,7 +345,7 @@ function! RunTestFile(...)
   " Run the tests for the previously-marked file.
   let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|Spec.js\)$') != -1
   if in_test_file
-    call SetTestFile()
+    let t:grb_test_file=@%
   elseif !exists("t:grb_test_file")
     return
   end
@@ -355,11 +355,6 @@ endfunction
 function! RunNearestTest()
   let spec_line_number = line('.')
   call RunTestFile(":" . spec_line_number)
-endfunction
-
-function! SetTestFile()
-  " Set the spec file that tests will be run for.
-  let t:grb_test_file=@%
 endfunction
 
 function! RunTests(filename)
@@ -377,12 +372,9 @@ function! RunTests(filename)
       let l:command = g:test_run_command_prefix . " rspec -c " . a:filename
     endif
   end
-  call system("tmux select-window -t " . g:run_tests_in_window)
-  call system('tmux set-buffer "' . l:command . "\n\"")
-  call system('tmux paste-buffer -d -t ' . g:run_tests_in_window)
+  call s:SendToTmux(command)
 endfunction
 
-let g:run_tests_in_window = 1
 let g:test_run_command_prefix = ''
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
