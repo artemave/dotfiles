@@ -428,13 +428,15 @@ nnoremap <C-c> :bp\|bw #<CR>
 au FileType javascript command! Requires execute "Ag -s \"require\\(\\s*['\\\\\\\"][^'\\\\\\\"]*" . expand('%:t:r') . "[^'\\\\\\\"]*['\\\\\\\"]\\s*\\)\""
 
 function! MochaOnly()
-  let line = getline(".")
-  if match(line, "\\<\\(\\i\\+\\)\\.only\\>") >= 0
-    let newline = substitute(line, "\\<\\(\\i\\+\\)\\.only\\>", "\\1", "")
-    call setline(".", newline)
+  let line_number = search('\<\(it\|context\|describe\|forExample\|scenario\|feature\)\(.only\)\=(', 'bn')
+  let line = getline(line_number)
+
+  if match(line, '\<\i\+\.only\>') >= 0
+    let newline = substitute(line, '\<\(\i\+\)\.only\>', '\1', '')
+    call setline(line_number, newline)
   else
-    let newline = substitute(line, "\\<\\(\\i\\+\\)\\>", "\\1.only", "")
-    call setline(".", newline)
+    let newline = substitute(line, '\<\i\+\>', '&.only', '')
+    call setline(line_number, newline)
   endif
 endfunction
 nnoremap <Leader>o :call MochaOnly()<cr>
