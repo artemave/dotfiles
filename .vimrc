@@ -438,6 +438,11 @@ function! MochaOnly()
     let newline = substitute(line, '\<\i\+\>', '&.only', '')
     call setline(line_number, newline)
   endif
+
+  if line_number < line("w0")
+    call cursor(line_number, 1)
+    normal f(
+  endif
 endfunction
 nnoremap <Leader>o :call MochaOnly()<cr>
 
