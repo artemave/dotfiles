@@ -83,7 +83,7 @@ function rbenv_prompt_info() {
 }
 
 setopt prompt_subst
-PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)%{%F{blue}%}$(rbenv_prompt_info)%{${reset_color}%}
+PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)
 %F{yellow}%% %f'
 
 function zle-line-init zle-keymap-select {
