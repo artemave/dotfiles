@@ -55,6 +55,8 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'artemave/spec-index.vim'
 nnoremap <Leader>si :ShowSpecIndex<cr>
 
+Plugin 'artemave/vigun'
+
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
 nmap <C-c><C-c> <Plug>NormalModeSendToTmux
@@ -251,10 +253,10 @@ let g:jsx_no_default_key_mappings = 1
 
 Plugin 'ternjs/tern_for_vim' " don't forget to `npm install` in bundles/tern_for_vim
 let g:tern#arguments = ['--persistent'] " so there are less timeouts
-au FileType javascript map <buffer> <Leader>td :TernDef<cr>
-au FileType javascript map <buffer> <Leader>tr :TernRefs<cr>
-au FileType javascript map <buffer> <Leader>ta :TernRename<cr>
-au FileType javascript map <buffer> <Leader>tt :TernType<cr>
+au FileType javascript map <buffer> <Leader>ad :TernDef<cr>
+au FileType javascript map <buffer> <Leader>ar :TernRefs<cr>
+au FileType javascript map <buffer> <Leader>aa :TernRename<cr>
+au FileType javascript map <buffer> <Leader>at :TernType<cr>
 
 Plugin 'AndrewRadev/sideways.vim'
 nnoremap <c-h> :SidewaysLeft<cr>

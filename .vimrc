@@ -278,109 +278,6 @@ map <Leader><Leader>r :call RangerChooser()<CR>
 
 ""set cursorline
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType {ruby,javascript,cucumber} map <buffer> <leader>t :call RunTestFile()<cr>
-autocmd FileType {ruby,cucumber} map <buffer> <leader>T :call RunNearestTest()<cr>
-au FileType javascript map <buffer> <leader>T :call RunNearestMochaTest()<cr>
-au FileType javascript map <buffer> <leader>D :call RunNearestMochaTestDebug()<cr>
-
-function! SetTestCase()
-  let in_test_file = match(expand("%"), 'Spec.js$') != -1
-
-  if in_test_file
-    let t:grb_test_file=@%
-    :wa
-
-    let nearest_test_line_number = search('\<\(it\|context\|describe\)(', 'bn')
-    let t:nearest_test_title = matchstr(getline(nearest_test_line_number), "['" . '"]\zs[^"' . "']" . '*\ze')
-  end
-endfunction
-
-function! s:SendToTmux(command)
-  call system('tmux select-window -t test || tmux new-window -n test')
-  call system('tmux set-buffer "' . a:command . "\n\"")
-  call system('tmux paste-buffer -d -t test')
-endfunction
-
-function! RunNearestMochaTest()
-  call SetTestCase()
-
-  if !exists("t:grb_test_file")
-    return
-  end
-
-  let command = "mocha --fgrep '".t:nearest_test_title."' " . t:grb_test_file
-
-  call s:SendToTmux(command)
-endfunction
-
-function! RunNearestMochaTestDebug()
-  call SetTestCase()
-
-  if !exists("t:grb_test_file")
-    return
-  end
-
-  let command = "mocha --inspect --debug-brk --fgrep '".t:nearest_test_title."' " . t:grb_test_file
-
-  call s:SendToTmux(command)
-
-  call system('tmux capture-pane -J -b mocha-debug')
-  call system('tmux save-buffer -b mocha-debug /tmp/vim-mocha-debug')
-
-  let debug_url=system("grep chrome-devtools /tmp/vim-mocha-debug | tail -n 1 | sed -e 's/ *//'")
-  let @*=debug_url " copy to osx clipboard
-  let @+=debug_url " copy to linux clipboard
-endfunction
-
-function! RunTestFile(...)
-  if a:0
-    let command_suffix = a:1
-  else
-    let command_suffix = ""
-  endif
-
-  " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|Spec.js\)$') != -1
-  if in_test_file
-    let t:grb_test_file=@%
-  elseif !exists("t:grb_test_file")
-    return
-  end
-  call RunTests(t:grb_test_file . command_suffix)
-endfunction
-
-function! RunNearestTest()
-  let spec_line_number = line('.')
-  call RunTestFile(":" . spec_line_number)
-endfunction
-
-function! RunTests(filename)
-  :wa
-  if match(a:filename, '\.feature') != -1
-    if filereadable(expand("./features/support/env.rb"))
-      let l:command = g:test_run_command_prefix . " cucumber " . a:filename
-    else
-      let l:command = "cucumberjs " . a:filename
-    endif
-  else
-    if &filetype == 'javascript'
-      let l:command = "mocha " . a:filename
-    else
-      let l:command = g:test_run_command_prefix . " rspec -c " . a:filename
-    endif
-  end
-  call s:SendToTmux(command)
-endfunction
-
-let g:test_run_command_prefix = ''
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS (END)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " substitute variable
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
@@ -426,25 +323,6 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <C-c> :bp\|bw #<CR>
 
 au FileType javascript command! Requires execute "Ag -s \"require\\(\\s*['\\\\\\\"][^'\\\\\\\"]*" . expand('%:t:r') . "[^'\\\\\\\"]*['\\\\\\\"]\\s*\\)\""
-
-function! MochaOnly()
-  let line_number = search('\<\(it\|context\|describe\|forExample\|scenario\|feature\)\(.only\)\=(', 'bn')
-  let line = getline(line_number)
-
-  if match(line, '\<\i\+\.only\>') >= 0
-    let newline = substitute(line, '\<\(\i\+\)\.only\>', '\1', '')
-    call setline(line_number, newline)
-  else
-    let newline = substitute(line, '\<\i\+\>', '&.only', '')
-    call setline(line_number, newline)
-  endif
-
-  if line_number < line("w0")
-    call cursor(line_number, 1)
-    normal f(
-  endif
-endfunction
-nnoremap <Leader>o :call MochaOnly()<cr>
 
 :" The leader defaults to backslash, so (by default) this
 :" maps \* and \g* (see :help Leader).
