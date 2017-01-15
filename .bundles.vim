@@ -220,15 +220,6 @@ let g:rbpt_colorpairs = [
     \ ['red',         'firebrick3'],
     \ ]
 
-Plugin 'mileszs/ack.vim'
-" Quick grep for word under the cursor in rails app
-noremap <Leader><Leader>f :Ack <cword><cr>
-let g:ackprg = 'rg --vimgrep'
-cnoreabbrev ag Ack
-cnoreabbrev aG Ack
-cnoreabbrev Ag Ack
-cnoreabbrev AG Ack
-
 let g:molokai_original = 1
 Plugin 'tomasr/molokai'
 

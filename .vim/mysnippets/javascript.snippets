@@ -1,5 +1,5 @@
 snippet cls
-console.log(JSON.stringify(${0:object}, null, 2));
+console.log(JSON.stringify(${0:object}, null, 2))
 endsnippet
 
 snippet cll
@@ -7,7 +7,7 @@ console.log("${1:var}", $1)
 endsnippet
 
 snippet opt
-var ${1:} = typeof ${2:options} == 'object' && $2.hasOwnProperty('$1')? $2.$1: ${3:undefined};
+var ${1:} = typeof ${2:options} == 'object' && $2.hasOwnProperty('$1')? $2.$1: ${3:undefined}
 endsnippet
 
 snippet == "inline hashrocket function with params" i
@@ -31,8 +31,9 @@ sort((a,b) => {
 endsnippet
 
 snippet re "reduce" i
-reduce(${1} => {
+reduce((result, ${1}) => {
 	${0}
+	return result
 }, ${2})
 endsnippet
 
@@ -64,49 +65,55 @@ endsnippet
 snippet desc
 describe('${1:}', () => {
 	${0}
-});
+})
 endsnippet
 
 snippet it
 it('${1:}', () => {
 	${0}
-});
+})
 endsnippet
 
 snippet cont
 context('${1:}', () => {
 	${0}
-});
+})
 endsnippet
 
 snippet be
 beforeEach(() => {
 	${0}
-});
+})
 endsnippet
 
 snippet ae
 afterEach(() => {
 	${0}
-});
+})
 endsnippet
 
 snippet req
-const ${1:} = require('$1');
+const ${1:} = require('$1')
 endsnippet
 
 snippet pro
 new Promise((resolve, reject) => {
 	${0}
-});
+})
 endsnippet
 
 snippet then "promise then" i
 then((${1}) => {
 	${0}
-});
+})
+endsnippet
+
+snippet catch "promise catch" i
+catch(e => {
+	${0}
+})
 endsnippet
 
 snippet expect
-const expect = require('chai').expect;
+const expect = require('chai').expect
 endsnippet

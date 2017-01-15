@@ -340,3 +340,19 @@ function! DiffToggle()
 :endfunction
 
 hi Conceal cterm=NONE ctermbg=NONE ctermfg=green
+
+if executable('rg')
+  set grepprg=rg\ --vimgrep
+elseif executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+function! MySearch()
+  let grep_term = input("Enter search term: ")
+  if !empty(grep_term)
+    execute 'silent grep' grep_term | copen
+  endif
+  redraw!
+endfunction
+
+au BufEnter * nmap <buffer> <nowait> <leader>s :call MySearch()<CR>
