@@ -161,8 +161,6 @@ set scrolloff=3 " Keep 3 lines below and above the cursor"
 " Store swap files in fixed location, not current directory.
 set dir=~/.vimswap//,/var/tmp//,/tmp//,."
 
-nnoremap <Leader>h :nohls<CR>
-
 " Make Y behave like other capitals
 nnoremap Y y$
 
@@ -355,4 +353,8 @@ function! MySearch()
   redraw!
 endfunction
 
-au BufEnter * nmap <buffer> <nowait> <leader>s :call MySearch()<CR>
+au BufEnter * nmap <buffer> <nowait> <leader>S :call MySearch()<CR>
+nnoremap <leader><leader>s :execute 'silent grep' expand('<cword>') \|copen \|redraw!<cr>
+
+" clear search highlight
+au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
