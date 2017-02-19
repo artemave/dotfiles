@@ -33,7 +33,6 @@ rbenv_plugins=(\
   sstephenson/rbenv-default-gems \
   tpope/rbenv-aliases \
   sstephenson/rbenv-vars \
-  jf/rbenv-gemset \
   rkh/rbenv-update \
   sstephenson/rbenv-gem-rehash)
 
