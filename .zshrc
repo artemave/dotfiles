@@ -18,6 +18,7 @@ setopt SH_WORD_SPLIT # var are split into words when passed.
 setopt NOMATCH # If a pattern for filename has no matches = error.
 setopt PRINT_EXIT_VALUE
 setopt LONG_LIST_JOBS
+setopt HIST_FIND_NO_DUPS
 autoload -U zmv
 bindkey '^R' history-incremental-search-backward
 
