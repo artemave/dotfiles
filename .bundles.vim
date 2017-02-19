@@ -52,10 +52,15 @@ Plugin 'rhysd/vim-textobj-ruby'
 Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
-Plugin 'artemave/spec-index.vim'
-nnoremap <Leader>si :ShowSpecIndex<cr>
+" Plugin 'artemave/spec-index.vim'
 
 Plugin 'artemave/vigun'
+au FileType {ruby,javascript,cucumber} nnoremap <leader>t :RunTestFile<cr>
+au FileType {ruby,cucumber} nnoremap <leader>T :RunNearestTest<cr>
+au FileType javascript nnoremap <leader>T :RunNearestMochaTest 'normal'<cr>
+au FileType javascript nnoremap <leader>D :RunNearestMochaTest 'debug'<cr>
+au FileType javascript nnoremap <Leader>o :MochaOnly<cr>
+nnoremap <Leader>i :ShowSpecIndex<cr>
 
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -222,6 +227,8 @@ let g:rbpt_colorpairs = [
 
 let g:molokai_original = 1
 Plugin 'tomasr/molokai'
+
+Plugin 'elixir-lang/vim-elixir'
 
 Plugin 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
