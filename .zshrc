@@ -115,6 +115,11 @@ bindkey "^[s" insert-sudo
 # particularly useful to undo glob expansion
 bindkey '^_' undo
 
+[[ $EMACS = t ]] && unsetopt zle
+
+source ~/.common_shrc
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
   # failed attempt to fix emacs <-> direnv integration
@@ -126,30 +131,27 @@ if command -v direnv &> /dev/null; then
   # add-zsh-hook preexec hook_function
 fi
 
-[[ $EMACS = t ]] && unsetopt zle
-
-source ~/.common_shrc
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # place this after nvm initialization!
 autoload -U add-zsh-hook
 load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
+  if command -v nvm > /dev/null; then
+    local node_version="$(nvm version)"
+    local nvmrc_path="$(nvm_find_nvmrc)"
 
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+    if [ -n "$nvmrc_path" ]; then
+      local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
+      if [ "$nvmrc_node_version" = "N/A" ]; then
+        nvm install
+      elif [ "$nvmrc_node_version" != "$node_version" ]; then
+        nvm use
+      fi
+    elif [ "$node_version" != "$(nvm version default)" ]; then
+      echo "Reverting to nvm default version"
+      nvm use default
     fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
   fi
 }
 add-zsh-hook chpwd load-nvmrc

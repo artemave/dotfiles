@@ -4,7 +4,9 @@ export LANG=en_US.UTF-8
 
 if command -v /usr/local/bin/brew &> /dev/null; then
   export ANDROID_HOME=/Users/artem/adt-bundle/sdk
-  osx_paths="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$(/usr/local/bin/brew --prefix coreutils)/libexec/gnubin:"
+  # yarn dependency
+  export PATH=/usr/local/opt/icu4c/sbin:/usr/local/opt/icu4c/bin:$PATH
+  osx_paths="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:/usr/local/opt/coreutils/libexec/gnubin:"
 fi
 
 export GOPATH=~/projects/gocode
