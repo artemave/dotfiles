@@ -87,26 +87,6 @@ vnoremap <Leader>a> :Tabularize /=><CR>
 nnoremap <Leader>ae :Tabularize /==<CR>
 vnoremap <Leader>ae :Tabularize /==<CR>
 
-Plugin 'scrooloose/syntastic'
-let g:syntastic_mode_map = { "mode": "passive" }
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_enable_signs=1
-" else syntastic breaks ]l
-let g:syntastic_always_populate_loc_list=1
-
-" npm install -g eslint eslint_d eslint-plugin-react eslint-plugin-babel eslint-plugin-mocha
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
-
-let g:syntastic_auto_loc_list = 0
-
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_style_error_symbol = '✠'
-let g:syntastic_warning_symbol = '∆'
-let g:syntastic_style_warning_symbol = '≈'
-
 highlight SyntasticErrorSign ctermfg=196 guifg=#ff0000
 highlight SyntasticWarningSign ctermfg=226 guifg=#ffff00
 
@@ -280,6 +260,16 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'FooSoft/vim-argwrap'
 
 Plugin 'lambdatoast/elm.vim'
+
+Plugin 'digitaltoad/vim-pug'
+
+Plugin 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_default_mapping = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=235
+
+Plugin 'w0rp/ale'
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 

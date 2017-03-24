@@ -4,17 +4,17 @@
   ],
   "settings": {
     "react": {
-      "pragma": "plastiq"
+      "pragma": "hyperdom"
     }
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
     "no-unused-vars": 1,
     "no-console": 0,
     "comma-dangle": ["error", "only-multiline"]
-  },
-  "globals": {
-    "serverRequire": true
   },
   "parserOptions": {
     "ecmaVersion": 8,
