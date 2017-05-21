@@ -129,7 +129,7 @@ function s:GrepOpenBuffers(search, jump)
     echo 'BufGrep:' ((matches) ? matches : 'No') 'matches found'
 endfunction
 com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
-nnoremap <Leader>S :BufGrep
+nnoremap <Leader>B :BufGrep
 
 " remap 'increase number' since C-a is captured by tmux/screen
 " Easier increment/decrement
@@ -320,7 +320,12 @@ cmap w!! w !sudo tee > /dev/null %
 
 nnoremap <C-c> :bp\|bw #<CR>
 
-au FileType javascript command! Requires execute "Ag -s \"require\\(\\s*['\\\\\\\"][^'\\\\\\\"]*" . expand('%:t:r') . "[^'\\\\\\\"]*['\\\\\\\"]\\s*\\)\""
+function JsRequires()
+  let grep_term = escape("require.*/".expand('%:t:r').".)", "')")
+  execute 'silent grep' "'".grep_term."'" | copen
+  redraw!
+endfunction
+autocmd FileType {javascript,javascript.jsx} nnoremap <leader>R :call JsRequires()<cr>
 
 :" The leader defaults to backslash, so (by default) this
 :" maps \* and \g* (see :help Leader).
