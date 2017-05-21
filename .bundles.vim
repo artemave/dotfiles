@@ -20,6 +20,7 @@ Plugin 'gmarik/Vundle.vim'
 " original repos on github
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rhubarb'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-abolish'
