@@ -354,3 +354,14 @@ nnoremap <leader><leader>s :execute 'silent grep' expand('<cword>') \|copen \|re
 
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
+
+if executable("prettier-standard")
+  " autocmd FileType {javascript,javascript.jsx} set formatprg="prettier-standard"
+  " autocmd FileType {javascript,javascript.jsx} nnoremap <Leader>p :normal! mf\|gggqG\|`f<cr>
+  function PrettierStandard()
+    silent let f = system('prettier-standard '.expand('%'))
+    checktime
+  endfunction
+
+  autocmd FileType {javascript,javascript.jsx} nnoremap <Leader>p :call PrettierStandard()<cr>
+endif
