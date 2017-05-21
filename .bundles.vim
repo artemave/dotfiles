@@ -153,10 +153,8 @@ Plugin 'featurist/vim-pogoscript'
 
 au FileType pogo nnoremap <Leader>c :PogoCompile<cr>
 
-Plugin 'Lokaltog/vim-powerline'
-" PowerLine recommeneded:
-set laststatus=2   " Always show the statusline"
-set encoding=utf-8 " Necessary to show Unicode glyphs"
+Plugin 'vim-airline/vim-airline'
+set laststatus=2
 
 Plugin 'mustache/vim-mustache-handlebars'
 " mustache/handlebars with m M
