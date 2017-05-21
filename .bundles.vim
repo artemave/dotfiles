@@ -269,6 +269,7 @@ let g:indent_guides_default_mapping = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=235
 
 Plugin 'w0rp/ale'
+let g:ale_lint_delay = 1000
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 
