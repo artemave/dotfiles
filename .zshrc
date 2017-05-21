@@ -156,6 +156,3 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
-
-# added by travis gem
-[ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
