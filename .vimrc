@@ -92,7 +92,7 @@ au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} 
 autocmd! FileType {mkd,md} setlocal syn=off
 
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
-function! s:RunShellCommand(cmdline)
+function s:RunShellCommand(cmdline)
   let isfirst = 1
   let words = []
   for word in split(a:cmdline)
@@ -116,7 +116,7 @@ function! s:RunShellCommand(cmdline)
   1
 endfunction
 
-function! s:GrepOpenBuffers(search, jump)
+function s:GrepOpenBuffers(search, jump)
     call setqflist([])
     let cur = getpos('.')
     silent! exe 'bufdo vimgrepadd /' . a:search . '/ %'
@@ -193,7 +193,7 @@ imap <c-l> <space>=><space>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PROMOTE VARIABLE TO RSPEC LET
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! PromoteToLet()
+function PromoteToLet()
   :normal! dd
   " :exec '?^\s*it\>'
   :normal! P
@@ -201,7 +201,7 @@ function! PromoteToLet()
   :normal ==
 endfunction
 :command! PromoteToLet :call PromoteToLet()
-:map <leader>p :PromoteToLet<cr>
+au FileType ruby nnoremap <Leader>p :PromoteToLet<cr>
 
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
@@ -210,7 +210,7 @@ set t_ti= t_te=
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EXTRACT VARIABLE (SKETCHY)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! ExtractVariable()
+function ExtractVariable()
   let name = input("Variable name: ")
   if name == ''
     return
@@ -264,7 +264,7 @@ set nofoldenable
 " alias backtick to signle quote
 map ' `
 
-fun! RangerChooser()
+fun RangerChooser()
   exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
   if filereadable('/tmp/chosenfile')
     exec 'edit ' . system('cat /tmp/chosenfile')
@@ -280,7 +280,7 @@ map <Leader><Leader>r :call RangerChooser()<CR>
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
 
-function! GoogleSearch()
+function GoogleSearch()
   normal gv"xy
   let query = 'http://google.com/search?q=' .
         \ system('perl -MURI::Escape -e "print uri_escape(q#'. escape(@x, '#"') .'#)"')
@@ -296,7 +296,7 @@ aut BufRead,BufNewFile *.go set nolist
 
 " My remapping of <C-^>. If there is no alternate file, then switch to
 " previous buffer.
-function! SwitchToPrevBuffer()
+function SwitchToPrevBuffer()
   if expand('#')=="" | silent! bprev
   else
     exe "normal! \<c-^>"
@@ -328,15 +328,6 @@ au FileType javascript command! Requires execute "Ag -s \"require\\(\\s*['\\\\\\
 map <Leader>* :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>
 map <Leader>g* :let @/ = expand('<cword>')\|set hlsearch<C-M>
 
-nnoremap <silent> <Leader>d :call DiffToggle()<CR>
-function! DiffToggle()
-  if &diff
-    diffoff
-  else
-    diffthis
-  endif
-:endfunction
-
 hi Conceal cterm=NONE ctermbg=NONE ctermfg=green
 
 if executable('rg')
@@ -345,7 +336,7 @@ elseif executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
-function! MySearch()
+function MySearch()
   let grep_term = input("Enter search term: ")
   if !empty(grep_term)
     execute 'silent grep' grep_term | copen
