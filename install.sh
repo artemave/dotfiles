@@ -6,7 +6,6 @@ dotfiles=( \
   .bash_profile \
   .editorconfig \
   .bashrc \
-  .eslintrc \
   .common_env \
   .common_shrc \
   .ctags \
