@@ -53,13 +53,10 @@ Plugin 'rhysd/vim-textobj-ruby'
 Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
-" Plugin 'artemave/spec-index.vim'
-
 Plugin 'artemave/vigun'
 au FileType {ruby,javascript,cucumber} nnoremap <leader>t :RunTestFile<cr>
-au FileType {ruby,cucumber} nnoremap <leader>T :RunNearestTest<cr>
-au FileType javascript nnoremap <leader>T :RunNearestMochaTest 'normal'<cr>
-au FileType javascript nnoremap <leader>D :RunNearestMochaTest 'debug'<cr>
+au FileType {ruby,javascript,cucumber} nnoremap <leader>T :RunNearestTest<cr>
+au FileType {javascript,cucumber} nnoremap <leader>D :RunNearestTestDebug<cr>
 au FileType javascript nnoremap <Leader>o :MochaOnly<cr>
 nnoremap <Leader>i :ShowSpecIndex<cr>
 
