@@ -1,3 +1,7 @@
+" https://stackoverflow.com/questions/18321538/vim-error-e474-invalid-argument-listchars-tab-trail
+scriptencoding utf-8
+set encoding=utf-8
+
 source ~/.bundles.vim
 
 colorscheme molokai " this has to come after 'filetype plugin indent on'
@@ -75,15 +79,6 @@ autocmd User fugitive
   \ endif
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
-
-"" json highlighting
-autocmd BufNewFile,BufRead *.json set ft=javascript
-
-"" coffee script autocompile on save
-""autocmd BufWritePost *.coffee silent CoffeeMake! | cwindow
-
-" pogo script autocompile on save
-" autocmd BufWritePost *.pogo silent !pogo -c % &
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
@@ -355,13 +350,15 @@ nnoremap <leader><leader>s :execute 'silent grep' expand('<cword>') \|copen \|re
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
 
-if executable("prettier-standard")
-  " autocmd FileType {javascript,javascript.jsx} set formatprg="prettier-standard"
-  " autocmd FileType {javascript,javascript.jsx} nnoremap <Leader>p :normal! mf\|gggqG\|`f<cr>
-  function PrettierStandard()
-    silent let f = system('prettier-standard '.expand('%'))
-    checktime
-  endfunction
+function FixJsFormatting()
+  let command = 'eslint'
+  if executable('standard')
+    let command = 'standard'
+  endif
+  silent let f = system(command.' --fix '.expand('%'))
+  checktime
+endfunction
+autocmd FileType {javascript,javascript.jsx} nnoremap <Leader>p :call FixJsFormatting()<cr>
 
-  autocmd FileType {javascript,javascript.jsx} nnoremap <Leader>p :call PrettierStandard()<cr>
-endif
+" select last paste in visual mode
+nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'

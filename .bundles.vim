@@ -54,11 +54,11 @@ Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
 Plugin 'artemave/vigun'
-au FileType {ruby,javascript,cucumber} nnoremap <leader>t :RunTestFile<cr>
-au FileType {ruby,javascript,cucumber} nnoremap <leader>T :RunNearestTest<cr>
-au FileType {javascript,cucumber} nnoremap <leader>D :RunNearestTestDebug<cr>
-au FileType javascript nnoremap <Leader>o :MochaOnly<cr>
-nnoremap <Leader>i :ShowSpecIndex<cr>
+au FileType {ruby,javascript,cucumber} nnoremap <leader>t :VigunRunTestFile<cr>
+au FileType {ruby,javascript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
+au FileType {javascript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
+au FileType javascript nnoremap <Leader>o :VigunMochaOnly<cr>
+au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
 
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -254,8 +254,6 @@ Plugin 'dbext.vim'
 Plugin 'airblade/vim-gitgutter'
 
 Plugin 'FooSoft/vim-argwrap'
-
-Plugin 'lambdatoast/elm.vim'
 
 Plugin 'digitaltoad/vim-pug'
 
