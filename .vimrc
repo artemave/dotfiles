@@ -363,25 +363,37 @@ autocmd FileType {javascript,javascript.jsx} nnoremap <Leader>p :call FixJsForma
 " select last paste in visual mode
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 
-function FindAndCallForEachMatch(regex, func_name)
-  let expr = ':keeppatterns %s/' . a:regex . '/\=' . a:func_name. '(submatch(0))/gn'
-  execute expr
-endfunction
-
-function CollectMatchResults(match)
-  call add(g:collected_match_results, a:match)
-endfunction
-
 function ShowExpressRoutes()
   function! StripLeadingSpaces(i, val)
     let newVal = substitute(a:val, '^[ \t]*', '', '')
     return newVal
   endfunction
 
+  function! FindAndCallForEachMatch(regex, func_name)
+    let expr = ':keeppatterns %s/' . a:regex . '/\=' . a:func_name. '(submatch(0))/gn'
+    execute expr
+  endfunction
+
+  function! CollectMatchResults(match)
+    call add(g:collected_match_results, a:match)
+  endfunction
+
+  function! AddMatchToQuickFix(i, line_number)
+    let match = g:collected_match_results[a:i]
+    let match = split(match, "\n")
+    let match = map(match, function('StripLeadingSpaces'))
+    let match = join(match, '')
+    let match = substitute(match, '[ \t]', nr2char(160), 'g')
+
+    let expr = printf('%s:%s:%s', expand("%"), a:line_number, match)
+    caddexpr expr
+  endfunction
+
   let g:collected_match_results = []
   let rx = '\w\+\.\(get\|post\|put\|delete\|patch\|head\|options\|use\)(\_s*['."'".'"`][^'."'".'"`]\+['."'".'"`]'
-  call setqflist([])
   let starting_pos = getpos('.')
+
+  call setqflist([])
   call cursor(1, 1)
 
   let line_numbers = []
@@ -390,20 +402,7 @@ function ShowExpressRoutes()
   endwhile
 
   call FindAndCallForEachMatch(rx, 'CollectMatchResults')
-
-  let idx = 0
-  for line_number in line_numbers
-    let match = g:collected_match_results[idx]
-    let match = split(match, "\n")
-    let match = map(match, function('StripLeadingSpaces'))
-    let match = join(match, '')
-    let match = substitute(match, '[ \t]', nr2char(160), 'g')
-
-    let expr = printf('%s:%s:%s', expand("%"), line_number, match)
-    caddexpr expr
-
-    let idx = idx+1
-  endfor
+  call map(line_numbers, function('AddMatchToQuickFix'))
 
   call setpos('.', starting_pos)
   copen
