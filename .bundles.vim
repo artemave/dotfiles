@@ -142,8 +142,9 @@ let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
 
-Plugin 'majutsushi/tagbar'
-nmap <F8> :TagbarToggle<CR>
+" Disabling due to 'E716: Key not present in Dictionary: F'
+" Plugin 'majutsushi/tagbar'
+" nmap <F8> :TagbarToggle<CR>
 
 Plugin 'ecomba/vim-ruby-refactoring'
 Plugin 'featurist/vim-pogoscript'
@@ -209,15 +210,15 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
 let g:javascript_conceal_function       = "ƒ"
-let g:javascript_conceal_null           = "ø"
+" let g:javascript_conceal_null           = "ø"
 let g:javascript_conceal_this           = "✪"
 let g:javascript_conceal_return         = "⇚"
 let g:javascript_conceal_undefined      = "¿"
-let g:javascript_conceal_NaN            = "ℕ"
-let g:javascript_conceal_prototype      = "¶"
-let g:javascript_conceal_static         = "•"
-let g:javascript_conceal_super          = "Ω"
-let g:javascript_conceal_arrow_function = "⇒"
+" let g:javascript_conceal_NaN            = "ℕ"
+" let g:javascript_conceal_prototype      = "¶"
+" let g:javascript_conceal_static         = "•"
+" let g:javascript_conceal_super          = "Ω"
+" let g:javascript_conceal_arrow_function = "⇒"
 set conceallevel=2
 set concealcursor=nc
 
@@ -246,6 +247,7 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'chrisbra/NrrwRgn'
 
 Plugin 'roman/golden-ratio'
+" let g:golden_ratio_exclude_nonmodifiable = 1
 
 Plugin 'terryma/vim-multiple-cursors'
 
@@ -265,6 +267,8 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=235
 
 Plugin 'w0rp/ale'
 let g:ale_lint_delay = 1000
+
+Plugin 'junegunn/vader.vim'
 
 call vundle#end()            " required
 filetype plugin indent on     " required! 

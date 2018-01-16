@@ -110,3 +110,5 @@ alias hs=httpstat
 
 # added by travis gem
 [ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
+
+alias uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpaste && echo"

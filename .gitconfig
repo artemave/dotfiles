@@ -30,3 +30,7 @@
 	gpgsign = true
 [gui]
 	recentrepo = /Users/artem/projects/booking-services
+[http "https://git.prs.dev.travcorpservices.com"]
+	sslCAInfo = /Users/artem/.flynn/ca-certs/default.pem
+[credential "https://git.prs.dev.travcorpservices.com"]
+	helper = /usr/local/bin/flynn git-credentials

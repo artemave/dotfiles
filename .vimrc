@@ -143,7 +143,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " $PATH appears different to vim for some reason and hence wrong ctags gets picked
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
-map <Leader>rt :!ctags --languages=-javascript,sql --extra=+f -R *<CR><CR>
+map <Leader>rt :!ctags --exclude=node_modules --exclude=.git -R <CR><CR>
 
 " Remember last location in file
 if has("autocmd")
@@ -412,3 +412,8 @@ function ShowExpressRoutes()
   syntax match llFileName /^[^|]*|[^|]*| / transparent conceal
 endfunction
 com ShowRoutes call ShowExpressRoutes()
+
+" search only within unfolded text
+set fdo-=search
+
+autocmd filetype crontab setlocal nobackup nowritebackup
