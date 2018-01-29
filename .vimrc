@@ -316,9 +316,39 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <C-c> :bp\|bw #<CR>
 
 function JsRequires()
-  let grep_term = escape("require.*/".expand('%:t:r').".)", "')")
-  execute 'silent grep' "'".grep_term."'" | copen
+  let grep_term = "require(.*)"
+  execute 'silent grep!' "'".grep_term."'"
   redraw!
+
+  let results = getqflist()
+  call setqflist([])
+
+  for require in results
+    let match = matchlist(require.text, "'".'\(\.\.\?\/.*\)'."'")
+    if len(match) > 0
+      let module_path = match[1]
+      let module_path_with_explicit_index = ''
+
+      if match(module_path, '\.$') != -1
+        let module_path = module_path . '/index'
+      elseif match(module_path, '\/$') != -1
+        let module_path = module_path . 'index'
+      elseif match(module_path, 'index\(\.jsx\?\)\?$') == -1
+        let module_path_with_explicit_index = module_path . '/index'
+      endif
+
+      let module_base = fnamemodify(bufname(require.bufnr), ':p:h')
+
+      let current_file_full_path = expand('%:p:r')
+      let module_full_path = fnamemodify(module_base . '/' . module_path, ':p:r')
+      let module_full_path_with_explicit_index = fnamemodify(module_base . '/' . module_path_with_explicit_index, ':p:r')
+
+      if module_full_path == current_file_full_path || module_full_path_with_explicit_index == current_file_full_path
+        caddexpr bufname(require.bufnr) . ':' . require.lnum . ':' .require.text
+      endif
+    endif
+  endfor
+  copen
 endfunction
 autocmd FileType {javascript,javascript.jsx} nnoremap <leader>R :call JsRequires()<cr>
 
