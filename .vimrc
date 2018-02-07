@@ -361,22 +361,21 @@ map <Leader>g* :let @/ = expand('<cword>')\|set hlsearch<C-M>
 
 hi Conceal cterm=NONE ctermbg=NONE ctermfg=green
 
-if executable('rg')
-  set grepprg=rg\ --vimgrep
-elseif executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
+if executable('ag')
+  set grepprg=ag\ --vimgrep
+  set grepformat=%f:%l:%c:%m
 endif
 
 function MySearch()
   let grep_term = input("Enter search term: ")
   if !empty(grep_term)
-    execute 'silent grep' grep_term | copen
+    execute 'silent grep!' grep_term | copen
   endif
   redraw!
 endfunction
 
 au BufEnter * nmap <buffer> <nowait> <leader>S :call MySearch()<CR>
-nnoremap <leader><leader>s :execute 'silent grep' expand('<cword>') \|copen \|redraw!<cr>
+nnoremap <leader><leader>s :execute 'silent grep!' expand('<cword>') \|copen \|redraw!<cr>
 
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
