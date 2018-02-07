@@ -6,11 +6,6 @@ source ~/.bundles.vim
 
 colorscheme molokai " this has to come after 'filetype plugin indent on'
 
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadBraces
-
 set exrc   " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
 

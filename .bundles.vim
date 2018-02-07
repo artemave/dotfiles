@@ -18,7 +18,7 @@ Plugin 'gmarik/Vundle.vim'
 " My Bundles here:
 "
 " original repos on github
-Plugin 'tpope/vim-dispatch'
+" Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rhubarb'
 Plugin 'tpope/vim-rails'
@@ -115,7 +115,6 @@ endfunction
 Plugin 'Raimondi/delimitMate'
 Plugin 'matchit.zip'
 Plugin 'The-NERD-tree'
-Plugin 'AnsiEsc.vim'
 Plugin 'haskell.vim'
 
 Plugin 'Shougo/neocomplete'
@@ -185,22 +184,9 @@ let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 let g:go_list_type = "quickfix"
 
-Plugin 'kien/rainbow_parentheses.vim'
-
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
+" this one works with vim-javascript
+Plugin 'bounceme/poppy.vim'
+au! cursormoved * call PoppyInit()
 
 let g:molokai_original = 1
 Plugin 'tomasr/molokai'
@@ -210,20 +196,13 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
 let g:javascript_conceal_function       = "ƒ"
-" let g:javascript_conceal_null           = "ø"
 let g:javascript_conceal_this           = "✪"
 let g:javascript_conceal_return         = "⇚"
 let g:javascript_conceal_undefined      = "¿"
-" let g:javascript_conceal_NaN            = "ℕ"
-" let g:javascript_conceal_prototype      = "¶"
-" let g:javascript_conceal_static         = "•"
-" let g:javascript_conceal_super          = "Ω"
-" let g:javascript_conceal_arrow_function = "⇒"
 set conceallevel=2
 set concealcursor=nc
 
 Plugin 'mxw/vim-jsx'
-" Plugin 'jsx/jsx.vim.git'
 let g:jsx_no_default_key_mappings = 1
 
 Plugin 'ternjs/tern_for_vim' " don't forget to `npm install` in bundles/tern_for_vim
@@ -243,7 +222,7 @@ xmap ia <Plug>SidewaysArgumentTextobjI
 
 Plugin 'tommcdo/vim-exchange'
 
-Plugin 'tmux-plugins/vim-tmux-focus-events'
+" Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'chrisbra/NrrwRgn'
 
 Plugin 'roman/golden-ratio'
@@ -271,4 +250,4 @@ let g:ale_lint_delay = 1000
 Plugin 'junegunn/vader.vim'
 
 call vundle#end()            " required
-filetype plugin indent on     " required! 
+filetype plugin indent on    " required!
