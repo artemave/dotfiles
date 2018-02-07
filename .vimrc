@@ -58,10 +58,16 @@ set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 
 set autoread
+if has('nvim')
+  " https://github.com/neovim/neovim/issues/1936
+  au FocusGained * :checktime
+endif
 
 set hidden
 
-set cryptmethod=blowfish2
+if !has('nvim')
+  set cryptmethod=blowfish2
+endif
 
 " command line completion
 set wildchar=<Tab> wildmenu wildmode=list:longest,list:full

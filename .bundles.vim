@@ -115,13 +115,22 @@ Plugin 'matchit.zip'
 Plugin 'The-NERD-tree'
 Plugin 'haskell.vim'
 
-Plugin 'Shougo/neocomplete'
+if has('nvim')
+  Plugin 'Shougo/deoplete.nvim'
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#enable_smart_case = 1
+  let g:deoplete#disable_auto_complete = 1
+  let g:deoplete#enable_fuzzy_completion = 0
+  let g:deoplete#sources#syntax#min_keyword_length = 3
+else
+  Plugin 'Shougo/neocomplete.vim'
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#disable_auto_complete = 1
+  let g:neocomplete#enable_fuzzy_completion = 0
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+endif
 Plugin 'Shougo/echodoc.vim'
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#disable_auto_complete = 1
-let g:neocomplete#enable_fuzzy_completion = 0
-let g:neocomplete#sources#syntax#min_keyword_length = 3
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
