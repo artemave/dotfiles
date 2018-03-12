@@ -463,20 +463,35 @@ fun! JsRequireComplete(findstart, base)
 
     let g:js_require_complete_matches = map(
           \ systemlist(cmd),
-          \ {i, val -> substitute(val, '\(index\)\?.jsx\?$', '', '')}
+          \ {i, val -> substitute(val, '\(\/index\)\?.jsx\?$', '', '')}
           \ )
 
     return start
   else
     " find files matching with "a:base"
     let res = []
-    let search_path = substitute(expand('%:h'), '[^/.]\+', '..', 'g')
     for m in g:js_require_complete_matches
       if m =~ substitute(a:base, '^[./]*', '', '')
-        if search_path != ''
-          call add(res, search_path.'/'.m)
+        let current_path_entries = split(expand('%:h'), '/')
+        let m_path_entries = split(m, '/')
+
+        let path_prefix = []
+        let i = 0
+        while i < len(current_path_entries)
+          let current_path_entry = current_path_entries[i]
+          let m_path_entry = m_path_entries[i]
+          if current_path_entry == m_path_entry
+            let m = substitute(m, '^'.m_path_entry.'\/', '', '')
+          else
+            call add(path_prefix, '..')
+          endif
+          let i = i + 1
+        endwhile
+
+        if empty(path_prefix)
+          call add(res, './'.m)
         else
-          call add(res, m)
+          call add(res, join(path_prefix, '/').'/'.m)
         endif
       endif
     endfor
