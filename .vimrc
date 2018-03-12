@@ -447,3 +447,40 @@ com ShowRoutes call ShowExpressRoutes()
 set fdo-=search
 
 autocmd filetype crontab setlocal nobackup nowritebackup
+
+fun! JsRequireComplete(findstart, base)
+  if a:findstart
+    " locate the start of the word
+    let line = getline('.')
+    let end = col('.') - 1
+    let start = end
+    while start > 0 && line[start - 1] =~ "[^'\"]"
+      let start -= 1
+    endwhile
+
+    let base = substitute(line[start : end - 1], '^[./]*', '', '')
+    let cmd = 'ag --nogroup --nocolor --hidden -i -g "'.base.'"'
+
+    let g:js_require_complete_matches = map(
+          \ systemlist(cmd),
+          \ {i, val -> substitute(val, '\(index\)\?.jsx\?$', '', '')}
+          \ )
+
+    return start
+  else
+    " find files matching with "a:base"
+    let res = []
+    let search_path = substitute(expand('%:h'), '[^/.]\+', '..', 'g')
+    for m in g:js_require_complete_matches
+      if m =~ substitute(a:base, '^[./]*', '', '')
+        if search_path != ''
+          call add(res, search_path.'/'.m)
+        else
+          call add(res, m)
+        endif
+      endif
+    endfor
+    return res
+  endif
+endfun
+autocmd FileType {javascript,javascript.jsx} setlocal completefunc=JsRequireComplete
