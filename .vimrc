@@ -316,43 +316,6 @@ cmap w!! w !sudo tee > /dev/null %
 
 nnoremap <C-c> :bp\|bw #<CR>
 
-function JsRequires()
-  let grep_term = "require(.*)"
-  execute 'silent grep!' "'".grep_term."'"
-  redraw!
-
-  let results = getqflist()
-  call setqflist([])
-
-  for require in results
-    let match = matchlist(require.text, "'".'\(\.\.\?\/.*\)'."'")
-    if len(match) > 0
-      let module_path = match[1]
-      let module_path_with_explicit_index = ''
-
-      if match(module_path, '\.$') != -1
-        let module_path = module_path . '/index'
-      elseif match(module_path, '\/$') != -1
-        let module_path = module_path . 'index'
-      elseif match(module_path, 'index\(\.jsx\?\)\?$') == -1
-        let module_path_with_explicit_index = module_path . '/index'
-      endif
-
-      let module_base = fnamemodify(bufname(require.bufnr), ':p:h')
-
-      let current_file_full_path = expand('%:p:r')
-      let module_full_path = fnamemodify(module_base . '/' . module_path, ':p:r')
-      let module_full_path_with_explicit_index = fnamemodify(module_base . '/' . module_path_with_explicit_index, ':p:r')
-
-      if module_full_path == current_file_full_path || module_full_path_with_explicit_index == current_file_full_path
-        caddexpr bufname(require.bufnr) . ':' . require.lnum . ':' .require.text
-      endif
-    endif
-  endfor
-  copen
-endfunction
-autocmd FileType {javascript,javascript.jsx} nnoremap <leader>R :call JsRequires()<cr>
-
 :" The leader defaults to backslash, so (by default) this
 :" maps \* and \g* (see :help Leader).
 :" These work like * and g*, but do not move the cursor and always set hls.
@@ -379,16 +342,6 @@ nnoremap <leader><leader>s :execute 'silent grep!' expand('<cword>') \|copen \|r
 
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
-
-function FixJsFormatting()
-  let command = 'eslint'
-  if executable('standard')
-    let command = 'standard'
-  endif
-  silent let f = system(command.' --fix '.expand('%'))
-  checktime
-endfunction
-autocmd FileType {javascript,javascript.jsx} nnoremap <Leader>p :call FixJsFormatting()<cr>
 
 " select last paste in visual mode
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -447,55 +400,3 @@ com ShowRoutes call ShowExpressRoutes()
 set fdo-=search
 
 autocmd filetype crontab setlocal nobackup nowritebackup
-
-fun! JsRequireComplete(findstart, base)
-  if a:findstart
-    " locate the start of the word
-    let line = getline('.')
-    let end = col('.') - 1
-    let start = end
-    while start > 0 && line[start - 1] =~ "[^'\"]"
-      let start -= 1
-    endwhile
-
-    let base = substitute(line[start : end - 1], '^[./]*', '', '')
-    let cmd = 'ag --nogroup --nocolor --hidden -i -g "'.base.'"'
-
-    let g:js_require_complete_matches = map(
-          \ systemlist(cmd),
-          \ {i, val -> substitute(val, '\(\/index\)\?.jsx\?$', '', '')}
-          \ )
-
-    return start
-  else
-    " find files matching with "a:base"
-    let res = []
-    for m in g:js_require_complete_matches
-      if m =~ substitute(a:base, '^[./]*', '', '')
-        let current_path_entries = split(expand('%:h'), '/')
-        let m_path_entries = split(m, '/')
-
-        let path_prefix = []
-        let i = 0
-        while i < len(current_path_entries)
-          let current_path_entry = current_path_entries[i]
-          let m_path_entry = m_path_entries[i]
-          if current_path_entry == m_path_entry
-            let m = substitute(m, '^'.m_path_entry.'\/', '', '')
-          else
-            call add(path_prefix, '..')
-          endif
-          let i = i + 1
-        endwhile
-
-        if empty(path_prefix)
-          call add(res, './'.m)
-        else
-          call add(res, join(path_prefix, '/').'/'.m)
-        endif
-      endif
-    endfor
-    return res
-  endif
-endfun
-autocmd FileType {javascript,javascript.jsx} setlocal completefunc=JsRequireComplete
