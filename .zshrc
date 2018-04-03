@@ -77,27 +77,36 @@ vcs_info_wrapper() {
     echo " %{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
   fi
 }
+
 function rbenv_prompt_info() {
+  [ -f ./Gemfile ] || return
   local ruby_version
-  ruby_version=$(rbenv version 2> /dev/null) || return
-  echo "‹$ruby_version" | sed 's/[ \t].*$/›/'
+  ruby_version=$(ruby -v 2> /dev/null) || return
+  ruby_version=$(echo $ruby_version | sed 's/ruby \([^ ]*\).*/\1/')
+  echo "‹%F{196}♦️ $ruby_version%f›"
+}
+
+node_prompt_info() {
+  [ -f ./package.json ] || return
+  local node_version
+  node_version=$(node -v 2> /dev/null) || return
+  echo "‹%F{082}⬢ $node_version%f›"
+}
+
+function vi_mode() {
+  echo "${${KEYMAP/vicmd/NORMAL}/(main|viins)/INSERT}"
 }
 
 setopt prompt_subst
-PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)
-%F{yellow}%% %f'
+
+PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
+[%F{cyan}$(vi_mode)%f] %F{yellow}%% %f'
 
 function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-    RPS2=$RPS1
-    zle reset-prompt
+  zle reset-prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
-
-# VI MODE
-bindkey -v
-bindkey -M viins 'jj' vi-cmd-mode
 
 # override stupid ubuntu defaults for viins mode
 [[ -z "$terminfo[cuu1]" ]] || bindkey -M viins "$terminfo[cuu1]" up-line-or-history
@@ -107,31 +116,31 @@ bindkey -M viins 'jj' vi-cmd-mode
 [[ "$terminfo[kcuu1]" == "O"* ]] && bindkey -M viins "${terminfo[kcuu1]/O/[}" up-line-or-history
 [[ "$terminfo[kcud1]" == "O"* ]] && bindkey -M viins "${terminfo[kcud1]/O/[}" down-line-or-history
 
-# Alt-S inserts "sudo " at the start of line.
-insert_sudo () { zle beginning-of-line; zle -U "sudo " }
-zle -N insert-sudo insert_sudo
-bindkey "^[s" insert-sudo
+[[ $EMACS = t ]] && unsetopt zle
+
+# VI MODE
+bindkey -v
+bindkey -M viins 'kj' vi-cmd-mode
 
 # particularly useful to undo glob expansion
 bindkey '^_' undo
 
-[[ $EMACS = t ]] && unsetopt zle
-
-source ~/.common_shrc
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-if command -v direnv &> /dev/null; then
-  eval "$(direnv hook zsh)"
-  # failed attempt to fix emacs <-> direnv integration
-  # autoload -U add-zsh-hook
-
-  # hook_function() {
-  #   eval "$(direnv hook zsh)"
-  # }
-  # add-zsh-hook preexec hook_function
-fi
+# ctrl-w removed word backwards
+bindkey '^w' backward-kill-word
 
 source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# source ~/.zplug/init.zsh
+# zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
+
+# if ! zplug check --verbose; then
+#   zplug install
+# fi
+# zplug load --verbose
+
+# this is now here as opposed to .zlogin because `zplug` inserting `/bin` in the PATH which breaks coreutils (ls, etc)
+# source ~/.common_env
+source ~/.common_shrc
 
 # place this after nvm initialization!
 autoload -U add-zsh-hook
@@ -156,6 +165,18 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
+
+
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+  # failed attempt to fix emacs <-> direnv integration
+  # autoload -U add-zsh-hook
+
+  # hook_function() {
+  #   eval "$(direnv hook zsh)"
+  # }
+  # add-zsh-hook preexec hook_function
+fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/artem/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/artem/google-cloud-sdk/path.zsh.inc'; fi
