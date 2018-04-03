@@ -17,6 +17,7 @@ fi
 
 if command -v reattach-to-user-namespace &> /dev/null; then
   alias vim="reattach-to-user-namespace vim"
+  alias nvim="reattach-to-user-namespace nvim"
   alias pbcopy="reattach-to-user-namespace pbcopy"
   alias ios-sim="reattach-to-user-namespace ios-sim"
   alias appium="reattach-to-user-namespace appium"
