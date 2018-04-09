@@ -61,8 +61,8 @@ au FileType javascript nnoremap <Leader>o :VigunMochaOnly<cr>
 au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
 
 Plugin 'artemave/js-balls'
-au FileType {javascript,javascript.jsx} nnoremap <Leader>p :call JsBallsLintFix<cr>
-au FileType {javascript,javascript.jsx} nnoremap <leader>R :call JsBallsListRequirers<cr>
+au FileType {javascript,javascript.jsx} nnoremap <Leader>p :JsBallsLintFix<cr>
+au FileType {javascript,javascript.jsx} nnoremap <leader>R :JsBallsListRequirers<cr>
 
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux

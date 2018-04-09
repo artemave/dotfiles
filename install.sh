@@ -54,6 +54,10 @@ case $1 in
       mkdir $projects_dir
     fi
 
+    # if [[ ! -d $HOME/.zplug ]]; then
+    #   git clone https://github.com/zplug/zplug $HOME/.zplug
+    # fi
+
     mkdir -p $HOME/.zsh/completion
 
     if [[ ! -d $projects_dir/zsh-syntax-highlighting ]]; then
