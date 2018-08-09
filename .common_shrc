@@ -108,10 +108,6 @@ alias dc=docker-compose
 alias dm=docker-machine
 alias ts="tmux list-sessions | sed -s 's/:.*//' | fzf | xargs tmux switch -t"
 alias hs=httpstat
-# required! https://github.com/direnv/direnv/wiki/Tmux
-if command -v direnv &> /dev/null; then
-  alias tmux='direnv exec / tmux'
-fi
 
 # added by travis gem
 [ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
