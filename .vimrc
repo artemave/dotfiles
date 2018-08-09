@@ -144,7 +144,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " $PATH appears different to vim for some reason and hence wrong ctags gets picked
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
-map <Leader>rt :!ctags --exclude=node_modules --exclude=.git -R <CR><CR>
+map <Leader>rt :!git ls-files \| ctags --links=no -L-<CR><CR>
 
 " Remember last location in file
 if has("autocmd")

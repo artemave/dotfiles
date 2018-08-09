@@ -211,13 +211,6 @@ set concealcursor=nc
 Plugin 'mxw/vim-jsx'
 let g:jsx_no_default_key_mappings = 1
 
-Plugin 'ternjs/tern_for_vim' " don't forget to `npm install` in bundles/tern_for_vim
-let g:tern#arguments = ['--persistent'] " so there are less timeouts
-au FileType javascript map <buffer> <Leader>ad :TernDef<cr>
-au FileType javascript map <buffer> <Leader>ar :TernRefs<cr>
-au FileType javascript map <buffer> <Leader>aa :TernRename<cr>
-au FileType javascript map <buffer> <Leader>at :TernType<cr>
-
 Plugin 'AndrewRadev/sideways.vim'
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>

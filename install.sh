@@ -8,7 +8,6 @@ dotfiles=( \
   .bashrc \
   .common_env \
   .common_shrc \
-  .ctags \
   .editrc \
   .gemrc \
   .gitconfig \
