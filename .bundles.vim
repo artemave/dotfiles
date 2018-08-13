@@ -208,8 +208,14 @@ let g:javascript_conceal_undefined      = "¿"
 set conceallevel=2
 set concealcursor=nc
 
-Plugin 'mxw/vim-jsx'
-let g:jsx_no_default_key_mappings = 1
+Plugin 'Quramy/tsuquyomi'
+let g:tsuquyomi_disable_default_mappings = 1
+map <C-]> <Plug>(TsuquyomiDefinition)
+map <C-W>] <Plug>(TsuquyomiSplitDefinition)
+map <C-t> <Plug>(TsuquyomiGoBack)
+
+Plugin 'leafgarland/typescript-vim'
+Plugin 'MaxMEllon/vim-jsx-pretty'
 
 Plugin 'AndrewRadev/sideways.vim'
 nnoremap <c-h> :SidewaysLeft<cr>
