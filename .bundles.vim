@@ -60,9 +60,9 @@ au FileType {javascript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<c
 au FileType javascript nnoremap <Leader>o :VigunMochaOnly<cr>
 au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
 
-Plugin 'artemave/js-balls'
-au FileType {javascript,javascript.jsx} nnoremap <Leader>p :JsBallsLintFix<cr>
-au FileType {javascript,javascript.jsx} nnoremap <leader>R :JsBallsListRequirers<cr>
+Plugin 'artemave/vjs'
+au FileType {javascript,javascript.jsx} nnoremap <Leader>p :VjsLintFix<cr>
+au FileType {javascript,javascript.jsx} nnoremap <leader>R :VjsListRequirers<cr>
 
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -253,6 +253,10 @@ Plugin 'w0rp/ale'
 let g:ale_lint_delay = 1000
 
 Plugin 'junegunn/vader.vim'
+
+Plugin 'vim-scripts/groovyindent-unix'
+
+Plugin 'jparise/vim-graphql'
 
 call vundle#end()            " required
 filetype plugin indent on    " required!
