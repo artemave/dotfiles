@@ -63,8 +63,6 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 alias man='man -P less'
 
-alias ccat="pygmentize -g"
-
 alias be="bundle exec"
 alias bec="bundle exec cucumber"
 alias ber="bundle exec rspec"
@@ -113,3 +111,15 @@ alias hs=httpstat
 [ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
 
 alias uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpaste && echo"
+
+if command -v bat &> /dev/null; then
+  alias cat=bat
+fi
+
+if command -v htop &> /dev/null; then
+  alias top=htop
+fi
+
+if command -v ncdu &> /dev/null; then
+  alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+fi
