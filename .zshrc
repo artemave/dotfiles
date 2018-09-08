@@ -47,15 +47,6 @@ zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
 setopt completeinword
 
-# show waiting dots.
-expand-or-complete-with-dots() {
-  echo -n "\e[1;34m.....\e[0m"
-  zle expand-or-complete
-  zle redisplay
-}
-zle -N expand-or-complete-with-dots
-bindkey "^I" expand-or-complete-with-dots
-
 setopt interactivecomments # pound sign in interactive prompt
 
 # Display CPU usage stats for commands taking more than 10 seconds
@@ -183,3 +174,5 @@ if [ -f '/Users/artem/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/arte
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/artem/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/artem/google-cloud-sdk/completion.zsh.inc'; fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
