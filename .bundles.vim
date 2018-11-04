@@ -87,6 +87,7 @@ vnoremap <Leader>ae :Tabularize /==<CR>
 highlight SyntasticErrorSign ctermfg=196 guifg=#ff0000
 highlight SyntasticWarningSign ctermfg=226 guifg=#ffff00
 
+let g:gundo_prefer_python3 = 1
 Plugin 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
