@@ -61,7 +61,7 @@ au FileType javascript nnoremap <Leader>o :VigunMochaOnly<cr>
 au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
 
 Plugin 'artemave/vjs'
-au FileType {javascript,javascript.jsx} nnoremap <Leader>p :VjsLintFix<cr>
+au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>p :VjsLintFix<cr>
 au FileType {javascript,javascript.jsx} nnoremap <leader>R :VjsListRequirers<cr>
 
 Plugin 'jgdavey/tslime.vim'
