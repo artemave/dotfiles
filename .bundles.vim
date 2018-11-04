@@ -182,6 +182,7 @@ au FileType go nmap <Leader>re <Plug>(go-rename)
 
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:syntastic_typescript_checkers = ['tsuquyomi']
 let g:go_list_type = "quickfix"
 
 " this one works with vim-javascript
@@ -204,6 +205,7 @@ set concealcursor=nc
 
 Plugin 'Quramy/tsuquyomi'
 let g:tsuquyomi_disable_default_mappings = 1
+let g:tsuquyomi_disable_quickfix = 1
 map <C-]> <Plug>(TsuquyomiDefinition)
 map <C-W>] <Plug>(TsuquyomiSplitDefinition)
 map <C-t> <Plug>(TsuquyomiGoBack)
