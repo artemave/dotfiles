@@ -370,3 +370,6 @@ fun! TslintFix()
   checktime
 endf
 au FileType typescript nnoremap <Leader>p :call TslintFix()<cr>
+
+set ttyfast
+set lazyredraw
