@@ -370,6 +370,11 @@ fun! TslintFix()
   checktime
 endf
 au FileType typescript nnoremap <Leader>p :call TslintFix()<cr>
+" Paste with indentation
+nnoremap p p=`]
+nnoremap <c-p> p
 
 set ttyfast
 set lazyredraw
+
+set noshowmode
