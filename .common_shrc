@@ -1,3 +1,5 @@
+# vi: ft=sh
+
 # enable color support of ls and also add handy aliases
 if command -v dircolors &> /dev/null; then
   eval "`dircolors -b`"
@@ -15,9 +17,15 @@ elif [[ `uname` == 'Darwin' ]]; then
   alias egrep='egrep --color=auto'
 fi
 
+vim_commmand=vim
+if command -v mvim &> /dev/null; then
+  # need mvim for youcompleteme
+  vim_commmand="mvim -v"
+fi
+alias vim="$vim_commmand"
+
 if command -v reattach-to-user-namespace &> /dev/null; then
-  alias vim="reattach-to-user-namespace vim"
-  alias nvim="reattach-to-user-namespace nvim"
+  alias vim="reattach-to-user-namespace $vim_commmand"
   alias pbcopy="reattach-to-user-namespace pbcopy"
   alias ios-sim="reattach-to-user-namespace ios-sim"
   alias appium="reattach-to-user-namespace appium"

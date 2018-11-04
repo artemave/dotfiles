@@ -110,35 +110,28 @@ function! s:unite_my_settings()
   nmap <silent><buffer><expr> <C-s> unite#do_action('split')
 endfunction
 
+let b:delimitMate_expand_cr = 2
+let b:delimitMate_expand_space = 1
+let b:delimitMate_jump_expansion = 1
 Plugin 'Raimondi/delimitMate'
+
 Plugin 'matchit.zip'
 Plugin 'The-NERD-tree'
 Plugin 'haskell.vim'
 
-if has('nvim')
-  Plugin 'Shougo/deoplete.nvim'
-  let g:deoplete#enable_at_startup = 1
-  let g:deoplete#enable_smart_case = 1
-  let g:deoplete#disable_auto_complete = 1
-  let g:deoplete#enable_fuzzy_completion = 0
-  let g:deoplete#sources#syntax#min_keyword_length = 3
-else
-  Plugin 'Shougo/neocomplete.vim'
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#disable_auto_complete = 1
-  let g:neocomplete#enable_fuzzy_completion = 0
-  let g:neocomplete#sources#syntax#min_keyword_length = 3
-endif
-Plugin 'Shougo/echodoc.vim'
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-let g:echodoc_enable_at_startup = 1
-set noshowmode
-set completeopt+=menuone
+Plugin 'Valloric/YouCompleteMe'
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 set completeopt-=preview
+
+" https://github.com/Valloric/YouCompleteMe/issues/2696#issuecomment-334439999
+imap <silent> <BS> <C-R>=YcmOnDeleteChar()<CR><Plug>delimitMateBS
+function! YcmOnDeleteChar()
+  if pumvisible()
+    return "\<C-y>"
+  endif
+  return "" 
+endfunction
 
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
