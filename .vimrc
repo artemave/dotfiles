@@ -45,10 +45,6 @@ set showcmd
 vmap <tab> >gv
 vmap <s-tab> <gv
 
-" paste mode - this will avoid unexpected effects when you
-" cut or copy some text from one window and paste it in Vim.
-set pastetoggle=<F5>
-
 set fileformat=unix
 
 "" Searching
@@ -163,18 +159,12 @@ nnoremap Y y$
 " Improve up/down movement on wrapped lines
 nnoremap j gj
 nnoremap k gk
-" Use very magic regexes
-nnoremap / /\v
-vnoremap / /\v
 
 " Better comand-line editing
 cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
 cnoremap <C-^> <Home>
 cnoremap <C-e> <End>
-
-" Disable paste mode when leaving Insert Mode
-au InsertLeave * set nopaste
 
 " Stop messing with my arrow keys
 if !has("gui_running")
@@ -351,25 +341,8 @@ set fdo-=search
 
 autocmd filetype crontab setlocal nobackup nowritebackup
 
-" Thin cursor in insert mode: https://stackoverflow.com/a/30199177/51209
-if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
-:autocmd InsertEnter * set cul
-:autocmd InsertLeave * set nocul
-
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
-fun! TslintFix()
-  :w
-  silent let f = system('./node_modules/.bin/tslint --fix '.expand('%'))
-  checktime
-endf
-au FileType typescript nnoremap <Leader>p :call TslintFix()<cr>
 " Paste with indentation
 nnoremap p p=`]
 nnoremap <c-p> p

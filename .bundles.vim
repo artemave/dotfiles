@@ -15,6 +15,7 @@ call vundle#begin()
 " required! 
 Plugin 'gmarik/Vundle.vim'
 
+Plugin 'wincent/terminus'
 " My Bundles here:
 "
 " original repos on github
