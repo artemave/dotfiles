@@ -2,7 +2,8 @@
 scriptencoding utf-8
 set encoding=utf-8
 
-source ~/.bundles.vim
+" trick ideavim into skipping this
+exec "source ~/.bundles.vim"
 
 colorscheme molokai " this has to come after 'filetype plugin indent on'
 
@@ -128,7 +129,8 @@ nnoremap <Leader>B :BufGrep
 nnoremap + <C-a>
 nnoremap - <C-x>
 
-set relativenumber
+" trick ideavim into skipping this
+exec "set relativenumber"
 set number
 
 " Opens an edit command with the path of the currently edited file filled in

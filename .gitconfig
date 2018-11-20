@@ -27,7 +27,7 @@
 
 [commit]
   template = ~/.gitmessage
-	gpgsign = true
+  ; gpgsign = true
 [gui]
 	recentrepo = /Users/artem/projects/booking-services
 [http "https://git.prs.dev.travcorpservices.com"]

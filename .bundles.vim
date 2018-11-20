@@ -207,6 +207,7 @@ set concealcursor=nc
 Plugin 'Quramy/tsuquyomi'
 let g:tsuquyomi_disable_default_mappings = 1
 let g:tsuquyomi_disable_quickfix = 1
+let g:tsuquyomi_shortest_import_path = 1
 map <C-]> <Plug>(TsuquyomiDefinition)
 map <C-W>] <Plug>(TsuquyomiSplitDefinition)
 map <C-t> <Plug>(TsuquyomiGoBack)

@@ -20,6 +20,7 @@ dotfiles=( \
   .zlogin \
   .zshenv \
   .zshrc \
+  .ideavimrc \
   bin \
 )
 
