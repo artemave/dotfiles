@@ -111,9 +111,9 @@ function! s:unite_my_settings()
   nmap <silent><buffer><expr> <C-s> unite#do_action('split')
 endfunction
 
-let b:delimitMate_expand_cr = 2
-let b:delimitMate_expand_space = 1
-let b:delimitMate_jump_expansion = 1
+let g:delimitMate_expand_cr = 2
+let g:delimitMate_expand_space = 1
+let g:delimitMate_jump_expansion = 1
 Plugin 'Raimondi/delimitMate'
 
 Plugin 'matchit.zip'
