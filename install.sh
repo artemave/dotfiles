@@ -60,6 +60,13 @@ case $1 in
 
     mkdir -p $HOME/.zsh/completion
 
+    if [[ ! -d $projects_dir/zsh-completions ]]; then
+      git clone https://github.com/zsh-users/zsh-completions.git $projects_dir/zsh-completions
+    fi
+    for file in $projects_dir/zsh-completions/src/*; do
+      ln -f -s $file $HOME/.zsh/completion/
+    done
+
     if [[ ! -d $projects_dir/zsh-syntax-highlighting ]]; then
       git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $projects_dir/zsh-syntax-highlighting
     fi
