@@ -19,7 +19,7 @@ Plugin 'wincent/terminus'
 " My Bundles here:
 "
 " original repos on github
-" Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rhubarb'
 Plugin 'tpope/vim-rails'
@@ -84,9 +84,6 @@ nnoremap <Leader>a> :Tabularize /=><CR>
 vnoremap <Leader>a> :Tabularize /=><CR>
 nnoremap <Leader>ae :Tabularize /==<CR>
 vnoremap <Leader>ae :Tabularize /==<CR>
-
-highlight SyntasticErrorSign ctermfg=196 guifg=#ff0000
-highlight SyntasticWarningSign ctermfg=226 guifg=#ffff00
 
 let g:gundo_prefer_python3 = 1
 Plugin 'sjl/gundo.vim'
@@ -181,14 +178,10 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>re <Plug>(go-rename)
 
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-let g:syntastic_typescript_checkers = ['tsuquyomi']
-let g:go_list_type = "quickfix"
-
 " this one works with vim-javascript
-Plugin 'bounceme/poppy.vim'
-au! cursormoved * call PoppyInit()
+" Plugin 'bounceme/poppy.vim'
+" au! cursormoved * call PoppyInit()
+" https://github.com/bounceme/poppy.vim/issues/7
 
 let g:molokai_original = 1
 Plugin 'tomasr/molokai'
@@ -204,13 +197,18 @@ let g:javascript_conceal_undefined      = "¿"
 set conceallevel=2
 set concealcursor=nc
 
-Plugin 'Quramy/tsuquyomi'
-let g:tsuquyomi_disable_default_mappings = 1
-let g:tsuquyomi_disable_quickfix = 1
-let g:tsuquyomi_shortest_import_path = 1
-map <C-]> <Plug>(TsuquyomiDefinition)
-map <C-W>] <Plug>(TsuquyomiSplitDefinition)
-map <C-t> <Plug>(TsuquyomiGoBack)
+autocmd FileType {javascript,jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+autocmd FileType {javascript,jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
+" https://github.com/tpope/vim-dispatch/issues/222
+set shellpipe=2>&1\|tee
+
+" Plugin 'Quramy/tsuquyomi'
+" let g:tsuquyomi_disable_default_mappings = 1
+" let g:tsuquyomi_disable_quickfix = 1
+" let g:tsuquyomi_shortest_import_path = 1
+" map <C-]> <Plug>(TsuquyomiDefinition)
+" map <C-W>] <Plug>(TsuquyomiSplitDefinition)
+" map <C-t> <Plug>(TsuquyomiGoBack)
 
 Plugin 'leafgarland/typescript-vim'
 Plugin 'MaxMEllon/vim-jsx-pretty'
@@ -249,12 +247,20 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=235
 
 Plugin 'w0rp/ale'
 let g:ale_lint_delay = 1000
+let g:ale_linters_ignore = {'typescript': ['tslint', 'eslint']}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'typescript': ['tslint'],
+\}
 
 Plugin 'junegunn/vader.vim'
 
 Plugin 'vim-scripts/groovyindent-unix'
 
 Plugin 'jparise/vim-graphql'
+
+Plugin '907th/vim-auto-save'
+let g:auto_save = 1
 
 call vundle#end()            " required
 filetype plugin indent on    " required!
