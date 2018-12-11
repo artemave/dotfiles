@@ -58,17 +58,12 @@ case $1 in
     #   git clone https://github.com/zplug/zplug $HOME/.zplug
     # fi
 
-    mkdir -p $HOME/.zsh/completion
-
-    if [[ ! -d $projects_dir/zsh-completions ]]; then
-      git clone https://github.com/zsh-users/zsh-completions.git $projects_dir/zsh-completions
+    if [[ ! -d $HOME/.zsh/completion ]]; then
+      git clone https://github.com/zsh-users/zsh-completions.git $HOME/.zsh/completion
     fi
-    for file in $projects_dir/zsh-completions/src/*; do
-      ln -f -s $file $HOME/.zsh/completion/
-    done
 
-    if [[ ! -d $projects_dir/zsh-syntax-highlighting ]]; then
-      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $projects_dir/zsh-syntax-highlighting
+    if [[ ! -d $HOME/.zsh/zsh-syntax-highlighting ]]; then
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh/zsh-syntax-highlighting
     fi
 
     if [[ ! -d ~/.fzf ]]; then

@@ -119,7 +119,7 @@ bindkey '^_' undo
 # ctrl-w removed word backwards
 bindkey '^w' backward-kill-word
 
-source ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # source ~/.zplug/init.zsh
 # zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
