@@ -51,7 +51,6 @@ Plugin 'tpope/vim-commentary'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'kana/vim-textobj-user'
 Plugin 'rhysd/vim-textobj-ruby'
-Plugin 'kchmck/vim-coffee-script'
 " Bundle 'artemave/slowdown.vim'
 
 Plugin 'artemave/vigun'
@@ -261,6 +260,12 @@ Plugin 'jparise/vim-graphql'
 
 Plugin '907th/vim-auto-save'
 let g:auto_save = 1
+
+Plugin 'romainl/vim-cool'
+
+Plugin 'nikvdp/ejs-syntax'
+
+Plugin 'ap/vim-css-color'
 
 call vundle#end()            " required
 filetype plugin indent on    " required!
