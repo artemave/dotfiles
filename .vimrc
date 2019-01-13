@@ -71,13 +71,6 @@ set wildchar=<Tab> wildmenu wildmode=list:longest,list:full
 
 set switchbuf=useopen
 
-autocmd User fugitive
-  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-  \   nnoremap <buffer> .. :edit %:h<CR> |
-  \ endif
-
-autocmd BufReadPost fugitive://* set bufhidden=delete
-
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
@@ -353,3 +346,5 @@ set ttyfast
 set lazyredraw
 
 set noshowmode
+
+hi Visual ctermbg=darkgrey

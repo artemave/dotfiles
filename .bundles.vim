@@ -1,7 +1,7 @@
 "vim -u .bundles.vim +BundleInstall +q
 
 set nocompatible
-let $GIT_SSL_NO_VERIFY='true'
+" let $GIT_SSL_NO_VERIFY='true'
 
 nnoremap <space> <Nop>
 let mapleader=" "
@@ -62,7 +62,11 @@ au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
 
 Plugin 'artemave/vjs'
 au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>p :VjsLintFix<cr>
-au FileType {javascript,javascript.jsx} nnoremap <leader>R :VjsListRequirers<cr>
+au FileType {javascript,javascript.jsx,typescript} nnoremap <leader>R :VjsListRequirers<cr>
+
+" TODO: move this to vjs
+set conceallevel=2
+set concealcursor=nc
 
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -109,7 +113,7 @@ endfunction
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
-let g:delimitMate_jump_expansion = 1
+" let g:delimitMate_jump_expansion = 1
 Plugin 'Raimondi/delimitMate'
 
 Plugin 'matchit.zip'
@@ -189,12 +193,6 @@ Plugin 'elixir-lang/vim-elixir'
 
 Plugin 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
-let g:javascript_conceal_function       = "ƒ"
-let g:javascript_conceal_this           = "✪"
-let g:javascript_conceal_return         = "⇚"
-let g:javascript_conceal_undefined      = "¿"
-set conceallevel=2
-set concealcursor=nc
 
 autocmd FileType {javascript,jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
 autocmd FileType {javascript,jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
@@ -236,16 +234,14 @@ Plugin 'airblade/vim-gitgutter'
 
 Plugin 'FooSoft/vim-argwrap'
 
-Plugin 'digitaltoad/vim-pug'
-
 Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_default_mapping = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=235
 
 Plugin 'w0rp/ale'
 let g:ale_lint_delay = 1000
+let g:ale_linters_explicit = 1
 let g:ale_linters_ignore = {'typescript': ['tslint', 'eslint']}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -262,10 +258,13 @@ Plugin '907th/vim-auto-save'
 let g:auto_save = 1
 
 Plugin 'romainl/vim-cool'
+let g:CoolTotalMatches = 1
 
 Plugin 'nikvdp/ejs-syntax'
 
 Plugin 'ap/vim-css-color'
+
+Plugin 'scratch.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required!

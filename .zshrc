@@ -23,7 +23,7 @@ autoload -U zmv
 bindkey '^R' history-incremental-search-backward
 
 # COMPLETION
-fpath=(~/.zsh/completion $fpath)
+fpath=(~/.zsh/completion/src $fpath)
 
 autoload -Uz compinit && compinit -i
 
