@@ -74,6 +74,7 @@ alias man='man -P less'
 alias be="bundle exec"
 alias bec="bundle exec cucumber"
 alias ber="bundle exec rspec"
+alias cuc="./bin/cucumber"
 alias g="git "
 alias gs="g status"
 alias gp="g push "

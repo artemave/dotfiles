@@ -64,10 +64,6 @@ Plugin 'artemave/vjs'
 au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>p :VjsLintFix<cr>
 au FileType {javascript,javascript.jsx,typescript} nnoremap <leader>R :VjsListRequirers<cr>
 
-" TODO: move this to vjs
-set conceallevel=2
-set concealcursor=nc
-
 Plugin 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
 nmap <C-c><C-c> <Plug>NormalModeSendToTmux
@@ -123,6 +119,8 @@ Plugin 'haskell.vim'
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_show_diagnostics_ui = 0
+au FileType {javascript,javascript.jsx,typescript} nnoremap <C-]> :YcmCompleter GoTo<cr>
 set completeopt-=preview
 
 " https://github.com/Valloric/YouCompleteMe/issues/2696#issuecomment-334439999
@@ -241,7 +239,7 @@ let g:indent_guides_default_mapping = 0
 
 Plugin 'w0rp/ale'
 let g:ale_lint_delay = 1000
-let g:ale_linters_explicit = 1
+" let g:ale_linters_explicit = 1
 let g:ale_linters_ignore = {'typescript': ['tslint', 'eslint']}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -249,10 +247,6 @@ let g:ale_fixers = {
 \}
 
 Plugin 'junegunn/vader.vim'
-
-Plugin 'vim-scripts/groovyindent-unix'
-
-Plugin 'jparise/vim-graphql'
 
 Plugin '907th/vim-auto-save'
 let g:auto_save = 1
@@ -265,6 +259,8 @@ Plugin 'nikvdp/ejs-syntax'
 Plugin 'ap/vim-css-color'
 
 Plugin 'scratch.vim'
+
+Plugin 'mattn/emmet-vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required!

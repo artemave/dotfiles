@@ -307,8 +307,6 @@ nnoremap <C-c> :bp\|bw #<CR>
 map <Leader>* :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>
 map <Leader>g* :let @/ = expand('<cword>')\|set hlsearch<C-M>
 
-hi Conceal cterm=NONE ctermbg=NONE ctermfg=green
-
 if executable('ag')
   set grepprg=ag\ --vimgrep
   set grepformat=%f:%l:%c:%m
