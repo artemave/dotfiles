@@ -50,9 +50,10 @@ case $1 in
       ln -f -s "$(pwd)/$file" ~/
     done
 
-    if [[ ! -d $projects_dir ]]; then
-      mkdir $projects_dir
-    fi
+    mkdir -p $HOME/.config
+    ln -f -s "$(pwd)/.config/" ~/.config/
+
+    mkdir -p $projects_dir
 
     # if [[ ! -d $HOME/.zplug ]]; then
     #   git clone https://github.com/zplug/zplug $HOME/.zplug
