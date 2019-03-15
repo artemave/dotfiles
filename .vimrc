@@ -166,23 +166,10 @@ if !has("gui_running")
   let g:AutoClosePreservDotReg = 0
 endif
 
-map <leader>y "*y
+nnoremap <leader>y "*y
 
 " Insert a hash rocket with <c-l>
-imap <c-l> <space>=><space>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PROMOTE VARIABLE TO RSPEC LET
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function PromoteToLet()
-  :normal! dd
-  " :exec '?^\s*it\>'
-  :normal! P
-  :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
-  :normal ==
-endfunction
-:command! PromoteToLet :call PromoteToLet()
-au FileType ruby nnoremap <Leader>p :PromoteToLet<cr>
+inoremap <c-l> <space>=><space>
 
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
@@ -321,7 +308,7 @@ function MySearch()
 endfunction
 
 au BufEnter * nmap <buffer> <nowait> <leader>S :call MySearch()<CR>
-nnoremap <leader><leader>s :execute 'silent grep!' expand('<cword>') \|copen \|redraw!<cr>
+nnoremap <leader><leader>s :execute 'silent grep! -w' expand('<cword>') \|copen \|redraw!<cr>
 
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
@@ -346,3 +333,8 @@ set lazyredraw
 set noshowmode
 
 hi Visual ctermbg=darkgrey
+
+" paste without loosing copied text
+vnoremap <leader>p "_dp
+
+packadd cfilter
