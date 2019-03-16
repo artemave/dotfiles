@@ -54,7 +54,7 @@ Plugin 'artemave/vigun'
 au FileType {ruby,javascript,cucumber} nnoremap <leader>t :VigunRunTestFile<cr>
 au FileType {ruby,javascript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
 au FileType {javascript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
-au FileType javascript nnoremap <Leader>o :VigunMochaOnly<cr>
+au FileType {javascript,typescript} nnoremap <Leader>o :VigunMochaOnly<cr>
 au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
 
 Plugin 'artemave/vjs'

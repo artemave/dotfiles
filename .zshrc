@@ -130,7 +130,11 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # zplug load --verbose
 
 # this is now here as opposed to .zlogin because `zplug` inserting `/bin` in the PATH which breaks coreutils (ls, etc)
-# source ~/.common_env
+
+# ubuntu does not start login shell
+if [[ -z $COMMON_ENV_LOADED ]]; then
+  source ~/.common_env
+fi
 source ~/.common_shrc
 
 # place this after nvm initialization!

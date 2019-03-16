@@ -31,7 +31,6 @@ rbenv_plugins=(\
   tpope/rbenv-ctags \
   sstephenson/rbenv-default-gems \
   tpope/rbenv-aliases \
-  sstephenson/rbenv-vars \
   rkh/rbenv-update \
   sstephenson/rbenv-gem-rehash)
 
@@ -51,7 +50,9 @@ case $1 in
     done
 
     mkdir -p $HOME/.config
-    ln -f -s "$(pwd)/.config/" ~/.config/
+    for dir in $(pwd)/.config/*; do
+      ln -f -s $dir ~/.config/
+    done
 
     mkdir -p $projects_dir
 
@@ -104,13 +105,6 @@ case $1 in
     if [ -d $bundle_home/vimproc.vim ]; then
       cd $bundle_home/vimproc.vim && make && cd -
     fi
-    if [ -d $bundle_home/tern_for_vim ]; then
-      if command -v git &> /dev/null; then
-        cd $bundle_home/tern_for_vim && npm i && cd -
-      else
-        echo "Install npm and run '$bundle_home/tern_for_vim && npm i && cd -'\n"
-      fi
-    fi
     ;;
 
   -rbenv)
@@ -131,7 +125,6 @@ case $1 in
     done
 
     ln -f -s "$(pwd)/rbenv/default-gems" ~/.rbenv/
-    ln -f -s "$(pwd)/vars" ~/.rbenv/
     ;;
 
   *)
