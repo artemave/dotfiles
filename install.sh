@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 # set -x
 
 dotfiles=( \
@@ -51,14 +51,14 @@ case $1 in
 
     mkdir -p $HOME/.config
     for dir in $(pwd)/.config/*; do
-      ln -f -s $dir ~/.config/
+      target_dir=~/.config/$(basename $dir)/
+      mkdir -p $target_dir
+      for file in $dir/*; do
+        ln -f -s $file $target_dir
+      done
     done
 
     mkdir -p $projects_dir
-
-    # if [[ ! -d $HOME/.zplug ]]; then
-    #   git clone https://github.com/zplug/zplug $HOME/.zplug
-    # fi
 
     if [[ ! -d $HOME/.zsh/completion ]]; then
       git clone https://github.com/zsh-users/zsh-completions.git $HOME/.zsh/completion

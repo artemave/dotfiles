@@ -66,3 +66,4 @@ custom_plan.rb
 .vagrant*
 .git/*
 .envrc
+.vim/bundle
