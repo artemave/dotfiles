@@ -12,6 +12,12 @@ if command -v /usr/local/bin/brew &> /dev/null; then
   export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
+if command -v /home/linuxbrew/.linuxbrew/bin/brew &> /dev/null; then
+  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+  export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+  export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+fi
+
 export PATH="$HOME/bin:${osx_paths}${PATH}:$HOME/.rbenv/bin"
 
 if [ -f ~/.local_env ]; then
