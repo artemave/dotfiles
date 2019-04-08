@@ -98,6 +98,7 @@ nnoremap <leader>Y :Unite -no-split -buffer-name=yank history/yank<cr>
 au FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
   " Overwrite settings.
+  inoremap <silent><buffer><C-f> <esc>:Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
   imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
   imap <silent><buffer><expr> <C-s> unite#do_action('split')
   nmap <silent><buffer><expr> <C-v> unite#do_action('vsplit')

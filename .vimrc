@@ -308,7 +308,7 @@ function MySearch()
 endfunction
 
 au BufEnter * nmap <buffer> <nowait> <leader>S :call MySearch()<CR>
-nnoremap <leader><leader>s :execute 'silent grep! -w' expand('<cword>') \|copen \|redraw!<cr>
+nnoremap <leader><leader>s :execute 'silent grep!' expand('<cword>') \|copen \|redraw!<cr>
 
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>

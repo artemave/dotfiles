@@ -19,6 +19,7 @@ if command -v /home/linuxbrew/.linuxbrew/bin/brew &> /dev/null; then
 fi
 
 export PATH="$HOME/bin:${osx_paths}${PATH}:$HOME/.rbenv/bin"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 if [ -f ~/.local_env ]; then
   . ~/.local_env
