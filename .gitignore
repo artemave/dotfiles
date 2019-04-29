@@ -67,3 +67,5 @@ custom_plan.rb
 .git/*
 .envrc
 .vim/bundle
+.vim/autoload/
+.vim/plugged/

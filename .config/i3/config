@@ -45,10 +45,10 @@ bindsym $mod+d exec "rofi -combi-modi window,drun -show combi -terminal alacritt
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+h focus left
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -57,10 +57,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -69,7 +69,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+y split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -187,7 +187,10 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-exec --no-startup-id setxkbmap -layout us,ru -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
+exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
+
+# disable trackpad
+exec --no-startup-id xinput --disable 11
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 3 # increase screen brightness
@@ -207,4 +210,4 @@ exec --no-startup-id gnome-settings-daemon
 workspace_auto_back_and_forth yes
 focus_on_window_activation focus
 
-bindsym --release Print exec gnome-screenshot -c -a -p
+bindsym Print exec maim -s | xclip -selection clipboard -t image/png

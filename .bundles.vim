@@ -1,35 +1,35 @@
-"vim -u .bundles.vim +BundleInstall +q
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync
+endif
 
-set nocompatible
 " let $GIT_SSL_NO_VERIFY='true'
 
 nnoremap <space> <Nop>
 let mapleader=" "
 
-filetype off " required! by vundle
-
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
 " let Vundle manage Vundle
 " required! 
-Plugin 'gmarik/Vundle.vim'
+Plug 'gmarik/Vundle.vim'
 
-Plugin 'wincent/terminus'
+Plug 'wincent/terminus'
 " My Bundles here:
 "
 " original repos on github
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-rhubarb'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-abolish'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
 
-Plugin 'tpope/vim-haml'
+Plug 'tpope/vim-haml'
 au BufNewFile,BufRead *.hamlc set filetype=haml
 
-Plugin 'tpope/vim-cucumber'
+Plug 'tpope/vim-cucumber'
 " cucumber auto outline
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
@@ -43,35 +43,35 @@ function! s:align()
   endif
 endfunction
 
-Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-obsession'
-Plugin 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
-Plugin 'artemave/vigun'
+Plug 'artemave/vigun'
 au FileType {ruby,javascript,cucumber} nnoremap <leader>t :VigunRunTestFile<cr>
 au FileType {ruby,javascript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
 au FileType {javascript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
 au FileType {javascript,typescript} nnoremap <Leader>o :VigunMochaOnly<cr>
 au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
 
-Plugin 'artemave/vjs'
+Plug 'artemave/vjs'
 au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>p :VjsLintFix<cr>
 au FileType {javascript,javascript.jsx,typescript} nnoremap <leader>R :VjsListRequirers<cr>
 
-Plugin 'jgdavey/tslime.vim'
+Plug 'jgdavey/tslime.vim'
 vmap <C-c><C-c> <Plug>SendSelectionToTmux
 nmap <C-c><C-c> <Plug>NormalModeSendToTmux
 nmap <C-c>r <Plug>SetTmuxVars
 let g:tslime_always_current_session = 1
 
-Plugin 'michaeljsmith/vim-indent-object'
+Plug 'michaeljsmith/vim-indent-object'
 
-Plugin 'AndrewVos/vim-aaa'
+Plug 'AndrewVos/vim-aaa'
 
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 nnoremap <Leader>a= :Tabularize /=<CR>
 vnoremap <Leader>a= :Tabularize /=<CR>
 nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
@@ -82,13 +82,13 @@ nnoremap <Leader>ae :Tabularize /==<CR>
 vnoremap <Leader>ae :Tabularize /==<CR>
 
 let g:gundo_prefer_python3 = 1
-Plugin 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-Plugin 'Shougo/neoyank.vim'
-Plugin 'Shougo/vimproc.vim' " after install: cd ~/.vim/bundle/vimproc.vim && make && cd -
-Plugin 'Shougo/unite.vim'
+Plug 'Shougo/neoyank.vim'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/unite.vim'
 let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
 nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
 nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async<cr>
@@ -108,30 +108,56 @@ endfunction
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
 " let g:delimitMate_jump_expansion = 1
-Plugin 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 
-Plugin 'matchit.zip'
-Plugin 'The-NERD-tree'
-Plugin 'haskell.vim'
+Plug 'vim-scripts/matchit.zip'
+Plug 'vim-scripts/The-NERD-tree'
 
-Plugin 'Valloric/YouCompleteMe'
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:ycm_show_diagnostics_ui = 0
-au FileType {javascript,javascript.jsx,typescript} nnoremap <C-]> :YcmCompleter GoTo<cr>
-set completeopt-=preview
+" Plug 'Valloric/YouCompleteMe', { 'do': 'python3 install.py --ts-completer' }
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:ycm_show_diagnostics_ui = 0
+" au FileType {javascript,javascript.jsx,typescript} nnoremap <C-]> :YcmCompleter GoTo<cr>
+" set completeopt-=preview
 
-" https://github.com/Valloric/YouCompleteMe/issues/2696#issuecomment-334439999
-imap <silent> <BS> <C-R>=YcmOnDeleteChar()<CR><Plug>delimitMateBS
-function! YcmOnDeleteChar()
-  if pumvisible()
-    return "\<C-y>"
-  endif
-  return "" 
-endfunction
+" " https://github.com/Valloric/YouCompleteMe/issues/2696#issuecomment-334439999
+" imap <silent> <BS> <C-R>=YcmOnDeleteChar()<CR><Plug>delimitMateBS
+" function! YcmOnDeleteChar()
+"   if pumvisible()
+"     return "\<C-y>"
+"   endif
+"   return "" 
+" endfunction
 
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-highlight', 'coc-emmet', 'coc-snippets', 'coc-solargraph']
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+vmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 
@@ -139,24 +165,23 @@ let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
 
 " Disabling due to 'E716: Key not present in Dictionary: F'
-" Plugin 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 " nmap <F8> :TagbarToggle<CR>
 
-Plugin 'ecomba/vim-ruby-refactoring'
-Plugin 'featurist/vim-pogoscript'
+Plug 'ecomba/vim-ruby-refactoring'
 
-au FileType pogo nnoremap <Leader>c :PogoCompile<cr>
-
-Plugin 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 set laststatus=2
+" let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+" let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 
-Plugin 'mustache/vim-mustache-handlebars'
+Plug 'mustache/vim-mustache-handlebars'
 " mustache/handlebars with m M
 let g:surround_109 = "{{\r}}"
 let g:surround_77 = "{{{\r}}}"
 let g:mustache_abbreviations = 1
 
-Plugin 'fatih/vim-go'
+Plug 'fatih/vim-go'
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -178,16 +203,16 @@ au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>re <Plug>(go-rename)
 
 " this one works with vim-javascript
-" Plugin 'bounceme/poppy.vim'
+" Plug 'bounceme/poppy.vim'
 " au! cursormoved * call PoppyInit()
 " https://github.com/bounceme/poppy.vim/issues/7
 
 let g:molokai_original = 1
-Plugin 'tomasr/molokai'
+Plug 'tomasr/molokai'
 
-Plugin 'elixir-lang/vim-elixir'
+Plug 'elixir-lang/vim-elixir'
 
-Plugin 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
 
 autocmd FileType {javascript,jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
@@ -195,18 +220,10 @@ autocmd FileType {javascript,jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tscon
 " https://github.com/tpope/vim-dispatch/issues/222
 set shellpipe=2>&1\|tee
 
-" Plugin 'Quramy/tsuquyomi'
-" let g:tsuquyomi_disable_default_mappings = 1
-" let g:tsuquyomi_disable_quickfix = 1
-" let g:tsuquyomi_shortest_import_path = 1
-" map <C-]> <Plug>(TsuquyomiDefinition)
-" map <C-W>] <Plug>(TsuquyomiSplitDefinition)
-" map <C-t> <Plug>(TsuquyomiGoBack)
+Plug 'leafgarland/typescript-vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
 
-Plugin 'leafgarland/typescript-vim'
-Plugin 'MaxMEllon/vim-jsx-pretty'
-
-Plugin 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/sideways.vim'
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 omap aa <Plug>SidewaysArgumentTextobjA
@@ -214,51 +231,50 @@ xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
 
-Plugin 'tommcdo/vim-exchange'
+Plug 'tommcdo/vim-exchange'
 
-" Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'chrisbra/NrrwRgn'
+" Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'chrisbra/NrrwRgn'
 
-Plugin 'roman/golden-ratio'
+Plug 'roman/golden-ratio'
 " let g:golden_ratio_exclude_nonmodifiable = 1
 
-Plugin 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-multiple-cursors'
 
-Plugin 'dbext.vim'
+Plug 'vim-scripts/dbext.vim'
 
-Plugin 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 
-Plugin 'FooSoft/vim-argwrap'
+Plug 'FooSoft/vim-argwrap'
 
-Plugin 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_default_mapping = 0
 
-Plugin 'w0rp/ale'
-let g:ale_lint_delay = 1000
+Plug 'w0rp/ale'
+" let g:ale_lint_delay = 1000
 " let g:ale_linters_explicit = 1
-let g:ale_linters_ignore = {'typescript': ['tslint', 'eslint']}
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'typescript': ['tslint'],
-\}
+" let g:ale_linters_ignore = {'typescript': ['tslint', 'eslint']}
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'typescript': ['tslint'],
+" \}
 
-Plugin 'junegunn/vader.vim'
+Plug 'junegunn/vader.vim'
 
-Plugin '907th/vim-auto-save'
+Plug '907th/vim-auto-save'
 let g:auto_save = 1
 
-Plugin 'romainl/vim-cool'
+Plug 'romainl/vim-cool'
 let g:CoolTotalMatches = 1
 
-Plugin 'nikvdp/ejs-syntax'
+Plug 'nikvdp/ejs-syntax'
 
-Plugin 'ap/vim-css-color'
+Plug 'ap/vim-css-color'
 
-Plugin 'scratch.vim'
+Plug 'vim-scripts/scratch.vim'
 
-Plugin 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 
-call vundle#end()            " required
-filetype plugin indent on    " required!
+call plug#end()            " required

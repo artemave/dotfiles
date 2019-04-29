@@ -50,12 +50,20 @@ case $1 in
     done
 
     mkdir -p $HOME/.config
-    for dir in $(pwd)/.config/*; do
-      target_dir=~/.config/$(basename $dir)/
-      mkdir -p $target_dir
-      for file in $dir/*; do
-        ln -f -s $file $target_dir
-      done
+    for dir in $(pwd)/.config/* $(pwd)/.config/.*; do
+      if [[ "$dir" =~ \.$ ]]; then
+        continue
+      fi
+
+      if [[ -d $dir ]]; then
+        target_dir=~/.config/$(basename $dir)/
+        mkdir -p $target_dir
+        for file in $dir/*; do
+          ln -f -s $file $target_dir
+        done
+      else
+        ln -f -s $dir ~/.config
+      fi
     done
 
     mkdir -p $projects_dir

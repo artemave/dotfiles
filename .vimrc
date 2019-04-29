@@ -169,7 +169,8 @@ endif
 nnoremap <leader>y "*y
 
 " Insert a hash rocket with <c-l>
-inoremap <c-l> <space>=><space>
+inoremap <c-.> <space>=><space>
+
 
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
@@ -319,7 +320,9 @@ nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
 " search only within unfolded text
 set fdo-=search
 
-autocmd filetype crontab setlocal nobackup nowritebackup
+" autocmd filetype crontab setlocal nobackup nowritebackup
+set nobackup
+set nowritebackup
 
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
