@@ -180,3 +180,9 @@ if [ -f '/Users/artem/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/arte
 if [ -f '/Users/artem/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/artem/google-cloud-sdk/completion.zsh.inc'; fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+###-tns-completion-start-###
+if [ -f /home/artem/.tnsrc ]; then 
+    source /home/artem/.tnsrc 
+fi
+###-tns-completion-end-###

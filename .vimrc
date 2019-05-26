@@ -103,16 +103,16 @@ function s:RunShellCommand(cmdline)
 endfunction
 
 function s:GrepOpenBuffers(search, jump)
-    call setqflist([])
-    let cur = getpos('.')
-    silent! exe 'bufdo vimgrepadd /' . a:search . '/ %'
-    let matches = len(getqflist())
-    if a:jump && matches > 0
-        sil! cfirst
-    else
-        call setpos('.', cur)
-    endif
-    echo 'BufGrep:' ((matches) ? matches : 'No') 'matches found'
+  call setqflist([])
+  let cur = getpos('.')
+  silent! exe 'bufdo vimgrepadd /' . a:search . '/ %'
+  let matches = len(getqflist())
+  if a:jump && matches > 0
+    sil! cfirst
+  else
+    call setpos('.', cur)
+  endif
+  echo 'BufGrep:' ((matches) ? matches : 'No') 'matches found'
 endfunction
 com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
 nnoremap <Leader>B :BufGrep
@@ -145,9 +145,6 @@ endif
 
 set scrolloff=3 " Keep 3 lines below and above the cursor"
 
-" Store swap files in fixed location, not current directory.
-set dir=~/.vimswap//,/var/tmp//,/tmp//,."
-
 " Make Y behave like other capitals
 nnoremap Y y$
 
@@ -168,34 +165,9 @@ endif
 
 nnoremap <leader>y "*y
 
-" Insert a hash rocket with <c-l>
-inoremap <c-.> <space>=><space>
-
-
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" EXTRACT VARIABLE (SKETCHY)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function ExtractVariable()
-  let name = input("Variable name: ")
-  if name == ''
-    return
-  endif
-  " Enter visual mode (not sure why this is needed since we're already in
-  " visual mode anyway)
-  normal! gv
-
-  " Replace selected text with the variable name
-  exec "normal c" . name
-  " Define the variable on the line above
-  exec "normal! O" . name . " = "
-  " Paste the original selected text to be the variable value
-  normal! $p
-endfunction
-vnoremap <leader>rv :call ExtractVariable()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ARROW KEYS ARE UNACCEPTABLE
@@ -274,6 +246,7 @@ endfu
 nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
 
 hi LineNr ctermbg=NONE guibg=NONE ctermfg=14 guifg=#80a0ff
+hi MatchParen      ctermfg=208  ctermbg=233 cterm=bold
 
 " select last pasted text
 nnoremap gp `[v\`]`

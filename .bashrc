@@ -98,3 +98,9 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook bash)"
 fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+###-tns-completion-start-###
+if [ -f /home/artem/.tnsrc ]; then 
+    source /home/artem/.tnsrc 
+fi
+###-tns-completion-end-###

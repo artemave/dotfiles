@@ -25,6 +25,15 @@ if [ -f ~/.local_env ]; then
   . ~/.local_env
 fi
 
+# export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+# Export the Android SDK path
+export ANDROID_HOME=$HOME/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# Fixes sdkmanager error with java versions higher than java 8
+# export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+
 export COMMON_ENV_LOADED=1
 # if test -f ~/.gnupg/.gpg-agent-info -a -n "$(pgrep gpg-agent)"; then
 #   source ~/.gnupg/.gpg-agent-info

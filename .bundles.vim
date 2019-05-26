@@ -6,19 +6,15 @@ endif
 
 " let $GIT_SSL_NO_VERIFY='true'
 
+set nocompatible
+
 nnoremap <space> <Nop>
-let mapleader=" "
+let mapleader="\<Space>"
 
 call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle
-" required! 
-Plug 'gmarik/Vundle.vim'
-
 Plug 'wincent/terminus'
-" My Bundles here:
-"
-" original repos on github
+
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -129,8 +125,16 @@ Plug 'vim-scripts/The-NERD-tree'
 "   return "" 
 " endfunction
 
+Plug 'w0rp/ale'
+" let g:ale_lint_delay = 1000
+" let g:ale_linters_explicit = 1
+let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver'], 'ruby': ['solargraph']}
+
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-highlight', 'coc-emmet', 'coc-snippets', 'coc-solargraph']
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-snippets', 'coc-emmet', 'coc-solargraph']
+autocmd FileType unite let b:coc_suggest_disable = 1
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
@@ -138,10 +142,13 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <leader>ll <Plug>(coc-diagnostic-next)
+nmap <leader>ln <Plug>(coc-diagnostic-prev)
+
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
@@ -155,6 +162,25 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -252,15 +278,6 @@ let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_default_mapping = 0
 
-Plug 'w0rp/ale'
-" let g:ale_lint_delay = 1000
-" let g:ale_linters_explicit = 1
-" let g:ale_linters_ignore = {'typescript': ['tslint', 'eslint']}
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'typescript': ['tslint'],
-" \}
-
 Plug 'junegunn/vader.vim'
 
 Plug '907th/vim-auto-save'
@@ -276,5 +293,7 @@ Plug 'ap/vim-css-color'
 Plug 'vim-scripts/scratch.vim'
 
 Plug 'mattn/emmet-vim'
+
+Plug 'yssl/QFEnter'
 
 call plug#end()            " required
