@@ -169,6 +169,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+  # status_command SCRIPT_DIR=~/.config/i3blocks 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
   status_command SCRIPT_DIR=~/.config/i3blocks i3blocks
 }
 
@@ -193,8 +194,8 @@ exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_tog
 exec --no-startup-id xinput --disable 11
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 3 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 3 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5 && pkill -RTMIN+2 i3blocks # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5 && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
 # ctrl-alt-l to lock the screen
 bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
@@ -215,3 +216,5 @@ bindsym Print exec maim -s | xclip -selection clipboard -t image/png
 exec --no-startup-id dropbox start
 
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
+
+bindsym XF86Display exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh

@@ -102,30 +102,39 @@ signal=1
 #interval=10
 #separator=false
 
+
+[brightness]
+command=$HOME/.config/i3/my-blocks/brightness.sh
+label= 
+# min_width= 100%
+signal=2
+interval=once
+
 [bandwidth]
-#INTERFACE=eth0
 interval=5
+INLABEL=
+OUTLABEL=
+#INTERFACE=eth0
 
 # CPU usage
 #
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
-label=CPU
-interval=10
-min_width=CPU 100.00%
+label= 
+interval=5
+# min_width= 100.00%
 #separator=false
 
 [load_average]
-label=LOAD
-interval=10
+label=LOAD 
+interval=5
 
 # Battery indicator
 #
 # The battery instance defaults to 0.
 [battery]
-label=BAT
-#label=⚡
+label=⚡
 interval=30
 
 # Date Time
