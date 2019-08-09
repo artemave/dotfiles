@@ -314,3 +314,5 @@ hi Visual ctermbg=darkgrey
 vnoremap <leader>p "_dp
 
 packadd cfilter
+
+" command! Ctags call system('ctags $(git ls-files)')

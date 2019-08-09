@@ -43,3 +43,5 @@ export COMMON_ENV_LOADED=1
 # else
 #   eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
 # fi
+
+export PATH=$PATH:$HOME/.cargo/bin

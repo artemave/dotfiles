@@ -19,14 +19,14 @@ DP2=$(</sys/class/drm/card0/card0-DP-2/status )
 if [ "connected" == "$DP1" ]; then
   /usr/bin/xrandr --output DP1 --above eDP1 --auto
   feh --randomize --bg-fill ~/Pictures/Wallpaper/*
-  # /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "DP1 plugged in"
+  /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "DP1 plugged in"
 elif [ "connected" == "$DP2" ]; then
   /usr/bin/xrandr --output DP2 --above eDP1 --auto
   feh --randomize --bg-fill ~/Pictures/Wallpaper/*
-  # /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "DP2 plugged in"
+  /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "DP2 plugged in"
 else
   /usr/bin/xrandr --output DP1 --off
   /usr/bin/xrandr --output DP2 --off
   feh --randomize --bg-fill ~/Pictures/Wallpaper/*
-  # /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "External monitor disconnected"
+  /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "External monitor disconnected"
 fi

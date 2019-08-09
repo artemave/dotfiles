@@ -1,1 +1,1 @@
-source ~/.shell_env
+source ~/.common_env

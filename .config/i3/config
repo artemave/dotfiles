@@ -193,13 +193,16 @@ exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_tog
 # disable trackpad
 exec --no-startup-id xinput --disable 11
 
-# Sreen brightness controls
+# Screen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 && pkill -RTMIN+2 i3blocks # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5 && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
 # ctrl-alt-l to lock the screen
 bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
+# hook up custom locker script into the login manager
 exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
+# prevent lock screen if there is audio or fullscreen
+exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer normal 300 'i3lock --color=4c7899 --ignore-empty-password --show-failed-attempts --nofork' --timer normal 600 'systemctl suspend' ''
 
 exec --no-startup-id gnome-settings-daemon
 
@@ -217,4 +220,7 @@ exec --no-startup-id dropbox start
 
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 
-bindsym XF86Display exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh
+exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
+
+bindsym XF86Display exec ~/.config/udev_rules/monitor_hotplug.sh
+bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh

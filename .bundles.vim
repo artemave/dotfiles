@@ -144,6 +144,7 @@ set signcolumn=yes
 
 nmap <leader>ll <Plug>(coc-diagnostic-next)
 nmap <leader>ln <Plug>(coc-diagnostic-prev)
+nmap <leader>li <Plug>(coc-diagnostic-info)
 
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
