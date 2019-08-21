@@ -30,7 +30,17 @@ if command -v reattach-to-user-namespace &> /dev/null; then
   alias ios-sim="reattach-to-user-namespace ios-sim"
   alias appium="reattach-to-user-namespace appium"
 fi
-export EDITOR="vim"
+
+if command -v nvim &> /dev/null; then
+  export EDITOR="nvim"
+else
+  export EDITOR="vim"
+fi
+
+# use nightly nvim built if available
+if [[ -f ~/bin/nvim.appimage ]]; then
+  alias nvim="~/bin/nvim.appimage"
+fi
 
 # batch rename. ex: `mmv **/*2008.mp3 **/*2009.mp3`
 if command -v zmv &> /dev/null; then
