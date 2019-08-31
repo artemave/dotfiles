@@ -204,7 +204,7 @@ exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
 # prevent lock screen if there is audio or fullscreen
 exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer normal 300 'i3lock --color=4c7899 --ignore-empty-password --show-failed-attempts --nofork' '' --timer normal 600 'xset dpms force suspend' ''
 # disable dmps so that zoom does not go to sleep
-exec --no-startup-id xset -dmps
+exec --no-startup-id xset -dpms
 
 exec --no-startup-id gnome-settings-daemon
 
