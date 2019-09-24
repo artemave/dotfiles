@@ -213,7 +213,22 @@ fun RangerChooser()
   endif
   redraw!
 endfun
-map <Leader><Leader>r :call RangerChooser()<CR>
+
+function! OpenWithRanger()
+  let rangerCallback = { 'name': 'ranger' }
+  function! rangerCallback.on_exit(id, code)
+    try
+      if filereadable('/tmp/chosenfile')
+        exec 'edit ' . readfile('/tmp/chosenfile')[0]
+        call system('rm /tmp/chosenfile')
+      endif
+    endtry
+  endfunction
+  enew
+  call termopen('ranger --choosefile=/tmp/chosenfile', rangerCallback)
+  startinsert
+endfunction
+map <Leader><Leader>r :call OpenWithRanger()<CR>
 
 ""set cursorline
 
