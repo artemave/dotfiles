@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
+# set -x
 
 # /etc/udev/rules.d/98-monitor-hotplug.rules
 # KERNEL=="card0*", SUBSYSTEM=="drm", ACTION=="change", RUN+="/bin/bash /home/artem/.config/udev_rules/monitor_hotplug.sh"
