@@ -54,11 +54,6 @@ parsegitbranch() {
     fi
 }
 
-function take() {
-  mkdir $1
-  cd $1
-}
-
 if [ -d ~/.ec2 ]; then
   export JAVA_HOME="$(/usr/libexec/java_home)"
   export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
@@ -115,21 +110,13 @@ if command -v hub &> /dev/null; then
   alias git=hub
 fi
 
-# added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
-
-alias fucking=sudo
-
 alias fl=fleetctl
 alias dc=docker-compose
 alias dm=docker-machine
 alias ts="tmux list-sessions | sed -s 's/:.*//' | fzf | xargs tmux switch -t"
 alias hs=httpstat
 
-# added by travis gem
-[ -f /Users/artem/.travis/travis.sh ] && source /Users/artem/.travis/travis.sh
-
-alias uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]' | pbcopy && pbpaste && echo"
+alias uuid="uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]'"
 
 if command -v bat &> /dev/null; then
   alias cat=bat
@@ -141,4 +128,8 @@ fi
 
 if command -v ncdu &> /dev/null; then
   alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+fi
+
+if command -v xdg-open &> /dev/null; then
+  alias open=xdg-open
 fi

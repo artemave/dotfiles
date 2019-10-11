@@ -202,7 +202,7 @@ bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
 # hook up custom locker script into the login manager
 exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
 # prevent lock screen if there is audio or fullscreen
-exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer normal 300 'i3lock --color=4c7899 --ignore-empty-password --show-failed-attempts --nofork' '' --timer normal 600 'xset dpms force suspend' ''
+exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer normal 300 'i3lock --color=4c7899 --ignore-empty-password --show-failed-attempts --nofork' '' --timer normal 600 'systemctl suspend' ''
 
 exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh
 exec --no-startup-id ~/bin/monitor_hotplug_daemon.sh
