@@ -16,7 +16,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'wincent/terminus'
 
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
@@ -90,6 +90,8 @@ nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/as
 nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async<cr>
 nnoremap <Leader>b :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
 nnoremap <leader>Y :Unite -no-split -buffer-name=yank history/yank<cr>
+nnoremap <Leader>g :Unite -buffer-name=git_status -no-split -start-insert git_status<cr>
+nnoremap <leader>u :UniteResume<cr>
 
 au FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
@@ -99,6 +101,31 @@ function! s:unite_my_settings()
   imap <silent><buffer><expr> <C-s> unite#do_action('split')
   nmap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
   nmap <silent><buffer><expr> <C-s> unite#do_action('split')
+endfunction
+
+let s:source = {
+      \ 'name'  : 'git_status',
+      \ 'hooks' : {},
+      \ }
+
+function! s:source.gather_candidates(args, context)
+  let result = unite#util#system("git status -s | grep -ve '^D ' | cut -c 4-")
+  if unite#util#get_last_status() == 0
+    let paths = split(result, '\r\n\|\r\|\n')
+    let candidates = []
+    for path in paths
+      let dict = {
+            \ 'word'         : path,
+            \ 'kind'         : 'file',
+            \ 'action__path' : path,
+            \ }
+      call add(candidates, dict)
+    endfor
+    return candidates
+  else
+    call unite#util#print_error('Not in a Git repository.')
+    return []
+  endif
 endfunction
 
 let g:delimitMate_expand_cr = 2
@@ -295,3 +322,6 @@ Plug 'mattn/emmet-vim'
 Plug 'yssl/QFEnter'
 
 call plug#end()            " required
+
+" this must be after plug#end() for some reason
+call unite#define_source(s:source)
