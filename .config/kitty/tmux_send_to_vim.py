@@ -16,6 +16,7 @@ def mark(text, args, Mark, extra_cli_args, *a):
     current_tmux_session_path = subprocess.run( 'tmux display-message -p -F "#{pane_current_path}" -t0'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
     # for some reason the output of the above comes back in double quotes
     current_tmux_session_path = re.sub(r'^"|"$', '', current_tmux_session_path)
+    # print({'current_tmux_session_path': current_tmux_session_path})
 
     regexp = re.compile(
             '(?P<rails_log_controller>(?:[A-Z]\\w*::)*[A-Z]\\w*Controller#\\w+)|'
@@ -44,11 +45,13 @@ def mark(text, args, Mark, extra_cli_args, *a):
             if len(parts) > 1:
                 line_number = parts[1]
 
-            if file_path != '.' and file_path != '..' and file_path != '/' and os.path.exists(os.path.join(current_tmux_session_path, file_path)):
-                mark_data = {
-                        'file_path': file_path,
-                        'line_number': line_number
-                        }
+            if file_path != '.' and file_path != '..' and file_path != '/':
+                file_path = os.path.join(current_tmux_session_path, file_path)
+                if os.path.exists(file_path):
+                    mark_data = {
+                            'file_path': file_path,
+                            'line_number': line_number
+                            }
 
         elif rails_partial_match:
             start, end = m.span('rails_log_partial')
@@ -67,9 +70,11 @@ def mark(text, args, Mark, extra_cli_args, *a):
             controller_path = './app/controllers/' + '/'.join(
                     map(camel_to_snake, controller_class.split('::'))
                     ) + '.rb'
+            controller_path = os.path.join(current_tmux_session_path, controller_path)
+
             method_def_regex = re.compile('^\\s*def\\s+%s' % (action))
 
-            if os.path.exists(os.path.join(current_tmux_session_path, controller_path)):
+            if os.path.exists(controller_path):
                 with open(controller_path) as ruby_file:
                     line_number = 0
                     for line in ruby_file:
