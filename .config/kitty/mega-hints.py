@@ -3,6 +3,7 @@
 import re
 import os
 import subprocess
+from pprint import pprint
 
 def camel_to_snake(string):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', string)
@@ -13,10 +14,15 @@ def mark(text, args, Mark, extra_cli_args, *a):
     # matching text.
     # We mark all individual word for potential selection
 
-    current_tmux_session_path = subprocess.run( 'tmux display-message -p -F "#{pane_current_path}" -t0'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
-    # for some reason the output of the above comes back in double quotes
-    current_tmux_session_path = re.sub(r'^"|"$', '', current_tmux_session_path)
-    # print({'current_tmux_session_path': current_tmux_session_path})
+    send_to = 'boss' if len(extra_cli_args) == 0 else extra_cli_args[0]
+
+    path_prefix = os.getcwd()
+
+    if send_to == 'tmux':
+        path_prefix = subprocess.run( 'tmux display-message -p -F "#{pane_current_path}" -t0'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
+        # for some reason the output of the above comes back in double quotes
+        path_prefix = re.sub(r'^"|"$', '', path_prefix)
+        # print({'path_prefix': path_prefix})
 
     regexp = re.compile(
             '(?P<rails_log_controller>(?:[A-Z]\\w*::)*[A-Z]\\w*Controller#\\w+)|'
@@ -40,18 +46,13 @@ def mark(text, args, Mark, extra_cli_args, *a):
         if path_match:
             parts = mark_text.rsplit(':', 1)
             file_path = parts[0]
-            line_number = None
-
-            if len(parts) > 1:
-                line_number = parts[1]
 
             if file_path != '.' and file_path != '..' and file_path != '/':
-                file_path = os.path.join(current_tmux_session_path, file_path)
+                file_path = os.path.join(path_prefix, file_path)
                 if os.path.exists(file_path):
-                    mark_data = {
-                            'file_path': file_path,
-                            'line_number': line_number
-                            }
+                    mark_data = {'file_path': file_path}
+                    if len(parts) > 1: mark_data['line_number'] = parts[1]
+
 
         elif rails_partial_match:
             start, end = m.span('rails_log_partial')
@@ -62,7 +63,7 @@ def mark(text, args, Mark, extra_cli_args, *a):
 
         elif url_match:
                 mark_data = {
-                        'url': mark_text
+                        'url': mark_text.replace('tcp', 'http')
                         }
 
         elif rails_controller_match:
@@ -70,7 +71,7 @@ def mark(text, args, Mark, extra_cli_args, *a):
             controller_path = './app/controllers/' + '/'.join(
                     map(camel_to_snake, controller_class.split('::'))
                     ) + '.rb'
-            controller_path = os.path.join(current_tmux_session_path, controller_path)
+            controller_path = os.path.join(path_prefix, controller_path)
 
             method_def_regex = re.compile('^\\s*def\\s+%s' % (action))
 
@@ -96,7 +97,7 @@ def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
     # action on the selected text.
     # matches is a list of the selected entries and groupdicts contains
     # the arbitrary data associated with each entry in mark() above
-    tmux_window_name = 'vim' if len(extra_cli_args) == 0 else extra_cli_args[0]
+    send_to = 'boss' if len(extra_cli_args) == 0 else extra_cli_args[0]
 
     matches, groupdicts = [], []
     for m, g in zip(data['match'], data['groupdicts']):
@@ -104,22 +105,28 @@ def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
             matches.append(m), groupdicts.append(g)
 
     for word, data in zip(matches, groupdicts):
-        # Lookup the word in a dictionary, the open_url function
-        # will open the provided url in the system browser
         if 'url' in data:
             boss.open_url(data['url'])
 
         if 'file_path' in data:
-            os.system('tmux select-window -t %s' % (tmux_window_name))
-            os.system('tmux send-keys Escape')
+            if send_to == 'tmux':
+                os.system('tmux select-window -t vim')
+                os.system('tmux send-keys Escape')
 
-            if 'line_number' in data:
-                os.system('tmux send-keys ":e +%s %s"' %(data['line_number'], data['file_path']))
+                if 'line_number' in data:
+                    os.system('tmux send-keys ":e +%s %s"' %(data['line_number'], data['file_path']))
+                else:
+                    os.system('tmux send-keys ":e %s"' %(data['file_path']))
+
+                os.system('tmux send-keys Enter')
+                os.system('tmux send-keys zz')
             else:
-                os.system('tmux send-keys ":e %s"' %(data['file_path']))
+                file_url = data['file_path']
 
-            os.system('tmux send-keys Enter')
-            os.system('tmux send-keys zz')
+                if 'line_number' in data:
+                    file_url += ':' + data['line_number']
+
+                boss.open_url(file_url)
 
 # if __name__ == "__main__":
 #     from kittens.tui.loop import debug
@@ -127,7 +134,6 @@ def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
 #     debug({'cwd': cwd})
 
 if __name__ == "change to __main__ when running this directly":
-    from pprint import pprint
 
     text = """
 Rendered layouts/_base.html.erb (Duration: 32.9ms | Allocations: 2204)
