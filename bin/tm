@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# Attach to an existing tmux session named after current directory
+# or create a new one if there isn't any.
+
+set -e
+
+if [ -z "$1" ]; then
+  name="$(basename $PWD)"
+else
+  name=$1
+fi
+
+tmux has -t "$name" && tmux attach -t "$name" && exit
+
+tmux new-session -d -s "$name" -n shell
+tmux new-window -t "$name" -n vim
+
+# Rails project? Add few more windows.
+if [ -f ./config/routes.rb ]; then
+  tmux new-window -t "$name" -n server
+  tmux new-window -t "$name" -n console
+  tmux new-window -t "$name" -n logs
+fi
+
+tmux select-window -t "${name}:1"
+tmux attach -t "$name"
