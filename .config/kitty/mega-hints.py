@@ -19,14 +19,11 @@ def mark(text, args, Mark, extra_cli_args, *a):
     path_prefix = os.getcwd()
 
     if send_to == 'tmux':
-        path_prefix = subprocess.run( 'tmux display-message -p -F "#{pane_current_path}" -t0'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
-        # for some reason the output of the above comes back in double quotes
-        path_prefix = re.sub(r'^"|"$', '', path_prefix)
-        # print({'path_prefix': path_prefix})
+        path_prefix = subprocess.run('tmux display-message -p -F #{pane_current_path} -t0'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
 
     regexp = re.compile(
             '(?P<rails_log_controller>(?:[A-Z]\\w*::)*[A-Z]\\w*Controller#\\w+)|'
-            'Rendered (?P<rails_log_partial>[-a-zA-Z0-9_+-,./]+)|'
+            'Render(?:ed|ing) (?P<rails_log_partial>[-a-zA-Z0-9_+-,./]+)|'
             '(?P<url>(https?|tcp)://[-a-zA-Z0-9@:%._\+~#=]{2,256}\\b([-a-zA-Z0-9@:%_\\+.~#?&/=]*))|'
             '(?P<path>([~./]?[-a-zA-Z0-9_+-,./]+(?::\\d+)?))'
             )
@@ -53,13 +50,15 @@ def mark(text, args, Mark, extra_cli_args, *a):
                     mark_data = {'file_path': file_path}
                     if len(parts) > 1: mark_data['line_number'] = parts[1]
 
-
         elif rails_partial_match:
             start, end = m.span('rails_log_partial')
             mark_text = text[start:end].replace('\n', '').replace('\0', '')
-            mark_data = {
-                    'file_path': './app/views/' + mark_text
-                    }
+            file_path = os.path.join(path_prefix, 'app/views/' + mark_text)
+
+            if os.path.exists(file_path):
+                mark_data = {
+                        'file_path': file_path
+                        }
 
         elif url_match:
                 mark_data = {
@@ -76,16 +75,15 @@ def mark(text, args, Mark, extra_cli_args, *a):
             method_def_regex = re.compile('^\\s*def\\s+%s' % (action))
 
             if os.path.exists(controller_path):
+                mark_data = {'file_path': controller_path}
+
                 with open(controller_path) as ruby_file:
                     line_number = 0
                     for line in ruby_file:
                         line_number += 1
 
                         if method_def_regex.match(line):
-                            mark_data = {
-                                    'file_path': controller_path,
-                                    'line_number': line_number
-                                    }
+                            mark_data['line_number'] = line_number
 
         # mark_data will be available in data['groupdicts']
         if mark_data:
@@ -110,23 +108,30 @@ def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
 
         if 'file_path' in data:
             if send_to == 'tmux':
-                os.system('tmux select-window -t vim')
-                os.system('tmux send-keys Escape')
+                window_names = subprocess.run('tmux list-windows -F #{window_name}'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip().split('\n')
+                vim_window_names = list(filter(lambda x: x == 'vim' or x == 'nvim', window_names))
 
-                if 'line_number' in data:
-                    os.system('tmux send-keys ":e +%s %s"' %(data['line_number'], data['file_path']))
+                if len(vim_window_names):
+                    os.system('tmux select-window -t %s' %(vim_window_names[0]))
+                    os.system('tmux send-keys Escape')
+
+                    if 'line_number' in data:
+                        os.system('tmux send-keys ":e +%s %s"' %(data['line_number'], data['file_path']))
+                    else:
+                        os.system('tmux send-keys ":e %s"' %(data['file_path']))
+
+                    os.system('tmux send-keys Enter')
+                    os.system('tmux send-keys zz')
                 else:
-                    os.system('tmux send-keys ":e %s"' %(data['file_path']))
+                    raise Exception('Could not find "vim" or "nvim" window in the current session')
 
-                os.system('tmux send-keys Enter')
-                os.system('tmux send-keys zz')
             else:
                 file_url = data['file_path']
 
                 if 'line_number' in data:
-                    file_url += ':' + data['line_number']
+                    file_url += ':%d' %(data['line_number'])
 
-                boss.open_url(file_url)
+                os.system('%s %s' %(' '.join(extra_cli_args), file_url))
 
 # if __name__ == "__main__":
 #     from kittens.tui.loop import debug

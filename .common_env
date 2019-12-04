@@ -45,3 +45,5 @@ export COMMON_ENV_LOADED=1
 # fi
 
 export PATH=$PATH:$HOME/.cargo/bin
+
+export PATH=$PATH:$HOME/go/bin
