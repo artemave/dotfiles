@@ -184,9 +184,9 @@ bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -R
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
 
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+# bindsym XF86AudioPlay exec playerctl play-pause
+# bindsym XF86AudioNext exec playerctl next
+# bindsym XF86AudioPrev exec playerctl previous
 
 exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
 
@@ -206,6 +206,8 @@ exec --no-startup-id ~/projects/xidlehook/target/release/xidlehook --not-when-fu
 
 exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh
 exec --no-startup-id ~/bin/monitor_hotplug_daemon.sh
+bindsym XF86Display exec ~/.config/udev_rules/monitor_hotplug.sh
+bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh
 
 exec --no-startup-id gnome-settings-daemon
 
@@ -225,5 +227,4 @@ exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 
 exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
 
-bindsym XF86Display exec ~/.config/udev_rules/monitor_hotplug.sh
-bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh
+bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
