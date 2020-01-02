@@ -135,6 +135,7 @@ Plug 'Raimondi/delimitMate'
 
 Plug 'vim-scripts/matchit.zip'
 Plug 'vim-scripts/The-NERD-tree'
+nnoremap <leader>n :NERDTreeFind<cr>
 
 " Plug 'Valloric/YouCompleteMe', { 'do': 'python3 install.py --ts-completer' }
 " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -210,11 +211,6 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-let g:UltiSnipsJumpForwardTrigger = "<Tab>"
-
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
 
@@ -269,8 +265,8 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
 
-autocmd FileType {javascript,jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
-autocmd FileType {javascript,jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
+autocmd FileType {javascript,javascript.jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+autocmd FileType {javascript,javascript.jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
 " https://github.com/tpope/vim-dispatch/issues/222
 set shellpipe=2>&1\|tee
 
@@ -321,6 +317,13 @@ Plug 'vim-scripts/scratch.vim'
 Plug 'mattn/emmet-vim'
 
 Plug 'yssl/QFEnter'
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+let g:UltiSnipsJumpForwardTrigger = "<Tab>"
+
+Plug 'AndrewRadev/splitjoin.vim'
 
 call plug#end()            " required
 

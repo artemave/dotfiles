@@ -74,6 +74,8 @@ set switchbuf=useopen
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
+au BufRead,BufNewFile *.jsx set ft=javascript.jsx
+
 " Don't syntax highlight markdown because it's often wrong
 autocmd! FileType {mkd,md} setlocal syn=off
 
