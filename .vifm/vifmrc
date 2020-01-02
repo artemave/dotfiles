@@ -1,0 +1,2 @@
+set dotfiles
+filetype *.exe wine %c

@@ -21,6 +21,7 @@ dotfiles=( \
   .zshenv \
   .zshrc \
   .ideavimrc \
+  .vifm \
   bin \
 )
 

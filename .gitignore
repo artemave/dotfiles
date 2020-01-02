@@ -69,3 +69,6 @@ custom_plan.rb
 .vim/bundle
 .vim/autoload/
 .vim/plugged/
+.vifm/scripts/README
+.vifm/vifm-help.txt
+.vifm/vifminfo
