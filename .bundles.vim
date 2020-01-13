@@ -86,7 +86,7 @@ Plug 'Shougo/neoyank.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/unite.vim'
 let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert buffer file_rec/async<cr>
+nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
 nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async<cr>
 nnoremap <Leader>b :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
 nnoremap <leader>Y :Unite -no-split -buffer-name=yank history/yank<cr>
@@ -95,8 +95,7 @@ nnoremap <leader>u :UniteResume<cr>
 
 au FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
-  " Overwrite settings.
-  " inoremap <silent><buffer><C-f> <esc>:Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
+  inoremap <silent><buffer><C-f> <esc>:Unite -buffer-name=files -no-split -input=`getline('.')` -start-insert file_rec/async<cr>
   imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
   imap <silent><buffer><expr> <C-s> unite#do_action('split')
   nmap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
@@ -109,7 +108,7 @@ let s:source = {
       \ }
 
 function! s:source.gather_candidates(args, context)
-  let result = unite#util#system("git status -s | grep -ve '^D ' | cut -c 4-")
+  let result = system("git status -s | grep -ve '^D ' | cut -c 4-")
   if unite#util#get_last_status() == 0
     let paths = split(result, '\r\n\|\r\|\n')
     let candidates = []
@@ -135,7 +134,7 @@ Plug 'Raimondi/delimitMate'
 
 Plug 'vim-scripts/matchit.zip'
 Plug 'vim-scripts/The-NERD-tree'
-nnoremap <leader>n :NERDTreeFind<cr>
+nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
 
 " Plug 'Valloric/YouCompleteMe', { 'do': 'python3 install.py --ts-completer' }
 " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
