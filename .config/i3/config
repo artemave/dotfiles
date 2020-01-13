@@ -69,18 +69,18 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+y split h
+# bindsym $mod+y split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+# bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+# bindsym $mod+s layout stacking
+# bindsym $mod+w layout tabbed
+# bindsym $mod+e layout toggle split
 bindsym $mod+x layout toggle splitv splith tabbed
 
 # toggle tiling / floating
@@ -228,3 +228,5 @@ exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
 
 bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
+
+bindsym $mod+Shift+v move workspace to output up
