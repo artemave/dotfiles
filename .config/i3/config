@@ -230,3 +230,4 @@ exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,
 bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
 bindsym $mod+Shift+v move workspace to output up
+workspace 1 output DP1 DP2 eDP1
