@@ -22,10 +22,11 @@ dotfiles=( \
   .zshrc \
   .ideavimrc \
   .vifm \
+  .vimrc \
+  .vim \
+  .bundles.vim \
   bin \
 )
-
-vimfiles=(.vimrc .vim .bundles.vim)
 
 rbenv_plugins=(\
   sstephenson/ruby-build \
@@ -100,22 +101,6 @@ case $1 in
     tmux kill-session -t temp
     ;;
 
-  -vim)
-    for file in ${vimfiles[@]}; do
-      ln -f -s "$(pwd)/$file" ~/
-    done
-
-    bundle_home=~/.vim/bundle
-    if [ ! -d $bundle_home ]; then
-      git clone https://github.com/gmarik/Vundle.vim.git $bundle_home/Vundle.vim
-    fi
-    vim --noplugin -u ~/.bundles.vim +BundleInstall +qa
-
-    if [ -d $bundle_home/vimproc.vim ]; then
-      cd $bundle_home/vimproc.vim && make && cd -
-    fi
-    ;;
-
   -rbenv)
     if [ ! -d ~/.rbenv ]; then
       git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
@@ -137,6 +122,6 @@ case $1 in
     ;;
 
   *)
-    $0 -dots && $0 -vim && $0 -tmux && $0 -rbenv
+    $0 -dots
     ;;
 esac
