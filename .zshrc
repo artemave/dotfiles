@@ -119,15 +119,18 @@ bindkey '^_' undo
 # ctrl-w removed word backwards
 bindkey '^w' backward-kill-word
 
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# source ~/.zplug/init.zsh
+source ~/.zsh/zplug/init.zsh
 # zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
 
-# if ! zplug check --verbose; then
-#   zplug install
-# fi
-# zplug load --verbose
+zplug 'kevinywlui/zlong_alert.zsh'
+zlong_ignore_cmds='vim ssh heroku nvim tail man less'
+
+zplug 'zdharma/fast-syntax-highlighting', defer:2
+
+if ! zplug check --verbose; then
+  zplug install
+fi
+zplug load --verbose
 
 # this is now here as opposed to .zlogin because `zplug` inserting `/bin` in the PATH which breaks coreutils (ls, etc)
 
@@ -186,3 +189,5 @@ if [ -f /home/artem/.tnsrc ]; then
     source /home/artem/.tnsrc 
 fi
 ###-tns-completion-end-###
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

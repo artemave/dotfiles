@@ -74,8 +74,8 @@ case $1 in
       git clone https://github.com/zsh-users/zsh-completions.git $HOME/.zsh/completion
     fi
 
-    if [[ ! -d $HOME/.zsh/zsh-syntax-highlighting ]]; then
-      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh/zsh-syntax-highlighting
+    if [[ ! -d $HOME/.zsh/zplug ]]; then
+      git clone https://github.com/zplug/zplug $HOME/.zsh/zplug
     fi
 
     if [[ ! -d ~/.fzf ]]; then
