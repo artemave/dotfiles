@@ -197,7 +197,7 @@ exec --no-startup-id xinput --disable 11
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 && pkill -RTMIN+2 i3blocks # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5 && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
-# ctrl-alt-l to lock the screen
+# ctrl-win-l to lock the screen
 bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
 # hook up custom locker script into the login manager
 exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
@@ -230,4 +230,4 @@ exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,
 bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
 bindsym $mod+Shift+v move workspace to output up
-workspace 1 output DP1 DP2 eDP1
+workspace 1 output HDMI1 DP1 DP2 eDP1
