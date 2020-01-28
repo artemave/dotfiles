@@ -44,6 +44,10 @@ export COMMON_ENV_LOADED=1
 #   eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
 # fi
 
+export FZF_DEFAULT_COMMAND='rg -l --hidden ""'
+export FZF_CTRL_T_COMMAND='rg -l --hidden ""'
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --exact --bind ctrl-a:select-all"
+
 export PATH=$PATH:$HOME/.cargo/bin
 
 export PATH=$PATH:$HOME/go/bin

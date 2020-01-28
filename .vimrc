@@ -285,21 +285,13 @@ nnoremap <C-c> :bp\|bw #<CR>
 map <Leader>* :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>
 map <Leader>g* :let @/ = expand('<cword>')\|set hlsearch<C-M>
 
-if executable('ag')
+if executable('rg')
+  set grepprg=rg\ --vimgrep
+  set grepformat=%f:%l:%c:%m
+elseif executable('ag')
   set grepprg=ag\ --vimgrep
   set grepformat=%f:%l:%c:%m
 endif
-
-function MySearch()
-  let grep_term = input("Enter search term: ")
-  if !empty(grep_term)
-    execute 'silent grep!' grep_term | copen
-  endif
-  redraw!
-endfunction
-
-au BufEnter * nmap <buffer> <nowait> <leader>S :call MySearch()<CR>
-nnoremap <leader><leader>s :execute 'silent grep!' expand('<cword>') \|copen \|redraw!<cr>
 
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
@@ -333,3 +325,19 @@ vnoremap <leader>p "_dp
 packadd cfilter
 
 " command! Ctags call system('ctags $(git ls-files)')
+
+" also useful:
+" - Ctrl-W p - go to the previous window
+" - Ctrl-W t - go to top/left window
+" - Ctrl-W b - go to bottom/right window
+map <c-j> <C-W>j
+map <c-k> <C-W>k
+map <c-h> <C-W>h
+map <c-l> <C-W>l
+
+" auto close quickfix
+" aug QFClose
+"   au!
+"   " au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
+"   au WinEnter * if &buftype != "quickfix"|cclose|endif
+" aug END

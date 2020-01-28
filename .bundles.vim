@@ -82,50 +82,22 @@ Plug 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-Plug 'Shougo/neoyank.vim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/unite.vim'
-let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-nnoremap <Leader>f :Unite -buffer-name=files -no-split -start-insert file_rec/async<cr>
-nnoremap <Leader>F :Unite -buffer-name=scoped_files -no-split -start-insert -path=`expand("%:p:h")` file_rec/async<cr>
-nnoremap <Leader>b :Unite -buffer-name=buffer -no-split -start-insert buffer<cr>
-nnoremap <leader>Y :Unite -no-split -buffer-name=yank history/yank<cr>
-nnoremap <Leader>g :Unite -buffer-name=git_status -no-split -start-insert git_status<cr>
-nnoremap <leader>u :UniteResume<cr>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" let $FZF_DEFAULT_OPTS .= ' --exact --bind ctrl-a:select-all'
+let g:fzf_history_dir = '~/.fzf-history'
 
-au FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()
-  inoremap <silent><buffer><C-f> <esc>:Unite -buffer-name=files -no-split -input=`getline('.')` -start-insert file_rec/async<cr>
-  imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  imap <silent><buffer><expr> <C-s> unite#do_action('split')
-  nmap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  nmap <silent><buffer><expr> <C-s> unite#do_action('split')
-endfunction
+nnoremap <silent> <Leader><Leader>s :execute 'Rg' "\\b" . expand('<cword>') . "\\b"<CR>
+nnoremap <Leader>s :Rg<CR>
+nnoremap <Leader>f :Files<cr>
+nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
+nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>g :GFiles?<cr>
+nnoremap <leader>u :Rg<cr><c-p>
 
-let s:source = {
-      \ 'name'  : 'git_status',
-      \ 'hooks' : {},
-      \ }
-
-function! s:source.gather_candidates(args, context)
-  let result = system("git status -s | grep -ve '^D ' | cut -c 4-")
-  if unite#util#get_last_status() == 0
-    let paths = split(result, '\r\n\|\r\|\n')
-    let candidates = []
-    for path in paths
-      let dict = {
-            \ 'word'         : path,
-            \ 'kind'         : 'file',
-            \ 'action__path' : path,
-            \ }
-      call add(candidates, dict)
-    endfor
-    return candidates
-  else
-    call unite#util#print_error('Not in a Git repository.')
-    return []
-  endif
-endfunction
+Plug 'vim-scripts/The-NERD-tree'
+nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
+" nnoremap <silent> <leader><leader>f :Vexplore<cr>
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
@@ -133,8 +105,6 @@ let g:delimitMate_expand_space = 1
 Plug 'Raimondi/delimitMate'
 
 Plug 'vim-scripts/matchit.zip'
-Plug 'vim-scripts/The-NERD-tree'
-nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
 
 " Plug 'Valloric/YouCompleteMe', { 'do': 'python3 install.py --ts-completer' }
 " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -272,14 +242,6 @@ set shellpipe=2>&1\|tee
 Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 
-Plug 'AndrewRadev/sideways.vim'
-nnoremap <c-h> :SidewaysLeft<cr>
-nnoremap <c-l> :SidewaysRight<cr>
-omap aa <Plug>SidewaysArgumentTextobjA
-xmap aa <Plug>SidewaysArgumentTextobjA
-omap ia <Plug>SidewaysArgumentTextobjI
-xmap ia <Plug>SidewaysArgumentTextobjI
-
 Plug 'tommcdo/vim-exchange'
 
 " Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -325,6 +287,3 @@ let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 Plug 'AndrewRadev/splitjoin.vim'
 
 call plug#end()            " required
-
-" this must be after plug#end() for some reason
-call unite#define_source(s:source)
