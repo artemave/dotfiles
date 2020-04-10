@@ -83,7 +83,8 @@ nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'artemave/fzf.vim' " my fork adds `Resume` command
+" this has moved to .common_env
 " let $FZF_DEFAULT_OPTS .= ' --exact --bind ctrl-a:select-all'
 let g:fzf_history_dir = '~/.fzf-history'
 
@@ -93,7 +94,22 @@ nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
 nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>g :GFiles?<cr>
-nnoremap <leader>u :Rg<cr><c-p>
+nnoremap <leader>u :Resume<cr>
+
+nnoremap <leader>v :set operatorfunc=SearchOperator<cr>g@
+vnoremap <leader>v :<c-u>call SearchOperator(visualmode())<cr>
+
+function! SearchOperator(type)
+  if a:type ==# 'v'
+    normal! `<v`>y
+  elseif a:type ==# 'char'
+    normal! `[v`]y
+  else
+    return
+  endif
+
+  execute "Rg " . @@
+endfunction
 
 Plug 'vim-scripts/The-NERD-tree'
 nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
@@ -105,22 +121,6 @@ let g:delimitMate_expand_space = 1
 Plug 'Raimondi/delimitMate'
 
 Plug 'vim-scripts/matchit.zip'
-
-" Plug 'Valloric/YouCompleteMe', { 'do': 'python3 install.py --ts-completer' }
-" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-" let g:ycm_show_diagnostics_ui = 0
-" au FileType {javascript,javascript.jsx,typescript} nnoremap <C-]> :YcmCompleter GoTo<cr>
-" set completeopt-=preview
-
-" " https://github.com/Valloric/YouCompleteMe/issues/2696#issuecomment-334439999
-" imap <silent> <BS> <C-R>=YcmOnDeleteChar()<CR><Plug>delimitMateBS
-" function! YcmOnDeleteChar()
-"   if pumvisible()
-"     return "\<C-y>"
-"   endif
-"   return "" 
-" endfunction
 
 Plug 'w0rp/ale'
 " let g:ale_lint_delay = 1000
@@ -187,7 +187,7 @@ augroup end
 " Plug 'majutsushi/tagbar'
 " nmap <F8> :TagbarToggle<CR>
 
-Plug 'ecomba/vim-ruby-refactoring'
+Plug 'vim-ruby/vim-ruby'
 
 Plug 'vim-airline/vim-airline'
 set laststatus=2

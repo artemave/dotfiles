@@ -104,3 +104,6 @@ if [ -f /home/artem/.tnsrc ]; then
     source /home/artem/.tnsrc 
 fi
 ###-tns-completion-end-###
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
