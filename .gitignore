@@ -72,3 +72,6 @@ custom_plan.rb
 .vifm/scripts/README
 .vifm/vifm-help.txt
 .vifm/vifminfo
+
+bin/kitty
+bin/nvim.appimage

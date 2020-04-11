@@ -24,7 +24,7 @@ dotfiles=( \
   .vifm \
   .vimrc \
   .vim \
-  .bundles.vim \
+  .plugins.vim \
   bin \
 )
 

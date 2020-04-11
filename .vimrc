@@ -3,7 +3,7 @@ scriptencoding utf-8
 set encoding=utf-8
 
 " trick ideavim into skipping this
-exec "source ~/.bundles.vim"
+exec "source ~/.plugins.vim"
 
 colorscheme molokai " this has to come after 'filetype plugin indent on'
 
