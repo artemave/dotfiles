@@ -277,8 +277,6 @@ set iskeyword-=:
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-nnoremap <C-c> :bp\|bw #<CR>
-
 :" The leader defaults to backslash, so (by default) this
 :" maps \* and \g* (see :help Leader).
 :" These work like * and g*, but do not move the cursor and always set hls.
@@ -310,7 +308,6 @@ au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " Paste with indentation
 nnoremap p p=`]
-nnoremap <c-p> p
 
 set ttyfast
 set lazyredraw

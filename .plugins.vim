@@ -15,12 +15,12 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'wincent/terminus'
 
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-scriptease'
 
 Plug 'tpope/vim-haml'
 au BufNewFile,BufRead *.hamlc set filetype=haml
@@ -50,18 +50,20 @@ Plug 'artemave/vigun'
 au FileType {ruby,javascript,cucumber} nnoremap <leader>t :VigunRunTestFile<cr>
 au FileType {ruby,javascript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
 au FileType {javascript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
-au FileType {javascript,typescript} nnoremap <Leader>o :VigunMochaOnly<cr>
-au FileType {ruby,javascript,go} nnoremap <leader>i :VigunShowSpecIndex<cr>
+au FileType {javascript,typescript} nnoremap <Leader>vo :VigunMochaOnly<cr>
+au FileType {ruby,javascript,go} nnoremap <leader>vi :VigunShowSpecIndex<cr>
 
 Plug 'artemave/vjs'
-au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>p :VjsLintFix<cr>
-au FileType {javascript,javascript.jsx,typescript} nnoremap <leader>R :VjsListRequirers<cr>
+au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>vp :VjsLintFix<cr>
+au FileType {javascript,javascript.jsx,typescript} nnoremap <leader>vr :VjsListRequirers<cr>
+au FileType {javascript,javascript.jsx,typescript} vnoremap <leader>vv :VjsExtractVariable<cr>
+au FileType {javascript,javascript.jsx,typescript} vnoremap <leader>vf :VjsExtractFunction<cr>
 
-Plug 'jgdavey/tslime.vim'
-vmap <C-c><C-c> <Plug>SendSelectionToTmux
-nmap <C-c><C-c> <Plug>NormalModeSendToTmux
-nmap <C-c>r <Plug>SetTmuxVars
-let g:tslime_always_current_session = 1
+" Plug 'jgdavey/tslime.vim'
+" vmap <C-c><C-c> <Plug>SendSelectionToTmux
+" nmap <C-c><C-c> <Plug>NormalModeSendToTmux
+" nmap <C-c>r <Plug>SetTmuxVars
+" let g:tslime_always_current_session = 1
 
 Plug 'michaeljsmith/vim-indent-object'
 
@@ -93,7 +95,7 @@ nnoremap <Leader>s :Rg<CR>
 nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
 nnoremap <Leader>b :Buffers<cr>
-nnoremap <Leader>g :GFiles?<cr>
+nnoremap <Leader>G :GFiles?<cr>
 nnoremap <leader>u :Resume<cr>
 
 nnoremap <leader>v :set operatorfunc=SearchOperator<cr>g@
@@ -139,24 +141,28 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
-nmap <leader>ll <Plug>(coc-diagnostic-next)
-nmap <leader>ln <Plug>(coc-diagnostic-prev)
-nmap <leader>li <Plug>(coc-diagnostic-info)
+nnoremap <leader>ll <Plug>(coc-diagnostic-next-error)
+nnoremap <leader>ln <Plug>(coc-diagnostic-prev-error)
+nnoremap <leader>li <Plug>(coc-diagnostic-info)
 
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
+nnoremap <leader>gd <Plug>(coc-definition)
+nnoremap <leader>gy <Plug>(coc-type-definition)
+nnoremap <leader>gi <Plug>(coc-implementation)
+nnoremap <leader>gr <Plug>(coc-references)
+nnoremap <leader>rn <Plug>(coc-rename)
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
+vnoremap <leader>as :CocAction<cr>
+" vnoremap <leader>as <Plug>(coc-codeaction-selected)
+nnoremap <leader>la <Plug>(coc-codelens-action)
 " Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
+nnoremap <leader>ca  <Plug>(coc-codeaction)
+
+nnoremap <leader>wh <Plug>(coc-float-hide)
+nnoremap <leader>wj <Plug>(coc-float-hide)
+
 " Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
+nnoremap <leader>qf  <Plug>(coc-fix-current)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -179,6 +185,14 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+
+nmap <expr> <silent> <C-d> <SID>select_current_word()
+function! s:select_current_word()
+  if !get(g:, 'coc_cursors_activated', 0)
+    return "\<Plug>(coc-cursors-word)"
+  endif
+  return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
+endfunc
 
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
@@ -250,14 +264,12 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'roman/golden-ratio'
 " let g:golden_ratio_exclude_nonmodifiable = 1
 
-Plug 'terryma/vim-multiple-cursors'
-
 Plug 'vim-scripts/dbext.vim'
 
 Plug 'airblade/vim-gitgutter'
 
 Plug 'FooSoft/vim-argwrap'
-nnoremap <silent> <leader>a :ArgWrap<CR>
+nnoremap <silent> <leader>aw :ArgWrap<CR>
 
 Plug 'Yggdroot/indentLine'
 
