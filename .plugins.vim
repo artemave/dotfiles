@@ -90,6 +90,9 @@ Plug 'artemave/fzf.vim' " my fork adds `Resume` command
 " let $FZF_DEFAULT_OPTS .= ' --exact --bind ctrl-a:select-all'
 let g:fzf_history_dir = '~/.fzf-history'
 
+" grep hidden files too
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, <bang>0)
+
 nnoremap <silent> <Leader><Leader>s :execute 'Rg' "\\b" . expand('<cword>') . "\\b"<CR>
 nnoremap <Leader>s :Rg<CR>
 nnoremap <Leader>f :Files<cr>
