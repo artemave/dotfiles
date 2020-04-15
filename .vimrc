@@ -137,7 +137,8 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " $PATH appears different to vim for some reason and hence wrong ctags gets picked
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
-map <Leader>rt :!git ls-files \| ctags --links=no -L-<CR><CR>
+nmap <Leader>rt :!git ls-files \| ctags --links=no -L-<CR><CR>
+au FileType {ruby} nnoremap <leader>rt :!ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)<cr>
 
 " Remember last location in file
 if has("autocmd")
