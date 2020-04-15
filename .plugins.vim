@@ -189,13 +189,7 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-nmap <expr> <silent> <C-d> <SID>select_current_word()
-function! s:select_current_word()
-  if !get(g:, 'coc_cursors_activated', 0)
-    return "\<Plug>(coc-cursors-word)"
-  endif
-  return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
-endfunc
+Plug 'terryma/vim-multiple-cursors'
 
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
@@ -278,8 +272,8 @@ Plug 'Yggdroot/indentLine'
 
 Plug 'junegunn/vader.vim'
 
-Plug '907th/vim-auto-save'
-let g:auto_save = 1
+autocmd CursorHold * update
+set updatetime=1000
 
 Plug 'romainl/vim-cool'
 let g:CoolTotalMatches = 1
