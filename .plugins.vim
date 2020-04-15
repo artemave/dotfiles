@@ -272,9 +272,6 @@ Plug 'Yggdroot/indentLine'
 
 Plug 'junegunn/vader.vim'
 
-autocmd CursorHold * update
-set updatetime=1000
-
 Plug 'romainl/vim-cool'
 let g:CoolTotalMatches = 1
 
@@ -286,6 +283,7 @@ Plug 'vim-scripts/scratch.vim'
 
 Plug 'mattn/emmet-vim'
 
+" Open a Quickfix item in a window you choose
 Plug 'yssl/QFEnter'
 
 Plug 'SirVer/ultisnips'

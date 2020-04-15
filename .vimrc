@@ -339,3 +339,7 @@ map <c-l> <C-W>l
 "   " au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
 "   au WinEnter * if &buftype != "quickfix"|cclose|endif
 " aug END
+" Autosave
+
+autocmd CursorHold * wa
+set updatetime=1000
