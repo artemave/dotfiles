@@ -1,3 +1,4 @@
 xset r rate 300 50
 xset -dpms
-xset s off
+xinput --set-prop 12 'libinput Accel Speed' 0.5
+xinput --set-prop 13 'libinput Accel Speed' 1

@@ -25,6 +25,7 @@ dotfiles=( \
   .vimrc \
   .vim \
   .plugins.vim \
+  .xsessionrc \
   bin \
 )
 
