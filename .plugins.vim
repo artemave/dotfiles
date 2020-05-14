@@ -57,7 +57,7 @@ Plug 'artemave/vjs'
 au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>vp :VjsLintFix<cr>
 au FileType {javascript,javascript.jsx,typescript} nnoremap <leader>vr :VjsListRequirers<cr>
 au FileType {javascript,javascript.jsx,typescript} vnoremap <leader>vv :VjsExtractVariable<cr>
-au FileType {javascript,javascript.jsx,typescript} vnoremap <leader>vf :VjsExtractFunction<cr>
+au FileType {javascript,javascript.jsx,typescript} vnoremap <leader>vf :VjsExtractFunctionOrMethod<cr>
 
 " Plug 'jgdavey/tslime.vim'
 " vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -131,10 +131,15 @@ Plug 'w0rp/ale'
 " let g:ale_lint_delay = 1000
 " let g:ale_linters_explicit = 1
 let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver'], 'ruby': ['solargraph']}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint', 'standard'],
+\   'ruby': ['rubocop']
+\}
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-snippets', 'coc-emmet', 'coc-solargraph']
-autocmd FileType unite let b:coc_suggest_disable = 1
+" autocmd FileType unite let b:coc_suggest_disable = 1
 
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
@@ -144,34 +149,33 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
-nnoremap <leader>ll <Plug>(coc-diagnostic-next-error)
-nnoremap <leader>ln <Plug>(coc-diagnostic-prev-error)
-nnoremap <leader>li <Plug>(coc-diagnostic-info)
+nmap <leader>ll <Plug>(coc-diagnostic-next-error)
+nmap <leader>ln <Plug>(coc-diagnostic-prev-error)
+nmap <leader>li <Plug>(coc-diagnostic-info)
 
-nnoremap <leader>gd <Plug>(coc-definition)
-nnoremap <leader>gy <Plug>(coc-type-definition)
-nnoremap <leader>gi <Plug>(coc-implementation)
-nnoremap <leader>gr <Plug>(coc-references)
-nnoremap <leader>rn <Plug>(coc-rename)
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vnoremap <leader>as :CocAction<cr>
+vmap <leader>as :CocAction<cr>
 " vnoremap <leader>as <Plug>(coc-codeaction-selected)
-nnoremap <leader>la <Plug>(coc-codelens-action)
+nmap <leader>la <Plug>(coc-codelens-action)
 " Remap for do codeAction of current line
-nnoremap <leader>ca  <Plug>(coc-codeaction)
+nmap <leader>ca <Plug>(coc-codeaction)
 
-nnoremap <leader>wh <Plug>(coc-float-hide)
-nnoremap <leader>wj <Plug>(coc-float-hide)
+nmap <leader>wh <Plug>(coc-float-hide)
+nmap <leader>wj <Plug>(coc-float-hide)
 
 " Fix autofix problem of current line
-nnoremap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>qf <Plug>(coc-fix-current)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -188,6 +192,13 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
 
 Plug 'terryma/vim-multiple-cursors'
 
@@ -212,6 +223,7 @@ let g:surround_77 = "{{{\r}}}"
 let g:mustache_abbreviations = 1
 
 Plug 'fatih/vim-go'
+let g:go_version_warning = 0
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -292,5 +304,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 
 Plug 'AndrewRadev/splitjoin.vim'
+
+Plug 'kchmck/vim-coffee-script'
 
 call plug#end()            " required

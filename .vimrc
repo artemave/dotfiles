@@ -138,7 +138,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
 nmap <Leader>rt :!git ls-files \| ctags --links=no -L-<CR><CR>
-au FileType {ruby} nnoremap <leader>rt :!ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)<cr>
+au FileType {ruby} nnoremap <leader>rt :!git ls-files \| ctags --language=ruby --links=no -L-<CR><CR>
 
 " Remember last location in file
 if has("autocmd")
@@ -171,14 +171,6 @@ nnoremap <leader>y "*y
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ARROW KEYS ARE UNACCEPTABLE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <Left> <Nop>
-" map <Right> <Nop>
-" map <Up> <Nop>
-" map <Down> <Nop>
 
 " Fake '|' as text object
 nnoremap di\| T\|d,
@@ -233,20 +225,18 @@ function! OpenWithRanger()
 endfunction
 map <Leader><Leader>r :call OpenWithRanger()<CR>
 
-""set cursorline
-
 " substitute variable
 nnoremap <Leader>sv :%s/<c-r><c-w>/
 vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
 
-function GoogleSearch()
-  normal gv"xy
-  let query = 'http://google.com/search?q=' .
-        \ system('perl -MURI::Escape -e "print uri_escape(q#'. escape(@x, '#"') .'#)"')
-  silent execute "! open " .
-        \ shellescape(query, 'yes_please_escape_vim_special_characters_too_thank_you')
-endfunction
-vnoremap <Leader>s :call GoogleSearch()<cr>
+" function GoogleSearch()
+"   normal gv"xy
+"   let query = 'http://google.com/search?q=' .
+"         \ system('perl -MURI::Escape -e "print uri_escape(q#'. escape(@x, '#"') .'#)"')
+"   silent execute "! open " .
+"         \ shellescape(query, 'yes_please_escape_vim_special_characters_too_thank_you')
+" endfunction
+" vnoremap <Leader>s :call GoogleSearch()<cr>
 
 " don't show ^I for go files
 aut BufRead,BufNewFile *.go set nolist
@@ -342,4 +332,6 @@ map <c-l> <C-W>l
 " Autosave
 
 autocmd CursorHold * wa
-set updatetime=1000
+set updatetime=100
+
+set cursorline

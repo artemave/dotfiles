@@ -1,3 +1,4 @@
+# `xset q` to see current settings
 xset r rate 300 50
 xset -dpms
 xinput --set-prop 12 'libinput Accel Speed' 0.5
