@@ -225,10 +225,6 @@ function! OpenWithRanger()
 endfunction
 map <Leader><Leader>r :call OpenWithRanger()<CR>
 
-" substitute variable
-nnoremap <Leader>sv :%s/<c-r><c-w>/
-vnoremap <Leader>sv y <Bar> :%s/<c-r>0/
-
 " function GoogleSearch()
 "   normal gv"xy
 "   let query = 'http://google.com/search?q=' .

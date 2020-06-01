@@ -47,17 +47,17 @@ Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
 Plug 'artemave/vigun'
-au FileType {ruby,javascript,cucumber} nnoremap <leader>t :VigunRunTestFile<cr>
+au FileType {ruby,javascript,cucumber,vader} nnoremap <leader>t :VigunRunTestFile<cr>
 au FileType {ruby,javascript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
 au FileType {javascript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
 au FileType {javascript,typescript} nnoremap <Leader>vo :VigunMochaOnly<cr>
 au FileType {ruby,javascript,go} nnoremap <leader>vi :VigunShowSpecIndex<cr>
 
-Plug 'artemave/vjs'
-au FileType {javascript,javascript.jsx,typescript} nnoremap <Leader>vp :VjsLintFix<cr>
-au FileType {javascript,javascript.jsx,typescript} nnoremap <leader>vr :VjsListRequirers<cr>
-au FileType {javascript,javascript.jsx,typescript} vnoremap <leader>vv :VjsExtractVariable<cr>
-au FileType {javascript,javascript.jsx,typescript} vnoremap <leader>vf :VjsExtractFunctionOrMethod<cr>
+Plug 'artemave/vjs', { 'do': 'npm install' }
+au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListRequirers<cr>
+au FileType {javascript,javascript.jsx,typescript} nmap <leader>vr :VjsRenameFile<cr>
+au FileType {javascript,javascript.jsx,typescript} vmap <leader>vv :VjsExtractVariable<cr>
+au FileType {javascript,javascript.jsx,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
 
 " Plug 'jgdavey/tslime.vim'
 " vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -116,7 +116,7 @@ function! SearchOperator(type)
   execute "Rg " . @@
 endfunction
 
-Plug 'vim-scripts/The-NERD-tree'
+Plug 'preservim/nerdtree'
 nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
 " nnoremap <silent> <leader><leader>f :Vexplore<cr>
 
@@ -130,7 +130,7 @@ Plug 'vim-scripts/matchit.zip'
 Plug 'w0rp/ale'
 " let g:ale_lint_delay = 1000
 " let g:ale_linters_explicit = 1
-let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver'], 'ruby': ['solargraph']}
+let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver']}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'standard'],
@@ -138,7 +138,8 @@ let g:ale_fixers = {
 \}
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-snippets', 'coc-emmet', 'coc-solargraph']
+" let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-snippets', 'coc-emmet']
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-emmet']
 " autocmd FileType unite let b:coc_suggest_disable = 1
 
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
@@ -273,7 +274,7 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'roman/golden-ratio'
 " let g:golden_ratio_exclude_nonmodifiable = 1
 
-Plug 'vim-scripts/dbext.vim'
+" Plug 'vim-scripts/dbext.vim'
 
 Plug 'airblade/vim-gitgutter'
 
