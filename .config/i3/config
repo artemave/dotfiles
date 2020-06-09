@@ -178,7 +178,8 @@ exec --no-startup-id nm-applet
 # bluetooth
 exec --no-startup-id blueman-applet
 
-exec --no-startup-id compton
+# Fixes screen tearing (horizontal lines) on video playback and scrolling
+exec --no-startup-id compton --config ~/.config/compton.conf -b
 
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
