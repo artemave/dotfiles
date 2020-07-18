@@ -141,10 +141,7 @@ nmap <Leader>rt :!git ls-files \| ctags --links=no -L-<CR><CR>
 au FileType {ruby} nnoremap <leader>rt :!git ls-files \| ctags --language=ruby --links=no -L-<CR><CR>
 
 " Remember last location in file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
-endif
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 
 set scrolloff=3 " Keep 3 lines below and above the cursor"
 
@@ -281,9 +278,6 @@ endif
 " clear search highlight
 au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
 
-" select last paste in visual mode
-nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
-
 " search only within unfolded text
 set fdo-=search
 
@@ -325,9 +319,24 @@ map <c-l> <C-W>l
 "   " au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
 "   au WinEnter * if &buftype != "quickfix"|cclose|endif
 " aug END
-" Autosave
 
-autocmd CursorHold * wa
+" select last paste in visual mode
+nnoremap <expr> gb "'[" . strpart(getregtype(), 0, 1) . "']"
+
+" Autosave
+fun! s:SavePreservingLastPasteMarks()
+  let paste_start_pos = getpos("'[")
+  let paste_end_pos = getpos("']")
+  " Saving file resets '] and '[ marks for some reason, so we need to carry them
+  " across for `gb` (see above) to work.
+  wa
+  call setpos("'[", paste_start_pos)
+  call setpos("']", paste_end_pos)
+endf
+autocmd CursorHold * call <SID>SavePreservingLastPasteMarks()
 set updatetime=100
 
 set cursorline
+
+" copy current file path into clipboard
+nmap <leader><leader>c :let @*=expand("%:p")<cr>
