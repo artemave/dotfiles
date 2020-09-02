@@ -13,6 +13,8 @@ let mapleader="\<Space>"
 
 call plug#begin('~/.vim/plugged')
 
+" let g:plug_threads=2
+
 Plug 'wincent/terminus'
 
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
@@ -58,6 +60,8 @@ au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListRequi
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vr :VjsRenameFile<cr>
 au FileType {javascript,javascript.jsx,typescript} vmap <leader>vv :VjsExtractVariable<cr>
 au FileType {javascript,javascript.jsx,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
+au FileType {javascript,javascript.jsx,typescript} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
+au FileType {javascript,javascript.jsx,typescript} nmap <leader>vc :VjsCreateDeclaration<cr>
 
 " Plug 'jgdavey/tslime.vim'
 " vmap <C-c><C-c> <Plug>SendSelectionToTmux
@@ -91,7 +95,7 @@ Plug 'artemave/fzf.vim' " my fork adds `Resume` command
 let g:fzf_history_dir = '~/.fzf-history'
 
 " grep hidden files too
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '-n 2..'}, <bang>0)
 
 nnoremap <silent> <Leader><Leader>s :execute 'Rg' "\\b" . expand('<cword>') . "\\b"<CR>
 nnoremap <Leader>s :Rg<CR>
@@ -167,7 +171,6 @@ nmap <leader>la <Plug>(coc-codelens-action)
 nmap <leader>ca <Plug>(coc-codeaction)
 
 nmap <leader>wh <Plug>(coc-float-hide)
-nmap <leader>wj <Plug>(coc-float-hide)
 
 " Fix autofix problem of current line
 nmap <leader>qf <Plug>(coc-fix-current)
