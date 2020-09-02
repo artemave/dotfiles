@@ -339,4 +339,5 @@ set updatetime=100
 set cursorline
 
 " copy current file path into clipboard
-nmap <leader><leader>c :let @*=expand("%:p")<cr>
+nmap <leader><leader>c :let @*=expand("%")<cr>
+nmap <leader><leader>C :let @*=expand("%:t")<cr>
