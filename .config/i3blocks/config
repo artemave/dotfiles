@@ -29,6 +29,21 @@ command=$SCRIPT_DIR/$BLOCK_NAME/$BLOCK_NAME
 separator_block_width=15
 markup=none
 
+# Generic media player support
+#
+# This displays "ARTIST - SONG" if a music is playing.
+# Supported players are: spotify, vlc, audacious, xmms2, mplayer, and others.
+[mediaplayer]
+instance=spotify
+interval=5
+signal=10
+
+[bandwidth]
+interval=5
+INLABEL=
+OUTLABEL=
+#INTERFACE=eth0
+
 # Volume indicator
 #
 # The first parameter sets the step (and units to display)
@@ -61,14 +76,6 @@ signal=1
 #USE_DESCRIPTION=0
 ## SUBSCRIBE=1 requires interval=persist and always uses LONG_FORMAT
 #SUBSCRIBE=1
-
-# Memory usage
-#
-# The type defaults to "mem" if the instance is not specified.
-# [memory]
-# label=MEM
-# separator=false
-# interval=30
 
 # [memory]
 # label=SWAP
@@ -110,12 +117,6 @@ label=
 signal=2
 interval=once
 
-[bandwidth]
-interval=5
-INLABEL=
-OUTLABEL=
-#INTERFACE=eth0
-
 # CPU usage
 #
 # The script may be called with -w and -c switches to specify thresholds,
@@ -123,8 +124,16 @@ OUTLABEL=
 [cpu_usage]
 label= 
 interval=5
+separator=false
 # min_width= 100.00%
 #separator=false
+
+# Memory usage
+#
+# The type defaults to "mem" if the instance is not specified.
+[memory]
+# label=MEM
+interval=30
 
 [load_average]
 label=LOAD 
@@ -142,15 +151,6 @@ interval=30
 [time]
 command=date '+%Y-%m-%d %H:%M:%S'
 interval=5
-
-# Generic media player support
-#
-# This displays "ARTIST - SONG" if a music is playing.
-# Supported players are: spotify, vlc, audacious, xmms2, mplayer, and others.
-[mediaplayer]
-instance=spotify
-interval=5
-signal=10
 
 # OpenVPN support
 #
