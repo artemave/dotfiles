@@ -25,6 +25,7 @@ def mark(text, args, Mark, extra_cli_args, *a):
             '(?P<rails_log_controller>(?:[A-Z]\\w*::)*[A-Z]\\w*Controller#\\w+)|'
             'Render(?:ed|ing) (?P<rails_log_partial>[-a-zA-Z0-9_+-,./]+)|'
             '(?P<url>(https?|tcp)://[-a-zA-Z0-9@:%._\+~#=]{2,256}\\b([-a-zA-Z0-9@:%_\\+.~#?&/=]*))|'
+            '\\+\\+\\+ b/?(?P<diff_path>([~./]?[-a-zA-Z0-9_+-,./]+(?::\\d+)?))|'
             '(?P<path>([~./]?[-a-zA-Z0-9_+-,./]+(?::\\d+)?))'
             )
 
@@ -34,13 +35,18 @@ def mark(text, args, Mark, extra_cli_args, *a):
         mark_text = text[start:end].replace('\n', '').replace('\0', '')
 
         path_match = m.groupdict()['path']
+        diff_path_match = m.groupdict()['diff_path']
         url_match = m.groupdict()['url']
         rails_controller_match = m.groupdict()['rails_log_controller']
         rails_partial_match = m.groupdict()['rails_log_partial']
 
         mark_data = {}
 
-        if path_match:
+        if path_match or diff_path_match:
+            if diff_path_match:
+                start, end = m.span('diff_path')
+                mark_text = text[start:end].replace('\n', '').replace('\0', '')
+
             parts = mark_text.rsplit(':', 1)
             file_path = parts[0]
 
