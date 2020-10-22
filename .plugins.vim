@@ -49,11 +49,11 @@ Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
 Plug 'artemave/vigun'
-au FileType {ruby,javascript,cucumber,vader} nnoremap <leader>t :VigunRunTestFile<cr>
-au FileType {ruby,javascript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
-au FileType {javascript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
-au FileType {javascript,typescript} nnoremap <Leader>vo :VigunMochaOnly<cr>
-au FileType {ruby,javascript,go} nnoremap <leader>vi :VigunShowSpecIndex<cr>
+au FileType {ruby,javascript,typescript,cucumber,vader} nnoremap <leader>t :VigunRunTestFile<cr>
+au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
+au FileType {javascript,typescript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
+au FileType {javascript,typescript,typescript} nnoremap <Leader>vo :VigunMochaOnly<cr>
+au FileType {ruby,javascript,typescript,go} nnoremap <leader>vi :VigunShowSpecIndex<cr>
 
 Plug 'artemave/vjs', { 'do': 'npm install' }
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListRequirers<cr>
@@ -94,14 +94,31 @@ Plug 'artemave/fzf.vim' " my fork adds `Resume` command
 " let $FZF_DEFAULT_OPTS .= ' --exact --bind ctrl-a:select-all'
 let g:fzf_history_dir = '~/.fzf-history'
 
+Plug 'Shougo/neomru.vim'
+function! Mru(onlyLocal)
+  if a:onlyLocal
+    let grep = 'grep ^' . getcwd() . ' |'
+  else
+    let grep = ''
+  endif
+
+  call fzf#run(fzf#wrap('mru', {
+    \ 'source': '(sed "1d" $HOME/.cache/neomru/file | ' . l:grep .  ' sed s:' . getcwd() . '/:: && rg --files --hidden) | awk ''!cnts[$0]++''',
+    \ 'options': ['--no-sort', '--prompt', 'mru> ', '--tiebreak', 'end']
+    \ }))
+endfunction
+
+command! -bang Mru :call Mru(!<bang>0)
 " grep hidden files too
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '-n 2..'}, <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, {}, <bang>0)
+command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '-n 2..', 'dir': expand('%:h')}, <bang>0)
 
 nnoremap <silent> <Leader><Leader>s :execute 'Rg' "\\b" . expand('<cword>') . "\\b"<CR>
 nnoremap <Leader>s :Rg<CR>
+nnoremap <Leader>S :RgInCurrentBufferDir<CR>
 nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
-nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>b :Mru<cr>
 nnoremap <Leader>G :GFiles?<cr>
 nnoremap <leader>u :Resume<cr>
 
@@ -141,70 +158,70 @@ let g:ale_fixers = {
 \   'ruby': ['rubocop']
 \}
 
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-" let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-snippets', 'coc-emmet']
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-emmet']
-" autocmd FileType unite let b:coc_suggest_disable = 1
+" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+" let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-emmet', 'coc-snippets']
 
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" let g:coc_snippet_next = '<tab>'
 
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
-" always show signcolumns
-set signcolumn=yes
+" " don't give |ins-completion-menu| messages.
+" set shortmess+=c
 
-nmap <leader>ll <Plug>(coc-diagnostic-next-error)
-nmap <leader>ln <Plug>(coc-diagnostic-prev-error)
-nmap <leader>li <Plug>(coc-diagnostic-info)
+" " always show signcolumns
+" set signcolumn=yes
 
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
+" nmap <leader>ll <Plug>(coc-diagnostic-next-error)
+" nmap <leader>ln <Plug>(coc-diagnostic-prev-error)
+" nmap <leader>li <Plug>(coc-diagnostic-info)
 
-vmap <leader>as :CocAction<cr>
-" vnoremap <leader>as <Plug>(coc-codeaction-selected)
-nmap <leader>la <Plug>(coc-codelens-action)
-" Remap for do codeAction of current line
-nmap <leader>ca <Plug>(coc-codeaction)
+" nmap <leader>gd <Plug>(coc-definition)
+" nmap <leader>gy <Plug>(coc-type-definition)
+" nmap <leader>gi <Plug>(coc-implementation)
+" nmap <leader>gr <Plug>(coc-references)
+" nmap <leader>rn <Plug>(coc-rename)
 
-nmap <leader>wh <Plug>(coc-float-hide)
+" vmap <leader>as :CocAction<cr>
+" " vnoremap <leader>as <Plug>(coc-codeaction-selected)
+" nmap <leader>la <Plug>(coc-codelens-action)
+" " Remap for do codeAction of current line
+" nmap <leader>ca <Plug>(coc-codeaction)
 
-" Fix autofix problem of current line
-nmap <leader>qf <Plug>(coc-fix-current)
+" nmap <leader>wh <Plug>(coc-float-hide)
 
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+" " Fix autofix problem of current line
+" nmap <leader>qf <Plug>(coc-fix-current)
 
-" Use K to show documentation in preview window
-nmap <silent> K :call <SID>show_documentation()<CR>
+" " Use `:Format` to format current buffer
+" command! -nargs=0 Format :call CocAction('format')
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+" " Use K to show documentation in preview window
+" nmap <silent> K :call <SID>show_documentation()<CR>
 
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocAction('doHover')
+"   endif
+" endfunction
 
-" Introduce function text object
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
+" augroup mygroup
+"   autocmd!
+"   " Setup formatexpr specified filetype(s).
+"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"   " Update signature help on jump placeholder
+"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" augroup end
 
-Plug 'terryma/vim-multiple-cursors'
+" " Introduce function text object
+" " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+" xmap if <Plug>(coc-funcobj-i)
+" xmap af <Plug>(coc-funcobj-a)
+" omap if <Plug>(coc-funcobj-i)
+" omap af <Plug>(coc-funcobj-a)
+
+Plug 'mg979/vim-visual-multi'
 
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
@@ -288,6 +305,7 @@ Plug 'Yggdroot/indentLine'
 
 Plug 'junegunn/vader.vim'
 
+" disables search highlighting when you are done searching and re-enables it when you search again.
 Plug 'romainl/vim-cool'
 let g:CoolTotalMatches = 1
 
@@ -303,12 +321,32 @@ Plug 'mattn/emmet-vim'
 Plug 'yssl/QFEnter'
 
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<Tab>"
+
+" autocmd CursorHold * :call s:fix_tab_mapping()
+
+" fun s:fix_tab_mapping()
+"   iunmap <tab>
+"   exec "inoremap <silent>" g:UltiSnipsExpandTrigger "<C-R>=UltiSnips#ExpandSnippetOrJump()<cr>"
+" endf
+
+Plug 'honza/vim-snippets'
 
 Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'kchmck/vim-coffee-script'
+
+Plug 'mhartington/nvim-typescript', {'do': 'npm -g install typescript && ./install.sh'}
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
 
 call plug#end()            " required

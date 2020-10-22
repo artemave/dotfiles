@@ -248,6 +248,7 @@ nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
 
 hi LineNr ctermbg=NONE guibg=NONE ctermfg=14 guifg=#80a0ff
 hi MatchParen      ctermfg=208  ctermbg=233 cterm=bold
+hi Search cterm=bold ctermfg=255 ctermbg=238
 
 " select last pasted text
 nnoremap gp `[v\`]`
@@ -299,6 +300,7 @@ hi Visual ctermbg=darkgrey
 
 " paste without loosing copied text
 vnoremap <leader>p "_dp
+vnoremap <leader>P "_dP
 
 packadd cfilter
 
@@ -325,6 +327,9 @@ nnoremap <expr> gb "'[" . strpart(getregtype(), 0, 1) . "']"
 
 " Autosave
 fun! s:SavePreservingLastPasteMarks()
+  if expand('%') == ''
+    return
+  endif
   let paste_start_pos = getpos("'[")
   let paste_end_pos = getpos("']")
   " Saving file resets '] and '[ marks for some reason, so we need to carry them
@@ -333,11 +338,24 @@ fun! s:SavePreservingLastPasteMarks()
   call setpos("'[", paste_start_pos)
   call setpos("']", paste_end_pos)
 endf
-autocmd CursorHold * call <SID>SavePreservingLastPasteMarks()
-set updatetime=100
+" autocmd FocusLost * call <SID>SavePreservingLastPasteMarks()
+" autocmd CursorHold * call <SID>SavePreservingLastPasteMarks()
+autocmd TextChanged * call <SID>SavePreservingLastPasteMarks()
+autocmd TextChangedI * call <SID>SavePreservingLastPasteMarks()
+autocmd TextChangedP * call <SID>SavePreservingLastPasteMarks()
+" set updatetime=10
 
 set cursorline
 
 " copy current file path into clipboard
 nmap <leader><leader>c :let @*=expand("%")<cr>
 nmap <leader><leader>C :let @*=expand("%:t")<cr>
+
+" Yeah, baby
+noremap h <Nop>
+noremap j <Nop>
+noremap k <Nop>
+noremap l <Nop>
+
+" search for visually selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
