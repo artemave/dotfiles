@@ -359,3 +359,27 @@ noremap l <Nop>
 
 " search for visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+fun! s:JumpToNearestError(direction) abort
+  let errors = getloclist(0)
+  let current_ln = getcurpos()[1]
+  let target_pos = []
+
+  let cmp = a:direction == 'up' ? '<' : '>'
+  let nearest_error = get(filter(deepcopy(errors), 'v:val.lnum '. cmp .' '.current_ln), 0, {})
+
+  if len(nearest_error)
+    let target_pos = [0, nearest_error.lnum, nearest_error.col]
+  elseif len(errors)
+    let index = a:direction == 'up' ? -1 : 0
+    let first_or_last_error = errors[index]
+    let target_pos = [0, first_or_last_error.lnum, first_or_last_error.col]
+  endif
+
+  if len(target_pos)
+    call setpos('.', target_pos)
+  endif
+endf
+
+nnoremap ]l :call <SID>JumpToNearestError('down')<CR>
+nnoremap [l :call <SID>JumpToNearestError('up')<CR>
