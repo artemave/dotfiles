@@ -351,12 +351,6 @@ set cursorline
 nmap <leader><leader>c :let @*=expand("%")<cr>
 nmap <leader><leader>C :let @*=expand("%:t")<cr>
 
-" Yeah, baby
-noremap h <Nop>
-noremap j <Nop>
-noremap k <Nop>
-noremap l <Nop>
-
 " search for visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 

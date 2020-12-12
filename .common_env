@@ -46,7 +46,8 @@ export COMMON_ENV_LOADED=1
 
 export FZF_DEFAULT_COMMAND='rg -l --hidden ""'
 export FZF_CTRL_T_COMMAND='rg -l --hidden ""'
-export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --exact --bind ctrl-a:select-all"
+# `--no-mouse`: https://github.com/kovidgoyal/kitty/issues/3121
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --no-mouse --exact --bind ctrl-a:select-all"
 
 export PATH=$PATH:$HOME/.cargo/bin
 

@@ -110,15 +110,15 @@ endfunction
 
 command! -bang Mru :call Mru(!<bang>0)
 " grep hidden files too
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, {}, <bang>0)
-command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '-n 2..', 'dir': expand('%:h')}, <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {}, <bang>0)
+command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {'options': '-n 2..', 'dir': expand('%:h')}, <bang>0)
 
 nnoremap <silent> <Leader><Leader>s :execute 'Rg' "\\b" . expand('<cword>') . "\\b"<CR>
 nnoremap <Leader>s :Rg<CR>
 nnoremap <Leader>S :RgInCurrentBufferDir<CR>
 nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
-nnoremap <Leader>b :Mru<cr>
+nnoremap <Leader>b :History<cr>
 nnoremap <Leader>G :GFiles?<cr>
 nnoremap <leader>u :Resume<cr>
 
@@ -149,9 +149,12 @@ Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/matchit.zip'
 
 Plug 'w0rp/ale'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_sign_column_always = 1
+let g:ale_lint_on_enter = 0
 " let g:ale_lint_delay = 1000
 " let g:ale_linters_explicit = 1
-let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver']}
+" let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver']}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'standard'],
@@ -292,11 +295,12 @@ Plug 'tommcdo/vim-exchange'
 Plug 'chrisbra/NrrwRgn'
 
 Plug 'roman/golden-ratio'
-" let g:golden_ratio_exclude_nonmodifiable = 1
+let g:golden_ratio_exclude_nonmodifiable = 1
 
 " Plug 'vim-scripts/dbext.vim'
 
 Plug 'airblade/vim-gitgutter'
+let g:gitgutter_preview_win_floating = 1
 
 Plug 'FooSoft/vim-argwrap'
 nnoremap <silent> <leader>aw :ArgWrap<CR>
@@ -338,15 +342,22 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'kchmck/vim-coffee-script'
 
-Plug 'mhartington/nvim-typescript', {'do': 'npm -g install typescript && ./install.sh'}
-
 if has('nvim')
+  Plug 'mhartington/nvim-typescript', {'do': 'npm -g install typescript && ./install.sh'}
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim'
+  set completeopt-=preview
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 let g:deoplete#enable_at_startup = 1
+
+Plug 'takac/vim-hardtime'
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+let g:list_of_normal_keys = ["h", "j", "k", "l"]
+let g:list_of_visual_keys = ["h", "j", "k", "l"]
 
 call plug#end()            " required
