@@ -149,6 +149,9 @@ Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/matchit.zip'
 
 Plug 'w0rp/ale'
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '∆'
+let g:ale_history_log_output = 1
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_enter = 0
@@ -160,6 +163,12 @@ let g:ale_fixers = {
 \   'javascript': ['eslint', 'standard'],
 \   'ruby': ['rubocop']
 \}
+
+highlight link ALEErrorSign ErrorMsg
+highlight link ALEWarningSign WarningMsg
+
+nnoremap <silent> [l :ALEPrevious<CR>
+nnoremap <silent> ]l :ALENext<CR>
 
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-emmet', 'coc-snippets']
@@ -236,6 +245,12 @@ Plug 'mg979/vim-visual-multi'
 Plug 'vim-ruby/vim-ruby'
 
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+let g:airline_powerline_fonts = 1
+let g:airline_section_a = ''
+let g:airline_section_b = ''
+let g:airline_theme = 'onedark'
 set laststatus=2
 " let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
 " let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
@@ -273,8 +288,9 @@ au FileType go nmap <Leader>re <Plug>(go-rename)
 " au! cursormoved * call PoppyInit()
 " https://github.com/bounceme/poppy.vim/issues/7
 
-let g:molokai_original = 1
-Plug 'tomasr/molokai'
+" let g:molokai_original = 1
+" Plug 'tomasr/molokai'
+Plug 'joshdick/onedark.vim'
 
 Plug 'elixir-lang/vim-elixir'
 
@@ -294,8 +310,9 @@ Plug 'tommcdo/vim-exchange'
 " Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'chrisbra/NrrwRgn'
 
-Plug 'roman/golden-ratio'
+Plug 'sarumont/golden-ratio'
 let g:golden_ratio_exclude_nonmodifiable = 1
+let g:golden_ratio_exclude_filetypes = ["nerdtree"]
 
 " Plug 'vim-scripts/dbext.vim'
 
