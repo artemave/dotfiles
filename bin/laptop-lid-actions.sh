@@ -12,8 +12,8 @@
 if grep -q closed /proc/acpi/button/lid/LID/state; then
   # close action
   bluetooth off
-else
-  # open action
-  sleep 1
-  bluetooth on
+# else
+  # # open action
+  # sleep 1
+  # bluetooth on
 fi

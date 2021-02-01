@@ -258,6 +258,7 @@ nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
 hi LineNr ctermbg=NONE guibg=NONE ctermfg=14 guifg=#80a0ff
 hi MatchParen      ctermfg=208  ctermbg=233 cterm=bold
 hi Search cterm=bold ctermfg=255 ctermbg=238
+hi link illuminatedWord Search
 
 highlight ALEError cterm=bold gui=bold ctermbg=238 guibg=#3B4048
 highlight ALEWarning cterm=bold gui=bold ctermbg=238 guibg=#3B4048
@@ -346,7 +347,7 @@ fun! s:SavePreservingLastPasteMarks()
   let paste_end_pos = getpos("']")
   " Saving file resets '] and '[ marks for some reason, so we need to carry them
   " across for `gb` (see above) to work.
-  wa
+  silent! wa
   call setpos("'[", paste_start_pos)
   call setpos("']", paste_end_pos)
 endf

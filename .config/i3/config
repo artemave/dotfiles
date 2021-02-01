@@ -234,7 +234,8 @@ exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,
 
 bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
-bindsym $mod+Shift+v move workspace to output up
+bindsym $mod+Shift+u move workspace to output up
+bindsym $mod+Shift+d move workspace to output down
 workspace 1 output HDMI1 DP1 DP2 eDP1
 
 exec --no-startup-id clipit

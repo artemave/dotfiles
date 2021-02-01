@@ -122,7 +122,6 @@ bindkey '^w' backward-kill-word
 source ~/.zsh/zplug/init.zsh
 # zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
 
-zplug 'mafredri/zsh-async', from:'github', use:'async.zsh'
 zplug 'kevinywlui/zlong_alert.zsh'
 zlong_ignore_cmds='vim ssh heroku nvim tail man less'
 
@@ -164,20 +163,11 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 
-async_start_worker nvmrc_worker -n
-async_register_callback nvmrc_worker load-nvmrc
-async_job nvmrc_worker sleep 0.1
-
-
 export NVM_DIR="$HOME/.nvm"
 function load_nvm() {
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 }
-
-async_start_worker nvm_worker -n
-async_register_callback nvm_worker load_nvm
-async_job nvm_worker sleep 0.1
 
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"

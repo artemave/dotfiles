@@ -118,7 +118,7 @@ nnoremap <Leader>s :Rg<CR>
 nnoremap <Leader>S :RgInCurrentBufferDir<CR>
 nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
-nnoremap <Leader>b :History<cr>
+nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>G :GFiles?<cr>
 nnoremap <leader>u :Resume<cr>
 
@@ -137,8 +137,13 @@ function! SearchOperator(type)
   execute "Rg " . @@
 endfunction
 
-Plug 'preservim/nerdtree'
-nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
+if has('nvim')
+  Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+  nnoremap <silent> <leader><leader>f :CHADopen<cr>
+else
+  Plug 'preservim/nerdtree'
+  nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
+endif
 " nnoremap <silent> <leader><leader>f :Vexplore<cr>
 
 let g:delimitMate_expand_cr = 2
@@ -155,7 +160,8 @@ let g:ale_history_log_output = 1
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_enter = 0
-" let g:ale_lint_delay = 1000
+let g:ale_lint_delay = 1000
+let g:ale_lint_on_save = 0 " because autosave saves all buffers and that triggers a lot of linting
 " let g:ale_linters_explicit = 1
 " let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver']}
 let g:ale_fixers = {
@@ -167,8 +173,16 @@ let g:ale_fixers = {
 highlight link ALEErrorSign ErrorMsg
 highlight link ALEWarningSign WarningMsg
 
-nnoremap <silent> [l :ALEPrevious<CR>
-nnoremap <silent> ]l :ALENext<CR>
+nnoremap <silent> [l :ALEPreviousWrap<CR>
+nnoremap <silent> ]l :ALENextWrap<CR>
+
+nmap <leader>gd :ALEGoToDefinition<CR>
+nmap <leader>gt :ALEGoToTypeDefinition<CR>
+nmap <leader>gr :ALEFindReferences<CR>
+nmap <leader>gi :ALEImport<CR>
+nmap <leader>rn :ALERename<CR>
+nmap <leader>aa :ALECodeAction<CR>
+vmap <leader>aa :ALECodeAction<CR>
 
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-emmet', 'coc-snippets']
@@ -310,9 +324,10 @@ Plug 'tommcdo/vim-exchange'
 " Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'chrisbra/NrrwRgn'
 
+" This form adds golden_ratio_exclude_nonmodifiable
 Plug 'sarumont/golden-ratio'
 let g:golden_ratio_exclude_nonmodifiable = 1
-let g:golden_ratio_exclude_filetypes = ["nerdtree"]
+let g:golden_ratio_exclude_filetypes = ['NERDtree', 'CHADTree']
 
 " Plug 'vim-scripts/dbext.vim'
 
@@ -373,8 +388,14 @@ let g:deoplete#enable_at_startup = 1
 Plug 'takac/vim-hardtime'
 let g:hardtime_default_on = 1
 let g:hardtime_ignore_quickfix = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*", "ALEPreviewWindow" ]
 let g:list_of_normal_keys = ["h", "j", "k", "l"]
 let g:list_of_visual_keys = ["h", "j", "k", "l"]
+
+Plug 'vim-scripts/AnsiEsc.vim'
+
+Plug 'RRethy/vim-illuminate'
+
+Plug 'AndrewRadev/linediff.vim'
 
 call plug#end()            " required

@@ -32,7 +32,7 @@ if command -v reattach-to-user-namespace &> /dev/null; then
 fi
 
 if command -v nvim &> /dev/null; then
-  export EDITOR="nvim"
+  export EDITOR="vim"
 else
   export EDITOR="vim"
 fi
