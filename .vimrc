@@ -263,6 +263,8 @@ hi link illuminatedWord Search
 highlight ALEError cterm=bold gui=bold ctermbg=238 guibg=#3B4048
 highlight ALEWarning cterm=bold gui=bold ctermbg=238 guibg=#3B4048
 
+hi Comment gui=italic
+
 " select last pasted text
 nnoremap gp `[v\`]`
 
@@ -337,6 +339,8 @@ map <c-l> <C-W>l
 
 " select last paste in visual mode
 nnoremap <expr> gb "'[" . strpart(getregtype(), 0, 1) . "']"
+
+" autocmd BufWinEnter quickfix resize 20
 
 " Autosave
 fun! s:SavePreservingLastPasteMarks()

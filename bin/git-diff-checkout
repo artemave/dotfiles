@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+BRANCH=$1
+
+if [[ -z $BRANCH ]]
+then
+  echo "usage: $0 BRANCH"
+  exit 1
+fi
+
+local AVAILABLE_BRANCHES=($(git branch -a))
+
+if [[ $AVAILABLE_BRANCHES[(Ie)$BRANCH] -eq 0 ]]
+then
+  echo "branch $BRANCH not found"
+  exit 1
+fi
+
+git diff ...$BRANCH --name-only | fzf -m --preview "git diff --color ...$BRANCH -- {1}" | xargs git restore --source $BRANCH --worktree

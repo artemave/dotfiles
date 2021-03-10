@@ -71,8 +71,6 @@ au FileType {javascript,javascript.jsx,typescript} nmap <leader>vc :VjsCreateDec
 
 Plug 'michaeljsmith/vim-indent-object'
 
-Plug 'AndrewVos/vim-aaa'
-
 Plug 'godlygeek/tabular'
 nnoremap <Leader>a= :Tabularize /=<CR>
 vnoremap <Leader>a= :Tabularize /=<CR>
@@ -137,13 +135,13 @@ function! SearchOperator(type)
   execute "Rg " . @@
 endfunction
 
-if has('nvim')
-  Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-  nnoremap <silent> <leader><leader>f :CHADopen<cr>
-else
+" if has('nvim')
+"   Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+"   nnoremap <silent> <leader><leader>f :CHADopen<cr>
+" else
   Plug 'preservim/nerdtree'
   nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
-endif
+" endif
 " nnoremap <silent> <leader><leader>f :Vexplore<cr>
 
 let g:delimitMate_expand_cr = 2
@@ -151,7 +149,8 @@ let g:delimitMate_expand_space = 1
 " let g:delimitMate_jump_expansion = 1
 Plug 'Raimondi/delimitMate'
 
-Plug 'vim-scripts/matchit.zip'
+" Plug 'vim-scripts/matchit.zip'
+Plug 'andymass/vim-matchup'
 
 Plug 'w0rp/ale'
 let g:ale_sign_error = '✗'
@@ -258,6 +257,10 @@ Plug 'mg979/vim-visual-multi'
 
 Plug 'vim-ruby/vim-ruby'
 
+if has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+endif
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -319,6 +322,7 @@ set shellpipe=2>&1\|tee
 Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 
+" Easy text exchange operator for Vim.
 Plug 'tommcdo/vim-exchange'
 
 " Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -326,7 +330,7 @@ Plug 'chrisbra/NrrwRgn'
 
 " This form adds golden_ratio_exclude_nonmodifiable
 Plug 'sarumont/golden-ratio'
-let g:golden_ratio_exclude_nonmodifiable = 1
+" let g:golden_ratio_exclude_nonmodifiable = 1
 let g:golden_ratio_exclude_filetypes = ['NERDtree', 'CHADTree']
 
 " Plug 'vim-scripts/dbext.vim'
@@ -370,19 +374,16 @@ let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 
 Plug 'honza/vim-snippets'
 
-Plug 'AndrewRadev/splitjoin.vim'
-
 Plug 'kchmck/vim-coffee-script'
 
 if has('nvim')
-  Plug 'mhartington/nvim-typescript', {'do': 'npm -g install typescript && ./install.sh'}
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim'
-  set completeopt-=preview
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+set completeopt-=preview
 let g:deoplete#enable_at_startup = 1
 
 Plug 'takac/vim-hardtime'
@@ -397,5 +398,24 @@ Plug 'vim-scripts/AnsiEsc.vim'
 Plug 'RRethy/vim-illuminate'
 
 Plug 'AndrewRadev/linediff.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'AndrewVos/vim-aaa'
+Plug 'AndrewRadev/sideways.vim'
 
 call plug#end()            " required
+
+" some things have to be run after plug#end
+
+if has('nvim')
+  lua <<EOF
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    highlight = {
+      enable = true,              -- false will disable the whole extension
+    },
+    indent = {
+      enable = false,              -- false will disable the whole extension
+    },
+  }
+EOF
+endif

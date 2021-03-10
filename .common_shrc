@@ -32,7 +32,7 @@ if command -v reattach-to-user-namespace &> /dev/null; then
 fi
 
 if command -v nvim &> /dev/null; then
-  export EDITOR="vim"
+  export EDITOR="nvim"
 else
   export EDITOR="vim"
 fi
@@ -40,6 +40,7 @@ fi
 # use nightly nvim built if available
 if [[ -f ~/bin/nvim.appimage ]]; then
   alias nvim="~/bin/nvim.appimage"
+  export EDITOR="~/bin/nvim.appimage"
 else
   unalias nvim 2>& /dev/null
 fi
@@ -64,7 +65,7 @@ if [ -d ~/.ec2 ]; then
 fi
 
 # find snippet
-function fsnip() {
+fsnip() {
   egrep -C1 -R $1 "$HOME/.vim/bundle/vim-snippets/snippets/"
 }
 
@@ -96,7 +97,7 @@ alias ll='ls -l'
 alias la='ls -la'
 
 # remove duplicate lines that match a pattern (preserves order)
-function rmdups() {
+rmdups() {
   awk '{if ($0 ~ /'$0'/) { if (!a[$2]++) { print $0 } } else { print $0 }}' $1
 }
 
