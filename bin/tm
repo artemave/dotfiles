@@ -7,6 +7,7 @@ set -e
 
 if [ -z "$1" ]; then
   name="$(basename $PWD)"
+  name="${name//\./-}"
 else
   name=$1
 fi
@@ -16,7 +17,7 @@ tmux has -t "$name" && tmux attach -t "$name" && exit
 tmux new-session -d -s "$name" -n shell
 tmux new-window -t "$name" -n vim
 
-# Rails project? Add few more windows.
+# Rails project? Add a few more windows.
 if [ -f ./config/routes.rb ]; then
   tmux new-window -t "$name" -n server
   tmux new-window -t "$name" -n console
