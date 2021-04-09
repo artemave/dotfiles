@@ -48,6 +48,8 @@ export FZF_DEFAULT_COMMAND='rg -l --hidden ""'
 export FZF_CTRL_T_COMMAND='rg -l --hidden ""'
 # `--no-mouse`: https://github.com/kovidgoyal/kitty/issues/3121
 export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --no-mouse --exact --bind ctrl-a:select-all"
+# bat is nice, but for some reason it doesn't work in preview atm
+# export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --no-mouse --exact --bind ctrl-a:select-all --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 
 export PATH=$PATH:$HOME/.cargo/bin
 

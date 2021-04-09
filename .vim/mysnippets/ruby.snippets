@@ -3,19 +3,19 @@ snippet rd "Disable rubocop rule" b
 # rubocop:enable $1
 endsnippet
 
-snippet metric
+snippet rdm
 # rubocop:disable Metrics/$1
 # rubocop:enable Metrics/$1
 endsnippet
 
-snippet ap "awesome print" b
-ap '${1:var}': $1
-endsnippet
-
-snippet bb byebug b
+snippet bb "byebug" b
 byebug
 endsnippet
 
-snippet bbs "bybug with sleep (for Capybara)" b
+snippet bs "byebug with sleep for Capybara" b
 sleep 1; byebug
+endsnippet
+
+snippet ap "awesome print" b
+ap '${1:var}': $1
 endsnippet

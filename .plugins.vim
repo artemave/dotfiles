@@ -24,8 +24,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-scriptease'
 
-Plug 'tpope/vim-haml'
-au BufNewFile,BufRead *.hamlc set filetype=haml
+" Plug 'tpope/vim-haml'
+" au BufNewFile,BufRead *.hamlc set filetype=haml
 
 Plug 'tpope/vim-cucumber'
 " cucumber auto outline
@@ -49,11 +49,14 @@ Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
 Plug 'artemave/vigun'
-au FileType {ruby,javascript,typescript,cucumber,vader} nnoremap <leader>t :VigunRunTestFile<cr>
-au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>T :VigunRunNearestTest<cr>
-au FileType {javascript,typescript,cucumber} nnoremap <leader>D :VigunRunNearestTestDebug<cr>
+au FileType {ruby,javascript,typescript,cucumber,vader} nnoremap <leader>t :VigunRun 'all'<cr>
+au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>T :VigunRun 'nearest'<cr>
+au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
+au FileType {ruby,javascript,typescript,cucumber,vader} nnoremap <leader>wt :VigunRun 'watch-all'<cr>
+au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
 au FileType {javascript,typescript,typescript} nnoremap <Leader>vo :VigunMochaOnly<cr>
 au FileType {ruby,javascript,typescript,go} nnoremap <leader>vi :VigunShowSpecIndex<cr>
+nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 
 Plug 'artemave/vjs', { 'do': 'npm install' }
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListRequirers<cr>
@@ -255,7 +258,7 @@ Plug 'mg979/vim-visual-multi'
 " Plug 'majutsushi/tagbar'
 " nmap <F8> :TagbarToggle<CR>
 
-Plug 'vim-ruby/vim-ruby'
+" Plug 'vim-ruby/vim-ruby'
 
 if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -278,15 +281,15 @@ let g:surround_109 = "{{\r}}"
 let g:surround_77 = "{{{\r}}}"
 let g:mustache_abbreviations = 1
 
-Plug 'fatih/vim-go'
-let g:go_version_warning = 0
-let g:go_fmt_command = "goimports"
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
+" Plug 'fatih/vim-go'
+" let g:go_version_warning = 0
+" let g:go_fmt_command = "goimports"
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_types = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_build_constraints = 1
 
 
 au FileType go nmap <leader>gr <Plug>(go-run)
@@ -309,9 +312,9 @@ au FileType go nmap <Leader>re <Plug>(go-rename)
 " Plug 'tomasr/molokai'
 Plug 'joshdick/onedark.vim'
 
-Plug 'elixir-lang/vim-elixir'
+" Plug 'elixir-lang/vim-elixir'
 
-Plug 'pangloss/vim-javascript'
+" Plug 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
 
 autocmd FileType {javascript,javascript.jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
@@ -319,13 +322,13 @@ autocmd FileType {javascript,javascript.jsx} set makeprg=./node_modules/.bin/tsc
 " https://github.com/tpope/vim-dispatch/issues/222
 set shellpipe=2>&1\|tee
 
-Plug 'leafgarland/typescript-vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'MaxMEllon/vim-jsx-pretty'
 
 " Easy text exchange operator for Vim.
 Plug 'tommcdo/vim-exchange'
 
-" Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'chrisbra/NrrwRgn'
 
 " This form adds golden_ratio_exclude_nonmodifiable
@@ -349,7 +352,7 @@ Plug 'junegunn/vader.vim'
 Plug 'romainl/vim-cool'
 let g:CoolTotalMatches = 1
 
-Plug 'nikvdp/ejs-syntax'
+" Plug 'nikvdp/ejs-syntax'
 
 Plug 'ap/vim-css-color'
 
@@ -363,7 +366,10 @@ Plug 'yssl/QFEnter'
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<Tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+
+" Calling UltiSnips#ExpandSnippetOrJump() from command mode unfucks snippet
+" expantion. TODO: investigate further.
 
 " autocmd CursorHold * :call s:fix_tab_mapping()
 
@@ -374,7 +380,7 @@ let g:UltiSnipsJumpForwardTrigger = "<Tab>"
 
 Plug 'honza/vim-snippets'
 
-Plug 'kchmck/vim-coffee-script'
+" Plug 'kchmck/vim-coffee-script'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -402,6 +408,12 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewVos/vim-aaa'
 Plug 'AndrewRadev/sideways.vim'
 
+Plug 'jxnblk/vim-mdx-js'
+
+Plug 'christoomey/vim-tmux-navigator'
+
+" Plug 'fmoralesc/nvimfs'
+
 call plug#end()            " required
 
 " some things have to be run after plug#end
@@ -410,6 +422,7 @@ if has('nvim')
   lua <<EOF
   require'nvim-treesitter.configs'.setup {
     ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ignore_install = { "ledger", "gdscript", "supercollider", "devicetree", "nix", "erlang", "ocamllex" },
     highlight = {
       enable = true,              -- false will disable the whole extension
     },

@@ -16,6 +16,7 @@ tmux has -t "$name" && tmux attach -t "$name" && exit
 
 tmux new-session -d -s "$name" -n shell
 tmux new-window -t "$name" -n vim
+tmux new-window -t "$name" -n test
 
 # Rails project? Add a few more windows.
 if [ -f ./config/routes.rb ]; then

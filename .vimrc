@@ -5,23 +5,24 @@ set encoding=utf-8
 " trick ideavim into skipping this
 exec "source ~/.plugins.vim"
 
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 " colorscheme molokai " this has to come after 'filetype plugin indent on'
 colorscheme onedark
-if (empty($TMUX))
-  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
+" Fix vimdiff colors
+highlight DiffText guifg=NONE guibg=#000000 gui=NONE
+highlight DiffChange guifg=NONE guibg=#484540 gui=NONE
+highlight DiffDelete gui=NONE guibg=#1e2127 guifg=#5f3a41
+highlight DiffAdd gui=NONE guifg=NONE guibg=#3b453f
 
 set exrc   " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
 
 syntax on
 
-set t_Co=256
+" set t_Co=256
 " inoremap <Tab> <Esc>`^
 inoremap kj <Esc>`^
 inoremap jj <Esc>`^
@@ -257,7 +258,7 @@ nnoremap <C-^> :call SwitchToPrevBuffer()<CR>
 
 hi LineNr ctermbg=NONE guibg=NONE ctermfg=14 guifg=#80a0ff
 hi MatchParen      ctermfg=208  ctermbg=233 cterm=bold
-hi Search cterm=bold ctermfg=255 ctermbg=238
+hi Search cterm=bold ctermfg=255 ctermbg=238 guifg=NONE guibg=#3B4048
 hi link illuminatedWord Search
 
 highlight ALEError cterm=bold gui=bold ctermbg=238 guibg=#3B4048
@@ -391,6 +392,12 @@ fun! s:JumpToNearestError(direction) abort
     call setpos('.', target_pos)
   endif
 endf
+
+" only available in nvim at the moment
+if has('nvim')
+  " show substitution result interactively
+  set inccommand=nosplit
+endif
 
 " nnoremap ]l :call <SID>JumpToNearestError('down')<CR>
 " nnoremap [l :call <SID>JumpToNearestError('up')<CR>

@@ -5,6 +5,9 @@ import os
 import subprocess
 from pprint import pprint
 
+def shell(command):
+    return subprocess.run(command.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
+
 def camel_to_snake(string):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', string)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
@@ -19,7 +22,7 @@ def mark(text, args, Mark, extra_cli_args, *a):
     path_prefix = os.getcwd()
 
     if send_to == 'tmux':
-        path_prefix = subprocess.run('tmux display-message -p -F #{pane_current_path} -t0'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
+        path_prefix = shell('tmux display-message -p -F #{pane_current_path} -t0')
 
     regexp = re.compile(
             '(?P<rails_log_controller>(?:[A-Z]\\w*::)*[A-Z]\\w*Controller#\\w+)|'
@@ -114,20 +117,18 @@ def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
 
         if 'file_path' in data:
             if send_to == 'tmux':
-                window_names = subprocess.run('tmux list-windows -F #{window_name}'.split(' '), stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip().split('\n')
+                window_names = shell('tmux list-windows -F #{window_name}').split('\n')
                 vim_window_names = list(filter(lambda x: x == 'vim' or x == 'nvim', window_names))
 
                 if len(vim_window_names):
                     os.system('tmux select-window -t %s' %(vim_window_names[0]))
-                    os.system('tmux send-keys Escape')
+                    vim_pane_id = shell('tmux list-panes -F "#{pane_id}" -t %s' %(vim_window_names[0])).split('\n')[0]
+                    os.system('tmux send-keys -t %s Escape' %(vim_pane_id))
 
                     if 'line_number' in data:
-                        os.system('tmux send-keys ":e +%s %s"' %(data['line_number'], data['file_path']))
+                        os.system('tmux send-keys -t %s ":e +%s %s" Enter zz' %(vim_pane_id, data['line_number'], data['file_path']))
                     else:
-                        os.system('tmux send-keys ":e %s"' %(data['file_path']))
-
-                    os.system('tmux send-keys Enter')
-                    os.system('tmux send-keys zz')
+                        os.system('tmux send-keys -t %s ":e %s" Enter zz' %(vim_pane_id, data['file_path']))
                 else:
                     raise Exception('Could not find "vim" or "nvim" window in the current session')
 
