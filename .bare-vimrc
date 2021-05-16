@@ -1,0 +1,11 @@
+set nocompatible
+
+call plug#begin('~/.vim/plugged')
+
+call plug#begin()
+
+Plug 'sheerun/vim-polyglot'
+
+call plug#end()
+
+hi Comment gui=italic

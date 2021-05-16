@@ -352,15 +352,20 @@ fun! s:SavePreservingLastPasteMarks()
   let paste_end_pos = getpos("']")
   " Saving file resets '] and '[ marks for some reason, so we need to carry them
   " across for `gb` (see above) to work.
-  silent! wa
+  silent! w
+
   call setpos("'[", paste_start_pos)
   call setpos("']", paste_end_pos)
 endf
 " autocmd FocusLost * call <SID>SavePreservingLastPasteMarks()
 " autocmd CursorHold * call <SID>SavePreservingLastPasteMarks()
 autocmd TextChanged * call <SID>SavePreservingLastPasteMarks()
-autocmd TextChangedI * call <SID>SavePreservingLastPasteMarks()
-autocmd TextChangedP * call <SID>SavePreservingLastPasteMarks()
+" autocmd TextChangedI * call <SID>SavePreservingLastPasteMarks()
+" autocmd TextChangedP * call <SID>SavePreservingLastPasteMarks()
+" au TextChanged * :echo 'balls'
+" FileChangedShell
+" BufWritePost
+" FileWritePost
 " set updatetime=10
 
 set cursorline
@@ -398,6 +403,8 @@ if has('nvim')
   " show substitution result interactively
   set inccommand=nosplit
 endif
+
+nnoremap <c-s> :w<cr>
 
 " nnoremap ]l :call <SID>JumpToNearestError('down')<CR>
 " nnoremap [l :call <SID>JumpToNearestError('up')<CR>

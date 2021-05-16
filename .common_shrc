@@ -37,14 +37,6 @@ else
   export EDITOR="vim"
 fi
 
-# use nightly nvim built if available
-if [[ -f ~/bin/nvim.appimage ]]; then
-  alias nvim="~/bin/nvim.appimage"
-  export EDITOR="~/bin/nvim.appimage"
-else
-  unalias nvim 2>& /dev/null
-fi
-
 # batch rename. ex: `mmv **/*2008.mp3 **/*2009.mp3`
 if command -v zmv &> /dev/null; then
   alias mmv='noglob zmv -W'

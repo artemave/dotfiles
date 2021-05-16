@@ -1,6 +1,6 @@
 [core]
   excludesfile = ~/.gitignore
-  editor = /home/artem/bin/nvim.appimage
+  editor = /home/artem/bin/nvim
   ; pager = delta
 
 [user]
@@ -23,7 +23,7 @@
 [merge]
   tool = vimdiff
 [mergetool "vimdiff"]
-  path = /home/artem/bin/nvim.appimage
+  path = /home/artem/bin/nvim
 [pull]
   rebase = true
 [push]

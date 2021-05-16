@@ -57,6 +57,7 @@ au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>wT :VigunRun 
 au FileType {javascript,typescript,typescript} nnoremap <Leader>vo :VigunMochaOnly<cr>
 au FileType {ruby,javascript,typescript,go} nnoremap <leader>vi :VigunShowSpecIndex<cr>
 nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
+let g:vigun_tmux_pane_orientation = 'horizontal'
 
 Plug 'artemave/vjs', { 'do': 'npm install' }
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListRequirers<cr>
