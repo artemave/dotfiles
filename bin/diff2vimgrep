@@ -4,11 +4,8 @@ set -eEuCo pipefail
 
 # source: https://stackoverflow.com/a/33249416/51209
 cat | awk '
-  match($0, "^@@ -([0-9]+),([0-9]+) [+]([0-9]+),([0-9]+) @@", a){
-    left=a[1]
-    ll=length(a[2])
+  match($0, "^@@ -([0-9]+),([0-9]+) [+]([0-9]+),([0-9]+) @@", a) {
     right=a[3]
-    rl=length(a[4])
   }
   match($0, "^+++ b/([^ ]+)", b) {
     path=b[1]
