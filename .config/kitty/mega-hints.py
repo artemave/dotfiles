@@ -25,15 +25,15 @@ def mark(text, args, Mark, extra_cli_args, *a):
         path_prefix = shell('tmux display-message -p -F #{pane_current_path} -t0')
 
     regexp = re.compile(
-            '(?P<rails_log_controller>(?:[A-Z]\\w*::)*[A-Z]\\w*Controller#\\w+)|'
-            'Render(?:ed|ing) (?P<rails_log_partial>[-a-zA-Z0-9_+-,./]+)|'
-            '(?P<url>(https?|tcp)://[-a-zA-Z0-9@:%._\+~#=]{2,256}\\b([-a-zA-Z0-9@:%_\\+.~#?&/=]*))|'
-            '\\+\\+\\+ b/?(?P<diff_path>([~./]?[-a-zA-Z0-9_+-,./]+(?::\\d+)?))|'
-            '(?P<path>([~./]?[-a-zA-Z0-9_+-,./]+(?::\\d+)?))'
-            )
+        '(?P<rails_log_controller>(?:[A-Z]\\w*::)*[A-Z]\\w*Controller#\\w+)|'
+        'Render(?:ed|ing) (?P<rails_log_partial>[-a-zA-Z0-9_+-,./]+)|'
+        '(?P<url>(https?|tcp)://[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\b([-a-zA-Z0-9@:%_\\+.~#?&/=]*))|'
+        '\\+\\+\\+ b/?(?P<diff_path>([~./]?[-a-zA-Z0-9_+-,./]+(?::\\d+)?))|'
+        '(?P<path>([~./]?[-a-zA-Z0-9_+-,./]+(?::\\d+)?))'
+        )
 
     mark_idx = 0
-    for idx, m in enumerate(re.finditer(regexp, text)):
+    for _idx, m in enumerate(re.finditer(regexp, text)):
         start, end = m.span()
         mark_text = text[start:end].replace('\n', '').replace('\0', '')
 
@@ -57,7 +57,8 @@ def mark(text, args, Mark, extra_cli_args, *a):
                 file_path = os.path.join(path_prefix, file_path)
                 if os.path.exists(file_path):
                     mark_data = {'file_path': file_path}
-                    if len(parts) > 1: mark_data['line_number'] = parts[1]
+                    if len(parts) > 1:
+                        mark_data['line_number'] = parts[1]
 
         elif rails_partial_match:
             start, end = m.span('rails_log_partial')
@@ -66,19 +67,19 @@ def mark(text, args, Mark, extra_cli_args, *a):
 
             if os.path.exists(file_path):
                 mark_data = {
-                        'file_path': file_path
-                        }
+                    'file_path': file_path
+                    }
 
         elif url_match:
-                mark_data = {
-                        'url': mark_text.replace('tcp', 'http')
-                        }
+            mark_data = {
+                'url': mark_text.replace('tcp', 'http')
+                }
 
         elif rails_controller_match:
             controller_class, action = mark_text.split('#')
             controller_path = './app/controllers/' + '/'.join(
-                    map(camel_to_snake, controller_class.split('::'))
-                    ) + '.rb'
+                map(camel_to_snake, controller_class.split('::'))
+                ) + '.rb'
             controller_path = os.path.join(path_prefix, controller_path)
 
             method_def_regex = re.compile('^\\s*def\\s+%s' % (action))

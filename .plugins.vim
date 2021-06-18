@@ -49,13 +49,13 @@ Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
 Plug 'artemave/vigun'
-au FileType {ruby,javascript,typescript,cucumber,vader} nnoremap <leader>t :VigunRun 'all'<cr>
-au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>T :VigunRun 'nearest'<cr>
-au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
-au FileType {ruby,javascript,typescript,cucumber,vader} nnoremap <leader>wt :VigunRun 'watch-all'<cr>
-au FileType {ruby,javascript,typescript,cucumber} nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
-au FileType {javascript,typescript,typescript} nnoremap <Leader>vo :VigunMochaOnly<cr>
-au FileType {ruby,javascript,typescript,go} nnoremap <leader>vi :VigunShowSpecIndex<cr>
+au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>t :VigunRun 'all'<cr>
+au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>T :VigunRun 'nearest'<cr>
+au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
+au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>wt :VigunRun 'watch-all'<cr>
+au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
+au FileType javascript,typescript,typescript nnoremap <Leader>vo :VigunMochaOnly<cr>
+au FileType ruby,javascript,typescript,go nnoremap <leader>vi :VigunShowSpecIndex<cr>
 nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 let g:vigun_tmux_pane_orientation = 'horizontal'
 
@@ -111,18 +111,29 @@ function! Mru(onlyLocal)
 endfunction
 
 command! -bang Mru :call Mru(!<bang>0)
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --hidden --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " grep hidden files too
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {}, <bang>0)
 command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {'options': '-n 2..', 'dir': expand('%:h')}, <bang>0)
+command! -bang -nargs=0 RgDiffMaster call fzf#vim#grep("git diff master... | diff2vimgrep", 0, {}, <bang>0)
 
-nnoremap <silent> <Leader><Leader>s :execute 'Rg' "\\b" . expand('<cword>') . "\\b"<CR>
-nnoremap <Leader>s :Rg<CR>
+nnoremap <silent> <Leader><Leader>s :execute 'RG' "\\b" . expand('<cword>') . "\\b"<CR>
+nnoremap <Leader>s :RG<CR>
 nnoremap <Leader>S :RgInCurrentBufferDir<CR>
 nnoremap <Leader>f :Files<cr>
 nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
 nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>G :GFiles?<cr>
 nnoremap <leader>u :Resume<cr>
+nnoremap <leader>g :RgDiffMaster<cr>
 
 nnoremap <leader>v :set operatorfunc=SearchOperator<cr>g@
 vnoremap <leader>v :<c-u>call SearchOperator(visualmode())<cr>
@@ -175,6 +186,8 @@ let g:ale_fixers = {
 
 highlight link ALEErrorSign ErrorMsg
 highlight link ALEWarningSign WarningMsg
+highlight ALEError cterm=undercurl gui=undercurl
+highlight ALEWarning cterm=undercurl gui=undercurl
 
 nnoremap <silent> [l :ALEPreviousWrap<CR>
 nnoremap <silent> ]l :ALENextWrap<CR>
@@ -263,15 +276,18 @@ Plug 'mg979/vim-visual-multi'
 
 if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 endif
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" airline is slow apparently
+Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 
-let g:airline_powerline_fonts = 1
-let g:airline_section_a = ''
-let g:airline_section_b = ''
-let g:airline_theme = 'onedark'
+" let g:airline_powerline_fonts = 1
+" let g:airline_section_a = ''
+" let g:airline_section_b = ''
+" let g:airline_theme = 'onedark'
 set laststatus=2
 " let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
 " let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
@@ -400,7 +416,9 @@ let g:hardtime_ignore_buffer_patterns = [ "NERD.*", "ALEPreviewWindow" ]
 let g:list_of_normal_keys = ["h", "j", "k", "l"]
 let g:list_of_visual_keys = ["h", "j", "k", "l"]
 
-Plug 'vim-scripts/AnsiEsc.vim'
+" Don't use this - it adds a mapping that starts with 's'
+" and that's messing with my fzf mapping
+" Plug 'vim-scripts/AnsiEsc.vim'
 
 Plug 'RRethy/vim-illuminate'
 
@@ -429,6 +447,62 @@ if has('nvim')
     },
     indent = {
       enable = false,              -- false will disable the whole extension
+    },
+    textobjects = {
+      select = {
+        enable = true,
+        keymaps = {
+          -- You can use the capture groups defined in textobjects.scm
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+
+          -- Or you can define your own textobjects like this
+          -- ["iF"] = {
+          --   python = "(function_definition) @function",
+          --   cpp = "(function_definition) @function",
+          --   c = "(function_definition) @function",
+          --   java = "(method_declaration) @function",
+          -- },
+        },
+      },
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<leader>a"] = "@parameter.inner",
+        },
+        swap_previous = {
+          ["<leader>A"] = "@parameter.inner",
+        },
+      },
+      move = {
+        enable = true,
+        set_jumps = true, -- whether to set jumps in the jumplist
+        goto_next_start = {
+          ["]m"] = "@function.outer",
+          ["]]"] = "@class.outer",
+        },
+        goto_next_end = {
+          ["]M"] = "@function.outer",
+          ["]["] = "@class.outer",
+        },
+        goto_previous_start = {
+          ["[m"] = "@function.outer",
+          ["[["] = "@class.outer",
+        },
+        goto_previous_end = {
+          ["[M"] = "@function.outer",
+          ["[]"] = "@class.outer",
+        },
+      },
+      lsp_interop = {
+        enable = true,
+        peek_definition_code = {
+          ["df"] = "@function.outer",
+          ["dF"] = "@class.outer",
+        },
+      },
     },
   }
 EOF

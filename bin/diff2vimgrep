@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -eEuCo pipefail
+
+# source: https://stackoverflow.com/a/33249416/51209
+cat | awk '
+  match($0, "^@@ -([0-9]+),([0-9]+) [+]([0-9]+),([0-9]+) @@", a){
+    left=a[1]
+    ll=length(a[2])
+    right=a[3]
+    rl=length(a[4])
+  }
+  match($0, "^+++ b/([^ ]+)", b) {
+    path=b[1]
+  }
+  { right++ }
+  /^\+\+\+ / { next }
+  ! /^\+/ { next }
+
+  { line=substr($0, 2) }
+  # match(line, "^$") { next }
+
+  { printf "%s:%s:1:%s\n", path, right-2, line }
+'
