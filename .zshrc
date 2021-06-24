@@ -53,12 +53,34 @@ setopt interactivecomments # pound sign in interactive prompt
 REPORTTIME=10
 
 autoload -U colors && colors
+
+preexec() {
+  # for Terminal current directory support
+  print -Pn "\e]2; %~/ \a"
+
+  # for timing commands
+  timer=$(($(print -P %D{%s%6.})/1000))
+}
+
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' actionformats \
-    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-zstyle ':vcs_info:*' formats       \
-    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+PROMPT_GREEN='%F{green}'
+PROMPT_YELLOW='%F{yellow}'
+PROMPT_CYAN='%F{cyan}'
+PROMPT_BLUE='%F{blue}'
+PROMPT_RED='%F{red}'
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr " %F{green}+"
+zstyle ':vcs_info:*' unstagedstr " %F{yellow}#"
+zstyle ':vcs_info:*' formats "%F{blue}{%F{cyan}%b%u%c%F{blue}} "
+zstyle ':vcs_info:*' actionformats "%F{blue}{%F{cyan}%b %F{red}%a%u%c%F{blue}} "
+
+# zstyle ':vcs_info:*' actionformats \
+#     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+# zstyle ':vcs_info:*' formats       \
+#     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 
 # or use pre_cmd, see man zshcontrib
@@ -74,14 +96,14 @@ function rbenv_prompt_info() {
   local ruby_version
   ruby_version=$(ruby -v 2> /dev/null) || return
   ruby_version=$(echo $ruby_version | sed 's/ruby \([^ ]*\).*/\1/')
-  echo "‹%F{196}♦️ $ruby_version%f›"
+  echo "‹%F{196}♦️$ruby_version%f›"
 }
 
 node_prompt_info() {
   [ -f ./package.json ] || return
   local node_version
   node_version=$(node -v 2> /dev/null) || return
-  echo "‹%F{082}⬢ $node_version%f›"
+  echo "‹%F{082}⬢$node_version%f›"
 }
 
 function vi_mode() {
@@ -90,12 +112,38 @@ function vi_mode() {
 
 setopt prompt_subst
 
-PROMPT='%(!.%F{red}.%F{green})%n:%~%F{yellow}$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
+precmd() {
+  # for Terminal current directory support
+  print -Pn "\e]2; %~/ \a"
+
+  vcs_info
+
+  if [[ -n $SSH_TTY ]]
+  then
+    local DISPLAY_HOST="%F{yellow}$(hostname) "
+  else
+    local DISPLAY_HOST=
+  fi
+
+  # for timing commands
+  if [ $timer ]; then
+    local now=$(($(print -P %D{%s%6.})/1000))
+    elapsed=$(($now-$timer))
+    # elapsed=$(duration $(($now-$timer)))
+    PROMPT="%(!.%F{red}.%F{green})%~ %F{blue}+${elapsed}ms%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
+[%F{cyan}$(vi_mode)%f] %F{yellow}%% %f"
+    unset elapsed
+    unset timer
+  else
+    PROMPT='%(!.%F{red}.%F{green})%~%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
 [%F{cyan}$(vi_mode)%f] %F{yellow}%% %f'
+  fi
+}
 
 function zle-line-init zle-keymap-select {
   zle reset-prompt
 }
+
 zle -N zle-line-init
 zle -N zle-keymap-select
 
