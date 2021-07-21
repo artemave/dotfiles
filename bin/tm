@@ -15,7 +15,8 @@ fi
 tmux has -t "$name" && tmux attach -t "$name" && exit
 
 tmux new-session -d -s "$name" -n shell
-tmux new-window -t "$name" -n vim
+# When vim exits, make sure there is a shell underneath (https://superuser.com/a/91898)
+tmux new-window -t "$name" -n nvim 'nvim; zsh -i'
 tmux new-window -t "$name" -n test
 
 # Rails project? Add a few more windows.
