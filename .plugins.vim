@@ -55,9 +55,9 @@ au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :Vigun
 au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>wt :VigunRun 'watch-all'<cr>
 au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
 au FileType javascript,typescript,typescript nnoremap <Leader>vo :VigunMochaOnly<cr>
-au FileType ruby,javascript,typescript,go nnoremap <leader>vi :VigunShowSpecIndex<cr>
+au FileType ruby,javascript,typescript,go,python nnoremap <leader>vi :VigunShowSpecIndex<cr>
 nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
-let g:vigun_tmux_pane_orientation = 'horizontal'
+" let g:vigun_tmux_pane_orientation = 'horizontal'
 
 Plug 'artemave/vjs', { 'do': 'npm install' }
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListRequirers<cr>
@@ -123,7 +123,7 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " grep hidden files too
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {}, <bang>0)
 command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {'options': '-n 2..', 'dir': expand('%:h')}, <bang>0)
-command! -bang -nargs=0 RgDiffMaster call fzf#vim#grep("git diff master... | diff2vimgrep", 0, {}, <bang>0)
+command! -bang -nargs=0 RgDiffMaster call fzf#vim#grep("{ git diff master... & git diff } | diff2vimgrep | sort -u", 0, {}, <bang>0)
 
 nnoremap <silent> <Leader><Leader>s :execute 'RG' "\\b" . expand('<cword>') . "\\b"<CR>
 nnoremap <Leader>s :RG<CR>
@@ -154,8 +154,9 @@ endfunction
 "   Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 "   nnoremap <silent> <leader><leader>f :CHADopen<cr>
 " else
-  Plug 'preservim/nerdtree'
-  nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
+Plug 'preservim/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
 " endif
 " nnoremap <silent> <leader><leader>f :Vexplore<cr>
 
@@ -177,11 +178,12 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_delay = 1000
 let g:ale_lint_on_save = 0 " because autosave saves all buffers and that triggers a lot of linting
 " let g:ale_linters_explicit = 1
-" let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver']}
+let g:ale_linters_ignore = {'python': ['pylint', 'mypy']}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'standard'],
-\   'ruby': ['rubocop']
+\   'ruby': ['rubocop'],
+\   'python': ['autoimport', 'isort', 'autopep8'],
 \}
 
 highlight link ALEErrorSign ErrorMsg
@@ -399,7 +401,11 @@ Plug 'honza/vim-snippets'
 
 " Plug 'kchmck/vim-coffee-script'
 
+let g:webdevicons_enable = 1
+Plug 'ryanoasis/vim-devicons'
+
 if has('nvim')
+  Plug 'Shougo/deoplete-lsp'
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim'
@@ -499,8 +505,8 @@ if has('nvim')
       lsp_interop = {
         enable = true,
         peek_definition_code = {
-          ["df"] = "@function.outer",
-          ["dF"] = "@class.outer",
+          ["dm"] = "@function.outer",
+          ["dM"] = "@class.outer",
         },
       },
     },

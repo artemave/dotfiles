@@ -3,6 +3,7 @@
 import re
 import os
 import subprocess
+from os.path import abspath
 from pprint import pprint
 
 def shell(command):
@@ -54,8 +55,9 @@ def mark(text, args, Mark, extra_cli_args, *a):
             file_path = parts[0]
 
             if file_path != '.' and file_path != '..' and file_path != '/':
-                file_path = os.path.join(path_prefix, file_path)
-                if os.path.exists(file_path):
+                # file_path = os.path.join(path_prefix, file_path)
+                file_path = abspath(os.path.join(path_prefix, os.path.expanduser(file_path)))
+                if os.path.isfile(file_path):
                     mark_data = {'file_path': file_path}
                     if len(parts) > 1:
                         mark_data['line_number'] = parts[1]

@@ -20,7 +20,8 @@ highlight DiffAdd gui=NONE guifg=NONE guibg=#3b453f
 set exrc   " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
 
-syntax on
+" now using treesitter for syntax
+" syntax on
 
 " set t_Co=256
 " inoremap <Tab> <Esc>`^
@@ -360,6 +361,7 @@ endf
 " autocmd FocusLost * call <SID>SavePreservingLastPasteMarks()
 " autocmd CursorHold * call <SID>SavePreservingLastPasteMarks()
 autocmd TextChanged * call <SID>SavePreservingLastPasteMarks()
+autocmd InsertLeave * call <SID>SavePreservingLastPasteMarks()
 " autocmd TextChangedI * call <SID>SavePreservingLastPasteMarks()
 " autocmd TextChangedP * call <SID>SavePreservingLastPasteMarks()
 " au TextChanged * :echo 'balls'
