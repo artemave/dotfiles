@@ -96,6 +96,9 @@ Plug 'artemave/fzf.vim' " my fork adds `Resume` command
 " let $FZF_DEFAULT_OPTS .= ' --exact --bind ctrl-a:select-all'
 let g:fzf_history_dir = '~/.fzf-history'
 
+let g:fzf_layout = { 'left': '100%' }
+  let g:fzf_preview_window = ['right:60%', 'ctrl-/']
+
 Plug 'Shougo/neomru.vim'
 function! Mru(onlyLocal)
   if a:onlyLocal
@@ -430,8 +433,9 @@ Plug 'RRethy/vim-illuminate'
 
 Plug 'AndrewRadev/linediff.vim'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'AndrewVos/vim-aaa'
 Plug 'AndrewRadev/sideways.vim'
+
+Plug 'artemave/vim-aaa'
 
 Plug 'jxnblk/vim-mdx-js'
 

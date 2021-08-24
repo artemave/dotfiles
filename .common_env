@@ -46,7 +46,7 @@ export COMMON_ENV_LOADED=1
 
 export FZF_DEFAULT_COMMAND='rg -l --hidden ""'
 export FZF_CTRL_T_COMMAND='rg -l --hidden ""'
-export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --no-mouse --exact --bind ctrl-a:select-all --preview '~/.vim/plugged/fzf.vim/bin/preview.sh {}'"
+export FZF_DEFAULT_OPTS="--no-mouse --exact --bind ctrl-a:select-all --preview '~/.vim/plugged/fzf.vim/bin/preview.sh {}'"
 # export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --no-mouse --exact --bind ctrl-a:select-all"
 
 export PATH=$PATH:$HOME/.cargo/bin

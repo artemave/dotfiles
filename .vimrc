@@ -64,6 +64,7 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
+set smartindent
 
 set autoread
 if has('nvim')
@@ -316,8 +317,8 @@ set noshowmode
 hi Visual ctermbg=darkgrey
 
 " paste without loosing copied text
-vnoremap <leader>p "_dp
-vnoremap <leader>P "_dP
+xnoremap <leader>p "_dp
+xnoremap <leader>P "_dP
 
 packadd cfilter
 
