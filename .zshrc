@@ -167,19 +167,6 @@ bindkey '^_' undo
 # ctrl-w removed word backwards
 bindkey '^w' backward-kill-word
 
-source ~/.zsh/zplug/init.zsh
-# zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
-
-zplug 'kevinywlui/zlong_alert.zsh'
-zlong_ignore_cmds='vim ssh heroku nvim tail man less'
-
-zplug 'zdharma/fast-syntax-highlighting', defer:2
-
-if ! zplug check --verbose; then
-  zplug install
-fi
-zplug load --verbose
-
 # this is now here as opposed to .zlogin because `zplug` inserting `/bin` in the PATH which breaks coreutils (ls, etc)
 
 # ubuntu does not start login shell
@@ -190,33 +177,33 @@ source ~/.common_shrc
 
 # place this after nvm initialization!
 autoload -U add-zsh-hook
-load-nvmrc() {
-  if command -v nvm > /dev/null; then
-    local node_version="$(nvm version)"
-    local nvmrc_path="$(nvm_find_nvmrc)"
+# load-nvmrc() {
+#   if command -v nvm > /dev/null; then
+#     local node_version="$(nvm version)"
+#     local nvmrc_path="$(nvm_find_nvmrc)"
 
-    if [ -n "$nvmrc_path" ]; then
-      local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+#     if [ -n "$nvmrc_path" ]; then
+#       local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-      if [ "$nvmrc_node_version" = "N/A" ]; then
-        nvm install
-      elif [ "$nvmrc_node_version" != "$node_version" ]; then
-        nvm use --delete-prefix
-      fi
-    elif [ "$node_version" != "$(nvm version default)" ]; then
-      echo "Reverting to nvm default version"
-      nvm use --delete-prefix default
-    fi
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
+#       if [ "$nvmrc_node_version" = "N/A" ]; then
+#         nvm install
+#       elif [ "$nvmrc_node_version" != "$node_version" ]; then
+#         nvm use --delete-prefix
+#       fi
+#     elif [ "$node_version" != "$(nvm version default)" ]; then
+#       echo "Reverting to nvm default version"
+#       nvm use --delete-prefix default
+#     fi
+#   fi
+# }
+# add-zsh-hook chpwd load-nvmrc
 
-export NVM_DIR="$HOME/.nvm"
-function load_nvm() {
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-}
-load_nvm
+# export NVM_DIR="$HOME/.nvm"
+# function load_nvm() {
+#   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+#   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+# }
+# load_nvm
 
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
@@ -244,3 +231,21 @@ fi
 ###-tns-completion-end-###
 
 if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+eval "$(pyenv init -)"
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# This should be the last thing because it duplicates PATH entries
+source ~/.zsh/zplug/init.zsh
+# zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
+
+zplug 'kevinywlui/zlong_alert.zsh'
+zlong_ignore_cmds='vim ssh heroku nvim tail man less'
+
+zplug 'zdharma/fast-syntax-highlighting', defer:2
+
+if ! zplug check --verbose; then
+  zplug install
+fi
+zplug load --verbose

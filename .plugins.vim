@@ -97,7 +97,7 @@ Plug 'artemave/fzf.vim' " my fork adds `Resume` command
 let g:fzf_history_dir = '~/.fzf-history'
 
 let g:fzf_layout = { 'left': '100%' }
-  let g:fzf_preview_window = ['right:60%', 'ctrl-/']
+let g:fzf_preview_window = ['right:60%', 'ctrl-/']
 
 Plug 'Shougo/neomru.vim'
 function! Mru(onlyLocal)
@@ -153,15 +153,9 @@ function! SearchOperator(type)
   execute "Rg " . @@
 endfunction
 
-" if has('nvim')
-"   Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-"   nnoremap <silent> <leader><leader>f :CHADopen<cr>
-" else
 Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
-" endif
-" nnoremap <silent> <leader><leader>f :Vexplore<cr>
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
@@ -381,6 +375,8 @@ Plug 'ap/vim-css-color'
 Plug 'vim-scripts/scratch.vim'
 
 Plug 'mattn/emmet-vim'
+let g:user_emmet_mode='i'
+" let g:user_emmet_leader_key='<C-Z>'
 
 " Open a Quickfix item in a window you choose
 Plug 'yssl/QFEnter'
@@ -440,6 +436,8 @@ Plug 'artemave/vim-aaa'
 Plug 'jxnblk/vim-mdx-js'
 
 Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'github/copilot.vim'
 
 " Plug 'fmoralesc/nvimfs'
 
