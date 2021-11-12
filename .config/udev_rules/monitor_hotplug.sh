@@ -26,7 +26,10 @@ elif [ "connected" == "$DP2" ]; then
   feh --randomize --bg-fill ~/Pictures/Wallpaper/*
   /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "DP2 plugged in"
 elif [ "connected" == "$HDMI" ]; then
-  /usr/bin/xrandr --output HDMI1 --above eDP1 --auto
+  # /usr/bin/xrandr --output HDMI1 --above eDP1 --auto
+  # https://itectec.com/ubuntu/ubuntu-is-it-possible-to-have-different-dpi-configurations-for-two-different-screens/
+  /usr/bin/xrandr --output HDMI1 --scale 1.5x1.5 --pos 0x0 --fb 3840x3600 --auto
+  /usr/bin/xrandr --output eDP1 --scale 1x1 --pos 0x2160 --auto
   feh --randomize --bg-fill ~/Pictures/Wallpaper/*
   /usr/bin/notify-send --urgency=low -t 5000 "Graphics Update" "HDMI plugged in"
 else
