@@ -112,40 +112,40 @@ function vi_mode() {
 
 setopt prompt_subst
 
-precmd() {
-  # for Terminal current directory support
-  print -Pn "\e]2; %~/ \a"
+# precmd() {
+  # # for Terminal current directory support
+  # print -Pn "\e]2; %~/ \a"
 
-  vcs_info
+  # vcs_info
 
-  if [[ -n $SSH_TTY ]]
-  then
-    local DISPLAY_HOST="%F{yellow}$(hostname) "
-  else
-    local DISPLAY_HOST=
-  fi
+  # if [[ -n $SSH_TTY ]]
+  # then
+  #   local DISPLAY_HOST="%F{yellow}$(hostname) "
+  # else
+  #   local DISPLAY_HOST=
+  # fi
 
-  # for timing commands
-  if [ $timer ]; then
-    local now=$(($(print -P %D{%s%6.})/1000))
-    elapsed=$(($now-$timer))
-    # elapsed=$(duration $(($now-$timer)))
-    PROMPT="%(!.%F{red}.%F{green})%~ %F{blue}+${elapsed}ms%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
-[%F{cyan}$(vi_mode)%f] %F{yellow}%% %f"
-    unset elapsed
-    unset timer
-  else
-    PROMPT='%(!.%F{red}.%F{green})%~%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
-[%F{cyan}$(vi_mode)%f] %F{yellow}%% %f'
-  fi
-}
+  # # for timing commands
+  # if [ $timer ]; then
+  #   local now=$(($(print -P %D{%s%6.})/1000))
+  #   elapsed=$(($now-$timer))
+  #   # elapsed=$(duration $(($now-$timer)))
+  #   PROMPT="%(!.%F{red}.%F{green})%~ %F{blue}+${elapsed}ms%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
+# [%F{cyan}$(vi_mode)%f] %F{yellow}%% %f"
+  #   unset elapsed
+  #   unset timer
+  # else
+  #   PROMPT='%(!.%F{red}.%F{green})%~%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
+# [%F{cyan}$(vi_mode)%f] %F{yellow}%% %f'
+  # fi
+# }
 
-function zle-line-init zle-keymap-select {
-  zle reset-prompt
-}
+# function zle-line-init zle-keymap-select {
+#   zle reset-prompt
+# }
 
-zle -N zle-line-init
-zle -N zle-keymap-select
+# zle -N zle-line-init
+# zle -N zle-keymap-select
 
 # override stupid ubuntu defaults for viins mode
 [[ -z "$terminfo[cuu1]" ]] || bindkey -M viins "$terminfo[cuu1]" up-line-or-history
@@ -249,3 +249,7 @@ if ! zplug check --verbose; then
   zplug install
 fi
 zplug load --verbose
+
+# ~/.zshrc
+
+eval "$(starship init zsh)"
