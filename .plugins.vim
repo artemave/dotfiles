@@ -99,21 +99,6 @@ let g:fzf_history_dir = '~/.fzf-history'
 let g:fzf_layout = { 'left': '100%' }
 let g:fzf_preview_window = ['right:60%', 'ctrl-/']
 
-Plug 'Shougo/neomru.vim'
-function! Mru(onlyLocal)
-  if a:onlyLocal
-    let grep = 'grep ^' . getcwd() . ' |'
-  else
-    let grep = ''
-  endif
-
-  call fzf#run(fzf#wrap('mru', {
-    \ 'source': '(sed "1d" $HOME/.cache/neomru/file | ' . l:grep .  ' sed s:' . getcwd() . '/:: && rg --files --hidden) | awk ''!cnts[$0]++''',
-    \ 'options': ['--no-sort', '--prompt', 'mru> ', '--tiebreak', 'end']
-    \ }))
-endfunction
-
-command! -bang Mru :call Mru(!<bang>0)
 function! RipgrepFzf(query, fullscreen)
   let command_fmt = 'rg --column --line-number --no-heading --color=always --hidden --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
@@ -198,69 +183,6 @@ nmap <leader>gi :ALEImport<CR>
 nmap <leader>rn :ALERename<CR>
 nmap <leader>aa :ALECodeAction<CR>
 vmap <leader>aa :ALECodeAction<CR>
-
-" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-" let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-html', 'coc-yaml', 'coc-emmet', 'coc-snippets']
-
-" let g:coc_snippet_next = '<tab>'
-
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-
-" " don't give |ins-completion-menu| messages.
-" set shortmess+=c
-
-" " always show signcolumns
-" set signcolumn=yes
-
-" nmap <leader>ll <Plug>(coc-diagnostic-next-error)
-" nmap <leader>ln <Plug>(coc-diagnostic-prev-error)
-" nmap <leader>li <Plug>(coc-diagnostic-info)
-
-" nmap <leader>gd <Plug>(coc-definition)
-" nmap <leader>gy <Plug>(coc-type-definition)
-" nmap <leader>gi <Plug>(coc-implementation)
-" nmap <leader>gr <Plug>(coc-references)
-" nmap <leader>rn <Plug>(coc-rename)
-
-" vmap <leader>as :CocAction<cr>
-" " vnoremap <leader>as <Plug>(coc-codeaction-selected)
-" nmap <leader>la <Plug>(coc-codelens-action)
-" " Remap for do codeAction of current line
-" nmap <leader>ca <Plug>(coc-codeaction)
-
-" nmap <leader>wh <Plug>(coc-float-hide)
-
-" " Fix autofix problem of current line
-" nmap <leader>qf <Plug>(coc-fix-current)
-
-" " Use `:Format` to format current buffer
-" command! -nargs=0 Format :call CocAction('format')
-
-" " Use K to show documentation in preview window
-" nmap <silent> K :call <SID>show_documentation()<CR>
-
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocAction('doHover')
-"   endif
-" endfunction
-
-" augroup mygroup
-"   autocmd!
-"   " Setup formatexpr specified filetype(s).
-"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-"   " Update signature help on jump placeholder
-"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-" augroup end
-
-" " Introduce function text object
-" " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-" xmap if <Plug>(coc-funcobj-i)
-" xmap af <Plug>(coc-funcobj-a)
-" omap if <Plug>(coc-funcobj-i)
-" omap af <Plug>(coc-funcobj-a)
 
 Plug 'mg979/vim-visual-multi'
 
@@ -438,10 +360,15 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'github/copilot.vim'
+" imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+" let g:copilot_no_tab_map = v:true
 
 " Plug 'fmoralesc/nvimfs'
 
 call plug#end()            " required
+
+" This needs to be after the call to plug#end()
+call deoplete#custom#option('prev_completion_mode', 'mirror')
 
 " some things have to be run after plug#end
 
