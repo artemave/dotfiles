@@ -438,3 +438,8 @@ command! -nargs=0 UniqQFList call s:SortUniqQFList()
 
 " fixes annoying horizontal scroll after escaping from fzf window
 autocmd BufWinEnter,WinEnter * exe "normal ze"
+
+" By default p over selected text overwrites unnamed register with the pasted
+" text. This is annoying when you want to paste the same thing more than once.
+" This fixes that. https://stackoverflow.com/a/5093286/51209
+xnoremap <expr> p 'pgv"'.v:register.'y`>'
