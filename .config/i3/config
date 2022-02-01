@@ -227,8 +227,8 @@ focus_on_window_activation focus
 
 # take screenshot with PrtSc key
 # bindsym Print exec maim -s | xclip -selection clipboard -t image/png
-bindsym Print exec flameshot gui -p ~/Pictures
-bindsym Shift+Print exec flameshot full -p ~/Pictures
+bindsym Print exec flameshot gui
+bindsym Shift+Print exec flameshot full
 
 exec --no-startup-id dropbox start
 
