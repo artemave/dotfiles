@@ -150,39 +150,40 @@ Plug 'Raimondi/delimitMate'
 " Plug 'vim-scripts/matchit.zip'
 Plug 'andymass/vim-matchup'
 
-Plug 'w0rp/ale'
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '∆'
-let g:ale_history_log_output = 1
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_sign_column_always = 1
-let g:ale_lint_on_enter = 0
-let g:ale_lint_delay = 1000
-let g:ale_lint_on_save = 0 " because autosave saves all buffers and that triggers a lot of linting
-" let g:ale_linters_explicit = 1
-let g:ale_linters_ignore = {'python': ['pylint', 'mypy']}
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint', 'standard'],
-\   'ruby': ['rubocop'],
-\   'python': ['autoimport', 'isort', 'autopep8'],
-\}
+" Plug 'w0rp/ale'
+" let g:ale_sign_error = '✗'
+" let g:ale_sign_warning = '∆'
+" let g:ale_history_log_output = 1
+" let g:ale_lint_on_text_changed = 'normal'
+" let g:ale_sign_column_always = 1
+" let g:ale_lint_on_enter = 0
+" let g:ale_lint_delay = 1000
+" let g:ale_lint_on_save = 0 " because autosave saves all buffers and that triggers a lot of linting
+" " let g:ale_linters_explicit = 1
+" let g:ale_linters_ignore = {'python': ['pylint', 'mypy']}
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'javascript': ['eslint', 'standard'],
+" \   'ruby': ['rubocop'],
+" \   'python': ['autoimport', 'isort', 'autopep8'],
+" \}
+" " let g:ale_dart_language_server_executable = 'dart /home/artem/snap/flutter/common/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot --lsp'
 
-highlight link ALEErrorSign ErrorMsg
-highlight link ALEWarningSign WarningMsg
-highlight ALEError cterm=undercurl gui=undercurl
-highlight ALEWarning cterm=undercurl gui=undercurl
+" highlight link ALEErrorSign ErrorMsg
+" highlight link ALEWarningSign WarningMsg
+" highlight ALEError cterm=undercurl gui=undercurl
+" highlight ALEWarning cterm=undercurl gui=undercurl
 
-nnoremap <silent> [l :ALEPreviousWrap<CR>
-nnoremap <silent> ]l :ALENextWrap<CR>
+" nnoremap <silent> [l :ALEPreviousWrap<CR>
+" nnoremap <silent> ]l :ALENextWrap<CR>
 
-nmap <leader>gd :ALEGoToDefinition<CR>
-nmap <leader>gt :ALEGoToTypeDefinition<CR>
-nmap <leader>gr :ALEFindReferences<CR>
-nmap <leader>gi :ALEImport<CR>
-nmap <leader>rn :ALERename<CR>
-nmap <leader>aa :ALECodeAction<CR>
-vmap <leader>aa :ALECodeAction<CR>
+" nmap <leader>gd :ALEGoToDefinition<CR>
+" nmap <leader>gt :ALEGoToTypeDefinition<CR>
+" nmap <leader>gr :ALEFindReferences<CR>
+" nmap <leader>gi :ALEImport<CR>
+" nmap <leader>rn :ALERename<CR>
+" nmap <leader>aa :ALECodeAction<CR>
+" vmap <leader>aa :ALECodeAction<CR>
 
 Plug 'mg979/vim-visual-multi'
 
@@ -363,7 +364,9 @@ Plug 'github/copilot.vim'
 " imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 " let g:copilot_no_tab_map = v:true
 
-" Plug 'fmoralesc/nvimfs'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 call plug#end()            " required
 
@@ -373,72 +376,5 @@ call deoplete#custom#option('prev_completion_mode', 'mirror')
 " some things have to be run after plug#end
 
 if has('nvim')
-  lua <<EOF
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-    ignore_install = { "ledger", "gdscript", "supercollider", "devicetree", "nix", "erlang", "ocamllex" },
-    highlight = {
-      enable = true,              -- false will disable the whole extension
-    },
-    indent = {
-      enable = false,              -- false will disable the whole extension
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
-          ["ac"] = "@class.outer",
-          ["ic"] = "@class.inner",
-
-          -- Or you can define your own textobjects like this
-          -- ["iF"] = {
-          --   python = "(function_definition) @function",
-          --   cpp = "(function_definition) @function",
-          --   c = "(function_definition) @function",
-          --   java = "(method_declaration) @function",
-          -- },
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ["<leader>a"] = "@parameter.inner",
-        },
-        swap_previous = {
-          ["<leader>A"] = "@parameter.inner",
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          ["]m"] = "@function.outer",
-          ["]]"] = "@class.outer",
-        },
-        goto_next_end = {
-          ["]M"] = "@function.outer",
-          ["]["] = "@class.outer",
-        },
-        goto_previous_start = {
-          ["[m"] = "@function.outer",
-          ["[["] = "@class.outer",
-        },
-        goto_previous_end = {
-          ["[M"] = "@function.outer",
-          ["[]"] = "@class.outer",
-        },
-      },
-      lsp_interop = {
-        enable = true,
-        peek_definition_code = {
-          ["dm"] = "@function.outer",
-          ["dM"] = "@class.outer",
-        },
-      },
-    },
-  }
-EOF
+  lua require('plugins')
 endif
