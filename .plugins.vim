@@ -327,8 +327,21 @@ let g:webdevicons_enable = 1
 Plug 'ryanoasis/vim-devicons'
 
 if has('nvim')
-  Plug 'Shougo/deoplete-lsp'
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/ddc.vim'
+  Plug 'vim-denops/denops.vim'
+  Plug 'Shougo/ddc-around'
+  " those two are default, I swapped them with ddc-fuzzy
+  " Plug 'Shougo/ddc-matcher_head'
+  " Plug 'Shougo/ddc-sorter_rank'
+  Plug 'tani/ddc-fuzzy'
+  Plug 'Shougo/pum.vim'
+  " this one slows everything down
+  " Plug 'Shougo/ddc-nvim-lsp'
+  " this one gives "invalid source" error
+  " Plug 'Shougo/ddc-omni'
+  Plug 'Shougo/ddc-file'
+  " Plug 'Shougo/deoplete-lsp'
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
@@ -368,10 +381,39 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 
+Plug 'bogado/file-line'
+
 call plug#end()            " required
 
 " This needs to be after the call to plug#end()
-call deoplete#custom#option('prev_completion_mode', 'mirror')
+" call deoplete#custom#option('prev_completion_mode', 'mirror')
+
+call ddc#custom#patch_global('sources', ['around', 'file'])
+
+call ddc#custom#patch_global('sourceOptions', {
+      \ '_': {
+      \   'matchers': ['matcher_fuzzy'],
+      \   'sorters': ['sorter_fuzzy'],
+      \   'converters': ['converter_fuzzy']
+      \ },
+      \ 'file': {
+      \   'mark': 'F',
+      \   'isVolatile': v:true,
+      \   'forceCompletionPattern': '\S/\S*'},
+      \ })
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
+
+" inoremap <silent><expr> <TAB>
+"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+"       \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+"       \ '<TAB>' : ddc#manual_complete()
+" inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
+inoremap <CR>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+
+call ddc#enable()
 
 " some things have to be run after plug#end
 
