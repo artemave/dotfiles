@@ -1,24 +1,17 @@
 set nocompatible
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync
-endif
+" run this in the terminal:
+" sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+"       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-call plug#begin('~/.vim/plugged')
+call plug#begin()
 
-Plug 'w0rp/ale'
-let g:ale_linters_ignore = {'typescript': ['tslint', 'tsserver'], 'ruby': ['solargraph']}
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+set completeopt-=preview
+let g:deoplete#enable_at_startup = 1
 
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_global_extensions = ['coc-tsserver']
-
-let g:molokai_original = 1
-Plug 'tomasr/molokai'
-
-Plug 'leafgarland/typescript-vim'
+Plug 'github/copilot.vim'
 
 call plug#end()            " required
 
-colorscheme molokai " this has to come after 'filetype plugin indent on'
+call deoplete#custom#option('prev_completion_mode', 'mirror')

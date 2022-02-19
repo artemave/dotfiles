@@ -36,7 +36,7 @@ require'lspconfig'.dartls.setup{
   }
 }
 
-local servers = { 'pyright', 'tsserver' }
+local servers = { 'pyright', 'tsserver', 'solargraph' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
@@ -49,8 +49,8 @@ end
 
 require("null-ls").setup({
   sources = {
-    require("null-ls").builtins.formatting.rubocop,
-    require("null-ls").builtins.diagnostics.rubocop,
+    -- require("null-ls").builtins.formatting.rubocop,
+    -- require("null-ls").builtins.diagnostics.rubocop,
 
     require("null-ls").builtins.diagnostics.eslint,
     require("null-ls").builtins.formatting.eslint,
