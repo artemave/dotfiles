@@ -329,6 +329,7 @@ Plug 'ryanoasis/vim-devicons'
 if has('nvim')
   Plug 'Shougo/ddc.vim'
   Plug 'vim-denops/denops.vim'
+  Plug 'matsui54/ddc-buffer'
   Plug 'Shougo/ddc-around'
   " those two are default, I swapped them with ddc-fuzzy
   " Plug 'Shougo/ddc-matcher_head'
@@ -388,7 +389,7 @@ call plug#end()            " required
 " This needs to be after the call to plug#end()
 " call deoplete#custom#option('prev_completion_mode', 'mirror')
 
-call ddc#custom#patch_global('sources', ['around', 'file'])
+call ddc#custom#patch_global('sources', ['around', 'buffer', 'file'])
 
 call ddc#custom#patch_global('sourceOptions', {
       \ '_': {
@@ -396,6 +397,7 @@ call ddc#custom#patch_global('sourceOptions', {
       \   'sorters': ['sorter_fuzzy'],
       \   'converters': ['converter_fuzzy']
       \ },
+      \ 'buffer': {'mark': 'B'},
       \ 'file': {
       \   'mark': 'F',
       \   'isVolatile': v:true,
@@ -408,9 +410,9 @@ call ddc#custom#patch_global('completionMenu', 'pum.vim')
 "       \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
 "       \ '<TAB>' : ddc#manual_complete()
 " inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
-inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
-inoremap <CR>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 
 call ddc#enable()
