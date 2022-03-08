@@ -12,7 +12,7 @@ else
   name=$1
 fi
 
-tmux has -t "$name" && tmux attach -t "$name" && exit
+tmux has -t "=$name" && tmux attach -t "$name" && exit
 
 tmux new-session -d -s "$name" -n shell
 # When vim exits, make sure there is a shell underneath (https://superuser.com/a/91898)
