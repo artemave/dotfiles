@@ -164,12 +164,6 @@ nnoremap Y y$
 nnoremap j gj
 nnoremap k gk
 
-" Better comand-line editing
-cnoremap <C-j> <t_kd>
-cnoremap <C-k> <t_ku>
-cnoremap <C-^> <Home>
-cnoremap <C-e> <End>
-
 " Stop messing with my arrow keys
 if !has("gui_running")
   let g:AutoClosePreservDotReg = 0
@@ -443,3 +437,8 @@ autocmd BufWinEnter,WinEnter * exe "normal ze"
 " text. This is annoying when you want to paste the same thing more than once.
 " This fixes that. https://stackoverflow.com/a/5093286/51209
 xnoremap <expr> p 'pgv"'.v:register.'y`>'
+
+" Move by words in command line mode
+" https://vi.stackexchange.com/a/31391/13743
+cnoremap <C-h> <C-f>bb<C-c>
+cnoremap <C-l> <C-f>ee<C-c>

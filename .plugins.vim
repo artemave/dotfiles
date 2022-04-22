@@ -150,41 +150,6 @@ Plug 'Raimondi/delimitMate'
 " Plug 'vim-scripts/matchit.zip'
 Plug 'andymass/vim-matchup'
 
-" Plug 'w0rp/ale'
-" let g:ale_sign_error = '✗'
-" let g:ale_sign_warning = '∆'
-" let g:ale_history_log_output = 1
-" let g:ale_lint_on_text_changed = 'normal'
-" let g:ale_sign_column_always = 1
-" let g:ale_lint_on_enter = 0
-" let g:ale_lint_delay = 1000
-" let g:ale_lint_on_save = 0 " because autosave saves all buffers and that triggers a lot of linting
-" " let g:ale_linters_explicit = 1
-" let g:ale_linters_ignore = {'python': ['pylint', 'mypy']}
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'javascript': ['eslint', 'standard'],
-" \   'ruby': ['rubocop'],
-" \   'python': ['autoimport', 'isort', 'autopep8'],
-" \}
-" " let g:ale_dart_language_server_executable = 'dart /home/artem/snap/flutter/common/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot --lsp'
-
-" highlight link ALEErrorSign ErrorMsg
-" highlight link ALEWarningSign WarningMsg
-" highlight ALEError cterm=undercurl gui=undercurl
-" highlight ALEWarning cterm=undercurl gui=undercurl
-
-" nnoremap <silent> [l :ALEPreviousWrap<CR>
-" nnoremap <silent> ]l :ALENextWrap<CR>
-
-" nmap <leader>gd :ALEGoToDefinition<CR>
-" nmap <leader>gt :ALEGoToTypeDefinition<CR>
-" nmap <leader>gr :ALEFindReferences<CR>
-" nmap <leader>gi :ALEImport<CR>
-" nmap <leader>rn :ALERename<CR>
-" nmap <leader>aa :ALECodeAction<CR>
-" vmap <leader>aa :ALECodeAction<CR>
-
 Plug 'mg979/vim-visual-multi'
 
 " useful when <Tab> -> <Esc>
@@ -194,25 +159,9 @@ Plug 'mg979/vim-visual-multi'
 " Plug 'majutsushi/tagbar'
 " nmap <F8> :TagbarToggle<CR>
 
-" Plug 'vim-ruby/vim-ruby'
-
-if has('nvim')
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-endif
-
 " airline is slow apparently
 Plug 'itchyny/lightline.vim'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-
-" let g:airline_powerline_fonts = 1
-" let g:airline_section_a = ''
-" let g:airline_section_b = ''
-" let g:airline_theme = 'onedark'
 set laststatus=2
-" let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-" let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 
 Plug 'mustache/vim-mustache-handlebars'
 " mustache/handlebars with m M
@@ -230,7 +179,6 @@ let g:mustache_abbreviations = 1
 " let g:go_highlight_operators = 1
 " let g:go_highlight_build_constraints = 1
 
-
 au FileType go nmap <leader>gr <Plug>(go-run)
 au FileType go nmap <leader>gb <Plug>(go-build)
 au FileType go nmap <Leader>gs <Plug>(go-implements)
@@ -242,27 +190,14 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>re <Plug>(go-rename)
 
-" this one works with vim-javascript
-" Plug 'bounceme/poppy.vim'
-" au! cursormoved * call PoppyInit()
-" https://github.com/bounceme/poppy.vim/issues/7
-
-" let g:molokai_original = 1
-" Plug 'tomasr/molokai'
 Plug 'joshdick/onedark.vim'
 
-" Plug 'elixir-lang/vim-elixir'
-
-" Plug 'pangloss/vim-javascript'
 hi def link jsObjectKey Label
 
 autocmd FileType {javascript,javascript.jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
 autocmd FileType {javascript,javascript.jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
 " https://github.com/tpope/vim-dispatch/issues/222
 set shellpipe=2>&1\|tee
-
-" Plug 'leafgarland/typescript-vim'
-" Plug 'MaxMEllon/vim-jsx-pretty'
 
 " Easy text exchange operator for Vim.
 Plug 'tommcdo/vim-exchange'
@@ -274,8 +209,6 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'sarumont/golden-ratio'
 " let g:golden_ratio_exclude_nonmodifiable = 1
 let g:golden_ratio_exclude_filetypes = ['NERDtree', 'CHADTree']
-
-" Plug 'vim-scripts/dbext.vim'
 
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_preview_win_floating = 1
@@ -290,8 +223,6 @@ Plug 'junegunn/vader.vim'
 " disables search highlighting when you are done searching and re-enables it when you search again.
 Plug 'romainl/vim-cool'
 let g:CoolTotalMatches = 1
-
-" Plug 'nikvdp/ejs-syntax'
 
 Plug 'ap/vim-css-color'
 
@@ -321,35 +252,26 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 
 Plug 'honza/vim-snippets'
 
-" Plug 'kchmck/vim-coffee-script'
-
 let g:webdevicons_enable = 1
 Plug 'ryanoasis/vim-devicons'
 
 if has('nvim')
-  Plug 'Shougo/ddc.vim'
-  Plug 'vim-denops/denops.vim'
-  Plug 'matsui54/ddc-buffer'
-  Plug 'Shougo/ddc-around'
-  " those two are default, I swapped them with ddc-fuzzy
-  " Plug 'Shougo/ddc-matcher_head'
-  " Plug 'Shougo/ddc-sorter_rank'
-  Plug 'tani/ddc-fuzzy'
-  Plug 'Shougo/pum.vim'
-  " this one slows everything down
-  " Plug 'Shougo/ddc-nvim-lsp'
-  " this one gives "invalid source" error
-  " Plug 'Shougo/ddc-omni'
-  Plug 'Shougo/ddc-file'
-  " Plug 'Shougo/deoplete-lsp'
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 endif
-set completeopt-=preview
-let g:deoplete#enable_at_startup = 1
+"set completeopt-=preview
+set completeopt=menu,menuone,noselect
 
 Plug 'takac/vim-hardtime'
 let g:hardtime_default_on = 1
@@ -378,44 +300,9 @@ Plug 'github/copilot.vim'
 " imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 " let g:copilot_no_tab_map = v:true
 
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
-
 Plug 'bogado/file-line'
 
 call plug#end()            " required
-
-" This needs to be after the call to plug#end()
-" call deoplete#custom#option('prev_completion_mode', 'mirror')
-
-call ddc#custom#patch_global('sources', ['around', 'buffer', 'file'])
-
-call ddc#custom#patch_global('sourceOptions', {
-      \ '_': {
-      \   'matchers': ['matcher_fuzzy'],
-      \   'sorters': ['sorter_fuzzy'],
-      \   'converters': ['converter_fuzzy']
-      \ },
-      \ 'buffer': {'mark': 'B'},
-      \ 'file': {
-      \   'mark': 'F',
-      \   'isVolatile': v:true,
-      \   'forceCompletionPattern': '\S/\S*'},
-      \ })
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
-
-" inoremap <silent><expr> <TAB>
-"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
-"       \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-"       \ '<TAB>' : ddc#manual_complete()
-" inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
-inoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
-inoremap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
-inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-
-call ddc#enable()
 
 " some things have to be run after plug#end
 
