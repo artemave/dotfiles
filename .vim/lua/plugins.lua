@@ -193,27 +193,48 @@ for _, lsp in pairs(servers) do
   }
 end
 
-function rubocop_disable()
+RD = RD or {}
+
+function RD.join(tbl, sep)
+  local ret = ''
+  for i, v in pairs(tbl) do
+    ret = ret .. v .. sep
+  end
+  return ret:sub(1, -#sep - 1)
+end
+
+function RD.map(tbl, f)
+  local t = {}
+  for k,v in pairs(tbl) do
+    t[k] = f(v)
+  end
+  return t
+end
+
+function RD.rubocop_disable()
   local current_lnum = vim.api.nvim_win_get_cursor(0)[1]
   local current_line = vim.api.nvim_get_current_line()
 
-  local diagnostic = vim.diagnostic.get(0, { lnum = current_lnum - 1 })[1]
+  local diagnostics = vim.diagnostic.get(0, { lnum = current_lnum - 1 })
+  local diagnostic = diagnostics[1]
 
   if diagnostic and diagnostic.source == 'rubocop' then
+    local code = RD.join(RD.map(diagnostics, function(d) return d.code end), ', ')
+
     if diagnostic.lnum == diagnostic.end_lnum then
-      local new_text = current_line .. ' # rubocop:disable ' .. diagnostic.code
+      local new_text = current_line .. ' # rubocop:disable ' .. code
       vim.api.nvim_set_current_line(new_text)
     else
       local indent = tonumber(vim.call('indent', current_lnum))
       local padding = string.rep(' ', indent)
 
-      local enable_text = padding .. '# rubocop:enable ' .. diagnostic.code
+      local enable_text = padding .. '# rubocop:enable ' .. code
       vim.api.nvim_buf_set_lines(0, diagnostic.end_lnum + 1, diagnostic.end_lnum + 1, false, {enable_text})
 
-      local disable_text = padding .. '# rubocop:disable ' .. diagnostic.code
+      local disable_text = padding .. '# rubocop:disable ' .. code
       vim.api.nvim_buf_set_lines(0, diagnostic.lnum, diagnostic.lnum, false, {disable_text})
     end
   end
 end
 
-vim.api.nvim_set_keymap('n', '<space>x', '<cmd>lua rubocop_disable()<CR>', {})
+vim.api.nvim_set_keymap('n', '<space>x', '<cmd>lua RD.rubocop_disable()<CR>', {})
