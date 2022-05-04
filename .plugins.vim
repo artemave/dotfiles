@@ -45,6 +45,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-obsession'
+au VimEnter * :Obsession
 Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
@@ -217,6 +218,7 @@ Plug 'FooSoft/vim-argwrap'
 nnoremap <silent> <leader>aw :ArgWrap<CR>
 
 Plug 'Yggdroot/indentLine'
+au FileType markdown,json let g:indentLine_setConceal = 0
 
 Plug 'junegunn/vader.vim'
 

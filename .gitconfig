@@ -1,7 +1,19 @@
 [core]
   excludesfile = ~/.gitignore
-  editor = /home/artem/bin/nvim
-  ; pager = delta
+  pager = delta
+  editor = nvim
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
 
 [user]
   name = artemave
@@ -17,6 +29,20 @@
   ds = diff --stat=160,120
   bc = !git branch --sort=-committerdate | fzf | xargs git checkout
   recent = branch --sort=-committerdate --format="%(committerdate:relative)%09%(refname:short)"
+  dft = difftool
+
+[pager]
+  difftool = true
+
+; [diff]
+;   tool = difftastic
+;   external = difft
+
+; [difftool]
+;   prompt = false
+
+; [difftool "difftastic"]
+;   cmd = difft "$LOCAL" "$REMOTE"
 
 [color]
   ui = auto
@@ -24,7 +50,7 @@
 [merge]
   tool = vimdiff
 [mergetool "vimdiff"]
-  path = /home/artem/bin/nvim
+  path = nvim
 [pull]
   rebase = true
 [push]
@@ -38,15 +64,3 @@
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
   required = true
-
-; [interactive]
-;   diffFilter = delta --color-only
-
-; [delta]
-;   features = side-by-side line-numbers decorations
-;   whitespace-error-style = 22 reverse
-
-; [delta "decorations"]
-;   commit-decoration-style = bold yellow box ul
-;   file-style = bold yellow ul
-;   file-decoration-style = none
