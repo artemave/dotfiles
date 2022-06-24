@@ -2,9 +2,10 @@
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+export HOMEBREW_NO_ANALYTICS=1
+
 if command -v /usr/local/bin/brew &> /dev/null; then
   export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-  export HOMEBREW_NO_ANALYTICS=1
 
   # yarn dependency
   export PATH=/usr/local/opt/icu4c/sbin:/usr/local/opt/icu4c/bin:$PATH
@@ -13,7 +14,7 @@ if command -v /usr/local/bin/brew &> /dev/null; then
 fi
 
 if command -v /home/linuxbrew/.linuxbrew/bin/brew &> /dev/null; then
-  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+  export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
   export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
   export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
 fi
