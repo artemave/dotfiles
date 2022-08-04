@@ -1,19 +1,9 @@
-snippet rd "Disable rubocop rule" b
-# rubocop:disable $1
-# rubocop:enable $1
+snippet bb "debugger" b
+debugger
 endsnippet
 
-snippet rdm
-# rubocop:disable Metrics/$1
-# rubocop:enable Metrics/$1
-endsnippet
-
-snippet bb "byebug" b
-byebug
-endsnippet
-
-snippet bs "byebug with sleep for Capybara" b
-sleep 1; byebug
+snippet bs "massive sleep for Capybara" b
+sleep 10000
 endsnippet
 
 snippet bi "binding.irb" b

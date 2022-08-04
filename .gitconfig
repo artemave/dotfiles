@@ -1,13 +1,13 @@
 [core]
   excludesfile = ~/.gitignore
-  pager = delta
+  ; pager = delta
   editor = nvim
 
-[interactive]
-    diffFilter = delta --color-only
+; [interactive]
+    ; diffFilter = delta --color-only
 
-[delta]
-    navigate = true
+; [delta]
+;     navigate = true
 
 [merge]
     conflictstyle = diff3

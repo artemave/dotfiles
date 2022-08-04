@@ -45,7 +45,10 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-obsession'
-au VimEnter * :Obsession
+
+let g:obsession_no_bufenter = 1 " aparently faster this way
+au VimEnter * if !exists('g:this_obsession') | :Obsess | endif
+
 Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
@@ -257,23 +260,27 @@ Plug 'honza/vim-snippets'
 let g:webdevicons_enable = 1
 Plug 'ryanoasis/vim-devicons'
 
-if has('nvim')
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-endif
-"set completeopt-=preview
-set completeopt=menu,menuone,noselect
+Plug 'neovim/nvim-lspconfig'
+
+Plug 'deoplete-plugins/deoplete-lsp'
+" For some reason I had to call UpdateRemotePlugins manually after install
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+let g:deoplete#enable_at_startup = 1
+
+ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
+ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "<Plug>delimitMateBS"
+ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+" ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+
+set completeopt-=preview
+" set completeopt=menu,menuone,noselect
 
 Plug 'takac/vim-hardtime'
 let g:hardtime_default_on = 1
@@ -304,10 +311,11 @@ Plug 'github/copilot.vim'
 
 Plug 'bogado/file-line'
 
+Plug 'ton/vim-bufsurf'
+
 call plug#end()            " required
 
 " some things have to be run after plug#end
+call deoplete#custom#option('prev_completion_mode', 'mirror')
 
-if has('nvim')
-  lua require('plugins')
-endif
+lua require('plugins')
