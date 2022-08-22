@@ -306,7 +306,8 @@ nnoremap p p=`]
 set ttyfast
 set lazyredraw
 
-set noshowmode
+" If set, the following breaks deoplete completion with Pattern Not Found
+" set noshowmode
 
 hi Visual ctermbg=darkgrey
 

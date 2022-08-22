@@ -192,7 +192,7 @@ au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <leader>gt <Plug>(go-test)
 au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>re <Plug>(go-rename)
+au FileType go nmap <Leader>fe <Plug>(go-rename)
 
 Plug 'joshdick/onedark.vim'
 
@@ -308,14 +308,22 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'github/copilot.vim'
 " imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 " let g:copilot_no_tab_map = v:true
+let g:copilot_node_command = '/home/linuxbrew/.linuxbrew/opt/node@16/bin/node'
 
 Plug 'bogado/file-line'
 
 Plug 'ton/vim-bufsurf'
 
+Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/refactoring.nvim'
+
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'thosakwe/vim-flutter'
+
 call plug#end()            " required
 
 " some things have to be run after plug#end
-call deoplete#custom#option('prev_completion_mode', 'mirror')
+" call deoplete#custom#option('prev_completion_mode', 'mirror')
+call deoplete#custom#option('refresh_backspace', v:true)
 
 lua require('plugins')
