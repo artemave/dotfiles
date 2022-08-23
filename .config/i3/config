@@ -29,6 +29,9 @@ font pango:monospace 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+floating_minimum_size 400 x 400
+floating_maximum_size 1900 x 1200
+
 # start a terminal
 bindsym $mod+Return exec kitty
 
@@ -220,11 +223,6 @@ bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh
 
 exec --no-startup-id gnome-settings-daemon
 
-# assign [class="Alacritty"] 1
-# assign [class="brave-browser"] 2
-# assign [class="slack"] 3
-# assign [class="discord"] 3
-
 workspace_auto_back_and_forth yes
 focus_on_window_activation focus
 
@@ -233,7 +231,7 @@ focus_on_window_activation focus
 bindsym Print exec flameshot gui
 bindsym Shift+Print exec flameshot full
 
-exec --no-startup-id dropbox start
+# exec --no-startup-id dropbox start
 
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 
@@ -244,3 +242,13 @@ bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 workspace 1 output HDMI1 DP1 DP2 eDP1
 
 exec --no-startup-id clipit
+
+# Android emulator
+for_window [title=".*Emulator.*"] floating enable
+assign [title=".*Emulator.*"] 3
+
+for_window [class="zoom.*"] floating enable
+assign [class="zoom.*"] 3
+
+assign [class="Slack"] 2
+assign [class="discord"] 2
