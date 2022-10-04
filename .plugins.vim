@@ -103,6 +103,22 @@ let g:fzf_history_dir = '~/.fzf-history'
 let g:fzf_layout = { 'left': '100%' }
 let g:fzf_preview_window = ['right:60%', 'ctrl-/']
 
+function! OpenOneOrMoreSelectedFiles(files)
+  if len(a:files) == 1
+    exe 'e' a:files[0]
+  else
+    let entries = map(a:files, '{ "filename": v:val }')
+    call setqflist(entries, 'r')
+    copen
+  endif
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ '': function("OpenOneOrMoreSelectedFiles")
+  \ }
+
 function! RipgrepFzf(query, fullscreen)
   let command_fmt = 'rg --column --line-number --no-heading --color=always --hidden --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))

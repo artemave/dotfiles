@@ -18,16 +18,16 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gT', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>o', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
@@ -161,19 +161,22 @@ function RD.rubocop_disable()
   if diagnostic and diagnostic.source == 'rubocop' then
     local code = RD.join(RD.map(diagnostics, function(d) return d.code end), ', ')
 
-    if diagnostic.lnum == diagnostic.end_lnum then
-      local new_text = current_line .. ' # rubocop:disable ' .. code
-      vim.api.nvim_set_current_line(new_text)
-    else
-      local indent = tonumber(vim.call('indent', current_lnum))
-      local padding = string.rep(' ', indent)
+    local new_text = current_line .. ' # rubocop:disable ' .. code
+    vim.api.nvim_set_current_line(new_text)
 
-      local enable_text = padding .. '# rubocop:enable ' .. code
-      vim.api.nvim_buf_set_lines(0, diagnostic.end_lnum + 1, diagnostic.end_lnum + 1, false, {enable_text})
+    -- if diagnostic.lnum == diagnostic.end_lnum then
+    --   local new_text = current_line .. ' # rubocop:disable ' .. code
+    --   vim.api.nvim_set_current_line(new_text)
+    -- else
+    --   local indent = tonumber(vim.call('indent', current_lnum))
+    --   local padding = string.rep(' ', indent)
 
-      local disable_text = padding .. '# rubocop:disable ' .. code
-      vim.api.nvim_buf_set_lines(0, diagnostic.lnum, diagnostic.lnum, false, {disable_text})
-    end
+    --   local enable_text = padding .. '# rubocop:enable ' .. code
+    --   vim.api.nvim_buf_set_lines(0, diagnostic.end_lnum + 1, diagnostic.end_lnum + 1, false, {enable_text})
+
+    --   local disable_text = padding .. '# rubocop:disable ' .. code
+    --   vim.api.nvim_buf_set_lines(0, diagnostic.lnum, diagnostic.lnum, false, {disable_text})
+    -- end
   end
 end
 

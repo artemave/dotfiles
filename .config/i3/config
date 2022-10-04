@@ -247,8 +247,15 @@ exec --no-startup-id clipit
 for_window [title=".*Emulator.*"] floating enable
 assign [title=".*Emulator.*"] 3
 
+# Use `xprop` to get the window class/name
+# Zoom main window (if started explicitly)
 for_window [class="zoom.*"] floating enable
 assign [class="zoom.*"] 3
+# Zoom popup when joining meeting
+for_window [title="Zoom Cloud Meeting"] floating enable
+assign [title="Zoom Cloud Meeting"] 3
+# Zoom meeting window
+assign [class="join\?action=join&confno=.*"] 3
 
 assign [class="Slack"] 2
 assign [class="discord"] 2

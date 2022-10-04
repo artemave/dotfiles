@@ -41,7 +41,7 @@ Session.vim
 .classpath
 .project
 .settings
-target
+# target
 
 # ruby
 .bundle

@@ -345,14 +345,14 @@ fun! s:SavePreservingLastPasteMarks()
   if expand('%') == ''
     return
   endif
-  let paste_start_pos = getpos("'[")
-  let paste_end_pos = getpos("']")
-  " Saving file resets '] and '[ marks for some reason, so we need to carry them
-  " across for `gb` (see above) to work.
-  silent! w
+  " let paste_start_pos = getpos("'[")
+  " let paste_end_pos = getpos("']")
+  " " Saving file resets '] and '[ marks for some reason, so we need to carry them
+  " " across for `gb` (see above) to work.
+  silent! lockmarks w
 
-  call setpos("'[", paste_start_pos)
-  call setpos("']", paste_end_pos)
+  " call setpos("'[", paste_start_pos)
+  " call setpos("']", paste_end_pos)
 endf
 " autocmd FocusLost * call <SID>SavePreservingLastPasteMarks()
 " autocmd CursorHold * call <SID>SavePreservingLastPasteMarks()
