@@ -1,5 +1,8 @@
 # `xset q` to see current settings
 xset r rate 300 50
+# disable beep
+xset b off
+
 xset -dpms
 xinput --set-prop 12 'libinput Accel Speed' 0.5
-xinput --set-prop 13 'libinput Accel Speed' 1
+xinput --set-prop 13 'libinput Accel Speed' 0.7

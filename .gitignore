@@ -75,3 +75,5 @@ custom_plan.rb
 
 bin/kitty
 bin/nvim.appimage
+.vifm/vifminfo.json
+bin/firefox

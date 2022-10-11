@@ -72,6 +72,10 @@ case $1 in
       fi
     done
 
+    if [[ ! -d ~/.config/i3blocks-contrib ]]; then
+      git clone https://github.com/vivien/i3blocks-contrib.git ~/.config/i3blocks-contrib
+    fi
+
     mkdir -p $projects_dir
 
     if [[ ! -d $HOME/.zsh/completion ]]; then
@@ -107,7 +111,7 @@ case $1 in
 
   -rbenv)
     if [ ! -d ~/.rbenv ]; then
-      git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+      git clone https://github.com/rbenv/rbenv.git ~/.rbenv
     else
       [ -d ~/.rbenv/.git ] && git -C ~/.rbenv pull
     fi
@@ -116,7 +120,7 @@ case $1 in
       plugin_name=$(echo $plugin | sed -E 's#[^/]*/(.*)#\1#')
 
       if [ ! -d ~/.rbenv/plugins/$plugin_name ]; then
-        git clone git://github.com/${plugin}.git ~/.rbenv/plugins/$plugin_name
+        git clone https://github.com/${plugin}.git ~/.rbenv/plugins/$plugin_name
       else
         git -C ~/.rbenv/plugins/$plugin_name pull
       fi

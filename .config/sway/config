@@ -9,11 +9,21 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+input "type:keyboard" {
+  xkb_options ctrl:nocaps
+  repeat_delay 250
+  repeat_rate 45
+}
+
+output eDP-1 scale 1.2
+output HDMI-A-1 scale 1.2
+output HDMI-A-1 pos 0 1000
+
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:monospace 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -143,7 +153,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'swaymsg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -176,7 +186,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
   # status_command SCRIPT_DIR=~/.config/i3blocks 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-  status_command SCRIPT_DIR=~/.config/i3blocks-contrib i3blocks
+  status_command SCRIPT_DIR=~/.config/i3blocks i3blocks
 }
 
 # wifi icon
@@ -188,43 +198,40 @@ exec --no-startup-id blueman-applet
 # Disabled due to zoom video flickering
 # exec --no-startup-id compton --config ~/.config/compton.conf -b
 
-#bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+ && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioLowerVolume exec amixer sset Master 5%- && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioMute exec amixer sset Master toggle && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+1 i3blocks
 
 # bindsym XF86AudioPlay exec playerctl play-pause
 # bindsym XF86AudioNext exec playerctl next
 # bindsym XF86AudioPrev exec playerctl previous
 
-exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
+# exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
 
 # disable trackpad
 # exec --no-startup-id xinput --disable 11
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec brightnessctl set +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
-bindsym XF86MonBrightnessDown exec brightnessctl set 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5 && pkill -RTMIN+2 i3blocks # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5 && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
 # ctrl-win-l to lock the screen
-bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
-# hook up custom locker script into the login manager
-exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
-# prevent lock screen if there is audio or fullscreen
-exec --no-startup-id ~/.config/xidlehook.sh
-exec --no-startup-id xset s off -dpms
+# bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
+# # hook up custom locker script into the login manager
+# exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
+# # prevent lock screen if there is audio or fullscreen
+# exec --no-startup-id ~/.config/xidlehook.sh
+# exec --no-startup-id xset s off -dpms
 
-exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh
-exec --no-startup-id ~/bin/monitor_hotplug_daemon.sh
-bindsym XF86Display exec ~/.config/udev_rules/monitor_hotplug.sh
-bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh
+# exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh
+# exec --no-startup-id ~/bin/monitor_hotplug_daemon.sh
+# bindsym XF86Display exec ~/.config/udev_rules/monitor_hotplug.sh
+# bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh
 
-exec --no-startup-id gnome-settings-daemon
+# exec --no-startup-id gnome-settings-daemon
 
 workspace_auto_back_and_forth yes
 focus_on_window_activation focus
@@ -236,13 +243,13 @@ bindsym Shift+Print exec flameshot full
 
 # exec --no-startup-id dropbox start
 
-exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
+# exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 
-exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
+# exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
 
-bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
+# bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
-workspace 1 output HDMI1 DP1 DP2 eDP1 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP
+workspace 1 output HDMI1 DP1 DP2 eDP1
 
 exec --no-startup-id clipit
 

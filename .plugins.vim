@@ -273,7 +273,6 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 
 Plug 'honza/vim-snippets'
 
-let g:webdevicons_enable = 1
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -324,7 +323,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'github/copilot.vim'
 " imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 " let g:copilot_no_tab_map = v:true
-let g:copilot_node_command = '/home/linuxbrew/.linuxbrew/opt/node@16/bin/node'
 
 Plug 'bogado/file-line'
 

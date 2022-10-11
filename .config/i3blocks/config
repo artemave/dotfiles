@@ -33,13 +33,13 @@ markup=none
 #
 # This displays "ARTIST - SONG" if a music is playing.
 # Supported players are: spotify, vlc, audacious, xmms2, mplayer, and others.
-[mediaplayer]
-instance=spotify
-interval=5
-signal=10
+# [mediaplayer]
+# instance=spotify
+# interval=5
+# signal=10
 
 [bandwidth]
-interval=5
+interval=1
 INLABEL=
 OUTLABEL=
 #INTERFACE=eth0
@@ -72,7 +72,7 @@ signal=1
 #AUDIO_DELTA=5
 #DEFAULT_COLOR="#ffffff"
 #MUTED_COLOR="#a0a0a0"
-#USE_ALSA_NAME=0
+USE_ALSA_NAME=1
 #USE_DESCRIPTION=0
 ## SUBSCRIBE=1 requires interval=persist and always uses LONG_FORMAT
 #SUBSCRIBE=1
@@ -123,7 +123,7 @@ interval=once
 # see the script for details.
 [cpu_usage]
 label= 
-interval=5
+interval=1
 separator=false
 # min_width= 100.00%
 #separator=false
@@ -133,24 +133,24 @@ separator=false
 # The type defaults to "mem" if the instance is not specified.
 [memory]
 # label=MEM
-interval=30
+interval=1
 
 [load_average]
 label=LOAD 
-interval=5
+interval=1
 
 # Battery indicator
 #
 # The battery instance defaults to 0.
 [battery]
 label=⚡
-interval=30
+interval=10
 
 # Date Time
 #
 [time]
 command=date '+%Y-%m-%d %H:%M:%S'
-interval=5
+interval=1
 
 # OpenVPN support
 #

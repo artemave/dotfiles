@@ -170,9 +170,9 @@ bindkey '^w' backward-kill-word
 # this is now here as opposed to .zlogin because `zplug` inserting `/bin` in the PATH which breaks coreutils (ls, etc)
 
 # ubuntu does not start login shell
-if [[ -z $COMMON_ENV_LOADED ]]; then
+# if [[ -z $COMMON_ENV_LOADED ]]; then
   source ~/.common_env
-fi
+# fi
 source ~/.common_shrc
 
 # place this after nvm initialization!
@@ -232,9 +232,6 @@ fi
 
 if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 eval "$(pyenv init -)"
-
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
 
 # This should be the last thing because it duplicates PATH entries
 source ~/.zsh/zplug/init.zsh
