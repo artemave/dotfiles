@@ -238,7 +238,7 @@ source ~/.zsh/zplug/init.zsh
 # zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
 
 zplug 'kevinywlui/zlong_alert.zsh'
-zlong_ignore_cmds='vim ssh heroku nvim tail man less'
+zlong_ignore_cmds='vim ssh heroku nvim tail man less tig vifm tmux top htop ctop'
 
 zplug 'zdharma/fast-syntax-highlighting', defer:2
 

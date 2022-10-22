@@ -72,6 +72,11 @@ case $1 in
       fi
     done
 
+    mkdir -p ~/.ssh
+    for file in $(pwd)/.ssh/*; do
+      ln -f -s $file ~/.ssh
+    done
+
     if [[ ! -d ~/.config/i3blocks-contrib ]]; then
       git clone https://github.com/vivien/i3blocks-contrib.git ~/.config/i3blocks-contrib
     fi
