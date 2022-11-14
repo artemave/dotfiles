@@ -9,21 +9,28 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-input "type:keyboard" {
-  xkb_options ctrl:nocaps
+# keycodes /usr/share/X11/xkb/keycodes/evdev
+input type:keyboard {
+  xkb_layout "us_tilde_grave,ru,fr"
+  xkb_options "grp:shifts_toggle,ctrl:nocaps"
+
   repeat_delay 250
   repeat_rate 45
 }
 
-output eDP-1 scale 1.2
-output HDMI-A-1 scale 1.2
-output HDMI-A-1 pos 0 1000
+output HDMI-A-1 pos 0 0
+output DP-1 pos 0 0
+output DP-2 pos 0 0
+output eDP-1 pos 920 2160
+
+# like autorandr but worse
+# exec --no-startup-id kanshi
 
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 10
+font pango:monospace 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -42,8 +49,9 @@ floating_modifier $mod
 floating_minimum_size 400 x 400
 floating_maximum_size 1900 x 1200
 
+set $term kitty
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -51,11 +59,14 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_extended_run
 # bindsym $mod+d exec "rofi -combi-modi window,drun,search -show combi -modi search:~/.config/i3/web_search.sh,combi -terminal alacritty"
-bindsym $mod+d exec "rofi -combi-modi window,drun -show combi -terminal kitty"
+# bindsym $mod+d exec "rofi -combi-modi window,drun -show combi -terminal kitty"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+set $menu exec $term --class=launcher -e /home/artem/projects/sway-launcher-desktop/sway-launcher-desktop.sh
+bindsym $mod+d exec $menu
 
 # change focus
 bindsym $mod+j focus down
@@ -153,7 +164,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'swaymsg exit'"
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -186,7 +197,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
   # status_command SCRIPT_DIR=~/.config/i3blocks 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-  status_command SCRIPT_DIR=~/.config/i3blocks i3blocks
+  status_command SCRIPT_DIR=~/.config/i3blocks-contrib i3blocks
 }
 
 # wifi icon
@@ -215,8 +226,8 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -R
 # exec --no-startup-id xinput --disable 11
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 5 && pkill -RTMIN+2 i3blocks # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 5 && pkill -RTMIN+2 i3blocks # decrease screen brightness
+bindsym XF86MonBrightnessUp exec brightnessctl set +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
 # ctrl-win-l to lock the screen
 # bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
@@ -232,6 +243,11 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 5 && pkill -RTMIN+2 i3blocks 
 # bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh
 
 # exec --no-startup-id gnome-settings-daemon
+
+exec swayidle \
+  timeout 300  'swaymsg "output * dpms off"' \
+  resume       'swaymsg "output * dpms on"' \
+  before-sleep 'swaylock --color=4c7899 --ignore-empty-password --show-failed-attempts'
 
 workspace_auto_back_and_forth yes
 focus_on_window_activation focus
@@ -249,7 +265,7 @@ bindsym Shift+Print exec flameshot full
 
 # bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
-workspace 1 output HDMI1 DP1 DP2 eDP1
+workspace 1 output HDMI-A-1 DP-1 DP-2 eDP-1
 
 exec --no-startup-id clipit
 
