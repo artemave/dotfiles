@@ -324,7 +324,8 @@ Plug 'github/copilot.vim'
 " imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 " let g:copilot_no_tab_map = v:true
 
-Plug 'bogado/file-line'
+" Don't use this shit 'bogado/file-line' (it breaks baleia)
+Plug 'wsdjeg/vim-fetch'
 
 Plug 'ton/vim-bufsurf'
 
@@ -333,6 +334,8 @@ Plug 'ThePrimeagen/refactoring.nvim'
 
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
+
+Plug 'm00qek/baleia.nvim'
 
 call plug#end()            " required
 

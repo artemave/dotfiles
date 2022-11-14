@@ -4,14 +4,23 @@ set nocompatible
 " sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
 "       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-call plug#begin()
+set runtimepath=~/.vim,$VIMRUNTIME
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-set completeopt-=preview
-let g:deoplete#enable_at_startup = 1
+call plug#begin('~/.vim/plugged')
 
-Plug 'github/copilot.vim'
+Plug 'm00qek/baleia.nvim'
 
 call plug#end()            " required
 
-call deoplete#custom#option('prev_completion_mode', 'mirror')
+lua <<EOF
+vim.api.nvim_create_autocmd({ "BufRead" }, {
+  pattern = {"*.tty", "*.log"},
+
+  callback = function()
+    local baleia = require('baleia')
+
+    baleia.setup().once(vim.fn.bufnr('%'))
+    vim.api.nvim_buf_set_option(0, 'buftype', 'nowrite')
+  end
+})
+EOF
