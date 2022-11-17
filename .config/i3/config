@@ -264,3 +264,5 @@ assign [class="Slack"] 2
 assign [class="discord"] 2
 
 exec --no-startup-id ~/.config/i3/auto_floating.py
+
+exec --no-startup-id ~/.xsessionrc

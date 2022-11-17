@@ -201,7 +201,7 @@ bar {
 }
 
 # wifi icon
-exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet --indicator
 # bluetooth
 exec --no-startup-id blueman-applet
 
@@ -254,8 +254,8 @@ focus_on_window_activation focus
 
 # take screenshot with PrtSc key
 # bindsym Print exec maim -s | xclip -selection clipboard -t image/png
-bindsym Print exec flameshot gui
-bindsym Shift+Print exec flameshot full
+bindsym Print exec grimshot copy area
+bindsym Shift+Print exec grimshot save area
 
 # exec --no-startup-id dropbox start
 
@@ -285,3 +285,10 @@ assign [class="join\?action=join&confno=.*"] 3
 
 assign [class="Slack"] 2
 assign [class="discord"] 2
+
+exec --no-startup-id ~/.config/i3/auto_floating.py
+
+# https://github.com/emersion/xdg-desktop-portal-wlr#running
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# Current show stopper: app icons in swaybar don't react to right click
