@@ -262,6 +262,7 @@ assign [class="join\?action=join&confno=.*"] 3
 
 assign [class="Slack"] 2
 assign [class="discord"] 2
+assign [class="microsoft teams - preview"] 2
 
 exec --no-startup-id ~/.config/i3/auto_floating.py
 

@@ -64,7 +64,7 @@ nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 " let g:vigun_tmux_pane_orientation = 'horizontal'
 
 Plug 'artemave/vjs', { 'do': 'npm install' }
-au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListRequirers<cr>
+au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListDependents<cr>
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vr :VjsRenameFile<cr>
 au FileType {javascript,javascript.jsx,typescript} vmap <leader>vv :VjsExtractVariable<cr>
 au FileType {javascript,javascript.jsx,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
@@ -283,24 +283,39 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 
-Plug 'deoplete-plugins/deoplete-lsp'
-" For some reason I had to call UpdateRemotePlugins manually after install
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'hrsh7th/cmp-nvim-lsp'
+" Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'quangnguyen30192/cmp-nvim-tags'
+" Plug 'hrsh7th/cmp-cmdline'
 
-ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
-ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
-ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "<Plug>delimitMateBS"
-ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'tzachar/fuzzy.nvim'
+Plug 'tzachar/cmp-fuzzy-buffer'
+
+Plug 'ray-x/cmp-treesitter'
+Plug 'andersevenrud/cmp-tmux'
+Plug 'hrsh7th/nvim-cmp'
+
+" Plug 'deoplete-plugins/deoplete-lsp'
+" " For some reason I had to call UpdateRemotePlugins manually after install
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" let g:deoplete#enable_at_startup = 1
+
+" ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+" ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
+" ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "<Plug>delimitMateBS"
+" ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
 " ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 
-set completeopt-=preview
-" set completeopt=menu,menuone,noselect
+" set completeopt-=preview
+set completeopt=menu,menuone,noselect
 
 Plug 'takac/vim-hardtime'
 let g:hardtime_default_on = 1
 let g:hardtime_ignore_quickfix = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*", "ALEPreviewWindow" ]
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
 let g:list_of_normal_keys = ["h", "j", "k", "l"]
 let g:list_of_visual_keys = ["h", "j", "k", "l"]
 
@@ -321,8 +336,9 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'github/copilot.vim'
-" imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-" let g:copilot_no_tab_map = v:true
+let g:copilot_filetypes = {
+      \ '*': v:false,
+      \ }
 
 " Don't use this shit 'bogado/file-line' (it breaks baleia)
 Plug 'wsdjeg/vim-fetch'
@@ -340,7 +356,5 @@ Plug 'm00qek/baleia.nvim'
 call plug#end()            " required
 
 " some things have to be run after plug#end
-" call deoplete#custom#option('prev_completion_mode', 'mirror')
-call deoplete#custom#option('refresh_backspace', v:true)
 
 lua require('plugins')
