@@ -150,7 +150,8 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " until then, you need to manually override ctags in /usr/bin/ with those from homebrew
 " TODO fix vim path
 nmap <Leader>rt :!git ls-files \| ctags --links=no -L-<CR><CR>
-au FileType {ruby} nnoremap <leader>rt :!git ls-files \| ctags --language=ruby --links=no -L-<CR><CR>
+au FileType {ruby} nnoremap <leader>rt :!git ls-files \| ctags --languages=ruby --links=no -L-<CR><CR>
+au FileType {javascript,javascript.jsx} nnoremap <leader>rt :!git ls-files \| ctags --languages=javascript --links=no -L-<CR><CR>
 
 " Remember last location in file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
@@ -369,7 +370,7 @@ autocmd InsertLeave * call <SID>SavePreservingLastPasteMarks()
 set cursorline
 
 " copy current file path into clipboard
-nmap <leader><leader>c :let @*=expand("%")<cr>
+nmap <leader><leader>c :let @*=expand("%:p")<cr>
 nmap <leader><leader>C :let @*=expand("%:t")<cr>
 
 " search for visually selected text
@@ -443,3 +444,69 @@ xnoremap <expr> p 'pgv"'.v:register.'y`>'
 " https://vi.stackexchange.com/a/31391/13743
 cnoremap <C-h> <C-f>bb<C-c>
 cnoremap <C-l> <C-f>ee<C-c>
+
+function! FindNodeDependencyPath(directory, dependency)
+  if a:directory == '/'
+    return
+  endif
+
+  let dependencyDirectory = a:directory . "/node_modules/" . a:dependency
+
+  if isdirectory(dependencyDirectory)
+    return dependencyDirectory
+  else
+    return FindNodeDependencyPath(fnamemodify(a:directory, ':h'), a:dependency)
+  endif
+endfunction
+
+function! ModuleName(path)
+  let components = split(a:path, '/')
+  if a:path =~ '^@'
+    return join(components[0:1], '/')
+  else
+    return components[0]
+  endif
+endfunction
+
+function! ModuleMain(dirname)
+  let packageFilename = a:dirname . '/package.json'
+
+  if filereadable(packageFilename)
+    let package = json_decode(readfile(packageFilename))
+
+    if has_key(package, 'main')
+      return package['main']
+    endif
+endfunction
+
+function! ResolveMain(dirname, moduleRelativeFilename)
+  if len(a:moduleRelativeFilename) > 0
+    return resolve(a:dirname . a:moduleRelativeFilename)
+  else
+    let main = ModuleMain(a:dirname)
+
+    if main isnot 0
+      return resolve(a:dirname . '/' . main)
+    else
+      return resolve(a:dirname)
+    endif
+  endif
+endfunction
+
+function! ResolveJavascriptImport(fname)
+  if a:fname !~ '^\.'
+    let fromFile = expand('%:p')
+    let dirname = fnamemodify(fromFile, ':h')
+    let moduleName = ModuleName(a:fname)
+    let moduleRelativeFilename = a:fname[len(moduleName):-1]
+    let found = FindNodeDependencyPath(dirname, moduleName)
+
+    if found isnot 0
+      return ResolveMain(found, moduleRelativeFilename)
+    endif
+  endif
+endfunction
+
+
+autocmd FileType javascript setlocal includeexpr=ResolveJavascriptImport(v:fname)
+autocmd FileType javascript setlocal isfname+=@-@
