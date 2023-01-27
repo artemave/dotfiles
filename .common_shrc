@@ -49,13 +49,6 @@ parsegitbranch() {
   fi
 }
 
-if [ -d ~/.ec2 ]; then
-  export JAVA_HOME="$(/usr/libexec/java_home)"
-  export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
-  export EC2_CERT="$(/bin/ls "$HOME"/.ec2/cert-*.pem | /usr/bin/head -1)"
-  export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
-fi
-
 # find snippet
 fsnip() {
   egrep -C1 -R $1 "$HOME/.vim/bundle/vim-snippets/snippets/"
@@ -127,3 +120,5 @@ fi
 if command -v xdg-open &> /dev/null; then
   alias open=xdg-open
 fi
+
+alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
