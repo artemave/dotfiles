@@ -183,12 +183,6 @@ Plug 'mg979/vim-visual-multi'
 Plug 'itchyny/lightline.vim'
 set laststatus=2
 
-Plug 'mustache/vim-mustache-handlebars'
-" mustache/handlebars with m M
-let g:surround_109 = "{{\r}}"
-let g:surround_77 = "{{{\r}}}"
-let g:mustache_abbreviations = 1
-
 " Plug 'fatih/vim-go'
 " let g:go_version_warning = 0
 " let g:go_fmt_command = "goimports"
@@ -210,19 +204,16 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>fe <Plug>(go-rename)
 
-Plug 'joshdick/onedark.vim'
+Plug 'navarasu/onedark.nvim'
 
-hi def link jsObjectKey Label
-
-autocmd FileType {javascript,javascript.jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
-autocmd FileType {javascript,javascript.jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
+" autocmd FileType {javascript,javascript.jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+" autocmd FileType {javascript,javascript.jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
 " https://github.com/tpope/vim-dispatch/issues/222
 set shellpipe=2>&1\|tee
 
 " Easy text exchange operator for Vim.
 Plug 'tommcdo/vim-exchange'
 
-Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'chrisbra/NrrwRgn'
 
 " This form adds golden_ratio_exclude_nonmodifiable
@@ -327,11 +318,11 @@ Plug 'RRethy/vim-illuminate'
 
 Plug 'AndrewRadev/linediff.vim'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'AndrewRadev/sideways.vim'
+" Plug 'AndrewRadev/sideways.vim'
 
 Plug 'artemave/vim-aaa'
 
-Plug 'jxnblk/vim-mdx-js'
+" Plug 'jxnblk/vim-mdx-js'
 
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -341,17 +332,24 @@ let g:copilot_filetypes = {
       \ }
 
 " Don't use this shit 'bogado/file-line' (it breaks baleia)
+
+" adds support line number in file paths
 Plug 'wsdjeg/vim-fetch'
 
 Plug 'ton/vim-bufsurf'
 
-Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/refactoring.nvim'
 
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
 
 Plug 'm00qek/baleia.nvim'
+
+Plug 'direnv/direnv.vim'
+
+Plug 'nvim-treesitter/playground'
+
+Plug 'maxmellon/vim-jsx-pretty'
 
 call plug#end()            " required
 

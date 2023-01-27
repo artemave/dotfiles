@@ -43,6 +43,9 @@ cmp.setup({
       vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
     end,
   },
+  completion = {
+    keyword_length = 2
+  },
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -68,21 +71,45 @@ cmp.setup({
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+-- npm i -g vscode-langservers-extracted
+local servers = {
+  'cssls',
+  'html',
+  'jsonls',
+  'sqls',
+  'yamlls',
+  'pyright',
+}
+
+local lspconfig = require'lspconfig'
+
+for server, server_settings in pairs(servers) do
+  if type(server) == 'number' then
+    server = server_settings
+    server_settings = nil
+  end
+
+  lspconfig[server].setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 140,
+    },
+    root_dir = lspconfig.util.find_git_ancestor,
+    settings = server_settings
+  })
+end
+
 require'lspconfig'.tsserver.setup{
   capabilities = capabilities,
   on_attach = on_attach,
-  -- cmd = {"typescript-language-server", "--stdio", "--tsserver-path=tsserver" }
+  cmd = {"typescript-language-server", "--stdio", "--tsserver-path=tsserver" }
 }
 
 require'lspconfig'.dartls.setup{
   capabilities = capabilities,
   on_attach = on_attach,
   cmd = { "dart", "/home/artem/snap/flutter/common/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot", "--lsp" },
-}
-
-require'lspconfig'.pyright.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
 }
 
 require("null-ls").setup({
@@ -113,9 +140,19 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = false,              -- false will disable the whole extension
   },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn", -- set to `false` to disable one of the mappings
+      node_incremental = "gnr",
+      scope_incremental = "gnc",
+      node_decremental = "gnm",
+    },
+  },
   textobjects = {
     select = {
       enable = true,
+      lookahead = true,
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
         ["af"] = "@function.outer",
@@ -169,6 +206,24 @@ require'nvim-treesitter.configs'.setup {
       },
     },
   },
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = 'o',
+      toggle_hl_groups = 'i',
+      toggle_injected_languages = 't',
+      toggle_anonymous_nodes = 'a',
+      toggle_language_display = 'I',
+      focus_language = 'f',
+      unfocus_language = 'F',
+      update = 'R',
+      goto_node = '<cr>',
+      show_help = '?',
+    },
+  }
 }
 
 RD = RD or {}
