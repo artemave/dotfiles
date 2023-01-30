@@ -351,6 +351,10 @@ Plug 'nvim-treesitter/playground'
 
 Plug 'maxmellon/vim-jsx-pretty'
 
+Plug 'microsoft/vscode-js-debug', { 'do': 'npm install --legacy-peer-deps && npm run compile' }
+Plug 'mfussenegger/nvim-dap'
+Plug 'mxsdev/nvim-dap-vscode-js'
+
 call plug#end()            " required
 
 " some things have to be run after plug#end

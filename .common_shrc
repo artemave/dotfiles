@@ -24,13 +24,6 @@ if command -v mvim &> /dev/null; then
 fi
 alias vim="$vim_commmand"
 
-if command -v reattach-to-user-namespace &> /dev/null; then
-  alias vim="reattach-to-user-namespace $vim_commmand"
-  alias pbcopy="reattach-to-user-namespace pbcopy"
-  alias ios-sim="reattach-to-user-namespace ios-sim"
-  alias appium="reattach-to-user-namespace appium"
-fi
-
 if command -v nvim &> /dev/null; then
   export EDITOR="nvim"
 else
@@ -119,6 +112,14 @@ fi
 
 if command -v xdg-open &> /dev/null; then
   alias open=xdg-open
+fi
+
+if command -v /opt/homebrew/bin/brew &> /dev/null; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv init --path)"
 fi
 
 alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
