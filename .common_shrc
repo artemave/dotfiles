@@ -1,5 +1,13 @@
 # vi: ft=sh
 
+if command -v /opt/homebrew/bin/brew &> /dev/null; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv init --path)"
+fi
+
 # enable color support of ls and also add handy aliases
 if command -v dircolors &> /dev/null; then
   eval "`dircolors -b`"
@@ -16,13 +24,6 @@ elif [[ `uname` == 'Darwin' ]]; then
   alias fgrep='fgrep --color=auto'
   alias egrep='egrep --color=auto'
 fi
-
-vim_commmand=vim
-if command -v mvim &> /dev/null; then
-  # need mvim for youcompleteme
-  vim_commmand="mvim -v"
-fi
-alias vim="$vim_commmand"
 
 if command -v nvim &> /dev/null; then
   export EDITOR="nvim"
@@ -112,14 +113,6 @@ fi
 
 if command -v xdg-open &> /dev/null; then
   alias open=xdg-open
-fi
-
-if command -v /opt/homebrew/bin/brew &> /dev/null; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-if command -v pyenv &> /dev/null; then
-  eval "$(pyenv init --path)"
 fi
 
 alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
