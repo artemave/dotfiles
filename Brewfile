@@ -1,3 +1,5 @@
+tap homebrew/cask-fonts
+install font-jetbrains-mono-nerd-font
 install coreutils
 install ctags
 install direnv

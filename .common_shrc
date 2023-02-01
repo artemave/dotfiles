@@ -2,6 +2,10 @@
 
 if command -v /opt/homebrew/bin/brew &> /dev/null; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  if test -d "$(brew --prefix)/opt/coreutils/libexec/gnubin"; then
+    export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+  fi
 fi
 
 if command -v pyenv &> /dev/null; then
@@ -59,9 +63,6 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 alias man='man -P less'
 
 alias be="bundle exec"
-alias bec="bundle exec cucumber"
-alias ber="bundle exec rspec"
-alias cuc="./bin/cucumber"
 alias g="git "
 alias gs="g status"
 alias gp="g push "
@@ -116,3 +117,7 @@ if command -v xdg-open &> /dev/null; then
 fi
 
 alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
+
+export NVM_LAZY_LOAD=true
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
