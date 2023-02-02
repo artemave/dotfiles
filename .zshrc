@@ -206,6 +206,11 @@ autoload -U add-zsh-hook
 # load_nvm
 
 if command -v direnv &> /dev/null; then
+  # This somehow fixed homebrew node taking precedence over nvm node in tmux
+  # https://github.com/direnv/direnv/issues/106#issuecomment-1027330218
+  if command -v /opt/homebrew/bin/brew &> /dev/null && [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
+    direnv reload
+  fi
   eval "$(direnv hook zsh)"
   # failed attempt to fix emacs <-> direnv integration
   # autoload -U add-zsh-hook
@@ -231,7 +236,6 @@ fi
 ###-tns-completion-end-###
 
 if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-eval "$(pyenv init -)"
 
 # This should be the last thing because it duplicates PATH entries
 source ~/.zsh/zplug/init.zsh

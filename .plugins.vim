@@ -70,6 +70,7 @@ au FileType {javascript,javascript.jsx,typescript} vmap <leader>vv :VjsExtractVa
 au FileType {javascript,javascript.jsx,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vc :VjsCreateDeclaration<cr>
+let g:vjs_dumb_require_complete = 1
 
 " Plug 'jgdavey/tslime.vim'
 " vmap <C-c><C-c> <Plug>SendSelectionToTmux
