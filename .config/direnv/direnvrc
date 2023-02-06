@@ -7,3 +7,7 @@ use_nvm() {
     nvm use $node_version
   fi
 }
+
+use_rtx() {
+  direnv_load rtx direnv exec
+}

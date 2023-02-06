@@ -9,7 +9,7 @@ if command -v /opt/homebrew/bin/brew &> /dev/null; then
 fi
 
 if command -v pyenv &> /dev/null; then
-  eval "$(pyenv init -)"
+  # eval "$(pyenv init -)"
 fi
 
 # enable color support of ls and also add handy aliases
@@ -84,7 +84,7 @@ rmdups() {
 alias gocode="cd ~/projects/gocode/src/github.com/artemave"
 
 if command -v rbenv &> /dev/null; then
-  eval "$(rbenv init -)"
+  # eval "$(rbenv init -)"
 fi
 
 if command -v hub &> /dev/null; then
@@ -118,6 +118,6 @@ fi
 
 alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
 
-export NVM_LAZY_LOAD=true
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# export NVM_LAZY_LOAD=true
+# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
