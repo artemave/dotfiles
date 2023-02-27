@@ -1,3 +1,7 @@
+snippet cl "console.log"
+console.log(${0})
+endsnippet
+
 snippet cls
 console.log(JSON.stringify(${0:object}, null, 2))
 endsnippet
@@ -134,4 +138,8 @@ snippet fin
 for (const ${1} in ${2}) {
 	${3}
 }
+endsnippet
+
+snippet er "throw new Error()"
+throw new Error(${0})
 endsnippet
