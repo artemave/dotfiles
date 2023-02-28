@@ -242,7 +242,7 @@ Plug 'ap/vim-css-color'
 Plug 'vim-scripts/scratch.vim'
 
 Plug 'mattn/emmet-vim'
-let g:user_emmet_mode='i'
+" let g:user_emmet_mode='i'
 " let g:user_emmet_leader_key='<C-Z>'
 
 " Open a Quickfix item in a window you choose
