@@ -60,8 +60,14 @@ cmp.setup({
     { name = 'ultisnips' }, -- For ultisnips users.
     -- { name = 'snippy' }, -- For snippy users.
   }, {
-    -- { name = 'buffer' },
-    { name = 'fuzzy_buffer' },
+    {
+      name = 'buffer',
+      option = {
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end
+      }
+    },
     { name = 'path' },
     { name = 'treesitter' },
     { name = 'tags' },

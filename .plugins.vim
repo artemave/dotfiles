@@ -277,14 +277,12 @@ Plug 'neovim/nvim-lspconfig'
 
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'hrsh7th/cmp-nvim-lsp'
-" Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'quangnguyen30192/cmp-nvim-tags'
 " Plug 'hrsh7th/cmp-cmdline'
 
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'tzachar/fuzzy.nvim'
-Plug 'tzachar/cmp-fuzzy-buffer'
 
 Plug 'ray-x/cmp-treesitter'
 Plug 'andersevenrud/cmp-tmux'
