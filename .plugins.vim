@@ -287,6 +287,7 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'ray-x/cmp-treesitter'
 Plug 'andersevenrud/cmp-tmux'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'dstein64/vim-startuptime'
 
 " Plug 'deoplete-plugins/deoplete-lsp'
 " " For some reason I had to call UpdateRemotePlugins manually after install
