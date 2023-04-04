@@ -171,6 +171,14 @@ Plug 'Raimondi/delimitMate'
 " Plug 'vim-scripts/matchit.zip'
 Plug 'andymass/vim-matchup'
 
+" select words with Ctrl-N (like Ctrl-d in Sublime Text/VS Code)
+" create cursors vertically with Ctrl-Down/Ctrl-Up
+" select one character at a time with Shift-Arrows
+" press n/N to get next/previous occurrence
+" press [/] to select next/previous cursor
+" press q to skip current and get next occurrence
+" press Q to remove current cursor/selection
+" start insert mode with i,a,I,A
 Plug 'mg979/vim-visual-multi'
 
 " useful when <Tab> -> <Esc>
@@ -217,8 +225,7 @@ Plug 'tommcdo/vim-exchange'
 
 Plug 'chrisbra/NrrwRgn'
 
-" This form adds golden_ratio_exclude_nonmodifiable
-Plug 'sarumont/golden-ratio'
+Plug 'roman/golden-ratio'
 " let g:golden_ratio_exclude_nonmodifiable = 1
 let g:golden_ratio_exclude_filetypes = ['NERDtree', 'CHADTree']
 
