@@ -1,7 +1,26 @@
 local opts = { noremap=true, silent=true }
+local _border = "single"
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover, {
+    border = _border
+  }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help, {
+    border = _border
+  }
+)
+
 vim.diagnostic.config({
   underline = false,
+  float={border=_border}
 })
+
+require('lspconfig.ui.windows').default_options = {
+  border = _border
+}
 
 -- vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[l', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -82,7 +101,7 @@ local servers = {
   'cssls',
   'html',
   'jsonls',
-  'sqls',
+  'sqlls',
   'pyright',
 }
 
@@ -213,6 +232,7 @@ require'nvim-treesitter.configs'.setup {
     },
     lsp_interop = {
       enable = true,
+      border = _border,
       peek_definition_code = {
         ["dm"] = "@function.outer",
         ["dM"] = "@class.outer",

@@ -225,9 +225,10 @@ Plug 'tommcdo/vim-exchange'
 
 Plug 'chrisbra/NrrwRgn'
 
-Plug 'roman/golden-ratio'
+" Plug 'roman/golden-ratio'
+" let g:golden_ratio_autocommand = 0
 " let g:golden_ratio_exclude_nonmodifiable = 1
-let g:golden_ratio_exclude_filetypes = ['NERDtree', 'CHADTree']
+" let g:golden_ratio_exclude_filetypes = ['NERDtree', 'CHADTree', 'lspinfo']
 
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_preview_win_floating = 1
@@ -361,6 +362,8 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'microsoft/vscode-js-debug', { 'do': 'npm install --legacy-peer-deps && npm run compile' }
 Plug 'mfussenegger/nvim-dap'
 Plug 'mxsdev/nvim-dap-vscode-js'
+
+Plug 'kevinhwang91/nvim-bqf'
 
 call plug#end()            " required
 
