@@ -246,6 +246,8 @@ zlong_ignore_cmds='vim ssh heroku nvim tail man less tig vifm tmux top htop ctop
 
 zplug 'zdharma/fast-syntax-highlighting', defer:2
 
+zplug 'zsh-users/zsh-autosuggestions'
+
 if ! zplug check --verbose; then
   zplug install
 fi
