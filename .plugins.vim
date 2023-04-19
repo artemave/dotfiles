@@ -346,8 +346,6 @@ Plug 'wsdjeg/vim-fetch'
 
 Plug 'ton/vim-bufsurf'
 
-Plug 'ThePrimeagen/refactoring.nvim'
-
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
 
@@ -364,6 +362,8 @@ Plug 'mfussenegger/nvim-dap'
 Plug 'mxsdev/nvim-dap-vscode-js'
 
 Plug 'kevinhwang91/nvim-bqf'
+
+Plug 'jose-elias-alvarez/typescript.nvim'
 
 call plug#end()            " required
 

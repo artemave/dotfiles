@@ -95,7 +95,6 @@ cmp.setup({
 
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
 -- npm i -g vscode-langservers-extracted
 local servers = {
   'cssls',
@@ -124,11 +123,13 @@ for server, server_settings in pairs(servers) do
   })
 end
 
-require'lspconfig'.tsserver.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
-  cmd = {"typescript-language-server", "--stdio", "--tsserver-path=tsserver" }
-}
+require('typescript').setup({
+  server = {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    cmd = {"typescript-language-server", "--stdio", "--tsserver-path=tsserver" }
+  }
+})
 
 require'lspconfig'.dartls.setup{
   capabilities = capabilities,
@@ -325,22 +326,6 @@ end
 
 vim.api.nvim_set_keymap('n', '<space>x', '<cmd>lua RD.rubocop_disable()<CR>', {})
 
-require('refactoring').setup({})
--- Remaps for the refactoring operations currently offered by the plugin
-vim.api.nvim_set_keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]], {noremap = true, silent = true, expr = false})
-
--- Extract block doesn't need visual mode
-vim.api.nvim_set_keymap("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]], {noremap = true, silent = true, expr = false})
-
-vim.api.nvim_set_keymap("n", "<leader>ri", [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
-
--- vim.api.nvim_set_keymap("n", "<leader>rp", ":lua require('refactoring').debug.print_var({ normal = true })<CR>", { noremap = true })
--- vim.api.nvim_set_keymap("v", "<leader>rp", ":lua require('refactoring').debug.print_var({})<CR>", { noremap = true })
--- vim.api.nvim_set_keymap("n", "<leader>rc", ":lua require('refactoring').debug.cleanup({})<CR>", { noremap = true })
-
 vim.api.nvim_create_autocmd({ "BufRead" }, {
   pattern = {"*.tty", "*.log"},
 
@@ -394,3 +379,14 @@ for _, language in ipairs({ "typescript", "javascript" }) do
     }
   }
 end
+
+-- better colors for semantic token highlight
+-- see :h lsp-semantic-highlight
+vim.api.nvim_create_autocmd({ "BufRead" }, {
+  pattern = {"*.mjs", "*.js", "*.mts", "*.ts", "*.jsx", "*.tsx"},
+
+  callback = function()
+    vim.api.nvim_set_hl(0, "@lsp.type.variable", { link = "@variable" })
+    vim.api.nvim_set_hl(0, "@lsp.type.property", { link = "@field" })
+  end
+})

@@ -88,8 +88,8 @@ au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} 
 
 au BufRead,BufNewFile *.jsx set ft=javascript.jsx
 
-" Don't syntax highlight markdown because it's often wrong
-autocmd! FileType {mkd,md} setlocal syn=off
+" syntax is taken care off by treesitter
+autocmd! FileType {mkd,md,javascript,javascript.jsx,python,ruby} setlocal syn=off
 
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
 function s:RunShellCommand(cmdline)
