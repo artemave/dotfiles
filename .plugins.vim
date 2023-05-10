@@ -55,7 +55,7 @@ Plug 'tpope/vim-commentary'
 Plug 'artemave/vigun'
 au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>t :VigunRun 'all'<cr>
 au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>T :VigunRun 'nearest'<cr>
-au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
+" au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
 au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>wt :VigunRun 'watch-all'<cr>
 au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
 au FileType javascript,typescript,typescript nnoremap <Leader>vo :VigunMochaOnly<cr>
@@ -357,10 +357,13 @@ Plug 'nvim-treesitter/playground'
 
 Plug 'maxmellon/vim-jsx-pretty'
 
-Plug 'microsoft/vscode-js-debug', { 'do': 'npm install --legacy-peer-deps && npm run compile' }
+Plug 'microsoft/vscode-js-debug', { 'do': 'npm install && npx gulp vsDebugServerBundle && mv dist out' }
 Plug 'mfussenegger/nvim-dap'
 Plug 'mxsdev/nvim-dap-vscode-js'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
 
+" qf window with preview
 Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'jose-elias-alvarez/typescript.nvim'

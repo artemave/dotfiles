@@ -289,9 +289,6 @@ elseif executable('ag')
   set grepformat=%f:%l:%c:%m
 endif
 
-" clear search highlight
-au BufEnter * nmap <silent> <buffer> <nowait> <Leader>c :nohls<CR>
-
 " search only within unfolded text
 set fdo-=search
 
