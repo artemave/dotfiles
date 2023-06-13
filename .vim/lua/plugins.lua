@@ -384,69 +384,41 @@ function mochaTestConfig()
   }
 end
 
-vim.api.nvim_set_keymap('n', '<space>dt', '', {
-  desc = 'Debug current test',
+vim.keymap.set('n', '<Leader>dt', function() require('dap').run(mochaTestConfig()) end)
+vim.keymap.set('n', '<Leader>db', function() require('dap').toggle_breakpoint() end)
+-- this is also how you attach to running process
+vim.keymap.set('n', '<Leader>dc', function() require('dap').continue() end)
+vim.keymap.set({'n', 'v'}, '<Leader>de', function()
+  require("dapui").eval(nil, { enter = true })
+end)
+vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.toggle() end)
+vim.keymap.set('n', '<Leader>dd', function() require('dap').run_last() end)
+vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
+  require('dap.ui.widgets').hover()
+end)
+vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
+  require('dap.ui.widgets').preview()
+end)
+vim.keymap.set('n', '<Leader>df', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.frames)
+end)
+vim.keymap.set('n', '<Leader>ds', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.scopes)
+end)
 
-  callback = function()
-    require("dap").run(mochaTestConfig())
-  end
-})
+vim.api.nvim_create_user_command('BList',
+  function ()
+    require('dap').list_breakpoints()
+  end,
+  {})
 
-vim.api.nvim_set_keymap('n', '<space>db', '', {
-  desc = 'Toggle breakpoint',
-
-  callback = function()
-    require("dap").toggle_breakpoint()
-  end
-})
-
-vim.api.nvim_set_keymap('n', '<space>dc', '', {
-  desc = 'Continue debug',
-
-  callback = function()
-    require("dap").continue()
-  end
-})
-
-vim.api.nvim_set_keymap('n', '<space>dl', '', {
-  desc = 'Step into',
-
-  callback = function()
-    require("dap").step_into()
-  end
-})
-
-vim.api.nvim_set_keymap('n', '<space>dj', '', {
-  desc = 'Step over',
-
-  callback = function()
-    require("dap").step_over()
-  end
-})
-
-vim.api.nvim_set_keymap('n', '<space>dh', '', {
-  desc = 'Step out',
-
-  callback = function()
-    require("dap").step_out()
-  end
-})
-
-vim.api.nvim_set_keymap('v', '<space>de', '', {
-  desc = 'Debugger evaluate expression',
-
-  callback = function()
-    require("dapui").eval(nil, { enter = true })
-  end
-})
-
-vim.api.nvim_set_keymap('n', '<space>de', '', {
-  desc = 'Debugger evaluate expression',
-
-  callback = function()
-    require("dapui").eval(nil, { enter = true })
-  end
-})
+vim.api.nvim_create_user_command('BClear',
+  function ()
+    require('dap').clear_breakpoints()
+  end,
+  {})
 
 vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
 
