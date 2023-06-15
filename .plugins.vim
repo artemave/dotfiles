@@ -63,14 +63,14 @@ au FileType ruby,javascript,typescript,go,python nnoremap <leader>vi :VigunShowS
 nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 " let g:vigun_tmux_pane_orientation = 'horizontal'
 
-Plug 'artemave/vjs', { 'do': 'npm install' }
+Plug 'artemave/vjs'
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListDependents<cr>
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vr :VjsRenameFile<cr>
 au FileType {javascript,javascript.jsx,typescript} vmap <leader>vv :VjsExtractVariable<cr>
 au FileType {javascript,javascript.jsx,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vc :VjsCreateDeclaration<cr>
-let g:vjs_dumb_require_complete = 1
+let g:vjs_es_modules_complete = 1
 
 " autocmd TextChanged * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
 " autocmd InsertLeave * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
@@ -113,7 +113,7 @@ function! OpenOneOrMoreSelectedFiles(files)
   if len(a:files) == 1
     exe 'e' a:files[0]
   else
-    let entries = map(a:files, '{ "filename": v:val }')
+    let entries = map(a:files, '{ "filename": v:val, "lnum": 1 }')
     call setqflist(entries, 'r')
     copen
   endif
