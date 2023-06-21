@@ -165,7 +165,6 @@ function! SearchOperator(type)
 endfunction
 
 Plug 'preservim/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
 
 let g:delimitMate_expand_cr = 2
@@ -301,6 +300,11 @@ Plug 'ray-x/cmp-treesitter'
 Plug 'andersevenrud/cmp-tmux'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'dstein64/vim-startuptime'
+
+Plug 'MunifTanjim/nui.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'jackMort/ChatGPT.nvim'
 
 " Plug 'deoplete-plugins/deoplete-lsp'
 " " For some reason I had to call UpdateRemotePlugins manually after install

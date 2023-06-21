@@ -446,3 +446,5 @@ vim.api.nvim_create_autocmd({ "BufRead" }, {
     vim.api.nvim_set_hl(0, "@lsp.type.property", { link = "@field" })
   end
 })
+
+require("chatgpt").setup()
