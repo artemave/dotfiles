@@ -448,3 +448,11 @@ vim.api.nvim_create_autocmd({ "BufRead" }, {
 })
 
 require("chatgpt").setup()
+
+require'nvim-web-devicons'.setup {
+  default = true
+}
+
+require'trouble'.setup {
+  severity = vim.diagnostic.severity.ERROR
+}

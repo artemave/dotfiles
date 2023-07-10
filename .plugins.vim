@@ -277,7 +277,10 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 
 Plug 'honza/vim-snippets'
 
+" This one is for NERDtree
 Plug 'ryanoasis/vim-devicons'
+" And this one is for trouble.nvim
+Plug 'nvim-tree/nvim-web-devicons'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -376,6 +379,8 @@ Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'jose-elias-alvarez/typescript.nvim'
+
+Plug 'folke/trouble.nvim'
 
 call plug#end()            " required
 
