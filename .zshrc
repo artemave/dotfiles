@@ -257,3 +257,9 @@ zplug load --verbose
 
 eval "$(starship init zsh)"
 eval "$(rtx activate zsh)"
+
+## [Completion] 
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /home/artem/.dart-cli-completion/zsh-config.zsh ]] && . /home/artem/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+

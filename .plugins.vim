@@ -72,8 +72,8 @@ au FileType {javascript,javascript.jsx,typescript} nmap <leader>vd :VjsExtractDe
 au FileType {javascript,javascript.jsx,typescript} nmap <leader>vc :VjsCreateDeclaration<cr>
 let g:vjs_es_modules_complete = 1
 
-" autocmd TextChanged * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
-" autocmd InsertLeave * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
+autocmd TextChanged * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
+autocmd InsertLeave * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
 
 autocmd FileType {javascript,typescript} setlocal omnifunc=vjs#ModuleComplete
 

@@ -11,10 +11,14 @@ if [ -f ~/.local_env ]; then
   . ~/.local_env
 fi
 
-# ln -s ~/jdk /usr/lib/jvm/java-17-openjdk-17.0.5.0.8-1.fc37.x86_64
+# ln -s /usr/lib/jvm/java-17-openjdk-17.0.7.0.7-5.fc38.x86_64 ~/jdk
 export JAVA_HOME=$HOME/jdk
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+if [ -d ~/.pub-cache/bin ]; then
+  export PATH="$PATH":"$HOME/.pub-cache/bin"
+fi
 
 # Fixes sdkmanager error with java versions higher than java 8
 # export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'

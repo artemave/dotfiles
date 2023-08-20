@@ -246,23 +246,26 @@ workspace 1 output HDMI1 DP1 DP2 eDP1 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP
 
 exec --no-startup-id clipit
 
+# Use `xprop` to get the window class/name
+assign [class="firefox"] 2
+assign [class="Brave"] 2
+
 # Android emulator
 for_window [title=".*Emulator.*"] floating enable
-assign [title=".*Emulator.*"] 3
+assign [title=".*Emulator.*"] 4
 
-# Use `xprop` to get the window class/name
 # Zoom main window (if started explicitly)
 for_window [class="zoom.*"] floating enable
-assign [class="zoom.*"] 3
+assign [class="zoom.*"] 4
 # Zoom popup when joining meeting
 for_window [title="Zoom Cloud Meeting"] floating enable
-assign [title="Zoom Cloud Meeting"] 3
+assign [title="Zoom Cloud Meeting"] 4
 # Zoom meeting window
-assign [class="join\?action=join&confno=.*"] 3
+assign [class="join\?action=join&confno=.*"] 4
 
-assign [class="Slack"] 2
-assign [class="discord"] 2
-assign [class="microsoft teams - preview"] 2
+assign [class="Slack"] 3
+assign [class="discord"] 3
+assign [class="microsoft teams - preview"] 3
 
 exec --no-startup-id ~/.config/i3/auto_floating.py
 
