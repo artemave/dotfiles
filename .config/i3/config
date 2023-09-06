@@ -209,8 +209,8 @@ exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_tog
 # exec --no-startup-id xinput --disable 11
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec brightnessctl set +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
-bindsym XF86MonBrightnessDown exec brightnessctl set 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
+bindsym XF86MonBrightnessUp exec ~/.config/scripts/set_brightness.sh +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
+bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
 # ctrl-win-l to lock the screen
 bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
