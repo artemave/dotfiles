@@ -86,10 +86,10 @@ set switchbuf=useopen
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
-au BufRead,BufNewFile *.jsx set ft=javascript.jsx
+" au BufRead,BufNewFile *.jsx set ft=javascriptreact
 
 " syntax is taken care off by treesitter
-autocmd! FileType {mkd,md,javascript,javascript.jsx,python,ruby} setlocal syn=off
+autocmd! FileType {mkd,md,javascript,javascriptreact,python,ruby} setlocal syn=off
 
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
 function s:RunShellCommand(cmdline)
@@ -151,7 +151,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " TODO fix vim path
 nmap <Leader>rt :!git ls-files \| ctags --links=no -L-<CR><CR>
 au FileType {ruby} nnoremap <leader>rt :!git ls-files \| ctags --languages=ruby --links=no -L-<CR><CR>
-au FileType {javascript,javascript.jsx} nnoremap <leader>rt :!git ls-files \| ctags --languages=javascript --links=no -L-<CR><CR>
+au FileType {javascript,javascriptreact} nnoremap <leader>rt :!git ls-files \| ctags --languages=javascript --links=no -L-<CR><CR>
 
 " Remember last location in file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
@@ -263,8 +263,8 @@ highlight ALEWarning cterm=bold gui=bold ctermbg=238 guibg=#3B4048
 
 hi Comment gui=italic
 
-" select last pasted text
-nnoremap gp `[v\`]`
+" select last inserted text
+nnoremap gi `[v`]h
 
 " autocomplete dashes too
 set iskeyword+=-

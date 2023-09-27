@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="text/plain">
+        <sub-class-of type="application/octet-stream"/>
+        <glob pattern="*.yml"/>
+        <glob pattern="*.yaml"/>
+    </mime-type>
+</mime-info>

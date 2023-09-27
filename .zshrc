@@ -263,3 +263,10 @@ eval "$(rtx activate zsh)"
 [[ -f /home/artem/.dart-cli-completion/zsh-config.zsh ]] && . /home/artem/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+
+# bun completions
+[ -s "~/.bun/_bun" ] && source "~/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

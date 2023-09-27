@@ -4,6 +4,7 @@ set -ex
 
 dotfiles=( \
   .bash_profile \
+  .eslintrc.json \
   .editorconfig \
   .bashrc \
   .common_env \
@@ -99,6 +100,14 @@ case $1 in
     if [[ ! -d ~/.tmux/plugins/tpm ]]; then
       git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
+
+    if [[ ! -d ~/.local/share/mime/packages ]]; then
+      mkdir -r ~/.local/share/mime/packages
+    fi
+
+    for file in ./mime/*; do
+      ln -f -s "$(pwd)/$file" ~/.local/share/mime/packages/
+    done
     ;;
 
   -tmux)

@@ -99,6 +99,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- npm i -g vscode-langservers-extracted
 local servers = {
   'cssls',
+  'eslint',
   'html',
   'jsonls',
   'sqlls',
@@ -137,19 +138,17 @@ require'lspconfig'.dartls.setup{
   on_attach = on_attach,
 }
 
+null_ls_sources = {
+  require("null-ls").builtins.formatting.rubocop,
+  require("null-ls").builtins.diagnostics.rubocop,
+
+  require("null-ls").builtins.formatting.autopep8,
+  require("null-ls").builtins.formatting.reorder_python_imports,
+  require('null-ls').builtins.diagnostics.flake8
+}
+
 require("null-ls").setup({
-  sources = {
-    require("null-ls").builtins.formatting.rubocop,
-    require("null-ls").builtins.diagnostics.rubocop,
-
-    require("null-ls").builtins.diagnostics.eslint,
-    require("null-ls").builtins.formatting.eslint,
-    require("null-ls").builtins.code_actions.eslint,
-
-    require("null-ls").builtins.formatting.autopep8,
-    require("null-ls").builtins.formatting.reorder_python_imports,
-    require('null-ls').builtins.diagnostics.flake8
-  },
+  sources = null_ls_sources,
   on_attach = on_attach
 })
 
@@ -259,6 +258,8 @@ require'nvim-treesitter.configs'.setup {
     },
   }
 }
+
+require('ts_context_commentstring').setup {}
 
 local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
@@ -482,3 +483,6 @@ vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
 vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
   {silent = true, noremap = true}
 )
+
+require("mason").setup()
+require("mason-lspconfig").setup()

@@ -64,12 +64,12 @@ nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 " let g:vigun_tmux_pane_orientation = 'horizontal'
 
 Plug 'artemave/vjs'
-au FileType {javascript,javascript.jsx,typescript} nmap <leader>vl :VjsListDependents<cr>
-au FileType {javascript,javascript.jsx,typescript} nmap <leader>vr :VjsRenameFile<cr>
-au FileType {javascript,javascript.jsx,typescript} vmap <leader>vv :VjsExtractVariable<cr>
-au FileType {javascript,javascript.jsx,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
-au FileType {javascript,javascript.jsx,typescript} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
-au FileType {javascript,javascript.jsx,typescript} nmap <leader>vc :VjsCreateDeclaration<cr>
+au FileType {javascript,javascriptreact,typescript} nmap <leader>vl :VjsListDependents<cr>
+au FileType {javascript,javascriptreact,typescript} nmap <leader>vr :VjsRenameFile<cr>
+au FileType {javascript,javascriptreact,typescript} vmap <leader>vv :VjsExtractVariable<cr>
+au FileType {javascript,javascriptreact,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
+au FileType {javascript,javascriptreact,typescript} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
+au FileType {javascript,javascriptreact,typescript} nmap <leader>vc :VjsCreateDeclaration<cr>
 let g:vjs_es_modules_complete = 1
 
 autocmd TextChanged * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
@@ -219,8 +219,8 @@ au FileType go nmap <Leader>fe <Plug>(go-rename)
 
 Plug 'navarasu/onedark.nvim'
 
-" autocmd FileType {javascript,javascript.jsx} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
-" autocmd FileType {javascript,javascript.jsx} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
+" autocmd FileType {javascript,javascriptreact} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+" autocmd FileType {javascript,javascriptreact} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
 " https://github.com/tpope/vim-dispatch/issues/222
 set shellpipe=2>&1\|tee
 
@@ -254,8 +254,14 @@ Plug 'ap/vim-css-color'
 Plug 'vim-scripts/scratch.vim'
 
 Plug 'mattn/emmet-vim'
+autocmd FileType html,css,javascript EmmetInstall
 " let g:user_emmet_mode='i'
 " let g:user_emmet_leader_key='<C-Z>'
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
 
 " Open a Quickfix item in a window you choose
 Plug 'yssl/QFEnter'
@@ -284,6 +290,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
@@ -381,6 +388,13 @@ Plug 'kevinhwang91/nvim-bqf'
 Plug 'jose-elias-alvarez/typescript.nvim'
 
 Plug 'folke/trouble.nvim'
+
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
+Plug 'jayp0521/mason-null-ls.nvim'
+Plug 'RubixDev/mason-update-all'
+Plug 'jayp0521/mason-nvim-dap.nvim'
 
 call plug#end()            " required
 
