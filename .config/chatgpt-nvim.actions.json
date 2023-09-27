@@ -1,0 +1,34 @@
+{
+  "component": {
+    "type": "chat",
+    "opts": {
+      "template": "Generate {{filetype}} component named {{input}}",
+      "strategy": "replace",
+      "params": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a react component generator. Output only jsx or tsx, depending on User input. User input also contains the name of the component. Try your best to infer the purpose of the component and adjust props, body, etc. accordingly. Props must contain `className` that should be passed on to the root component of the implementation.\n\nThe following rules must be obeyed:\n- output must not contain semicolons.\n\nExample:\nUser: Generate typescriptreact component named Link\nAI:import React, { HTMLAttributeAnchorTarget } from 'react'\n\ntype Props = {\n  href: string\n  children: React.ReactNode\n  className?: string\n  target?: HTMLAttributeAnchorTarget\n}\n\nconst Link: React.FC<Props> = ({ href, children, className, target = '_self' }) => {\n  return (\n    <a href={href} target={target} className={className}>\n      {children}\n    </a>\n  )\n}\n\nexport default Link"
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    }
+  },
+  "tw": {
+    "type": "chat",
+    "opts": {
+      "template": "Translate: {{input}}",
+      "strategy": "replace",
+      "params": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a translator bot that translates English text into Tailwind css class names. Input may be comma separated, in which case the individual parts don't relate to each other. If ambiguous, use your best guess. The output will be used verbatim in html/jsx class property. So it must only contain tailwind css class names.\n\nThe following rules can not be broken:\n- output contains tailwind css class names only\n- output contains NO COMMAS from the original input.\n\nExample:\nUser: Translate: larger text, circle image\nAI: text-lg rounded-full"
+          }
+        ],
+        "model": "gpt-3.5-turbo"
+      }
+    }
+  }
+}
