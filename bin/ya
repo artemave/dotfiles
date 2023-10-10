@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+~/projects/yazi/target/release/yazi "$@"
+clear
