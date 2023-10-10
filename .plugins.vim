@@ -64,12 +64,12 @@ nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 " let g:vigun_tmux_pane_orientation = 'horizontal'
 
 Plug 'artemave/vjs'
-au FileType {javascript,javascriptreact,typescript} nmap <leader>vl :VjsListDependents<cr>
-au FileType {javascript,javascriptreact,typescript} nmap <leader>vr :VjsRenameFile<cr>
-au FileType {javascript,javascriptreact,typescript} vmap <leader>vv :VjsExtractVariable<cr>
-au FileType {javascript,javascriptreact,typescript} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
-au FileType {javascript,javascriptreact,typescript} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
-au FileType {javascript,javascriptreact,typescript} nmap <leader>vc :VjsCreateDeclaration<cr>
+au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vl :VjsListDependents<cr>
+au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vr :VjsRenameFile<cr>
+au FileType {javascript,javascriptreact,typescript,typescriptreact} vmap <leader>vv :VjsExtractVariable<cr>
+au FileType {javascript,javascriptreact,typescript,typescriptreact} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
+au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
+au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vc :VjsCreateDeclaration<cr>
 let g:vjs_es_modules_complete = 1
 
 autocmd TextChanged * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
@@ -395,6 +395,8 @@ Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 Plug 'jayp0521/mason-null-ls.nvim'
 Plug 'RubixDev/mason-update-all'
 Plug 'jayp0521/mason-nvim-dap.nvim'
+
+Plug 'wesQ3/vim-windowswap'
 
 call plug#end()            " required
 
