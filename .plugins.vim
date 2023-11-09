@@ -53,8 +53,8 @@ Plug 'tpope/vim-commentary'
 " Bundle 'artemave/slowdown.vim'
 
 Plug 'artemave/vigun'
-au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>t :VigunRun 'all'<cr>
-au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>T :VigunRun 'nearest'<cr>
+au FileType ruby,javascript,typescript,cucumber,vader,python,dart nnoremap <leader>t :VigunRun 'all'<cr>
+au FileType ruby,javascript,typescript,cucumber,python,dart nnoremap <leader>T :VigunRun 'nearest'<cr>
 " au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
 au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>wt :VigunRun 'watch-all'<cr>
 au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
@@ -241,7 +241,7 @@ Plug 'FooSoft/vim-argwrap'
 nnoremap <silent> <leader>aw :ArgWrap<CR>
 
 Plug 'Yggdroot/indentLine'
-au FileType markdown,json let g:indentLine_setConceal = 0
+au FileType markdown,json,jsonc,mdx let g:indentLine_setConceal = 0
 
 Plug 'junegunn/vader.vim'
 
@@ -316,17 +316,6 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'jackMort/ChatGPT.nvim'
 
-" Plug 'deoplete-plugins/deoplete-lsp'
-" " For some reason I had to call UpdateRemotePlugins manually after install
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" let g:deoplete#enable_at_startup = 1
-
-" ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
-" ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
-" ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "<Plug>delimitMateBS"
-" ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
-" ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-
 " set completeopt-=preview
 set completeopt=menu,menuone,noselect
 
@@ -366,7 +355,9 @@ Plug 'wsdjeg/vim-fetch'
 Plug 'ton/vim-bufsurf'
 
 Plug 'dart-lang/dart-vim-plugin'
-Plug 'thosakwe/vim-flutter'
+" Plug 'nvim-lua/plenary.nvim'
+Plug 'stevearc/dressing.nvim' " optional for vim.ui.select
+Plug 'akinsho/flutter-tools.nvim'
 
 Plug 'm00qek/baleia.nvim'
 
@@ -376,8 +367,9 @@ Plug 'nvim-treesitter/playground'
 
 Plug 'maxmellon/vim-jsx-pretty'
 
-Plug 'microsoft/vscode-js-debug', { 'do': 'npm install && npx gulp vsDebugServerBundle && mv dist out' }
 Plug 'mfussenegger/nvim-dap'
+" try install vscode-js-debug via mason instead
+Plug 'microsoft/vscode-js-debug', { 'do': 'npm install && npx gulp vsDebugServerBundle && mv dist out' }
 Plug 'mxsdev/nvim-dap-vscode-js'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
@@ -394,9 +386,12 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 Plug 'jayp0521/mason-null-ls.nvim'
 Plug 'RubixDev/mason-update-all'
-Plug 'jayp0521/mason-nvim-dap.nvim'
+" Plug 'jayp0521/mason-nvim-dap.nvim'
 
 Plug 'wesQ3/vim-windowswap'
+
+" shows js/ts errors across the entire project in a quickfix
+Plug 'dmmulroy/tsc.nvim'
 
 call plug#end()            " required
 

@@ -104,6 +104,9 @@ local servers = {
   'jsonls',
   'sqlls',
   'pyright',
+  'lua_ls',
+  'bashls',
+  'vimls',
 }
 
 local lspconfig = require'lspconfig'
@@ -266,8 +269,7 @@ vim.filetype.add({
     mdx = 'mdx'
   }
 })
-local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
-ft_to_parser.mdx = "markdown"
+vim.treesitter.language.register('markdown', 'mdx')
 
 require('ts_context_commentstring').setup {}
 
@@ -358,6 +360,8 @@ require("dap-vscode-js").setup({
   -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
 })
 
+-- to debug dap
+-- tail -f ~/.cache/nvim/dap.log
 for _, language in ipairs({ "typescript", "javascript" }) do
   require("dap").configurations[language] = {
     {
@@ -370,8 +374,44 @@ for _, language in ipairs({ "typescript", "javascript" }) do
   }
 end
 
-function mochaTestConfig()
+require('dap').adapters.dart = {
+  type = 'executable',
+  command = vim.fn.stdpath('data') .. '/mason/bin/dart-debug-adapter',
+  args = {'flutter'}
+}
+require('dap').configurations.dart = {
+  {
+    type = 'dart',
+    request = 'launch',
+    name = 'Launch flutter',
+    dartSdkPath = vim.fn.expand('~') .. '/flutter/bin/cache/dart-sdk/',
+    flutterSdkPath = vim.fn.expand('~') .. '/flutter',
+    program = '${workspaceFolder}/lib/main.dart',
+    cwd = '${workspaceFolder}',
+  }
+}
+
+require("dap").adapters.flutter_test_debug = {
+  type = "executable",
+  command = vim.fn.stdpath("data") .. "/mason/bin/dart-debug-adapter",
+  args = {"flutter_test"}
+}
+
+function vigunTestConfig()
   local testName = vim.api.nvim_call_function('vigun#TestTitleWithContext', {})
+
+  if vim.bo.filetype == 'dart' then
+    return {
+      type = 'flutter_test_debug',
+      request = 'launch',
+      name = 'Debug flutter test',
+      dartSdkPath = vim.fn.expand('~') .. '/flutter/bin/cache/dart-sdk/',
+      flutterSdkPath = vim.fn.expand('~') .. '/flutter',
+      program = "${file}",
+      args = {'--plain-name', testName},
+      cwd = "${workspaceFolder}",
+    }
+  end
 
   local runtimeArgs = {
     "./node_modules/mocha/bin/mocha.js",
@@ -395,7 +435,7 @@ function mochaTestConfig()
   }
 end
 
-vim.keymap.set('n', '<Leader>dt', function() require('dap').run(mochaTestConfig()) end)
+vim.keymap.set('n', '<Leader>dt', function() require('dap').run(vigunTestConfig()) end)
 vim.keymap.set('n', '<Leader>db', function() require('dap').toggle_breakpoint() end)
 -- this is also how you attach to running process
 vim.keymap.set('n', '<Leader>dc', function() require('dap').continue() end)
@@ -436,6 +476,7 @@ vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", n
 
 local dap, dapui = require("dap"), require("dapui")
 dapui.setup()
+require("nvim-dap-virtual-text").setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
@@ -496,3 +537,48 @@ vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
 
 require("mason").setup()
 require("mason-lspconfig").setup()
+require('mason-tool-installer').setup {
+
+  -- a list of all tools you want to ensure are installed upon
+  -- start; they should be the names Mason uses for each tool
+  ensure_installed = {
+    'bash-language-server',
+    'lua-language-server',
+    'vim-language-server',
+    'shellcheck',
+    'shfmt',
+    'vint', -- viml linter
+
+    'dart-debug-adapter',
+  },
+
+  -- if set to true this will check each tool for updates. If updates
+  -- are available the tool will be updated. This setting does not
+  -- affect :MasonToolsUpdate or :MasonToolsInstall.
+  -- Default: false
+  -- auto_update = false,
+
+  -- automatically install / update on startup. If set to false nothing
+  -- will happen on startup. You can use :MasonToolsInstall or
+  -- :MasonToolsUpdate to install tools and check for updates.
+  -- Default: true
+  -- run_on_start = true,
+
+  -- set a delay (in ms) before the installation starts. This is only
+  -- effective if run_on_start is set to true.
+  -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
+  -- Default: 0
+  -- start_delay = 3000, -- 3 second delay
+
+  -- Only attempt to install if 'debounce_hours' number of hours has
+  -- elapsed since the last time Neovim was started. This stores a
+  -- timestamp in a file named stdpath('data')/mason-tool-installer-debounce.
+  -- This is only relevant when you are using 'run_on_start'. It has no
+  -- effect when running manually via ':MasonToolsInstall' etc....
+  -- Default: nil
+  -- debounce_hours = 5, -- at least 5 hours between attempts to install/update
+}
+
+require('tsc').setup()
+
+require("flutter-tools").setup()
