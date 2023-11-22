@@ -1,3 +1,11 @@
+local function map(tbl, f)
+  local t = {}
+  for k,v in pairs(tbl) do
+    table.insert(t, f(k, v))
+  end
+  return t
+end
+
 local opts = { noremap=true, silent=true }
 local _border = "single"
 
@@ -94,20 +102,90 @@ cmp.setup({
   })
 })
 
--- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- npm i -g vscode-langservers-extracted
 local servers = {
   'cssls',
-  'eslint',
+  eslint = {
+    nodePath = vim.fn.trim(vim.fn.system('rtx where node')) .. '/lib'
+  },
   'html',
   'jsonls',
   'sqlls',
   'pyright',
-  'lua_ls',
+  lua_ls = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using
+        -- (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {
+          'vim',
+        },
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
   'bashls',
   'vimls',
+  'tsserver',
 }
+local servers_names = map(servers, function(k, v) return type(k) == "number" and v or k end)
+
+require("mason").setup()
+require("mason-lspconfig").setup({
+  -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
+  automatic_installation = true,
+  ensure_installed = servers_names,
+})
+require('mason-tool-installer').setup {
+
+  -- a list of all tools you want to ensure are installed upon
+  -- start; they should be the names Mason uses for each tool
+  ensure_installed = {
+    'shellcheck',
+    'shfmt',
+    'vint', -- viml linter
+    'dart-debug-adapter',
+  },
+
+  -- if set to true this will check each tool for updates. If updates
+  -- are available the tool will be updated. This setting does not
+  -- affect :MasonToolsUpdate or :MasonToolsInstall.
+  -- Default: false
+  -- auto_update = false,
+
+  -- automatically install / update on startup. If set to false nothing
+  -- will happen on startup. You can use :MasonToolsInstall or
+  -- :MasonToolsUpdate to install tools and check for updates.
+  -- Default: true
+  -- run_on_start = true,
+
+  -- set a delay (in ms) before the installation starts. This is only
+  -- effective if run_on_start is set to true.
+  -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
+  -- Default: 0
+  -- start_delay = 3000, -- 3 second delay
+
+  -- Only attempt to install if 'debounce_hours' number of hours has
+  -- elapsed since the last time Neovim was started. This stores a
+  -- timestamp in a file named stdpath('data')/mason-tool-installer-debounce.
+  -- This is only relevant when you are using 'run_on_start'. It has no
+  -- effect when running manually via ':MasonToolsInstall' etc....
+  -- Default: nil
+  -- debounce_hours = 5, -- at least 5 hours between attempts to install/update
+}
+
+-- Set up lspconfig.
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require'lspconfig'
 
@@ -128,20 +206,13 @@ for server, server_settings in pairs(servers) do
   })
 end
 
-require('typescript').setup({
-  server = {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    cmd = {"typescript-language-server", "--stdio", "--tsserver-path=tsserver" }
-  }
-})
-
-require'lspconfig'.dartls.setup{
+-- dartls is not in mason yet
+lspconfig.dartls.setup{
   capabilities = capabilities,
   on_attach = on_attach,
 }
 
-null_ls_sources = {
+local null_ls_sources = {
   require("null-ls").builtins.formatting.rubocop,
   require("null-ls").builtins.diagnostics.rubocop,
 
@@ -508,7 +579,13 @@ require("chatgpt").setup({
   },
   actions_paths = {
     '~/.config/chatgpt-nvim.actions.json'
-  }
+  },
+  openai_params = {
+    model = "gpt-4-1106-preview",
+  },
+  openai_edit_params = {
+    model = "gpt-4-1106-preview",
+  },
 })
 
 require'nvim-web-devicons'.setup {
@@ -535,50 +612,8 @@ vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
   {silent = true, noremap = true}
 )
 
-require("mason").setup()
-require("mason-lspconfig").setup()
-require('mason-tool-installer').setup {
-
-  -- a list of all tools you want to ensure are installed upon
-  -- start; they should be the names Mason uses for each tool
-  ensure_installed = {
-    'bash-language-server',
-    'lua-language-server',
-    'vim-language-server',
-    'shellcheck',
-    'shfmt',
-    'vint', -- viml linter
-
-    'dart-debug-adapter',
-  },
-
-  -- if set to true this will check each tool for updates. If updates
-  -- are available the tool will be updated. This setting does not
-  -- affect :MasonToolsUpdate or :MasonToolsInstall.
-  -- Default: false
-  -- auto_update = false,
-
-  -- automatically install / update on startup. If set to false nothing
-  -- will happen on startup. You can use :MasonToolsInstall or
-  -- :MasonToolsUpdate to install tools and check for updates.
-  -- Default: true
-  -- run_on_start = true,
-
-  -- set a delay (in ms) before the installation starts. This is only
-  -- effective if run_on_start is set to true.
-  -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
-  -- Default: 0
-  -- start_delay = 3000, -- 3 second delay
-
-  -- Only attempt to install if 'debounce_hours' number of hours has
-  -- elapsed since the last time Neovim was started. This stores a
-  -- timestamp in a file named stdpath('data')/mason-tool-installer-debounce.
-  -- This is only relevant when you are using 'run_on_start'. It has no
-  -- effect when running manually via ':MasonToolsInstall' etc....
-  -- Default: nil
-  -- debounce_hours = 5, -- at least 5 hours between attempts to install/update
-}
-
 require('tsc').setup()
 
 require("flutter-tools").setup()
+
+-- vim.lsp.set_log_level("debug")
