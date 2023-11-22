@@ -244,6 +244,7 @@ exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,
 bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
 workspace 1 output HDMI1 DP1 DP2 eDP1 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP
+workspace 2 output HDMI1 DP1 DP2 eDP1 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP
 
 exec --no-startup-id clipit
 
@@ -271,3 +272,7 @@ assign [class="microsoft teams - preview"] 3
 exec --no-startup-id ~/.config/i3/auto_floating.py
 
 exec --no-startup-id ~/.xsessionrc
+
+exec --no-startup-id kitty
+
+exec --no-startup-id ~/bin/firefox
