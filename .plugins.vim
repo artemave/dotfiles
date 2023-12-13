@@ -354,7 +354,6 @@ Plug 'wsdjeg/vim-fetch'
 
 Plug 'ton/vim-bufsurf'
 
-Plug 'dart-lang/dart-vim-plugin'
 " Plug 'nvim-lua/plenary.nvim'
 Plug 'stevearc/dressing.nvim' " optional for vim.ui.select
 Plug 'akinsho/flutter-tools.nvim'

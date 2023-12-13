@@ -20,7 +20,7 @@ export DISPLAY=":${displaynums[0]}"
 # from https://wiki.archlinux.org/index.php/Acpid#Laptop_Monitor_Power_Off
 export XAUTHORITY=$(ps -C Xorg -f --no-header | sed -n 's/.*-auth //; s/ -[^ ].*//; p')
 
-/usr/local/bin/autorandr --change
+/usr/bin/autorandr --change
 feh --randomize --bg-fill /home/artem/Pictures/Wallpaper/*
 
 # DP1=$(</sys/class/drm/card0/card0-DP-1/status )

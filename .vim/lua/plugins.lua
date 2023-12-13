@@ -19,6 +19,5 @@ vim.api.nvim_create_autocmd({ "BufRead" }, {
 
 require'nvim-web-devicons'.setup { default = true }
 require('tsc').setup()
-require("flutter-tools").setup()
 
 -- vim.lsp.set_log_level("debug")

@@ -158,10 +158,11 @@ for server, server_settings in pairs(servers) do
   })
 end
 
--- dartls is not in mason yet
-lspconfig.dartls.setup{
-  capabilities = capabilities,
-  on_attach = on_attach,
+require("flutter-tools").setup {
+  lsp = {
+    capabilities = capabilities,
+    on_attach = on_attach,
+  }
 }
 
 local null_ls_sources = {
