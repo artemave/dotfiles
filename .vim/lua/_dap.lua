@@ -135,14 +135,3 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
-
--- better colors for semantic token highlight
--- see :h lsp-semantic-highlight
-vim.api.nvim_create_autocmd({ "BufRead" }, {
-  pattern = {"*.mjs", "*.js", "*.mts", "*.ts", "*.jsx", "*.tsx"},
-
-  callback = function()
-    vim.api.nvim_set_hl(0, "@lsp.type.variable", { link = "@variable" })
-    vim.api.nvim_set_hl(0, "@lsp.type.property", { link = "@field" })
-  end
-})

@@ -465,3 +465,6 @@ endfunction
 command! -bar -bang -range=-1 -nargs=* -complete=customlist,fugitive#CompleteObject GCopy call CopyGitRange(<line1>, <count>, +"<range>", "<mods>", <q-args>)
 
 au FileType dap-repl lua require('dap.ext.autocompl').attach()
+
+autocmd FileType html
+  \ setlocal formatprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto

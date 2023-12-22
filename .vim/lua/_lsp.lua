@@ -1,5 +1,16 @@
 require './_utils'
 
+-- better colors for semantic token highlight
+-- see :h lsp-semantic-highlight
+vim.api.nvim_create_autocmd({ "BufRead" }, {
+  pattern = {"*.mjs", "*.js", "*.mts", "*.ts", "*.jsx", "*.tsx"},
+
+  callback = function()
+    vim.api.nvim_set_hl(0, "@lsp.type.variable", { link = "@variable" })
+    vim.api.nvim_set_hl(0, "@lsp.type.property", { link = "@field" })
+  end
+})
+
 local opts = { noremap=true, silent=true }
 local _border = "single"
 
@@ -165,16 +176,72 @@ require("flutter-tools").setup {
   }
 }
 
-local null_ls_sources = {
-  require("null-ls").builtins.formatting.rubocop,
-  require("null-ls").builtins.diagnostics.rubocop,
+local null_ls = require'null-ls'
 
-  require("null-ls").builtins.formatting.autopep8,
-  require("null-ls").builtins.formatting.reorder_python_imports,
-  require('null-ls').builtins.diagnostics.flake8
+local null_ls_sources = {
+  null_ls.builtins.formatting.rubocop,
+  null_ls.builtins.diagnostics.rubocop,
+
+  null_ls.builtins.formatting.autopep8,
+  null_ls.builtins.formatting.reorder_python_imports,
+  null_ls.builtins.diagnostics.flake8,
+
+  null_ls.builtins.code_actions.ts_node_action
 }
 
-require("null-ls").setup({
+null_ls.setup({
   sources = null_ls_sources,
   on_attach = on_attach
 })
+
+local whats_this_action = {
+  method = { null_ls.methods.CODE_ACTION },
+  filetypes = {},
+  generator = {
+    fn = function()
+      local diagnostics_under_cursor = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+      if #diagnostics_under_cursor == 0 then
+        return
+      end
+
+      local gp = require('gp')
+      local diagnostic_under_cursor = diagnostics_under_cursor[1]
+      local severity_label = vim.diagnostic.severity[diagnostic_under_cursor.severity]
+
+      return {{
+        title = "What's this about?",
+        action = function()
+          local current_line = vim.fn.getline('.')
+          -- remove leading spaces from current_line
+          current_line = current_line:gsub("^%s+", "")
+
+          local file_type = vim.bo.filetype
+
+          local user_message = {
+            "I am editing this line of code:",
+            "```".. file_type,
+            current_line,
+            "```",
+            "and I am seeing the following diagnostic issue (severity ".. severity_label ..") reported by the language tooling:",
+            "```",
+            diagnostic_under_cursor.message,
+            "```",
+            "How do I fix it?"
+          }
+
+          local agent = gp.get_chat_agent()
+          local system_prompt = "You are an expert " .. file_type .. " developer."
+            .." You are helping me to fix issues reported by language tooling. "
+            .. "I am not a junior developer, so be concise, but ask questions if necessary."
+
+          local chat_buffer = gp.cmd.ChatNew({}, agent.model, system_prompt)
+          -- append user_message to chat_buffer
+          vim.fn.appendbufline(chat_buffer, '$', user_message)
+          gp.cmd.ChatRespond({args = ""})
+        end
+      }}
+    end
+  }
+}
+
+null_ls.register(whats_this_action)

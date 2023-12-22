@@ -392,6 +392,11 @@ Plug 'wesQ3/vim-windowswap'
 " shows js/ts errors across the entire project in a quickfix
 Plug 'dmmulroy/tsc.nvim'
 
+" adds a bunch of null-ls code actions
+Plug 'ckolkey/ts-node-action'
+
+Plug 'robitx/gp.nvim'
+
 call plug#end()            " required
 
 " some things have to be run after plug#end
