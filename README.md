@@ -1,10 +1,10 @@
-# myrcs
+# dotfiles
 .zshrc, .vimrc, etc.
 
 ## Install
 
 ```sh
-git clone https://github.com/artemave/myrcs.git
+git clone https://github.com/artemave/dotfiles.git
 cd myrcs
 ./install.sh # everything
 
