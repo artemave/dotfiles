@@ -256,7 +256,7 @@ zplug load --verbose
 # ~/.zshrc
 
 eval "$(starship init zsh)"
-eval "$(rtx activate zsh)"
+eval "$(mise activate zsh)"
 
 ## [Completion] 
 ## Completion scripts setup. Remove the following line to uninstall

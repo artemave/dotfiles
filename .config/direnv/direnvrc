@@ -8,6 +8,6 @@ use_nvm() {
   fi
 }
 
-use_rtx() {
-  direnv_load rtx direnv exec
+use_mise() {
+  dir mise direnv exec
 }

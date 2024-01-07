@@ -2,8 +2,7 @@ require'nvim-treesitter.configs'.setup {
   matchup = {
     enable = true,
   },
-  ensure_installed = "all",
-  ignore_install = { "ledger", "gdscript", "supercollider", "devicetree", "nix", "erlang", "ocamllex" },
+  ensure_installed = { "javascript", "typescript", "ruby", "bash", "sql", "css", "html", "dart", "go", "vim", "vimdoc", "lua" },
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { 'vimscript' } -- suddenly it's very slow

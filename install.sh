@@ -49,10 +49,16 @@ function fail() {
 projects_dir=$HOME/projects
 
 command -v git &> /dev/null || fail "Install git first"
+command -v mise &> /dev/null || fail "Install mise first"
 
 case $1 in
   -dots)
-    for file in ${dotfiles[@]}; do
+
+    if ! python3 -m pip list | grep pynvim > /dev/null; then
+      python3 -m pip install --user --upgrade pynvim
+    fi
+
+    for file in "${dotfiles[@]}"; do
       ln -f -s "$(pwd)/$file" ~/
     done
 

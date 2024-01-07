@@ -67,7 +67,7 @@ end
 local servers = {
   'cssls',
   eslint = {
-    nodePath = vim.fn.trim(vim.fn.system('rtx where node')) .. '/lib'
+    nodePath = vim.fn.trim(vim.fn.system('mise where node')) .. '/lib'
   },
   'html',
   'jsonls',
