@@ -242,6 +242,7 @@ nnoremap <silent> <leader>aw :ArgWrap<CR>
 
 Plug 'Yggdroot/indentLine'
 au FileType markdown,json,jsonc,mdx let g:indentLine_setConceal = 0
+au FileType markdown,json,jsonc,mdx set conceallevel=0
 
 Plug 'junegunn/vader.vim'
 

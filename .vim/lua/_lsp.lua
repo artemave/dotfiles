@@ -11,7 +11,6 @@ vim.api.nvim_create_autocmd({ "BufRead" }, {
   end
 })
 
-local opts = { noremap=true, silent=true }
 local _border = "single"
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
@@ -35,6 +34,7 @@ require('lspconfig.ui.windows').default_options = {
   border = _border
 }
 
+local opts = { noremap=true, silent=true }
 -- vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[l', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']l', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
@@ -49,7 +49,8 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  -- use CTRL-] to jump to definition
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gT', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gI', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
@@ -245,3 +246,5 @@ local whats_this_action = {
 }
 
 null_ls.register(whats_this_action)
+
+-- vim.lsp.set_log_level("debug")
