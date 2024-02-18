@@ -54,6 +54,12 @@ command -v mise &> /dev/null || fail "Install mise first"
 case $1 in
   -dots)
 
+    if [[ $(uname) == "Linux" ]]; then
+      if ! python3 -m pip list | grep i3ipc > /dev/null; then
+        python3 -m pip install --user --upgrade i3ipc
+      fi
+    fi
+
     if ! python3 -m pip list | grep pynvim > /dev/null; then
       python3 -m pip install --user --upgrade pynvim
     fi
@@ -63,6 +69,7 @@ case $1 in
     done
 
     mkdir -p $HOME/.config
+
     for dir in $(pwd)/.config/* $(pwd)/.config/.*; do
       if [[ "$dir" =~ \.$ ]]; then
         continue

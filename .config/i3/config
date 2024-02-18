@@ -86,9 +86,6 @@ bindsym $mod+f fullscreen toggle
 # bindsym $mod+e layout toggle split
 bindsym $mod+x layout toggle splitv splith tabbed
 
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
@@ -267,9 +264,13 @@ assign [class="join\?action=join&confno=.*"] 4
 
 assign [class="Slack"] 3
 assign [class="discord"] 3
+assign [class="TelegramDesktop"] 3
 assign [class="microsoft teams - preview"] 3
 
-exec --no-startup-id ~/.config/i3/auto_floating.py
+# toggle tiling / floating
+bindsym $mod+Shift+space exec ~/.config/i3/auto_floating/toggle_floating.py
+# bindsym $mod+Shift+space floating toggle
+exec --no-startup-id ~/.config/i3/auto_floating.py &
 
 exec --no-startup-id ~/.xsessionrc
 
