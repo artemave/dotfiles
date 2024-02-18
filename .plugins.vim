@@ -164,8 +164,10 @@ function! SearchOperator(type)
   execute "Rg " . @@
 endfunction
 
-Plug 'preservim/nerdtree'
-nnoremap <silent> <leader><leader>f :NERDTreeFind<cr>
+Plug 'antosha417/nvim-lsp-file-operations'
+Plug 'nvim-tree/nvim-tree.lua'
+" Plug 'preservim/nerdtree'
+nnoremap <silent> <leader><leader>f :lua require('nvim-tree/api').tree.open({ find_file = true })<cr>
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
@@ -398,6 +400,9 @@ Plug 'ckolkey/ts-node-action'
 
 Plug 'robitx/gp.nvim'
 
+Plug 'artemave/workspace-diagnostics.nvim'
+
+Plug 'sindrets/diffview.nvim'
 call plug#end()            " required
 
 " some things have to be run after plug#end

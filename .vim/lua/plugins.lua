@@ -19,3 +19,6 @@ vim.api.nvim_create_autocmd({ "BufRead" }, {
 
 require'nvim-web-devicons'.setup { default = true }
 require('tsc').setup()
+
+require("nvim-tree").setup()
+require("lsp-file-operations").setup()

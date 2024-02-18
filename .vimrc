@@ -2,6 +2,10 @@
 scriptencoding utf-8
 set encoding=utf-8
 
+" as per https://github.com/nvim-tree/nvim-tree.lua docs
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
+
 " trick ideavim into skipping this
 exec "source ~/.plugins.vim"
 

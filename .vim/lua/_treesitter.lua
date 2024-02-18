@@ -68,6 +68,7 @@ require'nvim-treesitter.configs'.setup {
       goto_previous_end = {
         ["[M"] = "@function.outer",
         ["[]"] = "@class.outer",
+        ["[s"] = { query = "@scope", query_group = "locals", desc = "Previous scope" },
       },
       goto_next = {
         ["]d"] = "@conditional.outer",
@@ -78,7 +79,7 @@ require'nvim-treesitter.configs'.setup {
     },
     lsp_interop = {
       enable = true,
-      border = _border,
+      border = 'single',
       peek_definition_code = {
         ["dm"] = "@function.outer",
         ["dM"] = "@class.outer",
