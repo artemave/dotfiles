@@ -4,6 +4,7 @@ set -ex
 
 dotfiles=( \
   .bash_profile \
+  .profile \
   .eslintrc.json \
   .editorconfig \
   .bashrc \

@@ -268,9 +268,8 @@ assign [class="TelegramDesktop"] 3
 assign [class="microsoft teams - preview"] 3
 
 # toggle tiling / floating
-bindsym $mod+Shift+space exec ~/.config/i3/auto_floating/toggle_floating.py
-# bindsym $mod+Shift+space floating toggle
-exec --no-startup-id ~/.config/i3/auto_floating.py &
+bindsym $mod+Shift+space exec --no-startup-id i3_toggle_floating
+exec --no-startup-id --no-startup-id i3_auto_floating &
 
 exec --no-startup-id ~/.xsessionrc
 
