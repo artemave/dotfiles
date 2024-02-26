@@ -210,12 +210,11 @@ bindsym XF86MonBrightnessUp exec ~/.config/scripts/set_brightness.sh +10% && pki
 bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
 # ctrl-win-l to lock the screen
-bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
+bindsym Control+$mod+l exec --no-startup-id systemctl suspend
 # hook up custom locker script into the login manager
 exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.config/i3/lock.sh
 # prevent lock screen if there is audio or fullscreen
 exec --no-startup-id ~/.config/xidlehook.sh
-exec --no-startup-id xset s off -dpms
 
 exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh
 exec --no-startup-id ~/bin/monitor_hotplug_daemon.sh
