@@ -5,6 +5,8 @@ require './rubocop_disable'
 require './_cmp'
 require './_chatgpt'
 require './_trouble'
+require './_test'
+require './_profile'
 
 vim.api.nvim_create_autocmd({ "BufRead" }, {
   pattern = {"*.tty", "*.log"},

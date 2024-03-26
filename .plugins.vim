@@ -400,9 +400,24 @@ Plug 'ckolkey/ts-node-action'
 
 Plug 'robitx/gp.nvim'
 
+" Plug 'nvim-lua/plenary.nvim'
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'folke/neodev.nvim'
+Plug 'nvim-neotest/neotest'
+Plug 'sidlatau/neotest-dart'
+Plug 'nvim-neotest/neotest-vim-test'
+Plug 'nvim-neotest/neotest-plenary'
+Plug 'nvim-neotest/neotest-python'
+Plug 'olimorris/neotest-rspec'
+Plug 'zidhuss/neotest-minitest'
+Plug 'vim-test/vim-test'
+
 Plug 'artemave/workspace-diagnostics.nvim'
 
 Plug 'sindrets/diffview.nvim'
+
+Plug 'stevearc/profile.nvim'
+
 call plug#end()            " required
 
 " some things have to be run after plug#end

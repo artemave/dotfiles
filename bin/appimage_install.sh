@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Move appimage to ~/.local/bin and registers desktop shortcut
+# Moves appimage to ~/.local/bin and registers desktop shortcut
 
 set -e
 

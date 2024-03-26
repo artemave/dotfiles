@@ -1,8 +1,13 @@
-#!/bin/sh
-# Compile and show [GFM](https://help.github.com/articles/github-flavored-markdown) docs in your browser.
-# Before this works you need to `gem install bcat`
+#!/usr/bin/bash
 #
 # Usage: gfm.sh FILE.md
 #
 
-curl --silent --data-binary @$1 https://api.github.com/markdown/raw -H "Content-Type: text/x-markdown" | bcat
+gh api  \
+ --method POST   \
+ -H "Accept: application/vnd.github+json"   \
+ -H "X-GitHub-Api-Version: 2022-11-28"   \
+  /markdown   \
+  -f text="$(cat $1)" > /tmp/gfm.html
+
+xdg-open /tmp/gfm.html

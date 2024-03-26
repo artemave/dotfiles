@@ -64,7 +64,18 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'v', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>o', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
-  require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+  if not os.getenv("SKIP_WORKSPACE_DIAGNOSTICS") then
+    require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+  end
+end
+
+local function organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = { vim.api.nvim_buf_get_name(0) },
+    title = ""
+  }
+  vim.lsp.buf.execute_command(params)
 end
 
 local servers = {
@@ -73,6 +84,7 @@ local servers = {
     nodePath = vim.fn.trim(vim.fn.system('mise where node')) .. '/lib'
   },
   'html',
+  'ruby_ls',
   'jsonls',
   'sqlls',
   'pyright',
@@ -101,7 +113,14 @@ local servers = {
   },
   'bashls',
   'vimls',
-  'tsserver',
+  tsserver = {
+    commands = {
+      OrganizeImports = {
+        organize_imports,
+        description = "Organize Imports"
+      }
+    }
+  },
 }
 
 local servers_names = map(servers, function(k, v) return type(k) == "number" and v or k end)
@@ -158,18 +177,21 @@ local lspconfig = require'lspconfig'
 for server, server_settings in pairs(servers) do
   if type(server) == 'number' then
     server = server_settings
-    server_settings = nil
+    server_settings = {}
   end
 
-  lspconfig[server].setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 140,
-    },
-    root_dir = lspconfig.util.find_git_ancestor,
-    settings = server_settings
-  })
+  lspconfig[server].setup(
+    vim.tbl_deep_extend(
+      'force',
+      {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        flags = {debounce_text_changes = 140, },
+        root_dir = lspconfig.util.find_git_ancestor
+      },
+      server_settings
+    )
+  )
 end
 
 require("flutter-tools").setup {
@@ -182,9 +204,6 @@ require("flutter-tools").setup {
 local null_ls = require'null-ls'
 
 local null_ls_sources = {
-  null_ls.builtins.formatting.rubocop,
-  null_ls.builtins.diagnostics.rubocop,
-
   null_ls.builtins.formatting.autopep8,
   null_ls.builtins.formatting.reorder_python_imports,
   null_ls.builtins.diagnostics.flake8,
