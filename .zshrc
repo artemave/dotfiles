@@ -91,61 +91,11 @@ vcs_info_wrapper() {
   fi
 }
 
-function rbenv_prompt_info() {
-  [ -f ./Gemfile ] || return
-  local ruby_version
-  ruby_version=$(ruby -v 2> /dev/null) || return
-  ruby_version=$(echo $ruby_version | sed 's/ruby \([^ ]*\).*/\1/')
-  echo "‹%F{196}♦️$ruby_version%f›"
-}
-
-node_prompt_info() {
-  [ -f ./package.json ] || return
-  local node_version
-  node_version=$(node -v 2> /dev/null) || return
-  echo "‹%F{082}⬢$node_version%f›"
-}
-
 function vi_mode() {
   echo "${${KEYMAP/vicmd/NORMAL}/(main|viins)/INSERT}"
 }
 
 setopt prompt_subst
-
-# precmd() {
-  # # for Terminal current directory support
-  # print -Pn "\e]2; %~/ \a"
-
-  # vcs_info
-
-  # if [[ -n $SSH_TTY ]]
-  # then
-  #   local DISPLAY_HOST="%F{yellow}$(hostname) "
-  # else
-  #   local DISPLAY_HOST=
-  # fi
-
-  # # for timing commands
-  # if [ $timer ]; then
-  #   local now=$(($(print -P %D{%s%6.})/1000))
-  #   elapsed=$(($now-$timer))
-  #   # elapsed=$(duration $(($now-$timer)))
-  #   PROMPT="%(!.%F{red}.%F{green})%~ %F{blue}+${elapsed}ms%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
-# [%F{cyan}$(vi_mode)%f] %F{yellow}%% %f"
-  #   unset elapsed
-  #   unset timer
-  # else
-  #   PROMPT='%(!.%F{red}.%F{green})%~%F{red}%(?.. [%?])%f$(vcs_info_wrapper)$(rbenv_prompt_info)$(node_prompt_info)
-# [%F{cyan}$(vi_mode)%f] %F{yellow}%% %f'
-  # fi
-# }
-
-# function zle-line-init zle-keymap-select {
-#   zle reset-prompt
-# }
-
-# zle -N zle-line-init
-# zle -N zle-keymap-select
 
 # override stupid ubuntu defaults for viins mode
 [[ -z "$terminfo[cuu1]" ]] || bindkey -M viins "$terminfo[cuu1]" up-line-or-history

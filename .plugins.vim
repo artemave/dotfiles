@@ -125,12 +125,11 @@ let g:fzf_action = {
   \ '': function("OpenOneOrMoreSelectedFiles")
   \ }
 
+" Same as Rg but ignores filename
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --hidden --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  let spec = {'options': ['--nth=3..']}
+  let command = "rg --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(a:query)
+  call fzf#vim#grep(command, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
@@ -147,7 +146,7 @@ nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
 nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>G :GFiles?<cr>
 nnoremap <leader>u :Resume<cr>
-nnoremap <leader>g :RgDiffMaster<cr>
+nnoremap <leader>d :RgDiffMaster<cr>
 
 nnoremap <leader>v :set operatorfunc=SearchOperator<cr>g@
 vnoremap <leader>v :<c-u>call SearchOperator(visualmode())<cr>
@@ -301,7 +300,8 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'neovim/nvim-lspconfig'
 
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-Plug 'hrsh7th/cmp-nvim-lsp'
+" This seems to slow things down
+" Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'quangnguyen30192/cmp-nvim-tags'
@@ -373,6 +373,7 @@ Plug 'mfussenegger/nvim-dap'
 " try install vscode-js-debug via mason instead
 Plug 'microsoft/vscode-js-debug', { 'do': 'npm install && npx gulp vsDebugServerBundle && mv dist out' }
 Plug 'mxsdev/nvim-dap-vscode-js'
+Plug 'nvim-neotest/nvim-nio'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
 

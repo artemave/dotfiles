@@ -84,7 +84,8 @@ local servers = {
     nodePath = vim.fn.trim(vim.fn.system('mise where node')) .. '/lib'
   },
   'html',
-  'ruby_ls',
+  -- 'rubocop',
+  'ruby_lsp',
   'jsonls',
   'sqlls',
   'pyright',
@@ -113,14 +114,14 @@ local servers = {
   },
   'bashls',
   'vimls',
-  tsserver = {
-    commands = {
-      OrganizeImports = {
-        organize_imports,
-        description = "Organize Imports"
-      }
-    }
-  },
+  -- tsserver = {
+  --   commands = {
+  --     OrganizeImports = {
+  --       organize_imports,
+  --       description = "Organize Imports"
+  --     }
+  --   }
+  -- },
 }
 
 local servers_names = map(servers, function(k, v) return type(k) == "number" and v or k end)
@@ -170,7 +171,7 @@ require('mason-tool-installer').setup {
 }
 
 -- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require'lspconfig'
 
@@ -185,7 +186,7 @@ for server, server_settings in pairs(servers) do
       'force',
       {
         on_attach = on_attach,
-        capabilities = capabilities,
+        -- capabilities = capabilities,
         flags = {debounce_text_changes = 140, },
         root_dir = lspconfig.util.find_git_ancestor
       },
@@ -196,10 +197,19 @@ end
 
 require("flutter-tools").setup {
   lsp = {
-    capabilities = capabilities,
+    -- capabilities = capabilities,
     on_attach = on_attach,
   }
 }
+
+require("typescript").setup({
+  go_to_source_definition = {
+    fallback = true, -- fall back to standard LSP definition on failure
+  },
+  server = { -- pass options to lspconfig's setup method
+    on_attach = on_attach
+  },
+})
 
 local null_ls = require'null-ls'
 
@@ -207,6 +217,9 @@ local null_ls_sources = {
   null_ls.builtins.formatting.autopep8,
   null_ls.builtins.formatting.reorder_python_imports,
   null_ls.builtins.diagnostics.flake8,
+
+  null_ls.builtins.diagnostics.rubocop,
+  null_ls.builtins.formatting.rubocop,
 
   null_ls.builtins.code_actions.ts_node_action
 }

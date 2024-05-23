@@ -88,10 +88,6 @@ rmdups() {
 
 alias gocode="cd ~/projects/gocode/src/github.com/artemave"
 
-if command -v rbenv &> /dev/null; then
-  # eval "$(rbenv init -)"
-fi
-
 if command -v hub &> /dev/null; then
   eval "$(hub alias -s)"
   alias git=hub

@@ -472,3 +472,7 @@ au FileType dap-repl lua require('dap.ext.autocompl').attach()
 
 autocmd FileType html
   \ setlocal formatprg=tidy\ -indent\ -quiet\ --show-errors\ 0\ --tidy-mark\ no\ --show-body-only\ auto
+
+" For GBrowse
+" TODO: support osx
+command! -nargs=1 OpenBrowser exe '!xdg-open ' .. shellescape(fnameescape('<args>'))

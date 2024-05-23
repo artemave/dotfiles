@@ -33,14 +33,6 @@ dotfiles=( \
   bin \
 )
 
-rbenv_plugins=(\
-  sstephenson/ruby-build \
-  tpope/rbenv-ctags \
-  sstephenson/rbenv-default-gems \
-  tpope/rbenv-aliases \
-  rkh/rbenv-update \
-  sstephenson/rbenv-gem-rehash)
-
 function fail() {
   echo "$1\n"
   exit 1
@@ -138,26 +130,6 @@ case $1 in
     $tpm_home/scripts/install_plugins.sh >/dev/null 2>&1
 
     tmux kill-session -t temp
-    ;;
-
-  -rbenv)
-    if [ ! -d ~/.rbenv ]; then
-      git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-    else
-      [ -d ~/.rbenv/.git ] && git -C ~/.rbenv pull
-    fi
-
-    for plugin in ${rbenv_plugins[@]}; do
-      plugin_name=$(echo $plugin | sed -E 's#[^/]*/(.*)#\1#')
-
-      if [ ! -d ~/.rbenv/plugins/$plugin_name ]; then
-        git clone https://github.com/${plugin}.git ~/.rbenv/plugins/$plugin_name
-      else
-        git -C ~/.rbenv/plugins/$plugin_name pull
-      fi
-    done
-
-    ln -f -s "$(pwd)/rbenv/default-gems" ~/.rbenv/
     ;;
 
   *)
