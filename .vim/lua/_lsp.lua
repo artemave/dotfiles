@@ -214,10 +214,6 @@ require("typescript").setup({
 local null_ls = require'null-ls'
 
 local null_ls_sources = {
-  null_ls.builtins.formatting.autopep8,
-  null_ls.builtins.formatting.reorder_python_imports,
-  null_ls.builtins.diagnostics.flake8,
-
   null_ls.builtins.diagnostics.rubocop,
   null_ls.builtins.formatting.rubocop,
 
@@ -240,8 +236,6 @@ local whats_this_action = {
       end
 
       local gp = require('gp')
-      local diagnostic_under_cursor = diagnostics_under_cursor[1]
-      local severity_label = vim.diagnostic.severity[diagnostic_under_cursor.severity]
 
       return {{
         title = "What's this about?",
@@ -257,12 +251,16 @@ local whats_this_action = {
             "```".. file_type,
             current_line,
             "```",
-            "and I am seeing the following diagnostic issue (severity ".. severity_label ..") reported by the language tooling:",
+            "and I am seeing the following diagnostic issue(s) reported by the language tooling:",
             "```",
-            diagnostic_under_cursor.message,
-            "```",
-            "How do I fix it?"
           }
+          for _, diagnostic in ipairs(diagnostics_under_cursor) do
+            local severity_label = vim.diagnostic.severity[diagnostic.severity]
+            table.insert(user_message, '- ' .. severity_label .. ': ' .. diagnostic.message)
+          end
+
+          table.insert(user_message, "```")
+          table.insert(user_message, "How do I fix it?")
 
           local agent = gp.get_chat_agent()
           local system_prompt = "You are an expert " .. file_type .. " developer."
