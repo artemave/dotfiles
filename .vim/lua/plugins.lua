@@ -24,3 +24,10 @@ require('tsc').setup()
 
 require("nvim-tree").setup()
 require("lsp-file-operations").setup()
+
+require('avante').setup({
+  provider = 'openai'
+})
+
+require("luasnip.loaders.from_snipmate").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({paths = {'~/.vim/mysnippets'}})

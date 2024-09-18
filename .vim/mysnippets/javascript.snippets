@@ -1,145 +1,118 @@
 snippet cl "console.log"
-console.log(${0})
-endsnippet
+  console.log(${0})
 
 snippet cls
-console.log(JSON.stringify(${0:object}, null, 2))
-endsnippet
+  console.log(JSON.stringify(${0:object}, null, 2))
 
 snippet cll
-console.log('${1:var}', $1)
-endsnippet
+  console.log('${1:var}', $1)
 
-snippet == "inline hashrocket function with params" i
-${1} => ${0}
-endsnippet
+snippet == inline hashrocket function with params
+  ${1} => ${0}
 
-snippet = "hashrocket function with params" i
-(${1}) => {
-	${0}
-}
-endsnippet
+snippet = hashrocket function with params
+  (${1}) => {
+    ${0}
+  }
 
 snippet ex
-expect(${0})
-endsnippet
+  expect(${0})
 
-snippet sort "sort" i
-sort((a,b) => {
-	${0}
-})
-endsnippet
+snippet sort
+  sort((a,b) => {
+    ${0}
+  })
 
-snippet re "reduce" i
-reduce((result, ${1}) => {
-	${0}
-	return result
-}, ${2})
-endsnippet
+snippet re reduce
+  reduce((result, ${1}) => {
+    ${0}
+    return result
+  }, ${2})
 
-snippet fi "filter" i
-filter(${1} => {
-	${0}
-})
-endsnippet
+snippet fi filter
+  filter(${1} => {
+    ${0}
+  })
 
-snippet find "find" i
-find(${1} => {
-	${0}
-})
-endsnippet
+snippet find find
+  find(${1} => {
+    ${0}
+  })
 
-snippet fe "forEach" w
-forEach(${1} => {
-	${0}
-})
-endsnippet
+snippet fe forEach
+  forEach(${1} => {
+    ${0}
+  })
 
 snippet ife
-if (${1}) {
-	${0}
-} else {
-}
-endsnippet
+  if (${1}) {
+    ${0}
+  } else {
+  }
 
-snippet map "map" i
-map(${1} => {
-	${0}
-})
-endsnippet
+snippet map
+  map(${1} => {
+    ${0}
+  })
 
 snippet desc
-describe('${1:}', function() {
-	${0}
-})
-endsnippet
+  describe('${1:}', function() {
+    ${0}
+  })
 
 snippet it
-it('${1:}', function() {
-	${0}
-})
-endsnippet
+  it('${1:}', function() {
+    ${0}
+  })
 
 snippet cont
-context('${1:}', function() {
-	${0}
-})
-endsnippet
+  context('${1:}', function() {
+    ${0}
+  })
 
 snippet be
-beforeEach(function() {
-	${0}
-})
-endsnippet
+  beforeEach(function() {
+    ${0}
+  })
 
 snippet ae
-afterEach(function() {
-	${0}
-})
-endsnippet
+  afterEach(function() {
+    ${0}
+  })
 
 snippet req
-const ${1:} = require('$0')
-endsnippet
+  const ${1:} = require('$0')
 
 snippet pro
-new Promise((resolve, reject) => {
-	${0}
-})
-endsnippet
+  new Promise((resolve, reject) => {
+    ${0}
+  })
 
-snippet then "promise then" i
-then((${1}) => {
-	${0}
-})
-endsnippet
+snippet then promise then
+  then((${1}) => {
+    ${0}
+  })
 
-snippet catch "promise catch" i
-catch(e => {
-	${0}
-})
-endsnippet
+snippet catch promise catch
+  catch(e => {
+    ${0}
+  })
 
 snippet me
-module.exports = ${0}
-endsnippet
+  module.exports = ${0}
 
 snippet pa
-Promise.all([${0}])
-endsnippet
+  Promise.all([${0}])
 
 snippet fof
-for (const ${1} of ${2}) {
-	${3}
-}
-endsnippet
+  for (const ${1} of ${2}) {
+    ${3}
+  }
 
 snippet fin
-for (const ${1} in ${2}) {
-	${3}
-}
-endsnippet
+  for (const ${1} in ${2}) {
+    ${3}
+  }
 
 snippet er "throw new Error()"
-throw new Error(${0})
-endsnippet
+  throw new Error(${0})

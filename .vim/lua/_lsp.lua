@@ -62,12 +62,19 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'v', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>o', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>o', '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR>', opts)
 
-  if not os.getenv("SKIP_WORKSPACE_DIAGNOSTICS") then
-    require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
-  end
+  require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
 end
+
+-- vim.api.nvim_set_keymap('n', '<space>x', '', {
+--   noremap = true,
+--   callback = function()
+--     for _, client in ipairs(vim.lsp.buf_get_clients()) do
+--       require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
+--     end
+--   end
+-- })
 
 local function organize_imports()
   local params = {
@@ -85,7 +92,7 @@ local servers = {
   },
   'html',
   -- 'rubocop',
-  'ruby_lsp',
+  -- 'ruby_lsp',
   'jsonls',
   'sqlls',
   'pyright',
@@ -114,14 +121,14 @@ local servers = {
   },
   'bashls',
   'vimls',
-  -- tsserver = {
-  --   commands = {
-  --     OrganizeImports = {
-  --       organize_imports,
-  --       description = "Organize Imports"
-  --     }
-  --   }
-  -- },
+  tsserver = {
+    commands = {
+      OrganizeImports = {
+        organize_imports,
+        description = "Organize Imports"
+      }
+    }
+  },
 }
 
 local servers_names = map(servers, function(k, v) return type(k) == "number" and v or k end)
@@ -141,6 +148,7 @@ require('mason-tool-installer').setup {
     'shfmt',
     'vint', -- viml linter
     'dart-debug-adapter',
+    'flake8'
   },
 
   -- if set to true this will check each tool for updates. If updates
@@ -216,6 +224,9 @@ local null_ls = require'null-ls'
 local null_ls_sources = {
   null_ls.builtins.diagnostics.rubocop,
   null_ls.builtins.formatting.rubocop,
+
+  null_ls.builtins.diagnostics.flake8,
+  null_ls.builtins.formatting.flake8,
 
   null_ls.builtins.code_actions.ts_node_action
 }

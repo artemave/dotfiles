@@ -2,14 +2,15 @@ require'nvim-treesitter.configs'.setup {
   matchup = {
     enable = true,
   },
-  ensure_installed = { "javascript", "typescript", "ruby", "bash", "sql", "css", "html", "dart", "go", "vim", "vimdoc", "lua" },
+  ensure_installed = { "javascript", "typescript", "ruby", "bash", "sql", "css", "html", "dart", "go", "vim", "vimdoc", "lua", "markdown" },
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { 'vimscript' } -- suddenly it's very slow
   },
-  indent = {
-    enable = true,              -- false will disable the whole extension
-  },
+  -- this module indents ruby wierdly - e.g. it indents back wnen . is appended to the word
+  -- indent = {
+  --   enable = true,              -- false will disable the whole extension
+  -- },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -132,5 +133,3 @@ vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
 vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
 vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
 vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
-
-

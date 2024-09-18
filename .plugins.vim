@@ -55,7 +55,7 @@ Plug 'tpope/vim-commentary'
 Plug 'artemave/vigun'
 au FileType ruby,javascript,typescript,cucumber,vader,python,dart nnoremap <leader>t :VigunRun 'all'<cr>
 au FileType ruby,javascript,typescript,cucumber,python,dart nnoremap <leader>T :VigunRun 'nearest'<cr>
-" au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
+au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
 au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>wt :VigunRun 'watch-all'<cr>
 au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
 au FileType javascript,typescript,typescript nnoremap <Leader>vo :VigunMochaOnly<cr>
@@ -127,8 +127,9 @@ let g:fzf_action = {
 
 " Same as Rg but ignores filename
 function! RipgrepFzf(query, fullscreen)
-  let spec = {'options': ['--nth=3..']}
-  let command = "rg --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(a:query)
+  " let spec = {'options': ['--nth=3..']}
+  let spec = {}
+  let command = "rg --hidden --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(a:query)
   call fzf#vim#grep(command, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
@@ -268,20 +269,15 @@ let g:user_emmet_settings = {
 " Open a Quickfix item in a window you choose
 Plug 'yssl/QFEnter'
 
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
+" press <Tab> to expand or jump in a snippet. These can also be mapped separately
+" via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+" -1 for jumping backwards.
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
-" Calling UltiSnips#ExpandSnippetOrJump() from command mode unfucks snippet
-" expantion. TODO: investigate further.
-
-" autocmd CursorHold * :call s:fix_tab_mapping()
-
-" fun s:fix_tab_mapping()
-"   iunmap <tab>
-"   exec "inoremap <silent>" g:UltiSnipsExpandTrigger "<C-R>=UltiSnips#ExpandSnippetOrJump()<cr>"
-" endf
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
 Plug 'honza/vim-snippets'
 
@@ -299,13 +295,13 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 " This seems to slow things down
 " Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'quangnguyen30192/cmp-nvim-tags'
 " Plug 'hrsh7th/cmp-cmdline'
+Plug 'saadparwaiz1/cmp_luasnip'
 
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
@@ -418,6 +414,10 @@ Plug 'artemave/workspace-diagnostics.nvim'
 Plug 'sindrets/diffview.nvim'
 
 Plug 'stevearc/profile.nvim'
+
+Plug 'metakirby5/codi.vim'
+
+Plug 'yetone/avante.nvim'
 
 call plug#end()            " required
 
