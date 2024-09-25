@@ -5,7 +5,8 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = { "javascript", "typescript", "ruby", "bash", "sql", "css", "html", "dart", "go", "vim", "vimdoc", "lua", "markdown" },
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { 'vimscript' } -- suddenly it's very slow
+    -- this fucks up ruby indendations
+    disable = { 'vimscript', 'ruby', 'eruby' } -- suddenly it's very slow
   },
   -- this module indents ruby wierdly - e.g. it indents back wnen . is appended to the word
   -- indent = {

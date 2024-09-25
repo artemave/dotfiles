@@ -121,7 +121,7 @@ local servers = {
   },
   'bashls',
   'vimls',
-  tsserver = {
+  ts_ls = {
     commands = {
       OrganizeImports = {
         organize_imports,
@@ -209,15 +209,6 @@ require("flutter-tools").setup {
     on_attach = on_attach,
   }
 }
-
-require("typescript").setup({
-  go_to_source_definition = {
-    fallback = true, -- fall back to standard LSP definition on failure
-  },
-  server = { -- pass options to lspconfig's setup method
-    on_attach = on_attach
-  },
-})
 
 local null_ls = require'null-ls'
 

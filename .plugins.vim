@@ -1,33 +1,10 @@
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync
-endif
-
-" let $GIT_SSL_NO_VERIFY='true'
-
 set nocompatible
 
 nnoremap <space> <Nop>
 let mapleader="\<Space>"
 
-call plug#begin('~/.vim/plugged')
+lua require('plugins')
 
-" let g:plug_threads=2
-
-Plug 'wincent/terminus'
-
-Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-scriptease'
-
-" Plug 'tpope/vim-haml'
-" au BufNewFile,BufRead *.hamlc set filetype=haml
-
-Plug 'tpope/vim-cucumber'
 " cucumber auto outline
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
@@ -41,18 +18,10 @@ function! s:align()
   endif
 endfunction
 
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-obsession'
 
 let g:obsession_no_bufenter = 1 " aparently faster this way
 au VimEnter * if !exists('g:this_obsession') | :Obsess | endif
 
-Plug 'tpope/vim-commentary'
-" Bundle 'artemave/slowdown.vim'
-
-Plug 'artemave/vigun'
 au FileType ruby,javascript,typescript,cucumber,vader,python,dart nnoremap <leader>t :VigunRun 'all'<cr>
 au FileType ruby,javascript,typescript,cucumber,python,dart nnoremap <leader>T :VigunRun 'nearest'<cr>
 au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
@@ -63,7 +32,6 @@ au FileType ruby,javascript,typescript,go,python nnoremap <leader>vi :VigunShowS
 nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 " let g:vigun_tmux_pane_orientation = 'horizontal'
 
-Plug 'artemave/vjs'
 au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vl :VjsListDependents<cr>
 au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vr :VjsRenameFile<cr>
 au FileType {javascript,javascriptreact,typescript,typescriptreact} vmap <leader>vv :VjsExtractVariable<cr>
@@ -83,9 +51,7 @@ autocmd FileType {javascript,typescript} setlocal omnifunc=vjs#ModuleComplete
 " nmap <C-c>r <Plug>SetTmuxVars
 " let g:tslime_always_current_session = 1
 
-Plug 'michaeljsmith/vim-indent-object'
 
-Plug 'godlygeek/tabular'
 nnoremap <Leader>a= :Tabularize /=<CR>
 vnoremap <Leader>a= :Tabularize /=<CR>
 nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
@@ -96,12 +62,9 @@ nnoremap <Leader>ae :Tabularize /==<CR>
 vnoremap <Leader>ae :Tabularize /==<CR>
 
 let g:gundo_prefer_python3 = 1
-Plug 'sjl/gundo.vim'
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'artemave/fzf.vim' " my fork adds `Resume` command
 " this has moved to .common_env
 " let $FZF_DEFAULT_OPTS .= ' --exact --bind ctrl-a:select-all'
 let g:fzf_history_dir = '~/.fzf-history'
@@ -164,18 +127,12 @@ function! SearchOperator(type)
   execute "Rg " . @@
 endfunction
 
-Plug 'antosha417/nvim-lsp-file-operations'
-Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'preservim/nerdtree'
 nnoremap <silent> <leader><leader>f :lua require('nvim-tree/api').tree.open({ find_file = true })<cr>
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
 " let g:delimitMate_jump_expansion = 1
-Plug 'Raimondi/delimitMate'
-
-" Plug 'vim-scripts/matchit.zip'
-Plug 'andymass/vim-matchup'
 
 " select words with Ctrl-N (like Ctrl-d in Sublime Text/VS Code)
 " create cursors vertically with Ctrl-Down/Ctrl-Up
@@ -185,7 +142,7 @@ Plug 'andymass/vim-matchup'
 " press q to skip current and get next occurrence
 " press Q to remove current cursor/selection
 " start insert mode with i,a,I,A
-Plug 'mg979/vim-visual-multi'
+" Plug 'mg979/vim-visual-multi'
 
 " useful when <Tab> -> <Esc>
 " let g:snips_trigger_key='<C-@>' " this is <C-Space> that works
@@ -195,31 +152,7 @@ Plug 'mg979/vim-visual-multi'
 " nmap <F8> :TagbarToggle<CR>
 
 " airline is slow apparently
-Plug 'itchyny/lightline.vim'
 set laststatus=2
-
-" Plug 'fatih/vim-go'
-" let g:go_version_warning = 0
-" let g:go_fmt_command = "goimports"
-" let g:go_highlight_functions = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_fields = 1
-" let g:go_highlight_types = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_build_constraints = 1
-
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <Leader>gs <Plug>(go-implements)
-au FileType go nmap <Leader>gi <Plug>(go-info)
-au FileType go nmap <Leader>gd <Plug>(go-doc-browser)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>gc <Plug>(go-coverage)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>fe <Plug>(go-rename)
-
-Plug 'navarasu/onedark.nvim'
 
 " autocmd FileType {javascript,javascriptreact} set errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
 " autocmd FileType {javascript,javascriptreact} set makeprg=./node_modules/.bin/tsc\ -p\ tsconfig.json
@@ -227,36 +160,26 @@ Plug 'navarasu/onedark.nvim'
 set shellpipe=2>&1\|tee
 
 " Easy text exchange operator for Vim.
-Plug 'tommcdo/vim-exchange'
 
-Plug 'chrisbra/NrrwRgn'
 
 " Plug 'roman/golden-ratio'
 " let g:golden_ratio_autocommand = 0
 " let g:golden_ratio_exclude_nonmodifiable = 1
 " let g:golden_ratio_exclude_filetypes = ['NERDtree', 'CHADTree', 'lspinfo']
 
-Plug 'airblade/vim-gitgutter'
 let g:gitgutter_preview_win_floating = 1
 
-Plug 'FooSoft/vim-argwrap'
 nnoremap <silent> <leader>aw :ArgWrap<CR>
 
-Plug 'Yggdroot/indentLine'
 au FileType markdown,json,jsonc,mdx let g:indentLine_setConceal = 0
 au FileType markdown,json,jsonc,mdx set conceallevel=0
 
-Plug 'junegunn/vader.vim'
 
 " disables search highlighting when you are done searching and re-enables it when you search again.
-Plug 'romainl/vim-cool'
 let g:CoolTotalMatches = 1
 
-Plug 'ap/vim-css-color'
 
-Plug 'vim-scripts/scratch.vim'
 
-Plug 'mattn/emmet-vim'
 autocmd FileType html,css,javascript EmmetInstall
 " let g:user_emmet_mode='i'
 " let g:user_emmet_leader_key='<C-Z>'
@@ -267,9 +190,7 @@ let g:user_emmet_settings = {
 \}
 
 " Open a Quickfix item in a window you choose
-Plug 'yssl/QFEnter'
 
-Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
 " press <Tab> to expand or jump in a snippet. These can also be mapped separately
 " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
 imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
@@ -279,46 +200,24 @@ inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
 snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
-Plug 'honza/vim-snippets'
 
 " This one is for NERDtree
-Plug 'ryanoasis/vim-devicons'
 " And this one is for trouble.nvim
-Plug 'nvim-tree/nvim-web-devicons'
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
-Plug 'nvim-lua/plenary.nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
 
-Plug 'neovim/nvim-lspconfig'
 
 " This seems to slow things down
 " Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'quangnguyen30192/cmp-nvim-tags'
 " Plug 'hrsh7th/cmp-cmdline'
-Plug 'saadparwaiz1/cmp_luasnip'
 
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
-Plug 'ray-x/cmp-treesitter'
-Plug 'andersevenrud/cmp-tmux'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'dstein64/vim-startuptime'
 
-Plug 'MunifTanjim/nui.nvim'
 " Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'jackMort/ChatGPT.nvim'
 
 " set completeopt-=preview
 set completeopt=menu,menuone,noselect
 
-Plug 'takac/vim-hardtime'
 let g:hardtime_default_on = 1
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_ignore_buffer_patterns = [ "NERD.*", "fugitive:" ]
@@ -329,19 +228,7 @@ let g:list_of_visual_keys = ["h", "j", "k", "l"]
 " and that's messing with my fzf mapping
 " Plug 'vim-scripts/AnsiEsc.vim'
 
-Plug 'RRethy/vim-illuminate'
 
-Plug 'AndrewRadev/linediff.vim'
-Plug 'AndrewRadev/splitjoin.vim'
-" Plug 'AndrewRadev/sideways.vim'
-
-Plug 'artemave/vim-aaa'
-
-" Plug 'jxnblk/vim-mdx-js'
-
-Plug 'christoomey/vim-tmux-navigator'
-
-Plug 'github/copilot.vim'
 let g:copilot_filetypes = {
       \ '*': v:false,
       \ }
@@ -349,78 +236,23 @@ let g:copilot_filetypes = {
 " Don't use this shit 'bogado/file-line' (it breaks baleia)
 
 " adds support line number in file paths
-Plug 'wsdjeg/vim-fetch'
 
-Plug 'ton/vim-bufsurf'
 
 " Plug 'nvim-lua/plenary.nvim'
-Plug 'stevearc/dressing.nvim' " optional for vim.ui.select
-Plug 'akinsho/flutter-tools.nvim'
 
-Plug 'm00qek/baleia.nvim'
 
-Plug 'direnv/direnv.vim'
 
-Plug 'nvim-treesitter/playground'
 
-Plug 'maxmellon/vim-jsx-pretty'
 
-Plug 'mfussenegger/nvim-dap'
 " try install vscode-js-debug via mason instead
-Plug 'microsoft/vscode-js-debug', { 'do': 'npm install && npx gulp vsDebugServerBundle && mv dist out' }
-Plug 'mxsdev/nvim-dap-vscode-js'
-Plug 'nvim-neotest/nvim-nio'
-Plug 'rcarriga/nvim-dap-ui'
-Plug 'theHamsta/nvim-dap-virtual-text'
 
 " qf window with preview
-Plug 'kevinhwang91/nvim-bqf'
 
-Plug 'jose-elias-alvarez/typescript.nvim'
 
-Plug 'folke/trouble.nvim'
 
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
-Plug 'jayp0521/mason-null-ls.nvim'
-Plug 'RubixDev/mason-update-all'
 " Plug 'jayp0521/mason-nvim-dap.nvim'
 
-Plug 'wesQ3/vim-windowswap'
 
 " shows js/ts errors across the entire project in a quickfix
-Plug 'dmmulroy/tsc.nvim'
 
 " adds a bunch of null-ls code actions
-Plug 'ckolkey/ts-node-action'
-
-Plug 'robitx/gp.nvim'
-
-" Plug 'nvim-lua/plenary.nvim'
-Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'folke/neodev.nvim'
-Plug 'nvim-neotest/neotest'
-Plug 'sidlatau/neotest-dart'
-Plug 'nvim-neotest/neotest-vim-test'
-Plug 'nvim-neotest/neotest-plenary'
-Plug 'nvim-neotest/neotest-python'
-Plug 'olimorris/neotest-rspec'
-Plug 'zidhuss/neotest-minitest'
-Plug 'vim-test/vim-test'
-
-Plug 'artemave/workspace-diagnostics.nvim'
-
-Plug 'sindrets/diffview.nvim'
-
-Plug 'stevearc/profile.nvim'
-
-Plug 'metakirby5/codi.vim'
-
-Plug 'yetone/avante.nvim'
-
-call plug#end()            " required
-
-" some things have to be run after plug#end
-
-lua require('plugins')
