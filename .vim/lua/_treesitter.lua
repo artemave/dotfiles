@@ -1,12 +1,35 @@
+-- taken from https://phelipetls.github.io/posts/mdx-syntax-highlight-treesitter-nvim/
+-- this has no effect for some reason. I had to move this to .vimrc
+-- vim.filetype.add({
+--   extension = {
+--     mdx = 'mdx'
+--   }
+-- })
+vim.treesitter.language.register('markdown', 'mdx')
+
 require'nvim-treesitter.configs'.setup {
   matchup = {
     enable = true,
   },
-  ensure_installed = { "javascript", "typescript", "ruby", "bash", "sql", "css", "html", "dart", "go", "vim", "vimdoc", "lua", "markdown" },
+  ensure_installed = {
+    "javascript",
+    "typescript",
+    "ruby",
+    "bash",
+    "sql",
+    "css",
+    "html",
+    "dart",
+    "go",
+    "vim",
+    "vimdoc",
+    "lua",
+    "markdown"
+  },
   highlight = {
     enable = true,              -- false will disable the whole extension
     -- this fucks up ruby indendations
-    disable = { 'vimscript', 'ruby', 'eruby' } -- suddenly it's very slow
+    disable = { 'vimscript', 'ruby', 'eruby' } -- suddenly it's very slow (vimscript)
   },
   -- this module indents ruby wierdly - e.g. it indents back wnen . is appended to the word
   -- indent = {
@@ -107,14 +130,6 @@ require'nvim-treesitter.configs'.setup {
     },
   }
 }
-
--- taken from https://phelipetls.github.io/posts/mdx-syntax-highlight-treesitter-nvim/
-vim.filetype.add({
-  extension = {
-    mdx = 'mdx'
-  }
-})
-vim.treesitter.language.register('markdown', 'mdx')
 
 require('ts_context_commentstring').setup {}
 

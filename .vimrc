@@ -90,10 +90,8 @@ set switchbuf=useopen
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
-" au BufRead,BufNewFile *.jsx set ft=javascriptreact
+au BufRead,BufNewFile *.mdx set ft=mdx
 
-" syntax is taken care off by treesitter
-autocmd! FileType {mkd,md,javascript,javascriptreact,python,ruby} setlocal syn=off
 
 command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
 function s:RunShellCommand(cmdline)
