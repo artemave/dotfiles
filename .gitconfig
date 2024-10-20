@@ -67,3 +67,6 @@
   required = true
 [init]
 	defaultBranch = main
+[credential]
+	credentialStore = gpg
+	helper = manager

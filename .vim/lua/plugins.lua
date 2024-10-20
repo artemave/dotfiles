@@ -32,8 +32,20 @@ require("lazy").setup({
   { "michaeljsmith/vim-indent-object" },
   { "godlygeek/tabular" },
   { "sjl/gundo.vim" },
-  { "junegunn/fzf", dir = "~/.fzf", build = "./install --all" },
-  { "artemave/fzf.vim" },
+  {
+    "junegunn/fzf",
+    build = ":call fzf#install()",
+    init = function()
+      vim.g.fzf_history_dir = '~/.fzf-history'
+    end
+  },
+  {
+    "artemave/fzf.vim",
+    init = function()
+      vim.g.fzf_layout = { left = '100%' }
+      vim.g.fzf_preview_window = { 'right:60%', 'ctrl-/' }
+    end
+  },
   { "Raimondi/delimitMate" },
   { "andymass/vim-matchup" },
   { "mg979/vim-visual-multi" },
@@ -92,7 +104,16 @@ require("lazy").setup({
   { "MunifTanjim/nui.nvim" },
   { "nvim-telescope/telescope.nvim" },
   { "jackMort/ChatGPT.nvim" },
-  { "takac/vim-hardtime" },
+  {
+    "takac/vim-hardtime",
+    init = function ()
+      vim.g.hardtime_default_on = 1
+      vim.g.hardtime_ignore_quickfix = 1
+      vim.g.hardtime_ignore_buffer_patterns = { "NERD.*", "fugitive:" }
+      vim.g.list_of_normal_keys = { "h", "j", "k", "l" }
+      vim.g.list_of_visual_keys = { "h", "j", "k", "l" }
+    end
+  },
   { "RRethy/vim-illuminate" },
   { "AndrewRadev/linediff.vim" },
   { "AndrewRadev/splitjoin.vim" },
@@ -175,5 +196,13 @@ vim.api.nvim_create_autocmd("User", {
 
     require("luasnip.loaders.from_snipmate").lazy_load()
     require("luasnip.loaders.from_snipmate").lazy_load({paths = {'~/.vim/mysnippets'}})
+  end,
+})
+
+vim.api.nvim_create_autocmd("WinEnter", {
+  callback = function()
+    if vim.bo.buftype == "quickfix" then
+      vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':cclose<CR>', { noremap = true, silent = true })
+    end
   end,
 })

@@ -65,13 +65,6 @@ let g:gundo_prefer_python3 = 1
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-" this has moved to .common_env
-" let $FZF_DEFAULT_OPTS .= ' --exact --bind ctrl-a:select-all'
-let g:fzf_history_dir = '~/.fzf-history'
-
-let g:fzf_layout = { 'left': '100%' }
-let g:fzf_preview_window = ['right:60%', 'ctrl-/']
-
 function! OpenOneOrMoreSelectedFiles(files)
   if len(a:files) == 1
     exe 'e' a:files[0]
@@ -88,21 +81,23 @@ let g:fzf_action = {
   \ '': function("OpenOneOrMoreSelectedFiles")
   \ }
 
-" Same as Rg but ignores filename
+" The point of redefining fzf commands is to grep hidden files too
+" There is no way to configure rg to do it by default (other than alias, but
+" that is not picked up by nvim)
+
 function! RipgrepFzf(query, fullscreen)
+  " Same as Rg but ignores filename
   " let spec = {'options': ['--nth=3..']}
-  let spec = {}
-  let command = "rg --hidden --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(a:query)
+  let spec = { 'options': [ '--query', a:query ] }
+  let command = "rg --hidden --column --line-number --no-heading --color=always --smart-case ''"
   call fzf#vim#grep(command, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
-" grep hidden files too
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {}, <bang>0)
-command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case ".shellescape(<q-args>), 0, {'options': '-n 2..', 'dir': expand('%:h')}, <bang>0)
-command! -bang -nargs=0 RgDiffMaster call fzf#vim#grep("{ git diff master... & git diff } | diff2vimgrep | sort -u", 0, {}, <bang>0)
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>-1)
+command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case '' ", 0, fzf#vim#with_preview({'options': '-n 2..', 'dir': expand('%:h')}), <bang>0)
+command! -bang -nargs=0 RgDiffMaster call fzf#vim#grep("{ git diff master... & git diff } | diff2vimgrep | sort -u", 0, fzf#vim#with_preview(), <bang>0)
 
-nnoremap <silent> <Leader><Leader>s :execute 'RG' "\\b" . expand('<cword>') . "\\b"<CR>
+nnoremap <silent> <Leader><Leader>s :execute 'RG' expand('<cword>')<CR>
 nnoremap <Leader>s :RG<CR>
 nnoremap <Leader>S :RgInCurrentBufferDir<CR>
 nnoremap <Leader>f :Files<cr>
@@ -217,12 +212,6 @@ snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
 " set completeopt-=preview
 set completeopt=menu,menuone,noselect
-
-let g:hardtime_default_on = 1
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*", "fugitive:" ]
-let g:list_of_normal_keys = ["h", "j", "k", "l"]
-let g:list_of_visual_keys = ["h", "j", "k", "l"]
 
 " Don't use this - it adds a mapping that starts with 's'
 " and that's messing with my fzf mapping
