@@ -56,7 +56,7 @@ OUTLABEL=
 # interval=once
 # signal=10
 
-[volume-pulseaudio]
+[volume-pipewire]
 interval=once
 signal=1
 #MIXER=[determined automatically]

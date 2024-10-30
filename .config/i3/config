@@ -185,16 +185,17 @@ exec --no-startup-id blueman-applet
 # Disabled due to zoom video flickering
 # exec --no-startup-id compton --config ~/.config/compton.conf -b
 
-#bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+ && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioLowerVolume exec amixer sset Master 5%- && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioMute exec amixer sset Master toggle && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMicMute exec ~/.config/scripts/mic_mute.sh
+bindsym XF86AudioMicMute --release exec pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec ~/.config/scripts/volume_mute.sh
+bindsym XF86AudioMute --release exec pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioLowerVolume --release exec pkill -RTMIN+1 i3blocks
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+bindsym XF86AudioRaiseVolume --release exec pkill -RTMIN+1 i3blocks
 
 # bindsym XF86AudioPlay exec playerctl play-pause
 # bindsym XF86AudioNext exec playerctl next

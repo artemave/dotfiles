@@ -8,5 +8,3 @@ if [ 'no' == "$mic_status" ]; then
 else
   brightnessctl -d platform::micmute s 1
 fi
-
-pkill -RTMIN+1 i3blocks
