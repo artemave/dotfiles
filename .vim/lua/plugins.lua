@@ -421,18 +421,32 @@ require("lazy").setup({
   { "JoosepAlviste/nvim-ts-context-commentstring" },
   { "nvim-lua/plenary.nvim" },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
+    dependencies = {
+      "nvimtools/none-ls-extras.nvim",
+    },
     config = function()
       local null_ls = require'null-ls'
+
+      null_ls.builtins.diagnostics.erb_lint._opts.command = 'bundle'
+      null_ls.builtins.diagnostics.erb_lint._opts.args = { "exec", "erblint", "--format", "json", "--stdin", "$FILENAME" }
+      null_ls.builtins.formatting.erb_lint._opts.command = 'bundle'
+      null_ls.builtins.formatting.erb_lint._opts.args = { "exec", "erblint", "--autocorrect", "--stdin", "$FILENAME" }
 
       local null_ls_sources = {
         null_ls.builtins.diagnostics.rubocop,
         null_ls.builtins.formatting.rubocop,
 
-        null_ls.builtins.diagnostics.flake8,
-        null_ls.builtins.formatting.flake8,
+        null_ls.builtins.diagnostics.stylelint,
+        null_ls.builtins.formatting.stylelint,
 
-        null_ls.builtins.code_actions.ts_node_action
+        null_ls.builtins.diagnostics.erb_lint,
+        null_ls.builtins.formatting.erb_lint,
+
+        null_ls.builtins.code_actions.ts_node_action,
+
+        require("none-ls.diagnostics.flake8"),
+        require("none-ls.formatting.jq"),
       }
 
       null_ls.setup({
@@ -641,10 +655,6 @@ require("lazy").setup({
         -- debounce_hours = 5, -- at least 5 hours between attempts to install/update
       }
     end
-  },
-  {
-    "jayp0521/mason-null-ls.nvim",
-    dependencies = { "jose-elias-alvarez/null-ls.nvim", "williamboman/mason-lspconfig.nvim" },
   },
   { "RubixDev/mason-update-all" },
   { "wesQ3/vim-windowswap" },
