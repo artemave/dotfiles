@@ -173,9 +173,6 @@ vim.api.nvim_create_autocmd({"User"}, {
     require('avante').setup({
       provider = 'openai'
     })
-
-    require("luasnip.loaders.from_snipmate").lazy_load()
-    require("luasnip.loaders.from_snipmate").lazy_load({paths = {'~/.vim/mysnippets'}})
   end,
 })
 
@@ -231,7 +228,16 @@ require("lazy").setup({
   { "vim-scripts/scratch.vim" },
   { "kmoschcau/emmet-vim" },
   { "yssl/QFEnter" },
-  { "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = { "saadparwaiz1/cmp_luasnip" },
+    version = "v2.*",
+    build = "make install_jsregexp",
+    config = function()
+      require("luasnip.loaders.from_snipmate").lazy_load()
+      require("luasnip.loaders.from_snipmate").lazy_load({paths = {'~/.vim/mysnippets'}})
+    end,
+  },
   { "honza/vim-snippets" },
   { "ryanoasis/vim-devicons" },
   {
@@ -429,9 +435,9 @@ require("lazy").setup({
       local null_ls = require'null-ls'
 
       null_ls.builtins.diagnostics.erb_lint._opts.command = 'bundle'
-      null_ls.builtins.diagnostics.erb_lint._opts.args = { "exec", "erblint", "--format", "json", "--stdin", "$FILENAME" }
+      null_ls.builtins.diagnostics.erb_lint._opts.args = { "exec", "erb_lint", "--format", "json", "--stdin", "$FILENAME" }
       null_ls.builtins.formatting.erb_lint._opts.command = 'bundle'
-      null_ls.builtins.formatting.erb_lint._opts.args = { "exec", "erblint", "--autocorrect", "--stdin", "$FILENAME" }
+      null_ls.builtins.formatting.erb_lint._opts.args = { "exec", "erb_lint", "--autocorrect", "--stdin", "$FILENAME" }
 
       local null_ls_sources = {
         null_ls.builtins.diagnostics.rubocop,
@@ -543,7 +549,6 @@ require("lazy").setup({
   { "hrsh7th/cmp-buffer" },
   { "hrsh7th/cmp-path" },
   { "quangnguyen30192/cmp-nvim-tags" },
-  { "saadparwaiz1/cmp_luasnip" },
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   { "ray-x/cmp-treesitter" },
   { "andersevenrud/cmp-tmux" },
