@@ -201,15 +201,27 @@ require("lazy").setup({
   {
     "junegunn/fzf",
     build = ":call fzf#install()",
-    init = function()
-      vim.g.fzf_history_dir = '~/.fzf-history'
-    end
   },
   {
-    "artemave/fzf.vim",
-    init = function()
-      vim.g.fzf_layout = { left = '100%' }
-      vim.g.fzf_preview_window = { 'right:60%', 'ctrl-/' }
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      local fzf_lua = require("fzf-lua")
+
+      fzf_lua.setup({
+        keymap = {
+          fzf = {
+            ["ctrl-a"] = "select-all",
+          },
+        },
+        winopts = {
+          fullscreen = true
+        }
+      })
+      vim.keymap.set("n", "<leader>d", function()
+        local results = vim.fn.systemlist("{ git diff master.. & git diff } | diff2vimgrep | sort -u")
+        fzf_lua.fzf_exec(results)
+      end, { desc = "Git diff master" })
     end
   },
   { "Raimondi/delimitMate" },
@@ -591,6 +603,10 @@ require("lazy").setup({
   { "direnv/direnv.vim" },
   {
     "nvim-treesitter/playground",
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
   },
   { "maxmellon/vim-jsx-pretty" },

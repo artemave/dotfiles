@@ -61,8 +61,6 @@ set showcmd
 vmap <tab> >gv
 vmap <s-tab> <gv
 
-set fileformat=unix
-
 "" Searching
 set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
@@ -117,21 +115,6 @@ function s:RunShellCommand(cmdline)
   silent execute '$read !'. expanded_cmdline
   1
 endfunction
-
-function s:GrepOpenBuffers(search, jump)
-  call setqflist([])
-  let cur = getpos('.')
-  silent! exe 'bufdo vimgrepadd /' . a:search . '/ %'
-  let matches = len(getqflist())
-  if a:jump && matches > 0
-    sil! cfirst
-  else
-    call setpos('.', cur)
-  endif
-  echo 'BufGrep:' ((matches) ? matches : 'No') 'matches found'
-endfunction
-com! -nargs=1 -bang BufGrep call <SID>GrepOpenBuffers('<args>', <bang>0)
-nnoremap <Leader>B :BufGrep
 
 " remap 'increase number' since C-a is captured by tmux/screen
 " Easier increment/decrement

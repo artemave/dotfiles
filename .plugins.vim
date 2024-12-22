@@ -65,62 +65,20 @@ let g:gundo_prefer_python3 = 1
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-function! OpenOneOrMoreSelectedFiles(files)
-  if len(a:files) == 1
-    exe 'e' a:files[0]
-  else
-    let entries = map(a:files, '{ "filename": v:val, "lnum": 1 }')
-    call setqflist(entries, 'r')
-    copen
-  endif
-endfunction
-
-let g:fzf_action = {
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit',
-  \ '': function("OpenOneOrMoreSelectedFiles")
-  \ }
-
 " The point of redefining fzf commands is to grep hidden files too
 " There is no way to configure rg to do it by default (other than alias, but
 " that is not picked up by nvim)
 
-function! RipgrepFzf(query, fullscreen)
-  " Same as Rg but ignores filename
-  " let spec = {'options': ['--nth=3..']}
-  let spec = { 'options': [ '--query', a:query ] }
-  let command = "rg --hidden --column --line-number --no-heading --color=always --smart-case ''"
-  call fzf#vim#grep(command, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>-1)
-command! -bang -nargs=* RgInCurrentBufferDir call fzf#vim#grep("rg --column --line-number --no-heading --hidden --color=always --smart-case '' ", 0, fzf#vim#with_preview({'options': '-n 2..', 'dir': expand('%:h')}), <bang>0)
-command! -bang -nargs=0 RgDiffMaster call fzf#vim#grep("{ git diff master... & git diff } | diff2vimgrep | sort -u", 0, fzf#vim#with_preview(), <bang>0)
-
-nnoremap <silent> <Leader><Leader>s :execute 'RG' expand('<cword>')<CR>
-nnoremap <Leader>s :RG<CR>
-nnoremap <Leader>S :RgInCurrentBufferDir<CR>
-nnoremap <Leader>f :Files<cr>
-nnoremap <Leader>F :Files <C-R>=expand('%:h')<CR><CR>
-nnoremap <Leader>b :Buffers<cr>
-nnoremap <Leader>G :GFiles?<cr>
-nnoremap <leader>u :Resume<cr>
-nnoremap <leader>d :RgDiffMaster<cr>
-
-nnoremap <leader>v :set operatorfunc=SearchOperator<cr>g@
-vnoremap <leader>v :<c-u>call SearchOperator(visualmode())<cr>
-
-function! SearchOperator(type)
-  if a:type ==# 'v'
-    normal! `<v`>y
-  elseif a:type ==# 'char'
-    normal! `[v`]y
-  else
-    return
-  endif
-
-  execute "Rg " . @@
-endfunction
+nnoremap <silent> <Leader><Leader>s :FzfLua grep_cword<CR>
+nnoremap <Leader>s :FzfLua live_grep<CR>
+nnoremap <Leader>S :FzfLua blines<CR>
+nnoremap <Leader>f :FzfLua files<cr>
+nnoremap <Leader>F :FzfLua files cwd=<C-R>=expand('%:h')<CR><CR>
+nnoremap <Leader>b :FzfLua buffers<cr>
+nnoremap <Leader>B :FzfLua lines<CR>
+nnoremap <Leader>G :FzfLua git_files<cr>
+nnoremap <leader>u :FzfLua resume<cr>
+vnoremap <leader>v :FzfLua grep_visual<cr>
 
 " Plug 'preservim/nerdtree'
 nnoremap <silent> <leader><leader>f :lua require('nvim-tree/api').tree.open({ find_file = true })<cr>
