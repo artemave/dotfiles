@@ -69,7 +69,7 @@ imap <F6> <ESC>:GundoToggle<CR>
 " There is no way to configure rg to do it by default (other than alias, but
 " that is not picked up by nvim)
 
-nnoremap <silent> <Leader><Leader>s :FzfLua grep_cword<CR>
+nnoremap <Leader><Leader>s :FzfLua grep_cword<CR>
 nnoremap <Leader>s :FzfLua live_grep<CR>
 nnoremap <Leader>S :FzfLua blines<CR>
 nnoremap <Leader>f :FzfLua files<cr>

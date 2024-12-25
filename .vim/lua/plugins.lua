@@ -216,12 +216,20 @@ require("lazy").setup({
         },
         winopts = {
           fullscreen = true
+        },
+        grep = {
+          -- add 'hidden' to default options
+          rg_opts = '--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e',
         }
       })
       vim.keymap.set("n", "<leader>d", function()
-        local results = vim.fn.systemlist("{ git diff master.. & git diff } | diff2vimgrep | sort -u")
-        fzf_lua.fzf_exec(results)
+        local cmd = [[{ git diff master... & git diff; } | diff2vimgrep | sort -u]]
+        fzf_lua.grep {
+          raw_cmd = cmd
+        }
       end, { desc = "Git diff master" })
+
+      vim.keymap.set('n', '<leader><leader>l', fzf_lua.builtin)
     end
   },
   { "Raimondi/delimitMate" },
