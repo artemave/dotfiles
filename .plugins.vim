@@ -52,14 +52,14 @@ autocmd FileType {javascript,typescript} setlocal omnifunc=vjs#ModuleComplete
 " let g:tslime_always_current_session = 1
 
 
-nnoremap <Leader>a= :Tabularize /=<CR>
-vnoremap <Leader>a= :Tabularize /=<CR>
-nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
-vnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
-nnoremap <Leader>a> :Tabularize /=><CR>
-vnoremap <Leader>a> :Tabularize /=><CR>
-nnoremap <Leader>ae :Tabularize /==<CR>
-vnoremap <Leader>ae :Tabularize /==<CR>
+" nnoremap <Leader>a= :Tabularize /=<CR>
+" vnoremap <Leader>a= :Tabularize /=<CR>
+" nnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
+" vnoremap <Leader>a: :Tabularize /:\zs/r0c1l0<CR>
+" nnoremap <Leader>a> :Tabularize /=><CR>
+" vnoremap <Leader>a> :Tabularize /=><CR>
+" nnoremap <Leader>ae :Tabularize /==<CR>
+" vnoremap <Leader>ae :Tabularize /==<CR>
 
 let g:gundo_prefer_python3 = 1
 nmap <F6> :GundoToggle<CR>
@@ -76,7 +76,7 @@ nnoremap <Leader>f :FzfLua files<cr>
 nnoremap <Leader>F :FzfLua files cwd=<C-R>=expand('%:h')<CR><CR>
 nnoremap <Leader>b :FzfLua buffers<cr>
 nnoremap <Leader>B :FzfLua lines<CR>
-nnoremap <Leader>G :FzfLua git_files<cr>
+nnoremap <Leader>G :FzfLua git_status<cr>
 nnoremap <leader>u :FzfLua resume<cr>
 vnoremap <leader>v :FzfLua grep_visual<cr>
 
