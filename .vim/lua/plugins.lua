@@ -613,11 +613,6 @@ require("lazy").setup({
     "nvim-treesitter/playground",
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
   },
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  },
-  { "maxmellon/vim-jsx-pretty" },
   { "mfussenegger/nvim-dap" },
   { "nvim-neotest/nvim-nio" },
   { "rcarriga/nvim-dap-ui" },
@@ -703,7 +698,7 @@ require("lazy").setup({
   { "artemave/workspace-diagnostics.nvim" },
   { "sindrets/diffview.nvim" },
   { "stevearc/profile.nvim" },
-  { "metakirby5/codi.vim" },
+  -- { "metakirby5/codi.vim" },
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
