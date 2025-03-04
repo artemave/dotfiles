@@ -29,7 +29,7 @@ function brightness_target() {
 
 t=$(brightness_target)
 
-if [[ 'eDP' == $t ]]; then
+if [[ $t =~ ^eDP ]]; then
   brightnessctl s $1
 else
   if [[ "$1" =~ ^\+ ]]; then

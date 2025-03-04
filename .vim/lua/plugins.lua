@@ -169,10 +169,6 @@ vim.api.nvim_create_autocmd({"User"}, {
 
     require'nvim-web-devicons'.setup { default = true }
     require('tsc').setup()
-
-    require('avante').setup({
-      provider = 'openai'
-    })
   end,
 })
 
@@ -235,7 +231,13 @@ require("lazy").setup({
   { "Raimondi/delimitMate" },
   { "andymass/vim-matchup" },
   { "mg979/vim-visual-multi" },
-  { "itchyny/lightline.vim" },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('lualine').setup()
+    end
+  },
   { "navarasu/onedark.nvim" },
   { "tommcdo/vim-exchange" },
   { "chrisbra/NrrwRgn" },
@@ -705,7 +707,13 @@ require("lazy").setup({
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
-      provider = 'openai'
+      provider = 'claude',
+      claude = {
+        model = 'claude-3-7-sonnet-latest'
+      },
+      file_selector = {
+        provider = 'fzf'
+      },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -729,8 +737,6 @@ require("lazy").setup({
             drag_and_drop = {
               insert_mode = true,
             },
-            -- required for Windows users
-            use_absolute_path = true,
           },
         },
       },
