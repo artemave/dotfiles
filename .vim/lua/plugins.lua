@@ -456,8 +456,15 @@ require("lazy").setup({
     config = function()
       local null_ls = require'null-ls'
 
+      null_ls.builtins.diagnostics.rubocop._opts.command = 'bundle'
+      null_ls.builtins.diagnostics.rubocop._opts.args = { "exec", "rubocop", "-f", "json", "--force-exclusion", "--stdin", "$FILENAME" }
+
       null_ls.builtins.diagnostics.erb_lint._opts.command = 'bundle'
       null_ls.builtins.diagnostics.erb_lint._opts.args = { "exec", "erb_lint", "--format", "json", "--stdin", "$FILENAME" }
+
+      null_ls.builtins.formatting.rubocop._opts.command = 'bundle'
+      null_ls.builtins.formatting.rubocop._opts.args = { "exec", "rubocop", "-a", "--server", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
+
       null_ls.builtins.formatting.erb_lint._opts.command = 'bundle'
       null_ls.builtins.formatting.erb_lint._opts.args = { "exec", "erb_lint", "--autocorrect", "--stdin", "$FILENAME" }
 
@@ -724,7 +731,7 @@ require("lazy").setup({
       --- The below dependencies are optional,
       "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      -- "zbirenbaum/copilot.lua", -- for providers='copilot'
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",

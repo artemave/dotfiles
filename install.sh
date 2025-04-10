@@ -3,6 +3,7 @@ set -ex
 # set -x
 
 dotfiles=( \
+  .aider.conf.yml \
   .bash_profile \
   .profile \
   .editorconfig \

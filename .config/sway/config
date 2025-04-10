@@ -10,18 +10,16 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 # keycodes /usr/share/X11/xkb/keycodes/evdev
+
 input type:keyboard {
-  xkb_layout "us_tilde_grave,ru,fr"
-  xkb_options "grp:shifts_toggle,ctrl:nocaps"
+  xkb_layout "us,ru,ch(fr)"
+  xkb_options "grp:alt_shift_toggle"
 
   repeat_delay 250
   repeat_rate 45
 }
 
-output HDMI-A-1 pos 0 0
-output DP-1 pos 0 0
-output DP-2 pos 0 0
-output eDP-1 pos 920 2160
+exec --no-startup-id kbdd
 
 # like autorandr but worse
 # exec --no-startup-id kanshi
@@ -30,7 +28,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 12
+font pango:monospace 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -174,10 +172,10 @@ mode "resize" {
   # Pressing right will grow the window’s width.
   # Pressing up will shrink the window’s height.
   # Pressing down will grow the window’s height.
-  bindsym j resize shrink width 10 px or 10 ppt
-  bindsym k resize grow height 10 px or 10 ppt
-  bindsym l resize shrink height 10 px or 10 ppt
-  bindsym semicolon resize grow width 10 px or 10 ppt
+  bindsym h resize shrink width 10 px or 10 ppt
+  bindsym j resize grow height 10 px or 10 ppt
+  bindsym k resize shrink height 10 px or 10 ppt
+  bindsym l resize grow width 10 px or 10 ppt
 
   # same bindings, but for the arrow keys
   bindsym Left resize shrink width 10 px or 10 ppt
@@ -201,7 +199,7 @@ bar {
 }
 
 # wifi icon
-exec --no-startup-id nm-applet --indicator
+exec_always --no-startup-id nm-applet --indicator
 # bluetooth
 exec --no-startup-id blueman-applet
 
@@ -209,11 +207,9 @@ exec --no-startup-id blueman-applet
 # Disabled due to zoom video flickering
 # exec --no-startup-id compton --config ~/.config/compton.conf -b
 
-# bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMicMute exec ~/.config/scripts/mic_mute.sh
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks
-# bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks
-# bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+1 i3blocks
 
 # bindsym XF86AudioPlay exec playerctl play-pause
@@ -226,8 +222,13 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -R
 # exec --no-startup-id xinput --disable 11
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec brightnessctl set +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
-bindsym XF86MonBrightnessDown exec brightnessctl set 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
+# bindsym XF86MonBrightnessUp exec brightnessctl set +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
+# bindsym XF86MonBrightnessDown exec brightnessctl set 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
+bindsym XF86MonBrightnessUp exec ~/.config/scripts/set_brightness.sh +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
+bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
+
+# ctrl-win-l to lock the screen
+bindsym Control+$mod+l exec --no-startup-id systemctl suspend
 
 # ctrl-win-l to lock the screen
 # bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
@@ -265,30 +266,57 @@ bindsym Shift+Print exec grimshot save area
 
 # bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
-workspace 1 output HDMI-A-1 DP-1 DP-2 eDP-1
+exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
+
+exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
+
+set $scale 1.25
+
+output eDP-1 scale $scale
+output DP-1 scale $scale
+output DP-2 scale $scale
+output HDMI-A-1 scale $scale
+
+output HDMI-A-1 pos 0 0
+output DP-1 pos 0 0
+output DP-2 pos 0 0
+
+exec_always ~/.config/sway/adjust_positions.sh $scale
+
+workspace 1 output HDMI-A-1 DP-1 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP-1
+workspace 2 output HDMI-A-1 DP-1 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP-1
 
 exec --no-startup-id clipit
 
-# Android emulator
-for_window [title=".*Emulator.*"] floating enable
-assign [title=".*Emulator.*"] 3
 
 # Use `xprop` to get the window class/name
+assign [app_id="^firefox"] 2
+assign [app_id="^Brave"] 2
+
+# Android emulator
+for_window [title=".*Emulator.*"] floating enable
+assign [title=".*Emulator.*"] 4
+
 # Zoom main window (if started explicitly)
 for_window [class="zoom.*"] floating enable
-assign [class="zoom.*"] 3
+assign [class="zoom.*"] 4
 # Zoom popup when joining meeting
 for_window [title="Zoom Cloud Meeting"] floating enable
-assign [title="Zoom Cloud Meeting"] 3
+assign [title="Zoom Cloud Meeting"] 4
 # Zoom meeting window
-assign [class="join\?action=join&confno=.*"] 3
+assign [class="join\?action=join&confno=.*"] 4
+assign [title="Zoom Meeting"] 4
 
-assign [class="Slack"] 2
-assign [class="discord"] 2
+assign [app_id="Slack"] 3
+assign [app_id="discord"] 3
+assign [app_id="^telegram-desktop"] 3
 
-exec --no-startup-id ~/.config/i3/auto_floating.py
+# toggle tiling / floating
+exec --no-startup-id --no-startup-id i3_auto_floating &
+
+exec --no-startup-id kitty
+
+exec --no-startup-id ~/bin/firefox
 
 # https://github.com/emersion/xdg-desktop-portal-wlr#running
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-
-# Current show stopper: app icons in swaybar don't react to right click

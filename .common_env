@@ -31,7 +31,8 @@ fi
 
 export FZF_DEFAULT_COMMAND='rg -l --hidden ""'
 export FZF_CTRL_T_COMMAND='rg -l --hidden ""'
-export FZF_DEFAULT_OPTS="--no-mouse --exact --bind ctrl-a:select-all --preview '~/.vim/plugged/fzf.vim/bin/preview.sh {}'"
+export FZF_DEFAULT_OPTS="--no-mouse --exact --bind ctrl-a:select-all"
+export FZF_CTRL_T_OPTS="--walker-skip .git,node_modules,target --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 # export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --no-mouse --exact --bind ctrl-a:select-all"
 
 export PATH=$PATH:$HOME/.cargo/bin

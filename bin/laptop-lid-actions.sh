@@ -1,19 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # rule is here: /etc/acpi/events/laptop-lid
 #
 # file contains:
 #
 # event=button/lid.*
-# action=/home/artem/bin/laptop-lid-actions.sh
+# action=/usr/bin/systemctl suspend
 #
-# sudo service acpi restart
+# sudo systemctl restart acpid
 
-if grep -q closed /proc/acpi/button/lid/LID/state; then
-  # close action
-  bluetooth off
-# else
-  # # open action
-  # sleep 1
-  # bluetooth on
-fi
+# Below is some old craft and I don't remember what it's for
+
+# action=/home/artem/bin/laptop-lid-actions.sh
+# if grep -q closed /proc/acpi/button/lid/LID/state; then
+#   # close action
+#   bluetooth off
+# # else
+#   # # open action
+#   # sleep 1
+#   # bluetooth on
+# fi

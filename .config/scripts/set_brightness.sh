@@ -43,7 +43,10 @@ else
   # 4 HDMI
   # 12 DP1
   # 13 DP2
-  for i in 4 12 13; do
+  # 14 DP-1 (t14s gen6)
+  # 15 DP-2 (t14s gen6)
+  # use ddcutil detect to get this magic numbers
+  for i in 4 12 13 14 15; do
     ddcutil setvcp 10 $sign $value --bus $i --sleep-multiplier .1 &
   done
 

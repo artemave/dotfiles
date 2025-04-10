@@ -201,7 +201,7 @@ bindsym XF86AudioRaiseVolume --release exec pkill -RTMIN+1 i3blocks
 # bindsym XF86AudioNext exec playerctl next
 # bindsym XF86AudioPrev exec playerctl previous
 
-exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
+exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'
 
 # disable trackpad
 # exec --no-startup-id xinput --disable 11
@@ -240,8 +240,8 @@ exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,
 
 bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
-workspace 1 output HDMI1 DP1 DP2 eDP1 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP
-workspace 2 output HDMI1 DP1 DP2 eDP1 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP
+workspace 1 output HDMI1 HDMI-A-1 DP1 DP-1 DP2 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP eDP-1
+workspace 2 output HDMI1 HDMI-A-1 DP1 DP-1 DP2 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP eDP-1
 
 exec --no-startup-id clipit
 
@@ -279,3 +279,7 @@ exec --no-startup-id kitty
 exec --no-startup-id ~/bin/firefox
 
 exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1 &
+
+exec --no-startup-id kbdd
+
+exec --no-startup-id dunst

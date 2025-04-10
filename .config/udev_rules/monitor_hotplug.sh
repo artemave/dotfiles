@@ -20,6 +20,10 @@ export DISPLAY=":${displaynums[0]}"
 # from https://wiki.archlinux.org/index.php/Acpid#Laptop_Monitor_Power_Off
 export XAUTHORITY=$(ps -C Xorg -f --no-header | sed -n 's/.*-auth //; s/ -[^ ].*//; p')
 
+xrandr --output DP-1 --off
+xrandr --output DP-2 --off
+xrandr --output HDMI-A-0 --off
+
 /usr/bin/autorandr --change
 feh --randomize --bg-fill /home/artem/Pictures/Wallpaper/*
 
