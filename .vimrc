@@ -457,3 +457,19 @@ autocmd FileType html
 " For GBrowse
 " TODO: support osx
 command! -nargs=1 OpenBrowser exe '!xdg-open ' .. shellescape(fnameescape('<args>'))
+
+let g:last_global_edit = {}
+
+autocmd TextChanged,TextChangedI * let g:last_global_edit = {'buf': bufnr('%'), 'pos': getpos('.')}
+
+function! JumpToLastGlobalEdit()
+  if has_key(g:last_global_edit, 'buf') && bufexists(g:last_global_edit.buf)
+    execute 'buffer' g:last_global_edit.buf
+    call setpos('.', g:last_global_edit.pos)
+  else
+    echo "No global edit recorded"
+  endif
+endfunction
+
+command! JumpLastEdit call JumpToLastGlobalEdit()
+nnoremap g: :call JumpToLastGlobalEdit()<CR>

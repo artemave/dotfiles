@@ -148,7 +148,7 @@ local servers_names = map(servers, function(k, v) return type(k) == "number" and
 -- This should be moved into lazy "config" functions. Otherwise this might run too late (e.g. after lsp's on_attach functions are collected to be called)
 vim.api.nvim_create_autocmd({"User"}, {
   callback = function()
-    require './_dap'
+    -- require './_dap'
     require './rubocop_disable'
     require './_cmp'
     require './_chatgpt'
@@ -258,6 +258,12 @@ require("lazy").setup({
     config = function()
       require("luasnip.loaders.from_snipmate").lazy_load()
       require("luasnip.loaders.from_snipmate").lazy_load({paths = {'~/.vim/mysnippets'}})
+
+      local ls = require("luasnip")
+
+      vim.keymap.set({"i"}, "<Tab>", function() ls.expand() end, {silent = true})
+      vim.keymap.set({"i", "s"}, "<C-N>", function() ls.jump( 1) end, {silent = true})
+      vim.keymap.set({"i", "s"}, "<C-P>", function() ls.jump(-1) end, {silent = true})
     end,
   },
   { "honza/vim-snippets" },
@@ -601,7 +607,7 @@ require("lazy").setup({
   { "AndrewRadev/splitjoin.vim" },
   { "artemave/vim-aaa" },
   { "christoomey/vim-tmux-navigator" },
-  { "github/copilot.vim" },
+  -- { "github/copilot.vim" },
   { "wsdjeg/vim-fetch" },
   { "ton/vim-bufsurf" },
   { "stevearc/dressing.nvim" },
@@ -731,7 +737,12 @@ require("lazy").setup({
       --- The below dependencies are optional,
       "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      -- "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        "zbirenbaum/copilot.lua",
+        config = function()
+          require("copilot").setup({})
+        end
+      }, -- for providers='copilot'
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",
