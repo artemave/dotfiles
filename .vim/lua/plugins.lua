@@ -373,6 +373,8 @@ require("lazy").setup({
               -- You can use the capture groups defined in textobjects.scm
               ["af"] = "@function.outer",
               ["if"] = "@function.inner",
+              ["ab"] = "@block.outer",
+              ["ib"] = "@block.inner",
               ["ac"] = "@class.outer",
               ["ic"] = "@class.inner",
               ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },

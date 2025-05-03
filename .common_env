@@ -44,6 +44,4 @@ export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
-# export XDG_CURRENT_DESKTOP=Sway
-
 export COMMON_ENV_LOADED=1

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Set
+# Exec=/home/artem/bin/sway-wayland-env
+#
+# in:
+# /usr/share/wayland-sessions/sway.desktop
+
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_TYPE=wayland
+export QT_QPA_PLATFORM=wayland
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export SDL_VIDEODRIVER=wayland
+export CLUTTER_BACKEND=wayland
+export GDK_BACKEND=wayland
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+
+exec sway
