@@ -135,7 +135,7 @@ interval=1
 interval=1
 
 [load_average]
-label=LOAD 
+label=🖥️ 
 interval=1
 
 # Battery indicator
@@ -167,7 +167,8 @@ interval=1
 # interval=10
 
 [kbdd_layout]
-interval=persist
+command=~/bin/get_input_layout.sh
+interval=1
 
 # Key indicators
 #

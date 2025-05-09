@@ -8,11 +8,16 @@
 
 export XDG_CURRENT_DESKTOP=sway
 export XDG_SESSION_TYPE=wayland
-export QT_QPA_PLATFORM=wayland
+# this core dumps plex
+# export QT_QPA_PLATFORM=wayland
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export QT_WAYLAND_FORCE_DPI=physical
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
+export QT_WAYLAND_RECONNECT=1
 export SDL_VIDEODRIVER=wayland
 export CLUTTER_BACKEND=wayland
-export GDK_BACKEND=wayland
+# this is shouldn't be set according to sway wiki
+# export GDK_BACKEND=wayland
 export ELECTRON_OZONE_PLATFORM_HINT=wayland
 
 exec sway
