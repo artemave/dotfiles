@@ -252,6 +252,9 @@ bindsym Print exec 'grim -g "$(slurp)" - | swappy -f -'
 
 # exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 
+exec_always ~/.config/sway/set_random_wallpaper.sh
+exec_always swaymsg -m -t subscribe '["output"]' | while read -r _; do ~/.config/sway/set_random_wallpaper.sh; done
+
 # exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
 
 # bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh

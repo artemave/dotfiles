@@ -16,8 +16,10 @@ export QT_AUTO_SCREEN_SCALE_FACTOR=0
 export QT_WAYLAND_RECONNECT=1
 export SDL_VIDEODRIVER=wayland
 export CLUTTER_BACKEND=wayland
-# this is shouldn't be set according to sway wiki
+# this shouldn't be set according to sway wiki
 # export GDK_BACKEND=wayland
 export ELECTRON_OZONE_PLATFORM_HINT=wayland
+# this is for sway-desktop-launcher to be able to run cli apps
+export TERMINAL_COMMAND=kitty
 
 exec sway
