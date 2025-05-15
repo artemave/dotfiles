@@ -27,7 +27,31 @@ function brightness_target() {
   echo $res
 }
 
-t=$(brightness_target)
+get_i2c_bus() {
+  local display="$1"
+
+  if [ -z "$display" ]; then
+    echo "Error: Display name required" >&2
+    return 1
+  fi
+
+  # Find the line with the display, then work backwards to find its I2C bus
+  local context=$(ddcutil detect 2>/dev/null | grep -B5 -A1 "card[0-9]*-${display}$")
+  local bus=$(echo "$context" | grep "I2C bus:" | tail -n1 | sed -n 's/.*i2c-\([0-9]\+\).*/\1/p')
+
+  if [ -z "$bus" ]; then
+    echo "Error: Display '$display' not found" >&2
+    return 1
+  fi
+
+  echo "$bus"
+}
+
+if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+  t=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+else
+  t=$(brightness_target)
+fi
 
 if [[ $t =~ ^eDP ]]; then
   brightnessctl s $1
@@ -40,15 +64,30 @@ else
     value=${1:0:2}
   fi
 
-  # 4 HDMI
-  # 12 DP1
-  # 13 DP2
-  # 14 DP-1 (t14s gen6)
-  # 15 DP-2 (t14s gen6)
   # use ddcutil detect to get this magic numbers
-  for i in 4 12 13 14 15; do
-    ddcutil setvcp 10 $sign $value --bus $i --sleep-multiplier .1 &
-  done
+  # Get the I2C bus number based on the display name
+  case "$t" in
+    HDMI*)
+      bus=4
+      ;;
+    DP1)
+      bus=12
+      ;;
+    DP2)
+      bus=13
+      ;;
+    DP-1) # t14s gen6
+      bus=14
+      ;;
+    DP-2) # t14s gen6
+      bus=15
+      ;;
+    *) # Default case - try to get the bus for the current display
+      bus=$(get_i2c_bus "$t")
+      ;;
+  esac
+
+  ddcutil setvcp 10 $sign $value --bus $bus --sleep-multiplier .1 &
 
   wait
 fi
