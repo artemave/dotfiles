@@ -252,7 +252,10 @@ require("lazy").setup({
   { "yssl/QFEnter" },
   {
     "L3MON4D3/LuaSnip",
-    dependencies = { "saadparwaiz1/cmp_luasnip" },
+    dependencies = {
+      "saadparwaiz1/cmp_luasnip",
+      "honza/vim-snippets",
+    },
     version = "v2.*",
     build = "make install_jsregexp",
     config = function()
@@ -560,22 +563,17 @@ require("lazy").setup({
         border = _border
       }
 
-      local lspconfig = require'lspconfig'
-
       for server, server_settings in pairs(servers) do
         if type(server) == 'number' then
           server = server_settings
           server_settings = {}
         end
 
-        lspconfig[server].setup(
+        vim.lsp.config(server,
           vim.tbl_deep_extend(
             'force',
             {
               on_attach = on_attach,
-              -- capabilities = capabilities,
-              flags = { debounce_text_changes = 140, },
-              root_dir = lspconfig.util.find_git_ancestor
             },
             server_settings
           )
@@ -712,7 +710,7 @@ require("lazy").setup({
   { "olimorris/neotest-rspec" },
   { "zidhuss/neotest-minitest" },
   { "vim-test/vim-test" },
-  { "artemave/workspace-diagnostics.nvim" },
+  { dir = "~/projects/workspace-diagnostics.nvim" },
   { "sindrets/diffview.nvim" },
   { "stevearc/profile.nvim" },
   -- { "metakirby5/codi.vim" },

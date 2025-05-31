@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  exec /usr/bin/google-chrome --ozone-platform=wayland --enable-features=UseOzonePlatform --ozone-platform-hint=auto "$@"
+else
+  exec /usr/bin/google-chrome "$@"
+fi
