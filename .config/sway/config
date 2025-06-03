@@ -1,5 +1,6 @@
 input type:keyboard {
   xkb_layout "us,ru,ch(fr)"
+
   xkb_options "grp:alt_shift_toggle"
 
   repeat_delay 250
@@ -184,7 +185,8 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
   # status_command SCRIPT_DIR=~/.config/i3blocks 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-  status_command SCRIPT_DIR=~/.config/i3blocks-contrib i3blocks
+  # status_command SCRIPT_DIR=~/.config/i3blocks-contrib i3blocks
+  swaybar_command waybar
 }
 
 # wifi icon
