@@ -721,8 +721,10 @@ require("lazy").setup({
     version = false, -- set this if you want to always pull the latest change
     opts = {
       provider = 'claude',
-      claude = {
-        model = 'claude-3-7-sonnet-latest'
+      providers = {
+        claude = {
+          model = 'claude-sonnet-4-20250514'
+        }
       },
       file_selector = {
         provider = 'fzf'
