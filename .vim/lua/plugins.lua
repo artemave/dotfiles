@@ -190,6 +190,10 @@ require("lazy").setup({
   { "tpope/vim-obsession" },
   { "tpope/vim-commentary" },
   { "artemave/vigun" },
+  -- {
+  --   "artemave/vigun",
+  --   path = "~/projects/vigun",
+  -- },
   { "artemave/vjs" },
   { "michaeljsmith/vim-indent-object" },
   { "godlygeek/tabular" },
@@ -711,7 +715,18 @@ require("lazy").setup({
   { "zidhuss/neotest-minitest" },
   { "vim-test/vim-test" },
   { dir = "~/projects/workspace-diagnostics.nvim" },
-  { "sindrets/diffview.nvim" },
+  {
+    "sindrets/diffview.nvim",
+    config = function()
+      require("diffview").setup({
+        view = {
+          merge_tool = {
+            layout = "diff3_mixed",
+          }
+        }
+      })
+    end
+  },
   { "stevearc/profile.nvim" },
   -- { "metakirby5/codi.vim" },
   {
