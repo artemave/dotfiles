@@ -352,8 +352,8 @@ autocmd InsertLeave * call <SID>SavePreservingLastPasteMarks()
 set cursorline
 
 " copy current file path into clipboard
-nmap <leader><leader>c :let @*=expand("%:p")<cr>
-nmap <leader><leader>C :let @*=expand("%:t")<cr>
+nmap <leader><leader>c :let @*=expand("%")<cr>
+nmap <leader><leader>C :let @*=expand("%:p")<cr>
 
 " search for visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
