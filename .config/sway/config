@@ -96,7 +96,7 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+x layout toggle splitv splith tabbed
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+space exec sway_toggle_floating
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -249,6 +249,8 @@ focus_on_window_activation focus
 bindsym Print exec flameshot gui
 bindsym Shift+Print exec flameshot full
 
+exec --no-startup-id flameshot
+
 # exec --no-startup-id dropbox start
 
 # exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
@@ -304,7 +306,7 @@ assign [app_id="discord"] 3
 assign [app_id="^telegram-desktop"] 3
 
 # toggle tiling / floating
-exec --no-startup-id --no-startup-id i3_auto_floating &
+exec --no-startup-id sway_auto_floating
 
 exec --no-startup-id kitty
 

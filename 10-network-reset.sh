@@ -12,7 +12,8 @@ case $1 in
       logger "[sleep-hook] NetworkManager did not stop cleanly. Killing it."
       nmcli radio wifi off
       sleep 1
-      pkill -9 NetworkManager wpa_supplicant iw
+      pkill -9 NetworkManager
+      pkill -9 wpa_supplicant
     fi
 
     logger "[sleep-hook] Dumping D-state processes"

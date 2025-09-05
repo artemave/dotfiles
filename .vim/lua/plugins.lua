@@ -168,7 +168,6 @@ vim.api.nvim_create_autocmd({"User"}, {
     })
 
     require'nvim-web-devicons'.setup { default = true }
-    require('tsc').setup()
   end,
 })
 
@@ -326,7 +325,8 @@ require("lazy").setup({
           "vim",
           "vimdoc",
           "lua",
-          "markdown"
+          "markdown",
+          "python"
         },
         highlight = {
           enable = true,              -- false will disable the whole extension
@@ -701,7 +701,6 @@ require("lazy").setup({
   },
   { "RubixDev/mason-update-all" },
   { "wesQ3/vim-windowswap" },
-  { "dmmulroy/tsc.nvim" },
   { "ckolkey/ts-node-action" },
   { "robitx/gp.nvim" },
   { "antoinemadec/FixCursorHold.nvim" },
@@ -713,7 +712,6 @@ require("lazy").setup({
   { "nvim-neotest/neotest-python" },
   { "olimorris/neotest-rspec" },
   { "zidhuss/neotest-minitest" },
-  { "vim-test/vim-test" },
   { dir = "~/projects/workspace-diagnostics.nvim" },
   {
     "sindrets/diffview.nvim",
