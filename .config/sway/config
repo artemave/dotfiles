@@ -54,7 +54,7 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 set $menu exec $term --class=launcher -e /home/artem/projects/sway-launcher-desktop/sway-launcher-desktop.sh
-bindsym $mod+d exec $menu
+bindsym $mod+d exec vicinae
 
 # change focus
 bindsym $mod+j focus down
@@ -245,11 +245,11 @@ workspace_auto_back_and_forth yes
 focus_on_window_activation focus
 
 # take screenshot with PrtSc key
-# bindsym Print exec 'grim -g "$(slurp)" - | swappy -f -'
-bindsym Print exec flameshot gui
-bindsym Shift+Print exec flameshot full
+bindsym Print exec 'grim -g "$(slurp)" - | swappy -f -'
+# bindsym Print exec flameshot gui
+# bindsym Shift+Print exec flameshot full
 
-exec --no-startup-id flameshot
+# exec --no-startup-id flameshot
 
 # exec --no-startup-id dropbox start
 
@@ -280,7 +280,7 @@ exec_always ~/.config/sway/adjust_positions.sh $scale
 workspace 1 output HDMI-A-1 DP-1 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP-1
 workspace 2 output HDMI-A-1 DP-1 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP-1
 
-exec --no-startup-id copyq --start-server
+# exec --no-startup-id copyq --start-server
 
 
 # Use `xprop` to get the window class/name
@@ -304,6 +304,8 @@ assign [title="Zoom Meeting"] 4
 assign [app_id="Slack"] 3
 assign [app_id="discord"] 3
 assign [app_id="^telegram-desktop"] 3
+
+exec --no-startup-id vicinae server
 
 # toggle tiling / floating
 exec --no-startup-id sway_auto_floating

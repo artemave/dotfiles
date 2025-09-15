@@ -281,16 +281,11 @@ set fdo-=search
 set nobackup
 set nowritebackup
 
-au BufNewFile,BufRead Jenkinsfile setf groovy
-
 " Paste with indentation
 nnoremap p p=`]
 
 set ttyfast
 set lazyredraw
-
-" If set, the following breaks deoplete completion with Pattern Not Found
-" set noshowmode
 
 hi Visual ctermbg=darkgrey
 
@@ -299,24 +294,6 @@ xnoremap <leader>p "_dp
 xnoremap <leader>P "_dP
 
 packadd cfilter
-
-" command! Ctags call system('ctags $(git ls-files)')
-
-" also useful:
-" - Ctrl-W p - go to the previous window
-" - Ctrl-W t - go to top/left window
-" - Ctrl-W b - go to bottom/right window
-map <c-j> <C-W>j
-map <c-k> <C-W>k
-map <c-h> <C-W>h
-map <c-l> <C-W>l
-
-" auto close quickfix
-" aug QFClose
-"   au!
-"   " au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
-"   au WinEnter * if &buftype != "quickfix"|cclose|endif
-" aug END
 
 " select last paste in visual mode
 nnoremap <expr> gb "'[" . strpart(getregtype(), 0, 1) . "']"
@@ -351,9 +328,10 @@ autocmd InsertLeave * call <SID>SavePreservingLastPasteMarks()
 
 set cursorline
 
-" copy current file path into clipboard
-nmap <leader><leader>c :let @*=expand("%")<cr>
-nmap <leader><leader>C :let @*=expand("%:p")<cr>
+" Copy relative path to * and +
+nmap <leader><leader>c :let @*=expand("%") \| let @+=expand("%")<CR>
+" Copy absolute path to * and +
+nmap <leader><leader>C :let @*=expand("%:p") \| let @+=expand("%:p")<CR>
 
 " search for visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>

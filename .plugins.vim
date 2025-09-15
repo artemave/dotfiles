@@ -22,11 +22,11 @@ endfunction
 let g:obsession_no_bufenter = 1 " aparently faster this way
 au VimEnter * if !exists('g:this_obsession') | :Obsess | endif
 
-au FileType ruby,javascript,typescript,cucumber,vader,python,dart nnoremap <leader>t :VigunRun 'all'<cr>
-au FileType ruby,javascript,typescript,cucumber,python,dart nnoremap <leader>T :VigunRun 'nearest'<cr>
-au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun 'debug-nearest'<cr>
-au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>wt :VigunRun 'watch-all'<cr>
-au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>wT :VigunRun 'watch-nearest'<cr>
+au FileType ruby,javascript,typescript,cucumber,vader,python,dart nnoremap <leader>t :VigunRun all<cr>
+au FileType ruby,javascript,typescript,cucumber,python,dart nnoremap <leader>T :VigunRun nearest<cr>
+au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>D :VigunRun debug-nearest<cr>
+au FileType ruby,javascript,typescript,cucumber,vader,python nnoremap <leader>wt :VigunRun watch-all<cr>
+au FileType ruby,javascript,typescript,cucumber,python nnoremap <leader>wT :VigunRun watch-nearest<cr>
 au FileType javascript,typescript,typescript nnoremap <Leader>vo :VigunMochaOnly<cr>
 au FileType ruby,javascript,typescript,go,python nnoremap <leader>vi :VigunShowSpecIndex<cr>
 nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
