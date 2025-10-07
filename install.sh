@@ -107,6 +107,14 @@ case $1 in
       git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 
+    if [[ ! -d ~/.local/share/applications ]]; then
+      mkdir -r ~/.local/share/applications
+    fi
+
+    for file in ./applications/*; do
+      ln -f -s "$(pwd)/$file" ~/.local/share/applications/
+    done
+
     if [[ ! -d ~/.local/share/mime/packages ]]; then
       mkdir -r ~/.local/share/mime/packages
     fi
