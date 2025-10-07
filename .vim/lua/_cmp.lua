@@ -20,22 +20,20 @@ cmp.setup({
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    -- { name = 'vsnip' }, -- For vsnip users.
-    { name = 'luasnip' }, -- For luasnip users.
-    -- { name = 'snippy' }, -- For snippy users.
-  }, {
+  sources = cmp.config.sources(
     {
-      name = 'buffer',
-      option = {
-        get_bufnrs = function()
-          return vim.api.nvim_list_bufs()
-        end
-      }
-    },
-    { name = 'path' },
-    { name = 'treesitter' },
-    { name = 'tags' },
-  })
+      { name = 'buffer' },
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' }, -- For luasnip users.
+      { name = 'path' },
+      { name = 'treesitter' },
+      {
+        name = 'tmux',
+        option = {
+          scope = 'session'
+        }
+      },
+      { name = 'tags' }
+    }
+  )
 })

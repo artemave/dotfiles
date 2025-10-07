@@ -188,11 +188,10 @@ require("lazy").setup({
   { "tpope/vim-repeat" },
   { "tpope/vim-obsession" },
   { "tpope/vim-commentary" },
-  { "artemave/vigun" },
-  -- {
-  --   "artemave/vigun",
-  --   path = "~/projects/vigun",
-  -- },
+  {
+    "artemave/vigun",
+    -- dir = "~/projects/vigun",
+  },
   { "artemave/vjs" },
   { "michaeljsmith/vim-indent-object" },
   { "godlygeek/tabular" },
@@ -590,7 +589,10 @@ require("lazy").setup({
   { "quangnguyen30192/cmp-nvim-tags" },
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   { "ray-x/cmp-treesitter" },
-  { "andersevenrud/cmp-tmux" },
+  {
+    "andersevenrud/cmp-tmux",
+    dir = "~/projects/cmp-tmux",
+  },
   { "hrsh7th/nvim-cmp" },
   { "dstein64/vim-startuptime" },
   { "MunifTanjim/nui.nvim" },
@@ -629,6 +631,12 @@ require("lazy").setup({
     },
   },
   -- { "github/copilot.vim" },
+  {
+    "zbirenbaum/copilot.lua",
+    config = function()
+      require("copilot").setup({})
+    end
+  }, -- for providers='copilot'
   { "wsdjeg/vim-fetch" },
   { "ton/vim-bufsurf" },
   { "stevearc/dressing.nvim" },
@@ -729,7 +737,10 @@ require("lazy").setup({
   { "nvim-neotest/neotest-python" },
   { "olimorris/neotest-rspec" },
   { "zidhuss/neotest-minitest" },
-  { dir = "~/projects/workspace-diagnostics.nvim" },
+  {
+    "artemave/workspace-diagnostics.nvim",
+    -- dir = "~/projects/workspace-diagnostics.nvim"
+  },
   {
     "sindrets/diffview.nvim",
     config = function()
@@ -743,61 +754,28 @@ require("lazy").setup({
     end
   },
   { "stevearc/profile.nvim" },
-  -- { "metakirby5/codi.vim" },
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false, -- set this if you want to always pull the latest change
-    opts = {
-      provider = 'claude',
-      providers = {
-        claude = {
-          model = 'claude-sonnet-4-20250514'
-        }
-      },
-      file_selector = {
-        provider = 'fzf'
-      },
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
+    keys = {
+      { "<leader>a", nil, desc = "AI/Claude Code" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
       {
-        "zbirenbaum/copilot.lua",
-        config = function()
-          require("copilot").setup({})
-        end
-      }, -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-          },
-        },
+        "<leader>as",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
       },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
+      -- Diff management
+      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
   },
   {
