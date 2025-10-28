@@ -513,42 +513,40 @@ require("lazy").setup({
               return
             end
 
-            local gp = require('gp')
+            local function send_to_claude(prompt)
+              vim.fn.system({'tmux', 'select-window', '-t', 'claude'})
+
+              vim.fn.system({'tmux', 'send-keys', 'C-c'})
+              vim.fn.system({'tmux', 'send-keys', prompt, 'Enter'})
+            end
 
             return {{
-              title = "What's this about?",
+              title = "Just fucking fix it",
               action = function()
                 local current_line = vim.fn.getline('.')
                 -- remove leading spaces from current_line
                 current_line = current_line:gsub("^%s+", "")
 
                 local file_type = vim.bo.filetype
+                local line_number = vim.fn.line('.')
+                local file_path = vim.fn.expand('%')
 
                 local user_message = {
-                  "I am editing this line of code:",
-                  "```".. file_type,
+                  "This code (" .. file_path .. ":" .. line_number .. "):",
+                  '',
                   current_line,
-                  "```",
-                  "and I am seeing the following diagnostic issue(s) reported by the language tooling:",
-                  "```",
+                  '',
+                  "has the following diagnostic error(s):",
                 }
                 for _, diagnostic in ipairs(diagnostics_under_cursor) do
                   local severity_label = vim.diagnostic.severity[diagnostic.severity]
                   table.insert(user_message, '- ' .. severity_label .. ': ' .. diagnostic.message)
                 end
 
-                table.insert(user_message, "```")
-                table.insert(user_message, "How do I fix it?")
+                table.insert(user_message, '')
+                table.insert(user_message, "Fix it.")
 
-                local agent = gp.get_chat_agent()
-                local system_prompt = "You are an expert " .. file_type .. " developer."
-                  .." You are helping me to fix issues reported by language tooling. "
-                  .. "I am not a junior developer, so be concise, but ask questions if necessary."
-
-                local chat_buffer = gp.cmd.ChatNew({}, agent.model, system_prompt)
-                -- append user_message to chat_buffer
-                vim.fn.appendbufline(chat_buffer, '$', user_message)
-                gp.cmd.ChatRespond({args = ""})
+                send_to_claude(table.concat(user_message, "\n"))
               end
             }}
           end
@@ -757,6 +755,11 @@ require("lazy").setup({
   {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
+    opts = {
+      terminal = {
+        provider = "none", -- no UI actions; server + tools remain available
+      },
+    },
     config = true,
     keys = {
       { "<leader>a", nil, desc = "AI/Claude Code" },
@@ -778,130 +781,6 @@ require("lazy").setup({
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
   },
-  {
-    {
-      "refractalize/runtest.nvim",
-
-      enabled = true,
-
-      dependencies = {
-        "mfussenegger/nvim-dap",
-        "mfussenegger/nvim-dap-python",
-      },
-
-      keys = {
-        {
-          "<leader>ro",
-          function()
-            require("runtest").open_output()
-          end,
-          desc = "Open Run Output",
-        },
-        {
-          "<leader>rO",
-          function()
-            require("runtest").open_output("split")
-          end,
-          desc = "Open Run Output in Split",
-        },
-        {
-          "<leader>rtt",
-          function()
-            require("runtest").run_line_tests()
-          end,
-          desc = "Run Tests at Line",
-        },
-        {
-          "<leader>rl",
-          function()
-            require("runtest").run_last()
-          end,
-          desc = "Run Last Profile",
-        },
-        {
-          "<leader>rL",
-          function()
-            require("runtest").debug_last()
-          end,
-          desc = "Debug Last Profile",
-        },
-        {
-          "<leader>rtf",
-          function()
-            require("runtest").run_file_tests()
-          end,
-          desc = "Run Tests in File",
-        },
-        {
-          "<leader>rta",
-          function()
-            require("runtest").run_all_tests()
-          end,
-          desc = "Run All Tests",
-        },
-        {
-          "<leader>rgl",
-          function()
-            require("runtest").goto_last()
-          end,
-          desc = "Go to Last Test",
-        },
-        {
-          "<leader>rtT",
-          function()
-            require("runtest").debug_line_tests()
-          end,
-          desc = "Debug Tests at Line",
-        },
-        {
-          "<leader>rto",
-          function()
-            require("runtest").open_terminal()
-          end,
-          desc = "Open Run Terminal",
-        },
-        {
-          "<leader>rtO",
-          function()
-            require("runtest").open_terminal("split")
-          end,
-          desc = "Open Run Terminal in Split",
-        },
-        {
-          "<leader>rb",
-          function()
-            require("runtest").run_build()
-          end,
-          desc = "Run Build",
-        },
-        {
-          "<leader>rc",
-          function()
-            require("runtest").run_lint()
-          end,
-          desc = "Run Lint",
-        },
-        {
-          "<leader>rf",
-          function()
-            require("runtest").send_entries_to_fzf()
-          end,
-          desc = "Send Run Entries to FZF",
-        },
-      },
-
-      ---@module 'runtest'
-      ---@type runtest.Config
-      opts = {
-        open_output_on_failure = true,
-        filetypes = {
-          python = {
-            args = { ["--log-cli-level"] = "INFO", "-s" },
-          },
-        },
-      },
-    },
-  }
 })
 
 vim.api.nvim_create_autocmd({"WinEnter", "BufWinEnter"}, {
