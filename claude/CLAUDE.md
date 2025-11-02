@@ -1,0 +1,3 @@
+- Avoid defensive code. Prefer to fail with exception to wrap something in an `if` just in case.
+- Avoid overflow-hidden in css. Only add it when it serves real purpose.
+- Avoid using mocks in tests. Always ask me if you can't think of any other way to test something.
