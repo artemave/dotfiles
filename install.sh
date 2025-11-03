@@ -122,6 +122,11 @@ case $1 in
     for file in ./mime/*; do
       ln -f -s "$(pwd)/$file" ~/.local/share/mime/packages/
     done
+
+    mkdir -p ~/.claude
+    for file in claude/*; do
+      ln -f -s "$(pwd)/$file" ~/.claude/
+    done
     ;;
 
   -tmux)

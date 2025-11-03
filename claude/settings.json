@@ -1,3 +1,19 @@
 {
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": false,
+  "enabledPlugins": {
+    "web-asset-generator@web-asset-generator-marketplace": true
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/artem/.claude/hooks/notify-on-completion.js"
+          }
+        ]
+      }
+    ]
+  }
 }
