@@ -221,7 +221,8 @@ require("lazy").setup({
         }
       })
       vim.keymap.set("n", "<leader>d", function()
-        local cmd = [[{ git diff master... & git diff; } | diff2vimgrep | sort -u]]
+        local main_git_branch = vim.fn.trim(vim.fn.system("git rev-parse --abbrev-ref origin/HEAD | sed 's|^origin/||'"))
+        local cmd = 'git diff "$(git merge-base ' .. main_git_branch .. ' HEAD)" | diff2vimgrep | sort -u'
         fzf_lua.grep {
           raw_cmd = cmd
         }
