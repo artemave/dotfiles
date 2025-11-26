@@ -10,10 +10,10 @@
 ;     navigate = true
 
 [merge]
-    conflictstyle = diff3
+  conflictstyle = diff3
 
 [diff]
-    colorMoved = default
+  external = difft
 
 [user]
   name = artemave
@@ -38,17 +38,21 @@
 ;   tool = difftastic
 ;   external = difft
 
-; [difftool]
-;   prompt = false
+[difftool]
+  prompt = false
 
-; [difftool "difftastic"]
-;   cmd = difft "$LOCAL" "$REMOTE"
+[difftool "difftastic"]
+    # See `man git-difftool` for a description of MERGED, LOCAL and REMOTE.
+  cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
 
 [color]
   ui = auto
 
 [merge]
   tool = vimdiff
+[merge "mergiraf"]
+  name = mergiraf
+  driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
 [mergetool "vimdiff"]
   path = nvim
 [pull]

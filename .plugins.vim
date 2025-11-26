@@ -65,20 +65,7 @@ let g:gundo_prefer_python3 = 1
 nmap <F6> :GundoToggle<CR>
 imap <F6> <ESC>:GundoToggle<CR>
 
-" The point of redefining fzf commands is to grep hidden files too
-" There is no way to configure rg to do it by default (other than alias, but
-" that is not picked up by nvim)
-
-nnoremap <Leader><Leader>s :FzfLua grep_cword<CR>
-nnoremap <Leader>s :FzfLua live_grep<CR>
-nnoremap <Leader>S :FzfLua blines<CR>
-nnoremap <Leader>f :FzfLua files<cr>
-nnoremap <Leader>F :FzfLua files cwd=<C-R>=expand('%:h')<CR><CR>
-nnoremap <Leader>b :FzfLua buffers<cr>
-nnoremap <Leader>B :FzfLua lines<CR>
-nnoremap <Leader>G :FzfLua git_status<cr>
-nnoremap <leader>u :FzfLua resume<cr>
-vnoremap <leader>v :FzfLua grep_visual<cr>
+" fzf configuration moved to .vim/lua/plugins.lua
 
 " Plug 'preservim/nerdtree'
 nnoremap <silent> <leader><leader>f :lua require('nvim-tree/api').tree.open({ find_file = true })<cr>

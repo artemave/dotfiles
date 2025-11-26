@@ -218,17 +218,49 @@ require("lazy").setup({
         grep = {
           -- add 'hidden' to default options
           rg_opts = '--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e',
+        },
+        previewers = {
+          git_diff = {
+            -- if required, use `{file}` for argument positioning
+            -- e.g. `cmd_modified = "git diff --color HEAD {file} | cut -c -30"`
+            cmd_deleted     = "git diff --no-ext-diff --color HEAD --",
+            cmd_modified    = "git diff --no-ext-diff --color HEAD",
+            cmd_untracked   = "git diff --no-ext-diff --color --no-index /dev/null",
+            -- git-delta is automatically detected as pager, set `pager=false`
+            -- to disable, can also be set under 'git.status.preview_pager'
+          },
         }
       })
       vim.keymap.set("n", "<leader>d", function()
         local main_git_branch = vim.fn.trim(vim.fn.system("git rev-parse --abbrev-ref origin/HEAD | sed 's|^origin/||'"))
-        local cmd = 'git diff "$(git merge-base ' .. main_git_branch .. ' HEAD)" | diff2vimgrep | sort -u'
+        local cmd = 'git diff --no-ext-diff "$(git merge-base ' .. main_git_branch .. ' HEAD)" | diff2vimgrep | sort -u'
         fzf_lua.grep {
           raw_cmd = cmd
         }
       end, { desc = "Git diff master" })
 
       vim.keymap.set('n', '<leader><leader>l', fzf_lua.builtin)
+
+      vim.keymap.set('n', '<leader><leader>s', fzf_lua.grep_cword, { desc = "Grep word under cursor" })
+      vim.keymap.set('n', '<leader>s', fzf_lua.live_grep, { desc = "Live grep" })
+      vim.keymap.set('n', '<leader>S', fzf_lua.blines, { desc = "Buffer lines" })
+      vim.keymap.set('n', '<leader>f', fzf_lua.files, { desc = "Find files" })
+      vim.keymap.set('n', '<leader>F', function()
+        fzf_lua.files({ cwd = vim.fn.expand('%:h') })
+      end, { desc = "Find files in current directory" })
+      vim.keymap.set('n', '<leader>b', fzf_lua.buffers, { desc = "Buffers" })
+      vim.keymap.set('n', '<leader>B', fzf_lua.lines, { desc = "Lines in loaded buffers" })
+      vim.keymap.set('n', '<leader>G', fzf_lua.git_status, { desc = "Git status" })
+      vim.keymap.set('n', '<leader>u', fzf_lua.resume, { desc = "Resume last picker" })
+      vim.keymap.set('n', '<leader>c', fzf_lua.commands, { desc = "Commands" })
+      vim.keymap.set('v', '<leader>v', fzf_lua.grep_visual, { desc = "Grep visual selection" })
+
+      vim.keymap.set(
+        { "n", "v", "i" },
+        "<C-x><C-f>",
+        function() FzfLua.complete_path() end,
+        { silent = true, desc = "Fuzzy complete path" }
+      )
     end
   },
   { "Raimondi/delimitMate" },
