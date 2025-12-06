@@ -328,11 +328,6 @@ autocmd InsertLeave * call <SID>SavePreservingLastPasteMarks()
 
 set cursorline
 
-" Copy relative path to * and +
-nmap <leader><leader>c :let @*=expand("%") \| let @+=expand("%")<CR>
-" Copy absolute path to * and +
-nmap <leader><leader>C :let @*=expand("%:p") \| let @+=expand("%:p")<CR>
-
 " search for visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 

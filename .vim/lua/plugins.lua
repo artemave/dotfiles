@@ -828,4 +828,22 @@ vim.api.nvim_create_autocmd({"WinEnter", "BufWinEnter"}, {
   end,
 })
 
+-- Copy relative file path to clipboard
+vim.keymap.set('n', '<leader><leader>c', function()
+  local filepath = vim.fn.expand('%:p')  -- Get full path
+  local relative_path = vim.fn.fnamemodify(filepath, ':~:.')  -- Make it relative to cwd
+  vim.fn.setreg('+', relative_path)
+  vim.fn.setreg('*', relative_path)
+end, { noremap = true, silent = true, desc = "Copy relative file path" })
+
+-- Copy relative file path with line number to clipboard
+vim.keymap.set('n', '<leader><leader>C', function()
+  local filepath = vim.fn.expand('%:p')  -- Get full path
+  local relative_path = vim.fn.fnamemodify(filepath, ':~:.')  -- Make it relative to cwd
+  local line_number = vim.fn.line('.')
+  local path_with_line = relative_path .. ':' .. line_number
+  vim.fn.setreg('+', path_with_line)
+  vim.fn.setreg('*', path_with_line)
+end, { noremap = true, silent = true, desc = "Copy relative file path with line number" })
+
 -- vim.lsp.set_log_level("debug")
