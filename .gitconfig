@@ -73,4 +73,3 @@
 	defaultBranch = main
 [credential]
 	credentialStore = gpg
-	helper = manager

@@ -17,6 +17,8 @@ dotfiles=( \
   .gitmessage \
   .inputrc \
   .spacemacs \
+  AGENTS.md \
+  CLAUDE.md \
   .tmux-osx.conf \
   .tmux.conf \
   .zlogin \
@@ -94,8 +96,23 @@ case $1 in
       git clone https://github.com/zsh-users/zsh-completions.git $HOME/.zsh/completion
     fi
 
-    if [[ ! -d $HOME/.zsh/zplug ]]; then
-      git clone https://github.com/zplug/zplug $HOME/.zsh/zplug
+    zsh_plugins_dir="$HOME/.zsh/plugins"
+    mkdir -p "$zsh_plugins_dir"
+
+    if [[ ! -d $zsh_plugins_dir/zsh-autosuggestions ]]; then
+      git clone https://github.com/zsh-users/zsh-autosuggestions.git "$zsh_plugins_dir/zsh-autosuggestions"
+    fi
+
+    if [[ ! -d $zsh_plugins_dir/fast-syntax-highlighting ]]; then
+      git clone https://github.com/zdharma/fast-syntax-highlighting.git "$zsh_plugins_dir/fast-syntax-highlighting"
+    fi
+
+    if [[ ! -d $zsh_plugins_dir/zlong_alert ]]; then
+      git clone https://github.com/kevinywlui/zlong_alert.zsh.git "$zsh_plugins_dir/zlong_alert"
+    fi
+
+    if [[ ! -d $zsh_plugins_dir/zsh-ai-cmd ]]; then
+      git clone https://github.com/kylesnowschwartz/zsh-ai-cmd.git "$zsh_plugins_dir/zsh-ai-cmd"
     fi
 
     if [[ ! -d ~/.fzf ]]; then
@@ -108,7 +125,7 @@ case $1 in
     fi
 
     if [[ ! -d ~/.local/share/applications ]]; then
-      mkdir -r ~/.local/share/applications
+      mkdir -p ~/.local/share/applications
     fi
 
     for file in ./applications/*; do
@@ -116,7 +133,7 @@ case $1 in
     done
 
     if [[ ! -d ~/.local/share/mime/packages ]]; then
-      mkdir -r ~/.local/share/mime/packages
+      mkdir -p ~/.local/share/mime/packages
     fi
 
     for file in ./mime/*; do
@@ -127,6 +144,19 @@ case $1 in
     for file in claude/*; do
       ln -f -s "$(pwd)/$file" ~/.claude/
     done
+
+    if command -v npm &> /dev/null; then
+      agent_browser_skill_dir="$(npm root -g)/agent-browser/skills/agent-browser"
+      if [[ -d "$agent_browser_skill_dir" ]]; then
+        mkdir -p ~/.claude/skills ~/.codex/skills
+        if [[ ! -d ~/.claude/skills/agent-browser ]]; then
+          cp -r "$agent_browser_skill_dir" ~/.claude/skills/
+        fi
+        if [[ ! -d ~/.codex/skills/agent-browser ]]; then
+          cp -r "$agent_browser_skill_dir" ~/.codex/skills/
+        fi
+      fi
+    fi
     ;;
 
   -tmux)
@@ -144,6 +174,12 @@ case $1 in
     $tpm_home/scripts/install_plugins.sh >/dev/null 2>&1
 
     tmux kill-session -t temp
+    ;;
+
+  -nvim)
+    command -v nvim &> /dev/null || fail "Install neovim first"
+
+    nvim --headless "+Lazy sync" "+MasonToolsInstallSync" +qa
     ;;
 
   *)

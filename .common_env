@@ -1,6 +1,6 @@
 # Contains commands to set the command search path, plus other important environment variables. Should not contain commands that produce output or assume the shell is attached to a tty
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+# export LC_ALL=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 export HOMEBREW_NO_ANALYTICS=1
 

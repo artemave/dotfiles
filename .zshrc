@@ -179,29 +179,29 @@ if [ -f '/Users/artem/google-cloud-sdk/completion.zsh.inc' ]; then source '/User
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-###-tns-completion-start-###
-if [ -f /home/artem/.tnsrc ]; then 
-    source /home/artem/.tnsrc 
-fi
 ###-tns-completion-end-###
-
 if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 # This should be the last thing because it duplicates PATH entries
-source ~/.zsh/zplug/init.zsh
-# zplug denysdovhan/spaceship-prompt, use:spaceship.zsh, from:github, as:theme
-
-zplug 'kevinywlui/zlong_alert.zsh'
+zsh_plugins_dir="$HOME/.zsh/plugins"
 zlong_ignore_cmds='vim ssh heroku nvim tail man less tig vifm tmux top htop ctop'
 
-zplug 'zdharma/fast-syntax-highlighting', defer:2
-
-zplug 'zsh-users/zsh-autosuggestions'
-
-if ! zplug check --verbose; then
-  zplug install
+if [[ -f "$zsh_plugins_dir/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]]; then
+  source "$zsh_plugins_dir/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 fi
-zplug load --verbose
+
+if [[ -f "$zsh_plugins_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$zsh_plugins_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+
+if [[ -f "$zsh_plugins_dir/zlong_alert/zlong_alert.zsh" ]]; then
+  source "$zsh_plugins_dir/zlong_alert/zlong_alert.zsh"
+fi
+
+if [[ -f "$zsh_plugins_dir/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh" ]]; then
+  export ZSH_AI_CMD_PROVIDER='openai'
+  source "$zsh_plugins_dir/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh"
+fi
 
 # ~/.zshrc
 

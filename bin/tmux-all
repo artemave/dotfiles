@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+uid="$(id -u)"
+host_socket="/tmp/tmux-${uid}/default"
+container_root="${TMUX_CONTAINER_ROOT:-/tmp/tmux-containers}"
+
+host_sessions=""
+if [[ -S "$host_socket" ]]; then
+  host_sessions=$(tmux -S "$host_socket" list-sessions -F "host:#{session_name}" 2>/dev/null || true)
+fi
+
+container_sessions=""
+if [[ -d "$container_root" ]]; then
+  while IFS= read -r -d '' socket; do
+    container_name="$(basename "$(dirname "$(dirname "$socket")")")"
+    sessions=$(tmux -S "$socket" list-sessions -F "container:${container_name}:#{session_name}" 2>/dev/null || true)
+    if [[ -n "$sessions" ]]; then
+      container_sessions+="${sessions}"$'\n'
+    fi
+  done < <(find "$container_root" -maxdepth 3 -path "*/tmux-${uid}/default" -type s -print0 2>/dev/null)
+fi
+
+selection=$(printf "%s\n%s\n" "$host_sessions" "$container_sessions" | sed '/^$/d' | fzf --tmux --prompt="tmux> ")
+
+if [[ -z "${selection}" ]]; then
+  exit 0
+fi
+
+scope=${selection%%:*}
+name=${selection#*:}
+current_socket=""
+if [[ -n "${TMUX-}" ]]; then
+  current_socket="${TMUX%%,*}"
+fi
+
+case "$scope" in
+  host)
+    if [[ -n "${TMUX-}" && "$current_socket" == "$host_socket" ]]; then
+      exec tmux switch-client -t "$name"
+    fi
+    if [[ -n "${TMUX-}" ]]; then
+      tmux detach-client -E "tmux -S \"$host_socket\" attach -t \"$name\""
+      exit 0
+    fi
+    exec tmux -S "$host_socket" attach -t "$name"
+    ;;
+  container)
+    container_name="${name%%:*}"
+    session_name="${name#*:}"
+    socket="${container_root}/${container_name}/tmux-${uid}/default"
+    if [[ -n "${TMUX-}" && "$current_socket" == "$socket" ]]; then
+      exec tmux switch-client -t "$session_name"
+    fi
+    if [[ -n "${TMUX-}" ]]; then
+      tmux detach-client -E "tmux -S \"$socket\" attach -t \"$session_name\""
+      exit 0
+    fi
+    exec tmux -S "$socket" attach -t "$session_name"
+    ;;
+  *)
+    echo "tmux-all: unknown selection '$selection'" >&2
+    exit 1
+    ;;
+esac

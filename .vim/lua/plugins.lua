@@ -98,6 +98,7 @@ local function organize_imports()
 end
 
 local servers = {
+  'biome',
   'cssls',
   eslint = {
     nodePath = vim.fn.trim(vim.fn.system('mise where node')) .. '/lib'
@@ -145,33 +146,6 @@ local servers = {
 
 local servers_names = map(servers, function(k, v) return type(k) == "number" and v or k end)
 
--- This should be moved into lazy "config" functions. Otherwise this might run too late (e.g. after lsp's on_attach functions are collected to be called)
-vim.api.nvim_create_autocmd({"User"}, {
-  callback = function()
-    -- require './_dap'
-    require './rubocop_disable'
-    require './_cmp'
-    require './_chatgpt'
-    require './_trouble'
-    require './_test'
-    require './_profile'
-
-    vim.api.nvim_create_autocmd({ "BufRead" }, {
-      pattern = {"*.tty", "*.log"},
-
-      callback = function()
-        local baleia = require('baleia')
-
-        baleia.setup().once(vim.fn.bufnr('%'))
-        vim.api.nvim_buf_set_option(0, 'buftype', 'nowrite')
-      end
-    })
-
-    require'nvim-web-devicons'.setup { default = true }
-  end,
-})
-
-
 -- Configure lazy.nvim
 require("lazy").setup({
   { "wincent/terminus" },
@@ -192,13 +166,19 @@ require("lazy").setup({
     "artemave/vigun",
     -- dir = "~/projects/vigun",
   },
-  { "artemave/vjs" },
+  -- { "artemave/vjs" },
   { "michaeljsmith/vim-indent-object" },
   { "godlygeek/tabular" },
   { "sjl/gundo.vim" },
   {
     "junegunn/fzf",
     build = ":call fzf#install()",
+  },
+  {
+    "nvim-tree/nvim-web-devicons",
+    config = function()
+      require'nvim-web-devicons'.setup { default = true }
+    end
   },
   {
     "ibhagwan/fzf-lua",
@@ -340,7 +320,7 @@ require("lazy").setup({
       -- })
       vim.treesitter.language.register('markdown', 'mdx')
 
-      require'nvim-treesitter.configs'.setup {
+      require'nvim-treesitter'.setup {
         matchup = {
           enable = true,
         },
@@ -401,9 +381,10 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require'nvim-treesitter.configs'.setup {
+      require'nvim-treesitter'.setup {
         textobjects = {
           select = {
             enable = true,
@@ -475,22 +456,22 @@ require("lazy").setup({
         }
       }
 
-      local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
+      local ts_repeat_move = require "nvim-treesitter-textobjects.repeatable_move"
 
       -- Repeat movement with ; and ,
       -- ensure ; goes forward and , goes backward regardless of the last direction
-      -- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
-      -- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
+      vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
+      vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
 
       -- vim way: ; goes to the direction you were moving.
-      vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-      vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+      -- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+      -- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
 
       -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-      vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-      vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-      vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-      vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+      vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
+      vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
+      vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
+      vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
     end
   },
   { "JoosepAlviste/nvim-ts-context-commentstring" },
@@ -587,6 +568,8 @@ require("lazy").setup({
       }
 
       null_ls.register(whats_this_action)
+
+      require './rubocop_disable'
     end
   },
   {
@@ -621,14 +604,19 @@ require("lazy").setup({
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   { "ray-x/cmp-treesitter" },
   {
-    "andersevenrud/cmp-tmux",
-    dir = "~/projects/cmp-tmux",
+    "artemave/cmp-tmux",
+    -- dir = "~/projects/cmp-tmux",
   },
-  { "hrsh7th/nvim-cmp" },
+  {
+    "hrsh7th/nvim-cmp",
+    config = function()
+      require './_cmp'
+    end
+  },
   { "dstein64/vim-startuptime" },
   { "MunifTanjim/nui.nvim" },
   { "nvim-telescope/telescope.nvim" },
-  { "jackMort/ChatGPT.nvim" },
+  -- { "jackMort/ChatGPT.nvim" },
   {
     "takac/vim-hardtime",
     init = function ()
@@ -686,18 +674,33 @@ require("lazy").setup({
       }
     end
   },
-  { "m00qek/baleia.nvim" },
-  { "direnv/direnv.vim" },
   {
-    "nvim-treesitter/playground",
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    "m00qek/baleia.nvim",
+    config = function()
+      vim.api.nvim_create_autocmd({ "BufRead" }, {
+        pattern = {"*.tty", "*.log"},
+
+        callback = function()
+          local baleia = require('baleia')
+
+          baleia.setup().once(vim.fn.bufnr('%'))
+          vim.api.nvim_buf_set_option(0, 'buftype', 'nowrite')
+        end
+      })
+    end
   },
+  { "direnv/direnv.vim" },
   { "mfussenegger/nvim-dap" },
   { "nvim-neotest/nvim-nio" },
   { "rcarriga/nvim-dap-ui" },
   { "theHamsta/nvim-dap-virtual-text" },
   { "kevinhwang91/nvim-bqf" },
-  { "folke/trouble.nvim" },
+  {
+    "folke/trouble.nvim",
+    config = function()
+      require './_trouble'
+    end
+  },
   {
     "williamboman/mason.nvim",
     config = function()
@@ -727,7 +730,7 @@ require("lazy").setup({
           'shellcheck',
           'shfmt',
           'vint', -- viml linter
-          'dart-debug-adapter',
+          -- 'dart-debug-adapter',
           'flake8'
         },
 
@@ -846,4 +849,5 @@ vim.keymap.set('n', '<leader><leader>C', function()
   vim.fn.setreg('*', path_with_line)
 end, { noremap = true, silent = true, desc = "Copy relative file path with line number" })
 
+require './_profile'
 -- vim.lsp.set_log_level("debug")

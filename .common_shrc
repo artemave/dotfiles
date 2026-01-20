@@ -109,7 +109,9 @@ if command -v ncdu &> /dev/null; then
   alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 fi
 
-if command -v xdg-open &> /dev/null; then
+if command -v gio &> /dev/null; then
+  alias open='gio open'
+elif command -v xdg-open &> /dev/null; then
   alias open=xdg-open
 fi
 
@@ -120,6 +122,17 @@ export PATH="$PATH:$HOME/flutter/bin"
 
 alias rg='rg --hidden'
 
+alias pc=podman-compose
+alias devb='podman build --build-context dotfiles=$HOME/projects/dotfiles -f $HOME/projects/dotfiles/Dockerfile -t dev-base:latest . && pc build'
+alias devr="pc --in-pod=false run --service-ports --rm devcontainer"
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval "$(ssh-agent -s)"
+
+  if [ -f ~/.ssh/id_ed25519 ]; then
+    ssh-add ~/.ssh/id_ed25519
+  fi
+fi
 # export NVM_LAZY_LOAD=true
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

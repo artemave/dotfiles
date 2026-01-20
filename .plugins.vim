@@ -32,18 +32,18 @@ au FileType ruby,javascript,typescript,go,python nnoremap <leader>vi :VigunShowS
 nnoremap <leader>vt :VigunToggleTestWindowToPane<cr>
 " let g:vigun_tmux_pane_orientation = 'horizontal'
 
-au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vl :VjsListDependents<cr>
-au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vr :VjsRenameFile<cr>
-au FileType {javascript,javascriptreact,typescript,typescriptreact} vmap <leader>vv :VjsExtractVariable<cr>
-au FileType {javascript,javascriptreact,typescript,typescriptreact} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
-au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
-au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vc :VjsCreateDeclaration<cr>
-let g:vjs_es_modules_complete = 1
+" au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vl :VjsListDependents<cr>
+" au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vr :VjsRenameFile<cr>
+" au FileType {javascript,javascriptreact,typescript,typescriptreact} vmap <leader>vv :VjsExtractVariable<cr>
+" au FileType {javascript,javascriptreact,typescript,typescriptreact} vmap <leader>vf :VjsExtractFunctionOrMethod<cr>
+" au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vd :VjsExtractDeclarationIntoFile<cr>
+" au FileType {javascript,javascriptreact,typescript,typescriptreact} nmap <leader>vc :VjsCreateDeclaration<cr>
+" let g:vjs_es_modules_complete = 1
 
-autocmd TextChanged * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
-autocmd InsertLeave * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
+" autocmd TextChanged * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
+" autocmd InsertLeave * if &ft =~ 'javascript\|typescript' | call luaeval("require'vjs'.to_template_string()") | endif
 
-autocmd FileType {javascript,typescript} setlocal omnifunc=vjs#ModuleComplete
+" autocmd FileType {javascript,typescript} setlocal omnifunc=vjs#ModuleComplete
 
 " Plug 'jgdavey/tslime.vim'
 " vmap <C-c><C-c> <Plug>SendSelectionToTmux
