@@ -50,7 +50,7 @@ RUN if ! getent group 1000 >/dev/null; then groupadd --gid 1000 dev; fi \
 RUN echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev \
   && chmod 0440 /etc/sudoers.d/dev
 
-RUN npm install -g @anthropic-ai/claude-code @openai/codex agent-browser
+RUN npm install -g @anthropic-ai/claude-code @openai/codex agent-browser beads-ui
 
 USER dev
 ENV HOME=/home/dev

@@ -5,30 +5,43 @@ uid="$(id -u)"
 host_socket="/tmp/tmux-${uid}/default"
 container_root="${TMUX_CONTAINER_ROOT:-/tmp/tmux-containers}"
 
-host_sessions=""
+lines=""
 if [[ -S "$host_socket" ]]; then
-  host_sessions=$(tmux -S "$host_socket" list-sessions -F "host:#{session_name}" 2>/dev/null || true)
+  while IFS= read -r session; do
+    lines+="host:${session}"$'\t'"$host_socket"$'\t'"$session"$'\n'
+  done < <(tmux -S "$host_socket" list-sessions -F "#{session_name}" 2>/dev/null || true)
 fi
 
-container_sessions=""
 if [[ -d "$container_root" ]]; then
   while IFS= read -r -d '' socket; do
     container_name="$(basename "$(dirname "$(dirname "$socket")")")"
-    sessions=$(tmux -S "$socket" list-sessions -F "container:${container_name}:#{session_name}" 2>/dev/null || true)
-    if [[ -n "$sessions" ]]; then
-      container_sessions+="${sessions}"$'\n'
-    fi
+    while IFS= read -r session; do
+      lines+="container:${container_name}:${session}"$'\t'"$socket"$'\t'"$session"$'\n'
+    done < <(tmux -S "$socket" list-sessions -F "#{session_name}" 2>/dev/null || true)
   done < <(find "$container_root" -maxdepth 3 -path "*/tmux-${uid}/default" -type s -print0 2>/dev/null)
 fi
 
-selection=$(printf "%s\n%s\n" "$host_sessions" "$container_sessions" | sed '/^$/d' | fzf --tmux --prompt="tmux> ")
+tmux_width="$(tmux display-message -p '#{window_width}')"
+tmux_height="$(tmux display-message -p '#{window_height}')"
+tmux_popup_size="85%,80%"
+if [[ "$tmux_width" -lt 120 || "$tmux_height" -lt 40 ]]; then
+  tmux_popup_size="95%,90%"
+fi
+
+selection=$(printf "%s" "$lines" \
+  | sed '/^$/d' \
+  | fzf --tmux="$tmux_popup_size" --ansi --prompt="tmux> " \
+      --delimiter=$'\t' --with-nth=1 \
+      --preview 'socket={2}; session={3}; tmux -S "$socket" capture-pane -pt "$session" -e -S -200 2>/dev/null' \
+      --preview-window=right:60%,follow \
+  || true)
 
 if [[ -z "${selection}" ]]; then
   exit 0
 fi
 
-scope=${selection%%:*}
-name=${selection#*:}
+IFS=$'\t' read -r display socket name <<< "$selection"
+scope=${display%%:*}
 current_socket=""
 if [[ -n "${TMUX-}" ]]; then
   current_socket="${TMUX%%,*}"
@@ -36,27 +49,24 @@ fi
 
 case "$scope" in
   host)
-    if [[ -n "${TMUX-}" && "$current_socket" == "$host_socket" ]]; then
+    if [[ -n "${TMUX-}" && "$current_socket" == "$socket" ]]; then
       exec tmux switch-client -t "$name"
     fi
     if [[ -n "${TMUX-}" ]]; then
-      tmux detach-client -E "tmux -S \"$host_socket\" attach -t \"$name\""
+      tmux detach-client -E "tmux -S \"$socket\" attach -t \"$name\""
       exit 0
     fi
-    exec tmux -S "$host_socket" attach -t "$name"
+    exec tmux -S "$socket" attach -t "$name"
     ;;
   container)
-    container_name="${name%%:*}"
-    session_name="${name#*:}"
-    socket="${container_root}/${container_name}/tmux-${uid}/default"
     if [[ -n "${TMUX-}" && "$current_socket" == "$socket" ]]; then
-      exec tmux switch-client -t "$session_name"
+      exec tmux switch-client -t "$name"
     fi
     if [[ -n "${TMUX-}" ]]; then
-      tmux detach-client -E "tmux -S \"$socket\" attach -t \"$session_name\""
+      tmux detach-client -E "tmux -S \"$socket\" attach -t \"$name\""
       exit 0
     fi
-    exec tmux -S "$socket" attach -t "$session_name"
+    exec tmux -S "$socket" attach -t "$name"
     ;;
   *)
     echo "tmux-all: unknown selection '$selection'" >&2
