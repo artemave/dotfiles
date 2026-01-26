@@ -86,9 +86,9 @@ case $1 in
       ln -f -s $file ~/.ssh
     done
 
-    if [[ ! -d ~/.config/i3blocks-contrib ]]; then
-      git clone https://github.com/vivien/i3blocks-contrib.git ~/.config/i3blocks-contrib
-    fi
+    # if [[ ! -d ~/.config/i3blocks-contrib ]]; then
+    #   git clone https://github.com/vivien/i3blocks-contrib.git ~/.config/i3blocks-contrib
+    # fi
 
     mkdir -p $projects_dir
 

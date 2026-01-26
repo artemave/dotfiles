@@ -50,27 +50,25 @@ RUN if ! getent group 1000 >/dev/null; then groupadd --gid 1000 dev; fi \
 RUN echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev \
   && chmod 0440 /etc/sudoers.d/dev
 
-RUN npm install -g @anthropic-ai/claude-code @openai/codex agent-browser beads-ui
-
 USER dev
 ENV HOME=/home/dev
+ENV TERM="tmux-256color"
 WORKDIR /workspace
 
 RUN NONINTERACTIVE=1 /bin/bash -lc "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf steveyegge/beads/bd"
+RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf && brew install --cask claude-code"
 
-COPY --chown=dev:dev scripts/devcontainer/entrypoint.sh /home/dev/devcontainer-entrypoint
-RUN chmod +x /home/dev/devcontainer-entrypoint
+RUN sudo npm install -g @openai/codex agent-browser @beads/bd beads-ui
 
-ENV ZPLUG_PIPE_FIX=true
-ENV TERM="tmux-256color"
+RUN /bin/bash -lc "agent-browser install --with-deps"
 
 COPY --from=dotfiles --chown=dev:dev / /home/dev/dotfiles
 RUN PIP_BREAK_SYSTEM_PACKAGES=1 /bin/bash -lc "cd /home/dev/dotfiles && bash ./install.sh -dots && bash ./install.sh -tmux && bash ./install.sh -nvim"
 
-RUN /bin/bash -lc "agent-browser install --with-deps"
-
 RUN /bin/bash -lc "printf '%s\n' \"alias claude='claude --dangerously-skip-permissions'\" \"alias codex='codex --dangerously-bypass-approvals-and-sandbox'\" > /home/dev/.local_env"
+
+COPY --from=dotfiles --chown=dev:dev devcontainer/entrypoint.sh /home/dev/devcontainer-entrypoint
+RUN chmod +x /home/dev/devcontainer-entrypoint
 
 ENTRYPOINT ["/home/dev/devcontainer-entrypoint"]
 CMD ["zsh"]

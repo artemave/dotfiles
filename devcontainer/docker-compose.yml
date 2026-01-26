@@ -1,0 +1,32 @@
+services:
+  devcontainer:
+    security_opt:
+      # makes tmux socket connectable from the container
+      - label=disable
+    working_dir: /workspace
+    shm_size: "1g"
+    volumes:
+      - .:/workspace:cached,Z
+      - ${HOME}/projects/dotfiles:/home/dev/dotfiles:ro,Z
+      - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro,Z
+      - ${HOME}/.claude/.credentials.json:/home/dev/.claude/.credentials.json.host:ro,Z
+      - ${HOME}/.codex:/home/dev/.codex:rw,Z
+      - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw,Z
+      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}:rw
+      - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}:rw
+      - /run/user/1000/containers:/run/user/1000/containers:ro
+      - /tmp/tmux-1000:/tmp/tmux-1000:rw,z
+      - /tmp/tmux-containers:/tmp/tmux-containers:rw,z
+    userns_mode: "keep-id"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR}
+      WAYLAND_DISPLAY: ${WAYLAND_DISPLAY}
+      DBUS_SESSION_BUS_ADDRESS: ${DBUS_SESSION_BUS_ADDRESS}
+      SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}
+      XDG_SESSION_TYPE: wayland
+      GIO_USE_PORTAL: "1"
+      GTK_USE_PORTAL: "1"
+      HOST_PROJECT_DIR: ${PWD}
+    stdin_open: true
+    tty: true

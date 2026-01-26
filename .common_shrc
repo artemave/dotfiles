@@ -123,8 +123,8 @@ export PATH="$PATH:$HOME/flutter/bin"
 alias rg='rg --hidden'
 
 alias pc=podman-compose
-alias devb='podman build --build-context dotfiles=$HOME/projects/dotfiles -f $HOME/projects/dotfiles/Dockerfile -t dev-base:latest . && pc build'
-alias devr="pc --in-pod=false run --service-ports --rm devcontainer"
+alias devb='podman build --build-context dotfiles=$HOME/projects/dotfiles -f $HOME/projects/dotfiles/devcontainer/Dockerfile -t dev-base:latest . && pc -f docker-compose.dev.yml -f $HOME/projects/dotfiles/devcontainer/docker-compose.yml build'
+alias devr='pc -f docker-compose.dev.yml -f $HOME/projects/dotfiles/devcontainer/docker-compose.yml --in-pod=false run --service-ports --rm devcontainer'
 
 if [ -z "$SSH_AUTH_SOCK" ] ; then
   eval "$(ssh-agent -s)"
