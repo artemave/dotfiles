@@ -145,6 +145,10 @@ case $1 in
       ln -f -s "$(pwd)/$file" ~/.claude/
     done
 
+    if [[ $(uname) == "Linux" ]] && [[ -n "${XDG_RUNTIME_DIR:-}" ]]; then
+      systemctl --user enable --now gcr-ssh-agent.socket
+    fi
+
     if command -v npm &> /dev/null; then
       agent_browser_skill_dir="$(npm root -g)/agent-browser/skills/agent-browser"
       if [[ -d "$agent_browser_skill_dir" ]]; then

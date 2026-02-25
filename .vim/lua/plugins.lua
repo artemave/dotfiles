@@ -165,6 +165,16 @@ require("lazy").setup({
   {
     "artemave/vigun",
     -- dir = "~/projects/vigun",
+    config = function()
+      vim.keymap.set("n", "<leader>t", ":VigunRun all<cr>")
+      vim.keymap.set("n", "<leader>T", ":VigunRun nearest<cr>")
+      vim.keymap.set("n", "<leader>D", ":VigunRun debug-nearest<cr>")
+      vim.keymap.set("n", "<leader>wt", ":VigunRun watch-all<cr>")
+      vim.keymap.set("n", "<leader>wT", ":VigunRun watch-nearest<cr>")
+      vim.keymap.set("n", "<leader>vo", ":VigunMochaOnly<cr>")
+      vim.keymap.set("n", "<leader>vi", ":VigunShowSpecIndex<cr>")
+      vim.keymap.set("n", "<leader>vt", ":VigunToggleTestWindowToPane<cr>")
+    end,
   },
   -- { "artemave/vjs" },
   { "michaeljsmith/vim-indent-object" },

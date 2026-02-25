@@ -37,6 +37,7 @@ RUN dnf -y install \
   glib2 \
   fd \
   tig \
+  libatomic \
   && dnf clean all
 
 ENV MISE_INSTALL_PATH=/usr/local/bin/mise
@@ -58,7 +59,7 @@ WORKDIR /workspace
 RUN NONINTERACTIVE=1 /bin/bash -lc "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf && brew install --cask claude-code"
 
-RUN sudo npm install -g @openai/codex agent-browser @beads/bd beads-ui
+RUN sudo npm install -g @openai/codex agent-browser @joshski/dust
 
 RUN /bin/bash -lc "agent-browser install --with-deps"
 
