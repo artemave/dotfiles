@@ -64,7 +64,7 @@ RUN sudo npm install -g @openai/codex agent-browser @joshski/dust
 RUN /bin/bash -lc "agent-browser install --with-deps"
 
 COPY --from=dotfiles --chown=dev:dev / /home/dev/dotfiles
-RUN PIP_BREAK_SYSTEM_PACKAGES=1 /bin/bash -lc "cd /home/dev/dotfiles && bash ./install.sh -dots && bash ./install.sh -tmux && bash ./install.sh -nvim"
+RUN PIP_BREAK_SYSTEM_PACKAGES=1 /bin/bash -lc "cd /home/dev/dotfiles && bash ./install.sh -dots && bash ./install.sh -tmux"
 
 RUN /bin/bash -lc "printf '%s\n' \"alias claude='claude --dangerously-skip-permissions'\" \"alias codex='codex --dangerously-bypass-approvals-and-sandbox'\" > /home/dev/.local_env"
 

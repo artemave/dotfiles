@@ -337,6 +337,7 @@ require("lazy").setup({
         ensure_installed = {
           "javascript",
           "typescript",
+          "tsx",
           "ruby",
           "bash",
           "sql",
@@ -736,13 +737,13 @@ require("lazy").setup({
 
         -- a list of all tools you want to ensure are installed upon
         -- start; they should be the names Mason uses for each tool
-        ensure_installed = {
+        ensure_installed = vim.list_extend({
           'shellcheck',
           'shfmt',
           'vint', -- viml linter
           -- 'dart-debug-adapter',
           'flake8'
-        },
+        }, servers_names),
 
         -- if set to true this will check each tool for updates. If updates
         -- are available the tool will be updated. This setting does not

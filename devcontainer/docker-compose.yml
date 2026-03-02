@@ -5,9 +5,15 @@ services:
       - label=disable
     working_dir: /workspace
     shm_size: "1g"
+    # Firefox + geckodriver + Puma across 16 parallel JS test workers exhaust the default container PID budget.
+    pids_limit: 8192
     volumes:
       - .:/workspace:cached,Z
       - ${HOME}/projects/dotfiles:/home/dev/dotfiles:ro,Z
+      # Reuse host Neovim installs and runtime state across dev containers.
+      - ${HOME}/.local/share/nvim:/home/dev/.local/share/nvim:rw,Z
+      - ${HOME}/.local/state/nvim:/home/dev/.local/state/nvim:rw,Z
+      - ${HOME}/.cache/nvim:/home/dev/.cache/nvim:rw,Z
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro,Z
       - ${HOME}/.claude/.credentials.json:/home/dev/.claude/.credentials.json.host:ro,Z
       - ${HOME}/.codex:/home/dev/.codex:rw,Z
