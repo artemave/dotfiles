@@ -192,6 +192,7 @@ fi
 
 if [[ -f "$zsh_plugins_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
   source "$zsh_plugins_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  bindkey '^n' autosuggest-accept
 fi
 
 if [[ -f "$zsh_plugins_dir/zlong_alert/zlong_alert.zsh" ]]; then
@@ -200,6 +201,7 @@ fi
 
 if [[ -f "$zsh_plugins_dir/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh" ]]; then
   export ZSH_AI_CMD_PROVIDER='openai'
+  # Ctrl-z
   source "$zsh_plugins_dir/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh"
 fi
 
@@ -208,7 +210,7 @@ fi
 eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
 
-## [Completion] 
+## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall
 [[ -f /home/artem/.dart-cli-completion/zsh-config.zsh ]] && . /home/artem/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]

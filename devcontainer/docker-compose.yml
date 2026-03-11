@@ -16,12 +16,14 @@ services:
       - ${HOME}/.cache/nvim:/home/dev/.cache/nvim:rw,Z
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro,Z
       - ${HOME}/.claude/.credentials.json:/home/dev/.claude/.credentials.json.host:ro,Z
+      - ${HOME}/.config/Claude:/home/dev/.config/Claude:rw,Z
       - ${HOME}/.codex:/home/dev/.codex:rw,Z
       - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw,Z
+      - ${HOME}/.dust/:/home/dev/.dust:rw,Z
       - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}:rw
       - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}:rw
       - /run/user/1000/containers:/run/user/1000/containers:ro
-      - /tmp/tmux-1000:/tmp/tmux-1000:rw,z
+      - /tmp/tmux-1000:/tmp/tmux-1000:ro,z
       - /tmp/tmux-containers:/tmp/tmux-containers:rw,z
     userns_mode: "keep-id"
     environment:
