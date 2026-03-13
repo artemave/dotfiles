@@ -4,6 +4,7 @@ FROM fedora:42
 RUN dnf -y install \
   ca-certificates \
   curl \
+  dnf-plugins-core \
   direnv \
   file \
   git \
@@ -38,6 +39,11 @@ RUN dnf -y install \
   fd \
   tig \
   libatomic \
+  tree \
+  && dnf clean all
+
+RUN dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo \
+  && dnf -y install brave-browser \
   && dnf clean all
 
 ENV MISE_INSTALL_PATH=/usr/local/bin/mise

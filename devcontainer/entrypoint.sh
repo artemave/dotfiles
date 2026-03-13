@@ -24,4 +24,21 @@ if [[ -f /home/dev/.claude/.credentials.json.host && ! -f /home/dev/.claude/.cre
   chmod 600 /home/dev/.claude/.credentials.json
 fi
 
+if command -v brave-browser-stable >/dev/null; then
+  mkdir -p /home/dev/.config
+  cat > /home/dev/.config/mimeapps.list <<'EOF'
+[Default Applications]
+x-scheme-handler/http=brave-browser.desktop
+x-scheme-handler/https=brave-browser.desktop
+text/html=brave-browser.desktop
+application/xhtml+xml=brave-browser.desktop
+EOF
+
+  xdg-settings set default-web-browser brave-browser.desktop >/dev/null 2>&1 || true
+  xdg-mime default brave-browser.desktop x-scheme-handler/http || true
+  xdg-mime default brave-browser.desktop x-scheme-handler/https || true
+  xdg-mime default brave-browser.desktop text/html || true
+  xdg-mime default brave-browser.desktop application/xhtml+xml || true
+fi
+
 exec "$@"

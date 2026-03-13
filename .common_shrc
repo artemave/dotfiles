@@ -109,9 +109,7 @@ if command -v ncdu &> /dev/null; then
   alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 fi
 
-if command -v gio &> /dev/null; then
-  alias open='gio open'
-elif command -v xdg-open &> /dev/null; then
+if command -v xdg-open &> /dev/null; then
   alias open=xdg-open
 fi
 

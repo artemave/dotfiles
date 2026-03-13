@@ -17,6 +17,7 @@ services:
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro,Z
       - ${HOME}/.claude/.credentials.json:/home/dev/.claude/.credentials.json.host:ro,Z
       - ${HOME}/.config/Claude:/home/dev/.config/Claude:rw,Z
+      - ${HOME}/.config/BraveSoftware:/home/dev/.config/BraveSoftware:rw,Z
       - ${HOME}/.codex:/home/dev/.codex:rw,Z
       - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw,Z
       - ${HOME}/.dust/:/home/dev/.dust:rw,Z
@@ -36,5 +37,6 @@ services:
       GIO_USE_PORTAL: "1"
       GTK_USE_PORTAL: "1"
       HOST_PROJECT_DIR: ${PWD}
+      BROWSER: brave-browser-stable
     stdin_open: true
     tty: true
