@@ -24,6 +24,10 @@ if [[ -f /home/dev/.claude/.credentials.json.host && ! -f /home/dev/.claude/.cre
   chmod 600 /home/dev/.claude/.credentials.json
 fi
 
+# Remove stale Brave Singleton lock files left over from previous runs (e.g. after
+# a host reboot). The locks are process-local and safe to delete at container start.
+rm -f /home/dev/.config/BraveSoftware/Brave-Browser/Singleton*
+
 if command -v brave-browser-stable >/dev/null; then
   mkdir -p /home/dev/.config
   cat > /home/dev/.config/mimeapps.list <<'EOF'

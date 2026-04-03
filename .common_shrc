@@ -113,7 +113,6 @@ if command -v xdg-open &> /dev/null; then
   alias open=xdg-open
 fi
 
-alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
 alias ks=kubectl
 
 export PATH="$PATH:$HOME/flutter/bin"

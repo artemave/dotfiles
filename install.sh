@@ -140,27 +140,14 @@ case $1 in
       ln -f -s "$(pwd)/$file" ~/.local/share/mime/packages/
     done
 
-    mkdir -p ~/.claude
-    for file in claude/*; do
-      ln -f -s "$(pwd)/$file" ~/.claude/
-    done
-
     if [[ $(uname) == "Linux" ]] && [[ -n "${XDG_RUNTIME_DIR:-}" ]]; then
       systemctl --user enable --now gcr-ssh-agent.socket
     fi
 
-    if command -v npm &> /dev/null; then
-      agent_browser_skill_dir="$(npm root -g)/agent-browser/skills/agent-browser"
-      if [[ -d "$agent_browser_skill_dir" ]]; then
-        mkdir -p ~/.claude/skills ~/.codex/skills
-        if [[ ! -d ~/.claude/skills/agent-browser ]]; then
-          cp -r "$agent_browser_skill_dir" ~/.claude/skills/
-        fi
-        if [[ ! -d ~/.codex/skills/agent-browser ]]; then
-          cp -r "$agent_browser_skill_dir" ~/.codex/skills/
-        fi
-      fi
-    fi
+    mkdir -p /home/dev/.local/bin
+    curl -fsSL https://raw.githubusercontent.com/dokku/dokku/refs/heads/master/contrib/dokku_client.sh -o /home/dev/.local/bin/dokku
+    chmod +x /home/dev/.local/bin/dokku
+
     ;;
 
   -tmux)

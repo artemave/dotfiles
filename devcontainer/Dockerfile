@@ -63,11 +63,16 @@ ENV TERM="tmux-256color"
 WORKDIR /workspace
 
 RUN NONINTERACTIVE=1 /bin/bash -lc "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf && brew install --cask claude-code"
+RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf"
 
-RUN sudo npm install -g @openai/codex agent-browser @joshski/dust
+RUN curl -fsSL https://claude.ai/install.sh | bash
+
+RUN sudo npm install -g @openai/codex agent-browser skills
 
 RUN /bin/bash -lc "agent-browser install --with-deps"
+
+RUN npx skills add vercel-labs/agent-browser --skill agent-browser --yes --global -a claude-code -a codex
+RUN npx skills add vercel-labs/agent-browser --skill dogfood --yes --global -a claude-code -a codex
 
 COPY --from=dotfiles --chown=dev:dev / /home/dev/dotfiles
 RUN PIP_BREAK_SYSTEM_PACKAGES=1 /bin/bash -lc "cd /home/dev/dotfiles && bash ./install.sh -dots && bash ./install.sh -tmux"

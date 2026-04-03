@@ -284,8 +284,8 @@ workspace 2 output HDMI-A-1 DP-1 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP-1
 
 
 # Use `xprop` to get the window class/name
-assign [app_id="^firefox"] 2
-assign [app_id="^Brave"] 2
+# assign [app_id="^firefox"] 2
+# assign [app_id="^Brave"] 2
 
 # Android emulator
 for_window [title=".*Emulator.*"] floating enable

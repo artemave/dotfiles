@@ -298,13 +298,11 @@ require("lazy").setup({
   { "ryanoasis/vim-devicons" },
   {
     "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      require("nvim-tree").setup {}
+      require("nvim-tree").setup()
     end,
   },
   {
@@ -523,6 +521,11 @@ require("lazy").setup({
         require("none-ls.formatting.jq"),
       }
 
+      -- fixes "server null-ls not found" when LspRestart
+      vim.lsp.config('null-ls', {
+        on_attach = on_attach
+      })
+
       null_ls.setup({
         sources = null_ls_sources,
         on_attach = on_attach
@@ -552,7 +555,6 @@ require("lazy").setup({
                 -- remove leading spaces from current_line
                 current_line = current_line:gsub("^%s+", "")
 
-                local file_type = vim.bo.filetype
                 local line_number = vim.fn.line('.')
                 local file_path = vim.fn.expand('%')
 
