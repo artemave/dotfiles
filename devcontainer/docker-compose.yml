@@ -1,7 +1,7 @@
 services:
   devcontainer:
     security_opt:
-      # makes tmux socket connectable from the container
+      # Without this, SELinux blocks access to the host's Wayland and DBus sockets even though they're mounted.
       - label=disable
     working_dir: /workspace
     shm_size: "1g"
@@ -24,8 +24,8 @@ services:
       - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}:rw
       - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}:rw
       - /run/user/1000/containers:/run/user/1000/containers:ro
-      - /tmp/tmux-1000:/tmp/tmux-1000:ro,z
-      - /tmp/tmux-containers:/tmp/tmux-containers:rw,z
+      # - /tmp/tmux-1000:/tmp/tmux-1000:ro,z
+      # - /tmp/tmux-containers:/tmp/tmux-containers:rw,z
     userns_mode: "keep-id"
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}

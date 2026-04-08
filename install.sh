@@ -144,9 +144,9 @@ case $1 in
       systemctl --user enable --now gcr-ssh-agent.socket
     fi
 
-    mkdir -p /home/dev/.local/bin
-    curl -fsSL https://raw.githubusercontent.com/dokku/dokku/refs/heads/master/contrib/dokku_client.sh -o /home/dev/.local/bin/dokku
-    chmod +x /home/dev/.local/bin/dokku
+    mkdir -p ~/.local/bin
+    curl -fsSL https://raw.githubusercontent.com/dokku/dokku/refs/heads/master/contrib/dokku_client.sh -o ~/.local/bin/dokku
+    chmod +x ~/.local/bin/dokku
 
     ;;
 
