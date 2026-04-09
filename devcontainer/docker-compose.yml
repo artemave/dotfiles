@@ -23,10 +23,10 @@ services:
       - ${HOME}/.dust/:/home/dev/.dust:rw,Z
       - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}:rw
       - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}:rw
-      - /run/user/1000/containers:/run/user/1000/containers:ro
+      # - ${XDG_RUNTIME_DIR}/containers:${XDG_RUNTIME_DIR}/containers:ro
       # - /tmp/tmux-1000:/tmp/tmux-1000:ro,z
       # - /tmp/tmux-containers:/tmp/tmux-containers:rw,z
-    userns_mode: "keep-id"
+    userns_mode: "keep-id:uid=1000,gid=1000"
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR}
