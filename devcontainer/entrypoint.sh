@@ -45,4 +45,8 @@ EOF
   xdg-mime default brave-browser.desktop application/xhtml+xml || true
 fi
 
+if command -v direnv >/dev/null && [[ -f /workspace/.envrc ]]; then
+  direnv allow
+fi
+
 exec "$@"
