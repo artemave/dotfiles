@@ -33,6 +33,8 @@ dotfiles=( \
   .Xdefaults \
   .Xresources \
   .Xmodmap \
+  .npmrc\
+  .bunfig.toml\
   bin \
 )
 
