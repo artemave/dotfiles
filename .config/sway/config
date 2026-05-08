@@ -7,12 +7,12 @@ input type:keyboard {
   repeat_rate 45
 }
 
-exec --no-startup-id kbdd
+exec kbdd
 
 seat * xcursor_theme default 18
 
 # like autorandr but worse
-# exec --no-startup-id kanshi
+# exec kanshi
 
 set $mod Mod4
 
@@ -39,7 +39,10 @@ floating_maximum_size 1900 x 1200
 
 set $term kitty
 # start a terminal
-bindsym $mod+Return exec $term
+# bindsym $mod+Return exec $term
+bindsym $mod+Return exec ~/projects/hop/sway/hop-term-or-kitty
+
+exec hopd
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -51,10 +54,10 @@ bindsym $mod+Shift+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
-set $menu exec $term --class=launcher -e /home/artem/projects/sway-launcher-desktop/sway-launcher-desktop.sh
-bindsym $mod+d exec vicinae
+# bindsym $mod+d exec i3-dmenu-desktop
+# for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+# set $menu exec $term --class=launcher -e /home/artem/projects/sway-launcher-desktop/sway-launcher-desktop.sh
+bindsym $mod+d exec vicinae toggle
 
 # change focus
 bindsym $mod+j focus down
@@ -190,13 +193,13 @@ bar {
 }
 
 # wifi icon
-exec_always --no-startup-id nm-applet --indicator
+exec_always nm-applet --indicator
 # bluetooth
-exec --no-startup-id blueman-applet
+exec blueman-applet
 
 # Fixes screen tearing (horizontal lines) on video playback and scrolling
 # Disabled due to zoom video flickering
-# exec --no-startup-id compton --config ~/.config/compton.conf -b
+# exec compton --config ~/.config/compton.conf -b
 
 bindsym XF86AudioMicMute exec ~/.config/scripts/mic_mute.sh
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks
@@ -207,10 +210,10 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -R
 # bindsym XF86AudioNext exec playerctl next
 # bindsym XF86AudioPrev exec playerctl previous
 
-# exec --no-startup-id setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
+# exec setxkbmap -layout 'us,ru,ch(fr)' -option 'grp:alt_shift_toggle'; xmodmap ~/.Xmodmap
 
 # disable trackpad
-# exec --no-startup-id xinput --disable 11
+# exec xinput --disable 11
 
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec brightnessctl set +10% && pkill -RTMIN+2 i3blocks # increase screen brightness
@@ -219,22 +222,22 @@ bindsym XF86MonBrightnessUp exec ~/.config/scripts/set_brightness.sh +10% && pki
 bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && pkill -RTMIN+2 i3blocks # decrease screen brightness
 
 # ctrl-win-l to lock the screen
-bindsym Control+$mod+l exec --no-startup-id systemctl suspend
+bindsym Control+$mod+l exec systemctl suspend
 
 # ctrl-win-l to lock the screen
-# bindsym Control+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
+# bindsym Control+$mod+l exec sleep 1 && xset dpms force suspend
 # # hook up custom locker script into the login manager
-# exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
+# exec xss-lock -- ~/.config/i3/lock.sh
 # # prevent lock screen if there is audio or fullscreen
-# exec --no-startup-id ~/.config/xidlehook.sh
-# exec --no-startup-id xset s off -dpms
+# exec ~/.config/xidlehook.sh
+# exec xset s off -dpms
 
-# exec --no-startup-id ~/.config/udev_rules/monitor_hotplug.sh
-# exec --no-startup-id ~/bin/monitor_hotplug_daemon.sh
+# exec ~/.config/udev_rules/monitor_hotplug.sh
+# exec ~/bin/monitor_hotplug_daemon.sh
 # bindsym XF86Display exec ~/.config/udev_rules/monitor_hotplug.sh
 # bindsym F7 exec ~/.config/udev_rules/monitor_hotplug.sh
 
-# exec --no-startup-id gnome-settings-daemon
+# exec gnome-settings-daemon
 
 exec swayidle \
   timeout 300  'swaymsg "output * dpms off"' \
@@ -249,20 +252,20 @@ bindsym Print exec 'grim -g "$(slurp)" - | swappy -f -'
 # bindsym Print exec flameshot gui
 # bindsym Shift+Print exec flameshot full
 
-# exec --no-startup-id flameshot
+# exec flameshot
 
-# exec --no-startup-id dropbox start
+# exec dropbox start
 
-# exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpaper/*
+# exec feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 
 exec_always ~/.config/sway/set_random_wallpaper.sh
 exec_always swaymsg -m -t subscribe '["output"]' | while read -r _; do ~/.config/sway/set_random_wallpaper.sh; done
 
-# exec --no-startup-id unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
+# exec unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
 
 # bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
-exec --no-startup-id unclutter --jitter 4 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
+exec unclutter --jitter 4 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
 
 set $scale 2
 
@@ -280,7 +283,7 @@ exec_always ~/.config/sway/adjust_positions.sh $scale
 workspace 1 output HDMI-A-1 DP-1 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP-1
 workspace 2 output HDMI-A-1 DP-1 DP-2 HDMI-A-0 DisplayPort-0 DisplayPort-1 eDP-1
 
-# exec --no-startup-id copyq --start-server
+# exec copyq --start-server
 
 
 # Use `xprop` to get the window class/name
@@ -305,14 +308,14 @@ assign [app_id="Slack"] 3
 assign [app_id="discord"] 3
 assign [app_id="^telegram-desktop"] 3
 
-exec --no-startup-id vicinae server
+exec vicinae server
 
 # toggle tiling / floating
-exec --no-startup-id sway_auto_floating
+exec sway_auto_floating
 
-exec --no-startup-id kitty
+exec kitty
 
-exec --no-startup-id ~/bin/firefox
+exec ~/bin/firefox
 
 # https://github.com/emersion/xdg-desktop-portal-wlr#running
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway

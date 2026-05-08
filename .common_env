@@ -47,6 +47,9 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 export TERMINAL_COMMAND=kitty
 
 # gnome-keyring sets SSH_AUTH_SOCK to a dead path; gcr-ssh-agent owns it now
-export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gcr/ssh"
+export SSH_AUTH_SOCK="${SSH_AUTH_SOCK:-${XDG_RUNTIME_DIR}/gcr/ssh}"
+
+# so that less correctly prints unicode glyphs from nerd font etc.
+export LESSUTFCHARDEF='E000-F8FF:p,F0000-FFFFD:p,100000-10FFFD:p'
 
 export COMMON_ENV_LOADED=1

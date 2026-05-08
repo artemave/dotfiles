@@ -76,7 +76,11 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'v', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>o', '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR>', opts)
 
-  require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+  if client:supports_method("workspace/diagnostic", bufnr) then
+    vim.lsp.buf.workspace_diagnostics({ client_id = client.id })
+  else
+    require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+  end
 end
 
 -- vim.api.nvim_set_keymap('n', '<space>x', '', {

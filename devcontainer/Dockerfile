@@ -42,10 +42,6 @@ RUN dnf -y install \
   tree \
   && dnf clean all
 
-RUN dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo \
-  && dnf -y install brave-browser \
-  && dnf clean all
-
 ENV MISE_INSTALL_PATH=/usr/local/bin/mise
 RUN curl -fsSL https://mise.jdx.dev/install.sh | bash
 
@@ -71,8 +67,7 @@ RUN sudo npm install -g @openai/codex agent-browser skills
 
 RUN /bin/bash -lc "agent-browser install --with-deps"
 
-RUN npx skills add vercel-labs/agent-browser --skill agent-browser --yes --global -a claude-code -a codex
-RUN npx skills add vercel-labs/agent-browser --skill dogfood --yes --global -a claude-code -a codex
+RUN npx skills add vercel-labs/agent-browser
 
 COPY --from=dotfiles --chown=dev:dev / /home/dev/dotfiles
 RUN PIP_BREAK_SYSTEM_PACKAGES=1 /bin/bash -lc "cd /home/dev/dotfiles && bash ./install.sh -dots && bash ./install.sh -tmux"
