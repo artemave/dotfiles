@@ -7,7 +7,8 @@ services:
     # Firefox + geckodriver + Puma across 16 parallel JS test workers exhaust the default container PID budget.
     pids_limit: 8192
     volumes:
-      - .:/workspace:cached
+      - ${REPO:-.}:/workspace
+      - cache:/home/dev/.cache
       - ${HOME}/projects/dotfiles:/home/dev/dotfiles:ro
       # Reuse host Neovim installs and runtime state across dev containers.
       - ${HOME}/.local/share/nvim:/home/dev/.local/share/nvim:rw
@@ -20,10 +21,18 @@ services:
       - ${HOME}/.codex:/home/dev/.codex:rw
       - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw
       - ${HOME}/.dust/:/home/dev/.dust:rw
+      - ${HOME}/.aws/config:/home/dev/.aws/config:rw
       - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}:rw
+      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}:rw
+      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:rw # host clipboard integration
     userns_mode: "keep-id:uid=1000,gid=1000"
     environment:
+      XDG_SESSION_TYPE: wayland
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}
+      WAYLAND_DISPLAY: ${WAYLAND_DISPLAY}
+      XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR}
     stdin_open: true
     tty: true
+volumes:
+  cache:

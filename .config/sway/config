@@ -59,6 +59,11 @@ bindsym $mod+Shift+q kill
 # set $menu exec $term --class=launcher -e /home/artem/projects/sway-launcher-desktop/sway-launcher-desktop.sh
 bindsym $mod+d exec vicinae toggle
 
+exec ~/.config/scripts/focus_history_daemon.sh
+#bindsym $mod+space [urgent=latest] focus
+bindsym $mod+Tab exec ~/.config/scripts/switch_to_urgent_or_lru.sh
+#bindsym $mod+Tab workspace back_and_forth
+
 # change focus
 bindsym $mod+j focus down
 bindsym $mod+k focus up

@@ -5,7 +5,6 @@ RUN dnf -y install \
   ca-certificates \
   curl \
   dnf-plugins-core \
-  direnv \
   file \
   git \
   htop \
@@ -27,7 +26,6 @@ RUN dnf -y install \
   gh \
   xdg-utils \
   sudo \
-  chromium \
   lsof \
   ncurses-term \
   gcc \
@@ -40,6 +38,10 @@ RUN dnf -y install \
   tig \
   libatomic \
   tree \
+  wl-clipboard \
+  imv \
+  awscli2 \
+  ImageMagick \
   && dnf clean all
 
 ENV MISE_INSTALL_PATH=/usr/local/bin/mise
@@ -55,11 +57,10 @@ RUN echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev \
 
 USER dev
 ENV HOME=/home/dev
-ENV TERM="tmux-256color"
 WORKDIR /workspace
 
 RUN NONINTERACTIVE=1 /bin/bash -lc "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf"
+RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf aws-vault"
 
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
@@ -73,6 +74,17 @@ COPY --from=dotfiles --chown=dev:dev / /home/dev/dotfiles
 RUN PIP_BREAK_SYSTEM_PACKAGES=1 /bin/bash -lc "cd /home/dev/dotfiles && bash ./install.sh -dots && bash ./install.sh -tmux"
 
 RUN /bin/bash -lc "printf '%s\n' \"alias claude='claude --dangerously-skip-permissions'\" \"alias codex='codex --dangerously-bypass-approvals-and-sandbox'\" > /home/dev/.local_env"
+
+RUN xdg-mime default imv.desktop \
+      image/png \
+      image/jpeg \
+      image/gif \
+      image/webp \
+      image/bmp \
+      image/tiff \
+      image/svg+xml \
+      image/avif \
+      image/heic
 
 COPY --from=dotfiles --chown=dev:dev devcontainer/entrypoint.sh /home/dev/devcontainer-entrypoint
 RUN chmod +x /home/dev/devcontainer-entrypoint

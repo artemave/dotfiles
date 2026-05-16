@@ -119,6 +119,8 @@ alias pcd='pc -f docker-compose.dev.yml'
 alias devb='podman build --build-context dotfiles=$HOME/projects/dotfiles -f $HOME/projects/dotfiles/devcontainer/Dockerfile -t dev-base:latest . && pcd build'
 alias devr='pcd --in-pod=false run --service-ports --rm devcontainer'
 
+alias dc='docker compose'
+
 if [ -z "$SSH_AUTH_SOCK" ] ; then
   eval "$(ssh-agent -s)"
 

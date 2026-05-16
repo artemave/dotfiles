@@ -838,6 +838,25 @@ require("lazy").setup({
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
   },
+  {
+    'mikesmithgh/kitty-scrollback.nvim',
+    enabled = true,
+    lazy = true,
+    cmd = { 'KittyScrollbackGenerateKittens', 'KittyScrollbackCheckHealth', 'KittyScrollbackGenerateCommandLineEditing' },
+    event = { 'User KittyScrollbackLaunch' },
+    -- version = '*', -- latest stable version, may have breaking changes if major version changed
+    -- version = '^6.0.0', -- pin major version, include fixes and features that do not have breaking changes
+    config = function()
+      -- https://github.com/mikesmithgh/kitty-scrollback.nvim/issues/331#issuecomment-3154964637
+      local autocmds = require("kitty-scrollback.autocommands")
+      autocmds.set_term_enter_autocmd = function(_) end
+      autocmds.set_yank_post_autocmd = function() end
+
+      require('kitty-scrollback').setup(
+        { keymaps_enabled = false }
+      )
+    end,
+  },
 })
 
 vim.api.nvim_create_autocmd({"WinEnter", "BufWinEnter"}, {
