@@ -15,4 +15,16 @@ if [[ -f /home/dev/.claude/.credentials.json.host && ! -f /home/dev/.claude/.cre
   chmod 600 /home/dev/.claude/.credentials.json
 fi
 
+for f in ./.exrc ./.nvim.lua ./.nvimrc; do
+  [[ -f $f ]] && nvim --headless --clean "$f" -c "trust" -c "qa"
+done
+
+# Signal the container as ready *after* all pre-exec setup completes. Compose
+# healthcheck reads this file; `podman-compose up --wait` blocks on healthy.
+# Without this, `podman-compose up -d` returns as soon as PID 1 is alive —
+# concurrent with this entrypoint — and downstream consumers (hop's editor
+# launch, etc.) can race ahead before the trust file / claude config / etc.
+# are in place.
+touch /tmp/devcontainer-ready
+
 exec "$@"

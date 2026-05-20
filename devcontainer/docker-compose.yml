@@ -12,7 +12,6 @@ services:
       - ${HOME}/projects/dotfiles:/home/dev/dotfiles:ro
       # Reuse host Neovim installs and runtime state across dev containers.
       - ${HOME}/.local/share/nvim:/home/dev/.local/share/nvim:rw
-      - ${HOME}/.local/state/nvim:/home/dev/.local/state/nvim:rw
       - ${HOME}/.cache/nvim:/home/dev/.cache/nvim:rw
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro
       - ${HOME}/.claude/settings.json:/home/dev/.claude/settings.json.host:ro
@@ -25,6 +24,10 @@ services:
       - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}:rw
       - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}:rw
       - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:rw # host clipboard integration
+      # Expose kitty's terminfo so TERM=xterm-kitty inside the container has a
+      # description to look up. Without it ncurses falls back to the basic
+      # xterm entry (8 colors, no italics, no undercurl).
+      - /usr/share/terminfo/x/xterm-kitty:/usr/share/terminfo/x/xterm-kitty:ro
     userns_mode: "keep-id:uid=1000,gid=1000"
     environment:
       XDG_SESSION_TYPE: wayland
@@ -32,7 +35,23 @@ services:
       SSH_AUTH_SOCK: ${SSH_AUTH_SOCK}
       WAYLAND_DISPLAY: ${WAYLAND_DISPLAY}
       XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR}
+      # Pass kitty's terminal capabilities through to in-container apps; the
+      # corresponding terminfo entry is bind-mounted above.
+      TERM: ${TERM:-xterm-256color}
+      COLORTERM: ${COLORTERM:-truecolor}
+      # GH_TOKEN: ${GH_TOKEN}
     stdin_open: true
     tty: true
+    # Pairs with `touch /tmp/devcontainer-ready` at the end of the entrypoint's
+    # pre-exec setup. ``podman-compose up --wait`` blocks until this passes, so
+    # downstream consumers (hop's editor launch, etc.) don't race the
+    # entrypoint's setup. ``CMD-SHELL`` so the test runs in /bin/sh — bash
+    # isn't guaranteed inside every image variant.
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/devcontainer-ready"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+      start_period: 1s
 volumes:
   cache:

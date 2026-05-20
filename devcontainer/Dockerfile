@@ -64,7 +64,7 @@ RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && b
 
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
-RUN sudo npm install -g @openai/codex agent-browser skills
+RUN sudo npm install -g @openai/codex agent-browser skills @bitwarden/cli
 
 RUN /bin/bash -lc "agent-browser install --with-deps"
 
@@ -85,6 +85,8 @@ RUN xdg-mime default imv.desktop \
       image/svg+xml \
       image/avif \
       image/heic
+
+RUN bw config server https://vault.bitwarden.eu
 
 COPY --from=dotfiles --chown=dev:dev devcontainer/entrypoint.sh /home/dev/devcontainer-entrypoint
 RUN chmod +x /home/dev/devcontainer-entrypoint
