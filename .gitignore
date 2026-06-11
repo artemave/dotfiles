@@ -72,3 +72,5 @@ bin/nvim.appimage
 bin/firefox
 bin/minecraft-launcher
 __pycache__
+
+**/.claude/settings.local.json

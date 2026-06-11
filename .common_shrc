@@ -7,7 +7,7 @@ if command -v /opt/homebrew/bin/brew &> /dev/null; then
     export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
   fi
 
-  # proper awk needed for diff2vimgrep
+  # gawk needed for the inlined diff2vimgrep awk in nvim (3-arg match() is a gawk extension)
   if test -d "$(brew --prefix)/opt/gawk/libexec/gnubin"; then
     export PATH="$(brew --prefix)/opt/gawk/libexec/gnubin:$PATH"
   fi

@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.5
-FROM fedora:42
+FROM fedora:43
 
 RUN dnf -y install \
   ca-certificates \

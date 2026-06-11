@@ -227,7 +227,22 @@ require("lazy").setup({
       })
       vim.keymap.set("n", "<leader>d", function()
         local main_git_branch = vim.fn.trim(vim.fn.system("git rev-parse --abbrev-ref origin/HEAD | sed 's|^origin/||'"))
-        local cmd = 'git diff --no-ext-diff "$(git merge-base ' .. main_git_branch .. ' HEAD)" | diff2vimgrep | sort -u'
+        -- inlined diff2vimgrep (source: https://stackoverflow.com/a/33249416/51209)
+        -- so this works in devcontainers where ~/bin/diff2vimgrep isn't available
+        local diff2vimgrep = [[awk '
+          match($0, "^@@ -([0-9]+),([0-9]+) [+]([0-9]+),([0-9]+) @@", a) {
+            right=a[3]
+          }
+          match($0, "^[+][+][+] b/([^ ]+)", b) {
+            path=b[1]
+          }
+          { right++ }
+          /^[+][+][+] / { next }
+          ! /^[+]/ { next }
+          { line=substr($0, 2) }
+          { printf "%s:%s:1:%s\n", path, right-2, line }
+        ']]
+        local cmd = 'git diff --no-ext-diff "$(git merge-base ' .. main_git_branch .. ' HEAD)" | ' .. diff2vimgrep .. ' | sort -u'
         fzf_lua.grep {
           raw_cmd = cmd
         }

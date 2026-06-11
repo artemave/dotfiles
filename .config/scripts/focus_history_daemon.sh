@@ -34,7 +34,7 @@ swaymsg -m -t subscribe '["window"]' | while read -r line; do
 
   now=$(date +%s)
 
-  if [ -n "$last_con_id" ] && [ $((now - last_time)) -ge 1 ]; then
+  if [ -n "$last_con_id" ] && [ $((now - last_time)) -ge 2 ]; then
     record_focus "$last_con_id"
   fi
 
