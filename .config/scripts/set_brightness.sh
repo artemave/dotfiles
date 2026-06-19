@@ -47,7 +47,7 @@ get_i2c_bus() {
   echo "$bus"
 }
 
-if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+if [ -n "$SWAYSOCK" ]; then
   t=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
 else
   t=$(brightness_target)

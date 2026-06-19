@@ -119,10 +119,12 @@ bindkey '^w' backward-kill-word
 
 # this is now here as opposed to .zlogin because `zplug` inserting `/bin` in the PATH which breaks coreutils (ls, etc)
 
-# ubuntu does not start login shell
-# if [[ -z $COMMON_ENV_LOADED ]]; then
+# Normally sourced by .zshenv already; this is a fallback for setups where the
+# login shell doesn't read .zshenv (the guard prevents a double-source that
+# would duplicate PATH entries).
+if [[ -z $COMMON_ENV_LOADED ]]; then
   source ~/.common_env
-# fi
+fi
 source ~/.common_shrc
 
 # place this after nvm initialization!
@@ -221,5 +223,3 @@ eval "$(mise activate zsh)"
 
 # bun
 export PATH="$HOME/.bun/bin:$PATH"
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
