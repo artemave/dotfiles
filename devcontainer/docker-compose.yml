@@ -21,9 +21,15 @@ services:
       - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw
       - ${HOME}/.dust/:/home/dev/.dust:rw
       - ${HOME}/.aws/config:/home/dev/.aws/config:rw
-      - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}:rw
+      # The whole runtime dir surfaces every host socket the container wants —
+      # the ssh-agent (${SSH_AUTH_SOCK}) and the wayland/clipboard socket both
+      # live under it. Mounting those individually as well is redundant, and
+      # fragile on a headless host: an empty ${WAYLAND_DISPLAY} collapses
+      # `${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}` to this same destination
+      # ("duplicate mount destination"), and a missing ${SSH_AUTH_SOCK} path
+      # fails the bind. One broad mount is portable — it surfaces whatever
+      # exists without hard-depending on those vars being set.
       - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}:rw
-      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:rw # host clipboard integration
       # Expose kitty's terminfo so TERM=xterm-kitty inside the container has a
       # description to look up. Without it ncurses falls back to the basic
       # xterm entry (8 colors, no italics, no undercurl).
