@@ -53,12 +53,12 @@ case $1 in
 
     if [[ $(uname) == "Linux" ]]; then
       if ! python3 -m pip list | grep i3ipc > /dev/null; then
-        python3 -m pip install --user --upgrade i3ipc
+        python3 -m pip install --user --break-system-packages --upgrade i3ipc
       fi
     fi
 
     if ! python3 -m pip list | grep pynvim > /dev/null; then
-      python3 -m pip install --user --upgrade pynvim
+      python3 -m pip install --user --break-system-packages --upgrade pynvim
     fi
 
     for file in "${dotfiles[@]}"; do
