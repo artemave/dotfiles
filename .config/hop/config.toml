@@ -1,0 +1,74 @@
+workspace_layout = "tabbed"
+debug_log = true
+
+[windows.llm]
+command = "sh -c '$SHELL -lc claude --dangerously-skip-permissions'"
+
+# Override the built-in shell role so every backend session lands in a
+# kitten-managed shell with Kitty's OSC 133 markers loaded. Empty-command
+# non-shell roles (e.g. `[layouts.rails.windows.test] command = ""`) and
+# non-shell roles' post-exit fallback inherit this same wrap, so the whole
+# session gets `hop tail` / OSC-133-dependent features for free.
+[windows.shell]
+command = "kitten run-shell"
+
+[backends.devcontainer]
+activate              = "test -f docker-compose.dev.yml"
+prepare               = [
+  "podman-compose -f docker-compose.dev.yml --in-pod=false up -d --wait devcontainer",
+  """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/api.sock" \\
+       | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
+  """curl -fsSL https://github.com/kovidgoyal/kitty/releases/latest/download/kitten-linux-amd64 \\
+       | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
+]
+teardown              = "podman-compose -f docker-compose.dev.yml down"
+port_translate        = """
+  podman ps -q \\
+    --filter label=io.podman.compose.project=$(basename {session_root}) \\
+    --filter label=io.podman.compose.service=devcontainer \\
+    | head -1 \\
+    | xargs -r -I@ podman port @ {port} \\
+    | cut -d: -f2
+"""
+host_translate        = "echo {host}"
+interactive_prefix    = "podman-compose -f docker-compose.dev.yml exec devcontainer"
+noninteractive_prefix = "podman-compose -f docker-compose.dev.yml exec -T devcontainer"
+
+[backends.starfish]
+activate              = "test -d anonymiser-app"
+prepare               = [
+  "$HOME/projects/devcontainers/starfish/dc up",
+  """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/api.sock" \\
+       | $HOME/projects/devcontainers/starfish/dc exec-T \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
+  """curl -fsSL https://github.com/kovidgoyal/kitty/releases/latest/download/kitten-linux-amd64 \\
+       | $HOME/projects/devcontainers/starfish/dc exec-T \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
+]
+teardown              = "$HOME/projects/devcontainers/starfish/dc down"
+port_translate        = "$HOME/projects/devcontainers/starfish/dc port {port}"
+host_translate        = "echo platform.localhost"
+interactive_prefix    = "$HOME/projects/devcontainers/starfish/dc exec"
+noninteractive_prefix = "$HOME/projects/devcontainers/starfish/dc exec-T"
+
+[layouts.rails]
+activate = "test -f bin/rails"
+
+[layouts.rails.windows.test]
+command = "" # just starts an empty shell
+
+[layouts.rails.windows.server]
+# Kill a stale foreman before restarting so reopening a closed server window
+# doesn't collide on an instance that outlived it. foreman traps the signal and
+# tears down its child process groups (puma + asset watchers), so the whole
+# stack goes, not just the port. The `[f]oreman` bracket keeps the pattern from
+# matching this very command.
+command = "sh -c 'pkill -f \"[f]oreman\" 2>/dev/null; $SHELL -lc bin/dev'"
+
+[layouts.rails.windows.console]
+command = "sh -c '$SHELL -lc \"bin/rails console\"'"
+
+[layouts.rails.windows.log]
+command = "less -R log/test.log"

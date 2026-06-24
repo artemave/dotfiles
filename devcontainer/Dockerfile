@@ -42,6 +42,8 @@ RUN dnf -y install \
   imv \
   awscli2 \
   ImageMagick \
+  psmisc \
+  man \
   && dnf clean all
 
 ENV MISE_INSTALL_PATH=/usr/local/bin/mise
@@ -60,7 +62,7 @@ ENV HOME=/home/dev
 WORKDIR /workspace
 
 RUN NONINTERACTIVE=1 /bin/bash -lc "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install difftastic mergiraf aws-vault"
+RUN /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install -y neovim difftastic mergiraf aws-vault"
 
 RUN curl -fsSL https://claude.ai/install.sh | bash
 

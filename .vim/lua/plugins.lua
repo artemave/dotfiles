@@ -821,6 +821,29 @@ require("lazy").setup({
           }
         }
       })
+      vim.api.nvim_create_user_command("PRDiff", function()
+        local handle = io.popen(
+          "gh pr view --json baseRefName -q .baseRefName 2>/dev/null"
+        )
+
+        if not handle then
+          vim.notify("Failed to run gh", vim.log.levels.ERROR)
+          return
+        end
+
+        local base = handle:read("*a"):gsub("%s+$", "")
+        handle:close()
+
+        if base == "" then
+          vim.notify("Not on a PR branch?", vim.log.levels.ERROR)
+          return
+        end
+
+        -- Close any existing Diffview first so re-running PRDiff refreshes the
+        -- diff in place instead of requiring a manual close.
+        pcall(vim.cmd, "DiffviewClose")
+        vim.cmd("DiffviewOpen origin/" .. base .. "...HEAD")
+      end, {})
     end
   },
   { "stevearc/profile.nvim" },

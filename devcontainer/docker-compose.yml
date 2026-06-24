@@ -16,6 +16,11 @@ services:
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro
       - ${HOME}/.claude/settings.json:/home/dev/.claude/settings.json.host:ro
       - ${HOME}/.claude/.credentials.json:/home/dev/.claude/.credentials.json.host:ro
+      # Persist Claude Code transcripts (the `--resume` history) across container
+      # recreates. The container cwd is always /workspace, so its resume slug is
+      # `-workspace` for every project; keying the host dir on ${REPO} keeps each
+      # repo's container history separate instead of colliding on one slug.
+      - ${HOME}/.claude/devcontainer-projects${REPO:-/_default}:/home/dev/.claude/projects:rw
       - ${HOME}/.config/Claude:/home/dev/.config/Claude:rw
       - ${HOME}/.codex:/home/dev/.codex:rw
       - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw
