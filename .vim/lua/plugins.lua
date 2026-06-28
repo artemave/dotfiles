@@ -152,6 +152,19 @@ local servers_names = map(servers, function(k, v) return type(k) == "number" and
 
 -- Configure lazy.nvim
 require("lazy").setup({
+  {
+    "elixir-tools/elixir-tools.nvim",
+    config = function()
+      -- Only wire up ElixirLS where Elixir actually exists. On the host there is
+      -- no elixir/erlang toolchain (Elixir work happens inside the devcontainer),
+      -- so opening an .ex file would otherwise prompt to install ElixirLS and
+      -- fail trying to clone/compile it. Inside the container elixir is on $PATH
+      -- (via mise), so it stays enabled there.
+      require("elixir").setup({
+        elixirls = { enable = vim.fn.executable("elixir") == 1 },
+      })
+    end
+  },
   { "wincent/terminus" },
   { "tpope/vim-fugitive" },
   { "junegunn/gv.vim" },
@@ -267,7 +280,7 @@ require("lazy").setup({
       vim.keymap.set(
         { "n", "v", "i" },
         "<C-x><C-f>",
-        function() FzfLua.complete_path() end,
+        function() fzf_lua.complete_path() end,
         { silent = true, desc = "Fuzzy complete path" }
       )
     end
@@ -336,8 +349,19 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main", -- the old `master` branch is archived/locked
+    lazy = false, -- this plugin does not support lazy-loading
     build = ":TSUpdate",
     config = function()
+      -- nvim-treesitter (main) installs query files into site/queries/<lang> as
+      -- *absolute* symlinks pointing back into this plugin's runtime/queries dir.
+      -- In the podman devcontainer ~/.local/share/nvim is bind-mounted from the
+      -- host (/home/artem -> /home/dev), so those absolute symlinks dangle and
+      -- treesitter finds no highlight queries (highlighter attaches but renders
+      -- nothing). Put the real runtime dir on the rtp directly; stdpath('data')
+      -- resolves correctly in both the host and the container.
+      vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime")
+
       -- taken from https://phelipetls.github.io/posts/mdx-syntax-highlight-treesitter-nvim/
       -- this has no effect for some reason. I had to move this to .vimrc
       -- vim.filetype.add({
@@ -347,64 +371,57 @@ require("lazy").setup({
       -- })
       vim.treesitter.language.register('markdown', 'mdx')
 
-      require'nvim-treesitter'.setup {
-        matchup = {
-          enable = true,
-        },
-        ensure_installed = {
+      require'nvim-treesitter'.install {
+        "javascript",
+        "typescript",
+        "tsx",
+        "ruby",
+        "bash",
+        "sql",
+        "css",
+        "html",
+        "dart",
+        "go",
+        "vim",
+        "vimdoc",
+        "lua",
+        "markdown",
+        "python",
+        "elixir"
+      }
+
+      -- Highlighting is now provided by Neovim itself; enable it per filetype.
+      -- Deliberately excludes ruby/eruby (treesitter breaks ruby indentation)
+      -- and vim (vimscript highlighting is very slow).
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
           "javascript",
+          "javascriptreact",
           "typescript",
-          "tsx",
-          "ruby",
+          "typescriptreact",
+          "sh",
           "bash",
           "sql",
           "css",
           "html",
           "dart",
           "go",
-          "vim",
-          "vimdoc",
+          "help",
           "lua",
           "markdown",
-          "python"
+          "mdx",
+          "python",
+          "elixir",
         },
-        highlight = {
-          enable = true,              -- false will disable the whole extension
-          -- this fucks up ruby indendations
-          disable = { 'vimscript', 'ruby', 'eruby' } -- suddenly it's very slow (vimscript)
-        },
-        -- this module indents ruby wierdly - e.g. it indents back wnen . is appended to the word
-        -- indent = {
-        --   enable = true,              -- false will disable the whole extension
-        -- },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "gmn", -- set to `false` to disable one of the mappings
-            node_incremental = "gmr",
-            scope_incremental = "gmc",
-            node_decremental = "gmm",
-          },
-        },
-        playground = {
-          enable = true,
-          disable = {},
-          updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-          persist_queries = false, -- Whether the query persists across vim sessions
-          keybindings = {
-            toggle_query_editor = 'o',
-            toggle_hl_groups = 'i',
-            toggle_injected_languages = 't',
-            toggle_anonymous_nodes = 'a',
-            toggle_language_display = 'I',
-            focus_language = 'f',
-            unfocus_language = 'F',
-            update = 'R',
-            goto_node = '<cr>',
-            show_help = '?',
-          },
-        }
-      }
+        callback = function() vim.treesitter.start() end,
+      })
+
+      -- Indentation is experimental and indents ruby weirdly (e.g. it indents
+      -- back when `.` is appended to the word), so it is left disabled:
+      -- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+      -- The old `playground` module is gone; use the built-in `:InspectTree`
+      -- and `:Inspect` instead.
     end
   },
   {
@@ -412,77 +429,50 @@ require("lazy").setup({
     branch = "main",
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require'nvim-treesitter'.setup {
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ab"] = "@block.outer",
-              ["ib"] = "@block.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-              ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-              -- Or you can define your own textobjects like this
-              -- ["iF"] = {
-              --   python = "(function_definition) @function",
-              --   cpp = "(function_definition) @function",
-              --   c = "(function_definition) @function",
-              --   java = "(method_declaration) @function",
-              -- },
-            },
-            include_surrounding_whitespace = true,
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ["<leader>a"] = "@parameter.inner",
-            },
-            swap_previous = {
-              ["<leader>A"] = "@parameter.inner",
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = "@class.outer",
-              ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-              ["[s"] = { query = "@scope", query_group = "locals", desc = "Previous scope" },
-            },
-            goto_next = {
-              ["]d"] = "@conditional.outer",
-            },
-            goto_previous = {
-              ["[d"] = "@conditional.outer",
-            }
-          },
-          lsp_interop = {
-            enable = true,
-            border = 'single',
-            peek_definition_code = {
-              ["dm"] = "@function.outer",
-              ["dM"] = "@class.outer",
-            },
-          },
-        }
+      require("nvim-treesitter-textobjects").setup {
+        select = {
+          lookahead = true,
+          include_surrounding_whitespace = true,
+        },
+        move = {
+          set_jumps = true, -- whether to set jumps in the jumplist
+        },
       }
+
+      local select = require "nvim-treesitter-textobjects.select"
+      local swap = require "nvim-treesitter-textobjects.swap"
+      local move = require "nvim-treesitter-textobjects.move"
+
+      -- select
+      -- You can use the capture groups defined in textobjects.scm
+      vim.keymap.set({ "x", "o" }, "af", function() select.select_textobject("@function.outer", "textobjects") end)
+      vim.keymap.set({ "x", "o" }, "if", function() select.select_textobject("@function.inner", "textobjects") end)
+      vim.keymap.set({ "x", "o" }, "ab", function() select.select_textobject("@block.outer", "textobjects") end)
+      vim.keymap.set({ "x", "o" }, "ib", function() select.select_textobject("@block.inner", "textobjects") end)
+      vim.keymap.set({ "x", "o" }, "ac", function() select.select_textobject("@class.outer", "textobjects") end)
+      vim.keymap.set({ "x", "o" }, "ic", function() select.select_textobject("@class.inner", "textobjects") end)
+      vim.keymap.set({ "x", "o" }, "as", function() select.select_textobject("@local.scope", "locals") end,
+        { desc = "Select language scope" })
+
+      -- swap
+      vim.keymap.set("n", "<leader>a", function() swap.swap_next("@parameter.inner") end)
+      vim.keymap.set("n", "<leader>A", function() swap.swap_previous("@parameter.inner") end)
+
+      -- move
+      vim.keymap.set({ "n", "x", "o" }, "]m", function() move.goto_next_start("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]]", function() move.goto_next_start("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]s", function() move.goto_next_start("@local.scope", "locals") end,
+        { desc = "Next scope" })
+      vim.keymap.set({ "n", "x", "o" }, "]M", function() move.goto_next_end("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "][", function() move.goto_next_end("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[m", function() move.goto_previous_start("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[[", function() move.goto_previous_start("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[M", function() move.goto_previous_end("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[]", function() move.goto_previous_end("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[s", function() move.goto_previous_end("@local.scope", "locals") end,
+        { desc = "Previous scope" })
+      vim.keymap.set({ "n", "x", "o" }, "]d", function() move.goto_next("@conditional.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[d", function() move.goto_previous("@conditional.outer", "textobjects") end)
 
       local ts_repeat_move = require "nvim-treesitter-textobjects.repeatable_move"
 
@@ -839,9 +829,18 @@ require("lazy").setup({
           return
         end
 
-        -- Close any existing Diffview first so re-running PRDiff refreshes the
-        -- diff in place instead of requiring a manual close.
-        pcall(vim.cmd, "DiffviewClose")
+        -- Close any existing Diffview tabs first so re-running PRDiff refreshes
+        -- the diff in place instead of opening a new tab next to the old one.
+        -- DiffviewClose only closes the view in the *current* tab, so it misses
+        -- stale diffview tabs when PRDiff is run from a regular buffer. Close
+        -- them all via the lib (snapshot first, since dispose mutates the list).
+        local lib = require("diffview.lib")
+        for _, view in ipairs(vim.list_extend({}, lib.views)) do
+          pcall(function()
+            view:close()
+            lib.dispose_view(view)
+          end)
+        end
         vim.cmd("DiffviewOpen origin/" .. base .. "...HEAD")
       end, {})
     end
