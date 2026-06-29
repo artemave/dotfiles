@@ -54,6 +54,13 @@ set complete+=kspell
 " copy/paste to clipboard without prepending "*
 set clipboard=unnamed,unnamedplus
 
+" On displayless remotes (ssh host / devcontainer) there's no wl-copy/xclip to
+" reach, so route the clipboard through OSC 52 — yanks land in the local
+" terminal's clipboard. Locally a display is present, so the native tool wins.
+if empty($WAYLAND_DISPLAY) && empty($DISPLAY)
+  let g:clipboard = 'osc52'
+endif
+
 " display incomplete commands
 set showcmd
 
