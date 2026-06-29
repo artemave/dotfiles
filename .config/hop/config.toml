@@ -72,3 +72,15 @@ command = "sh -c '$SHELL -lc \"bin/rails console\"'"
 
 [layouts.rails.windows.log]
 command = "less -R log/test.log"
+
+[layouts.phoenix]
+activate = "test -f mix.exs && grep -q ':phoenix,' mix.exs"
+
+[layouts.phoenix.windows.test]
+command = "" # just starts an empty shell
+
+[layouts.phoenix.windows.server]
+command = "sh -c '$SHELL -lc \"mix phx.server\"'"
+
+[layouts.phoenix.windows.console]
+command = "sh -c '$SHELL -lc \"iex -S mix\"'"
