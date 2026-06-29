@@ -2,10 +2,19 @@
   "enabledPlugins": {
     "web-asset-generator@web-asset-generator-marketplace": true,
     "frontend-design@claude-plugins-official": true,
-    "ruby-lsp@claude-plugins-official": true
+    "ruby-lsp@claude-plugins-official": true,
+    "omen-development@omen": true
+  },
+  "extraKnownMarketplaces": {
+    "omen": {
+      "source": {
+        "source": "github",
+        "repo": "panbanda/omen"
+      }
+    }
   },
   "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "editorMode": "vim",
-  "tui": "fullscreen"
+  "editorMode": "vim"
 }
