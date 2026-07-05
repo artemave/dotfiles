@@ -1,0 +1,13 @@
+# PAM config for swaylock — managed by dotfiles (install.sh copies to /etc/pam.d/swaylock).
+#
+# swaylock uses a single serialised PAM stack (unlike GDM/KDE, which run
+# fingerprint and password in separate processes — see LIMITATIONS in
+# `man pam_fprintd`). The stock config runs pam_fprintd first with a 30s
+# timeout x 3 tries, so typing a password is blocked for up to ~90s.
+#
+# Here fingerprint runs first with a short timeout and a single try, so a
+# swipe still unlocks instantly while a typed password falls through to
+# password-auth (which contains no fingerprint module) after ~3s.
+auth       sufficient   pam_fprintd.so timeout=3 max-tries=1
+auth       include      password-auth
+account    include      password-auth

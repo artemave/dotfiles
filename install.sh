@@ -43,6 +43,20 @@ function fail() {
   exit 1
 }
 
+# Copy a repo file to a root-owned destination, but only when the content
+# differs, so repeat runs stay quiet (no needless sudo cp). Mode is taken from
+# the source file. Returns 0 when it actually changed something.
+# Usage: sync_system_file <src> <dest>
+function sync_system_file() {
+  local src=$1 dest=$2
+  if cmp -s "$src" "$dest"; then
+    return 1
+  fi
+  echo "Updating $dest"
+  sudo install -D -m "$(stat -c '%a' "$src")" "$src" "$dest"
+  return 0
+}
+
 projects_dir=$HOME/projects
 
 command -v git &> /dev/null || fail "Install git first"
@@ -150,6 +164,29 @@ case $1 in
     curl -fsSL https://raw.githubusercontent.com/dokku/dokku/refs/heads/master/contrib/dokku_client.sh -o ~/.local/bin/dokku
     chmod +x ~/.local/bin/dokku
 
+    ;;
+
+  -system)
+    # Everything under system/ mirrors its absolute destination
+    # (system/etc/pam.d/swaylock -> /etc/pam.d/swaylock). Copied, not
+    # symlinked, and only when content differs so repeat runs stay quiet.
+    # Requires sudo.
+    root=$(pwd)/system
+    unit_changed=0
+
+    while IFS= read -r src; do
+      dest=${src#$root}
+      if sync_system_file "$src" "$dest"; then
+        case $dest in
+          /usr/lib/systemd/system/*|/etc/systemd/system/*) unit_changed=1 ;;
+        esac
+      fi
+    done < <(find "$root" -type f)
+
+    if [[ $unit_changed == 1 ]]; then
+      sudo systemctl daemon-reload
+    fi
+    sudo systemctl enable evremap.service
     ;;
 
   -tmux)
