@@ -1,0 +1,8 @@
+# PAM config for hyprlock — managed by dotfiles (install.sh -system).
+#
+# Password only. hyprlock does fingerprint itself via fprintd over D-Bus,
+# concurrently with this PAM password path, so pam_fprintd must NOT appear
+# here — otherwise it would serialise the stack and block passwords (the exact
+# problem we hit with swaylock). password-auth contains no fingerprint module.
+auth       include      password-auth
+account    include      password-auth

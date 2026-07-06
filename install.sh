@@ -167,8 +167,15 @@ case $1 in
     ;;
 
   -system)
+    # hyprlock (screen locker) from COPR — does fingerprint + password in
+    # parallel, unlike swaylock's serial PAM stack.
+    if command -v dnf &> /dev/null && ! command -v hyprlock &> /dev/null; then
+      sudo dnf copr enable -y lionheartp/Hyprland
+      sudo dnf install -y hyprlock
+    fi
+
     # Everything under system/ mirrors its absolute destination
-    # (system/etc/pam.d/swaylock -> /etc/pam.d/swaylock). Copied, not
+    # (system/etc/pam.d/hyprlock -> /etc/pam.d/hyprlock). Copied, not
     # symlinked, and only when content differs so repeat runs stay quiet.
     # Requires sudo.
     root=$(pwd)/system
