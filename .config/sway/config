@@ -248,7 +248,7 @@ bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && p
 
 # exec gnome-settings-daemon
 
-exec swayidle \
+exec_always pkill swayidle; swayidle \
   timeout 300  'swaymsg "output * dpms off"' \
   resume       'swaymsg "output * dpms on"' \
   before-sleep 'hyprlock'
