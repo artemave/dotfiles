@@ -505,14 +505,8 @@ require("lazy").setup({
       null_ls.builtins.diagnostics.rubocop._opts.command = 'bundle'
       null_ls.builtins.diagnostics.rubocop._opts.args = { "exec", "rubocop", "-f", "json", "--force-exclusion", "--stdin", "$FILENAME" }
 
-      null_ls.builtins.diagnostics.erb_lint._opts.command = 'bundle'
-      null_ls.builtins.diagnostics.erb_lint._opts.args = { "exec", "erb_lint", "--format", "json", "--stdin", "$FILENAME" }
-
       null_ls.builtins.formatting.rubocop._opts.command = 'bundle'
       null_ls.builtins.formatting.rubocop._opts.args = { "exec", "rubocop", "-a", "--server", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
-
-      null_ls.builtins.formatting.erb_lint._opts.command = 'bundle'
-      null_ls.builtins.formatting.erb_lint._opts.args = { "exec", "erb_lint", "--autocorrect", "--stdin", "$FILENAME" }
 
       local null_ls_sources = {
         null_ls.builtins.diagnostics.rubocop,
@@ -520,9 +514,6 @@ require("lazy").setup({
 
         null_ls.builtins.diagnostics.stylelint,
         null_ls.builtins.formatting.stylelint,
-
-        null_ls.builtins.diagnostics.erb_lint,
-        null_ls.builtins.formatting.erb_lint,
 
         null_ls.builtins.code_actions.ts_node_action,
 
@@ -829,17 +820,13 @@ require("lazy").setup({
           return
         end
 
-        -- Close any existing Diffview tabs first so re-running PRDiff refreshes
-        -- the diff in place instead of opening a new tab next to the old one.
-        -- DiffviewClose only closes the view in the *current* tab, so it misses
-        -- stale diffview tabs when PRDiff is run from a regular buffer. Close
-        -- them all via the lib (snapshot first, since dispose mutates the list).
+        -- Close any existing Diffview first so re-running PRDiff refreshes the
+        -- diff in place instead of stacking a new tab. (Snapshot the list first,
+        -- since closing a view mutates it.)
         local lib = require("diffview.lib")
         for _, view in ipairs(vim.list_extend({}, lib.views)) do
-          pcall(function()
-            view:close()
-            lib.dispose_view(view)
-          end)
+          view:close()
+          lib.dispose_view(view)
         end
         vim.cmd("DiffviewOpen origin/" .. base .. "...HEAD")
       end, {})

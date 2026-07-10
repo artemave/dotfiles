@@ -2,24 +2,16 @@ workspace_layout = "tabbed"
 debug_log = true
 
 [windows.llm]
-command = "sh -c '$SHELL -lc claude --dangerously-skip-permissions'"
-
-# Override the built-in shell role so every backend session lands in a
-# kitten-managed shell with Kitty's OSC 133 markers loaded. Empty-command
-# non-shell roles (e.g. `[layouts.rails.windows.test] command = ""`) and
-# non-shell roles' post-exit fallback inherit this same wrap, so the whole
-# session gets `hop tail` / OSC-133-dependent features for free.
-[windows.shell]
-command = "kitten run-shell"
+command = "claude --dangerously-skip-permissions"
 
 [backends.devcontainer]
 activate              = "test -f docker-compose.dev.yml"
 prepare               = [
-  "podman-compose -f docker-compose.dev.yml --in-pod=false up -d --wait devcontainer",
+  "podman-compose -f docker-compose.dev.yml --in-pod=false up -d --wait",
   """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/api.sock" \\
        | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
          sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
-  """curl -fsSL https://github.com/kovidgoyal/kitty/releases/latest/download/kitten-linux-amd64 \\
+  """cat "$(command -v kitten)" \\
        | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
          sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
 ]
@@ -43,7 +35,7 @@ prepare               = [
   """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/api.sock" \\
        | $HOME/projects/devcontainers/starfish/dc exec-T \\
          sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
-  """curl -fsSL https://github.com/kovidgoyal/kitty/releases/latest/download/kitten-linux-amd64 \\
+  """cat "$(command -v kitten)" \\
        | $HOME/projects/devcontainers/starfish/dc exec-T \\
          sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
 ]
@@ -65,10 +57,10 @@ command = "" # just starts an empty shell
 # tears down its child process groups (puma + asset watchers), so the whole
 # stack goes, not just the port. The `[f]oreman` bracket keeps the pattern from
 # matching this very command.
-command = "sh -c 'pkill -f \"[f]oreman\" 2>/dev/null; $SHELL -lc bin/dev'"
+command = "pkill -f '[f]oreman' 2>/dev/null; bin/dev"
 
 [layouts.rails.windows.console]
-command = "sh -c '$SHELL -lc \"bin/rails console\"'"
+command = "bin/rails console"
 
 [layouts.rails.windows.log]
 command = "less -R log/test.log"
@@ -80,7 +72,16 @@ activate = "test -f mix.exs && grep -q ':phoenix,' mix.exs"
 command = "" # just starts an empty shell
 
 [layouts.phoenix.windows.server]
-command = "sh -c '$SHELL -lc \"mix phx.server\"'"
+# Kill a stale server before restarting so reopening a closed server window
+# doesn't collide on a beam instance that outlived it. The running server is a
+# `beam.smp` process whose args include `phx.server`, so match on both. Keying
+# off `beam` is what makes this safe: `pkill -f` matches against a process's
+# whole command line, and THIS launch command contains `phx.server` (in
+# `mix phx.server`) — so a bare `phx.server` pattern kills its own launcher
+# before the server ever starts. `beam` never appears here, so the pattern
+# can't self-match. The `[b]eam` bracket also stops it matching pkill's own
+# argument, and requiring `phx.server` avoids killing an `iex -S mix` console.
+command = "pkill -f '[b]eam.*phx.server' 2>/dev/null; mix phx.server"
 
 [layouts.phoenix.windows.console]
-command = "sh -c '$SHELL -lc \"iex -S mix\"'"
+command = "iex -S mix"

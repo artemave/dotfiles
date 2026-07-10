@@ -16,5 +16,7 @@
   "alwaysThinkingEnabled": true,
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "editorMode": "vim"
+  "editorMode": "vim",
+  "preferredNotifChannel": "terminal_bell",
+  "inputNeededNotifEnabled": true
 }
