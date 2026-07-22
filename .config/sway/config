@@ -7,6 +7,16 @@ input type:keyboard {
   repeat_rate 45
 }
 
+# Wire this sway session into systemd/dbus (sway-systemd package): import
+# DISPLAY, WAYLAND_DISPLAY, SWAYSOCK, etc. into the systemd + dbus user env and
+# activate graphical-session.target. gdm launches sway directly (not as a
+# systemd service), so without this, apps started by systemd user services
+# (e.g. vicinae.service) inherit no DISPLAY and misbehave — Discord's renderer
+# SIGSEGVs and it hangs on the loading screen. Supersedes the manual
+# dbus-update-activation-environment call further down. Runs before vicinae so
+# the env is imported before vicinae.service starts.
+exec /usr/libexec/sway-systemd/session.sh
+
 exec kbdd
 
 seat * xcursor_theme default 18
@@ -332,7 +342,8 @@ assign [app_id="Slack"] 3
 assign [app_id="discord"] 3
 assign [app_id="^telegram-desktop"] 3
 
-exec vicinae server
+# safe exec_always: pkill the old server so it restarts on reload, not just fresh start
+exec_always pkill -x vicinae-server; vicinae server
 
 # toggle tiling / floating
 exec sway_auto_floating
@@ -340,6 +351,3 @@ exec sway_auto_floating
 exec kitty
 
 exec ~/bin/firefox
-
-# https://github.com/emersion/xdg-desktop-portal-wlr#running
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
