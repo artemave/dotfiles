@@ -206,8 +206,6 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-  # status_command SCRIPT_DIR=~/.config/i3blocks 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-  # status_command SCRIPT_DIR=~/.config/i3blocks-contrib i3blocks
   swaybar_command /home/artem/.local/bin/waybar-overflow
 }
 
@@ -258,10 +256,18 @@ bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && p
 
 # exec gnome-settings-daemon
 
+# before-sleep only starts hyprlock when one isn't already up. Suspending twice
+# without an unlock in between (which happens whenever a resume is immediately
+# followed by another suspend) otherwise starts a second instance, sway denies
+# it the session lock ("onLockFinished ... Seems we got yeeten"), and hyprlock
+# 0.9.6 then hangs forever: that exit path joins the PAM thread while it is
+# still parked in the conversation callback waiting for a password nobody can
+# type. One orphaned process, ~20 threads and a pile of dmabufs, per occurrence.
 exec_always pkill swayidle; swayidle \
   timeout 300  'swaymsg "output * dpms off"' \
   resume       'swaymsg "output * dpms on"' \
-  before-sleep 'hyprlock'
+  timeout 300  '~/.config/scripts/suspend-if-lid-closed.sh' \
+  before-sleep 'pgrep -x hyprlock > /dev/null || hyprlock'
 
 workspace_auto_back_and_forth yes
 focus_on_window_activation focus
@@ -291,8 +297,13 @@ exec 'while :; do swaymsg -t subscribe -m "[\"window\"]" | while read -r _; do ~
 # --min-interval 5 coalesces the burst of output events one hotplug fires.
 exec 'while :; do swaymsg -t subscribe -m "[\"output\"]" | while read -r _; do ~/projects/artwall/bin/artwall --throttle --min-interval 5; done; sleep 1; done'
 # Interactive caption overlay (caption_mode = "interactive"): a persistent widget that
-# shows each painting's caption as a clickable Wikipedia link + a refresh button.
+# shows each painting's caption as a clickable Wikipedia link + star, gallery and
+# refresh buttons.
 # safe exec_always, as it automatically kills the previous instance
+# It also hosts the starred gallery (the caption's gallery button opens it) and
+# keeps ~/.local/share/artwall/public/ — the uploadable static site — in step on
+# every star, unstar, restore and paste. Both are on by default; opt out with
+# --no-serve-stars / --no-publish-stars.
 exec_always ~/projects/artwall/bin/artwall-overlay
 
 # exec unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
