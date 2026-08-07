@@ -16,6 +16,8 @@ prepare               = [
          sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
 ]
 teardown              = "podman-compose -f docker-compose.dev.yml down"
+interactive_prefix    = "podman-compose -f docker-compose.dev.yml exec devcontainer"
+noninteractive_prefix = "podman-compose -f docker-compose.dev.yml exec -T devcontainer"
 port_translate        = """
   podman ps -q \\
     --filter label=io.podman.compose.project=$(basename {session_root}) \\
@@ -25,8 +27,6 @@ port_translate        = """
     | cut -d: -f2
 """
 host_translate        = "echo {host}"
-interactive_prefix    = "podman-compose -f docker-compose.dev.yml exec devcontainer"
-noninteractive_prefix = "podman-compose -f docker-compose.dev.yml exec -T devcontainer"
 
 [backends.starfish]
 activate              = "test -d anonymiser-app"

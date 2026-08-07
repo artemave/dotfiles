@@ -18,5 +18,6 @@
   "skipDangerousModePermissionPrompt": true,
   "editorMode": "vim",
   "preferredNotifChannel": "terminal_bell",
-  "inputNeededNotifEnabled": true
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true
 }

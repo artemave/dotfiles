@@ -123,10 +123,6 @@ case $1 in
       git clone https://github.com/zdharma/fast-syntax-highlighting.git "$zsh_plugins_dir/fast-syntax-highlighting"
     fi
 
-    if [[ ! -d $zsh_plugins_dir/zlong_alert ]]; then
-      git clone https://github.com/kevinywlui/zlong_alert.zsh.git "$zsh_plugins_dir/zlong_alert"
-    fi
-
     if [[ ! -d $zsh_plugins_dir/zsh-ai-cmd ]]; then
       git clone https://github.com/kylesnowschwartz/zsh-ai-cmd.git "$zsh_plugins_dir/zsh-ai-cmd"
     fi

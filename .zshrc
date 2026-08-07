@@ -186,7 +186,6 @@ if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile
 
 # This should be the last thing because it duplicates PATH entries
 zsh_plugins_dir="$HOME/.zsh/plugins"
-zlong_ignore_cmds='vim ssh heroku nvim tail man less tig vifm tmux top htop ctop'
 
 if [[ -f "$zsh_plugins_dir/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]]; then
   source "$zsh_plugins_dir/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
@@ -195,10 +194,6 @@ fi
 if [[ -f "$zsh_plugins_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
   source "$zsh_plugins_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
   bindkey '^n' autosuggest-accept
-fi
-
-if [[ -f "$zsh_plugins_dir/zlong_alert/zlong_alert.zsh" ]]; then
-  source "$zsh_plugins_dir/zlong_alert/zlong_alert.zsh"
 fi
 
 if [[ -f "$zsh_plugins_dir/zsh-ai-cmd/zsh-ai-cmd.plugin.zsh" ]]; then
