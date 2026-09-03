@@ -1,6 +1,9 @@
 workspace_layout = "tabbed"
 debug_log = true
 
+[keys]
+open_selection = "alt+f"
+
 [windows.llm]
 command = "claude --dangerously-skip-permissions"
 
@@ -14,6 +17,9 @@ prepare               = [
   """cat "$(command -v kitten)" \\
        | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
          sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
+  """cat "$(hop path agents/hop-run/SKILL.md)" \\
+       | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
+         sh -c 'mkdir -p "$HOME/.claude/skills/hop-run" "$HOME/.agents/skills/hop-run" && tee "$HOME/.claude/skills/hop-run/SKILL.md" > "$HOME/.agents/skills/hop-run/SKILL.md"'""",
 ]
 teardown              = "podman-compose -f docker-compose.dev.yml down"
 interactive_prefix    = "podman-compose -f docker-compose.dev.yml exec devcontainer"
@@ -38,6 +44,9 @@ prepare               = [
   """cat "$(command -v kitten)" \\
        | $HOME/projects/devcontainers/starfish/dc exec-T \\
          sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
+  """cat "$(hop path agents/hop-run/SKILL.md)" \\
+       | $HOME/projects/devcontainers/starfish/dc exec-T \\
+         sh -c 'mkdir -p "$HOME/.claude/skills/hop-run" "$HOME/.agents/skills/hop-run" && tee "$HOME/.claude/skills/hop-run/SKILL.md" > "$HOME/.agents/skills/hop-run/SKILL.md"'""",
 ]
 teardown              = "$HOME/projects/devcontainers/starfish/dc down"
 port_translate        = "$HOME/projects/devcontainers/starfish/dc port {port}"

@@ -263,11 +263,17 @@ bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && p
 # 0.9.6 then hangs forever: that exit path joins the PAM thread while it is
 # still parked in the conversation callback waiting for a password nobody can
 # type. One orphaned process, ~20 threads and a pile of dmabufs, per occurrence.
-exec_always pkill swayidle; swayidle \
-  timeout 300  'swaymsg "output * dpms off"' \
-  resume       'swaymsg "output * dpms on"' \
+# The whole command is double-quoted so Sway passes it to one `sh -c`: unquoted,
+# Sway splits the exec line on `;` and rejects the `swayidle …` half as a config
+# command ("Unknown/invalid command 'swayidle'"), so swayidle never starts and
+# nothing locks the screen before suspend. It can't be two separate exec_always
+# lines either — the `pkill` job then races the `swayidle` job on reload and
+# kills the daemon it just started.
+exec_always "pkill -x swayidle; swayidle \
+  timeout 300  'swaymsg \"output * dpms off\"' \
+  resume       'swaymsg \"output * dpms on\"' \
   timeout 300  '~/.config/scripts/suspend-if-lid-closed.sh' \
-  before-sleep 'pgrep -x hyprlock > /dev/null || hyprlock'
+  before-sleep 'pgrep -x hyprlock > /dev/null || hyprlock'"
 
 workspace_auto_back_and_forth yes
 focus_on_window_activation focus
@@ -310,7 +316,9 @@ exec_always ~/projects/artwall/bin/artwall-overlay
 
 # bindsym XF86Launch1 exec ~/bin/toggle-touchpad.sh
 
-exec unclutter --jitter 4 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
+# Double-quoted so Sway doesn't split the arg on the `,` in `4,5` and reject
+# the rest ("Unknown/invalid command '5'").
+exec "unclutter --jitter 4 --ignore-scrolling --ignore-buttons 4,5 --timeout 2"
 
 set $scale 2
 
@@ -353,8 +361,10 @@ assign [app_id="Slack"] 3
 assign [app_id="discord"] 3
 assign [app_id="^telegram-desktop"] 3
 
-# safe exec_always: pkill the old server so it restarts on reload, not just fresh start
-exec_always pkill -x vicinae-server; vicinae server
+# safe exec_always: pkill the old server so it restarts on reload, not just fresh
+# start. Double-quoted so Sway passes it to one `sh -c` instead of splitting on
+# `;` and rejecting `vicinae server` as a config command.
+exec_always "pkill -x vicinae-server; vicinae server"
 
 # toggle tiling / floating
 exec sway_auto_floating

@@ -17,8 +17,6 @@ dotfiles=( \
   .gitmessage \
   .inputrc \
   .spacemacs \
-  AGENTS.md \
-  CLAUDE.md \
   .tmux-osx.conf \
   .tmux.conf \
   .zlogin \
@@ -151,6 +149,14 @@ case $1 in
     for file in ./mime/*; do
       ln -f -s "$(pwd)/$file" ~/.local/share/mime/packages/
     done
+
+    mkdir -p ~/.claude
+    for file in claude/*; do
+      ln -f -s "$(pwd)/$file" ~/.claude/
+    done
+
+    mkdir -p ~/.codex
+    ln -f -s "$(pwd)/claude/AGENTS.md" ~/.codex/AGENTS.md
 
     if [[ $(uname) == "Linux" ]] && [[ -n "${XDG_RUNTIME_DIR:-}" ]]; then
       systemctl --user enable --now gcr-ssh-agent.socket
