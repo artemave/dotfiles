@@ -1,0 +1,30 @@
+# artwall config. Every key is optional; omitted keys keep their built-in default.
+# Find QIDs with `python3 -m artwall --find <name>` or on wikidata.org.
+
+# Caption placement: which corner, and the inset from the screen edges in pixels
+# (absolute, so it sits the same fixed distance from the edge on every display).
+# corner is one of top-left / top-right / bottom-left / bottom-right.
+caption_corner = "bottom-right"
+caption_pad_x = 24
+caption_pad_y = 64
+font_size = 8
+# collections = [
+#   "Q190804",   # Rijksmuseum (Amsterdam)
+#   "Q842858",   # Nationalmuseum (Sweden)
+#   "Q671384",   # Statens Museum for Kunst / SMK (Denmark)
+#   "Q214867",   # National Gallery of Art (Washington, D.C.)
+#   "Q239303",   # Art Institute of Chicago
+#   "Q731126",   # J. Paul Getty Museum (Los Angeles)
+#   "Q1075126",  # Freer Gallery of Art (Smithsonian) — Asian art, clean scans
+#   "Q49133",    # Museum of Fine Arts, Boston — large Japanese collection
+#   "Q653433",   # Tokyo National Museum
+#   "Q147286",   # Kyoto National Museum
+#   "Q128316",   # Honolulu Museum of Art
+# ]
+
+# Where the published gallery is uploaded to. Inert — nothing here uploads or
+# fetches anything; it only puts a link to the live site in your own gallery.
+# Served by GitHub Actions from artemave/artwall-stars, publishing public/ as the
+# site root (Pages' deploy-from-a-branch only ever offers / and /docs).
+public_url = "https://artemave.github.io/artwall-stars/"
+owner = "Artem"
