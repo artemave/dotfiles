@@ -15,6 +15,15 @@ if [[ -f /home/dev/.claude/.credentials.json.host && ! -f /home/dev/.claude/.cre
   chmod 600 /home/dev/.claude/.credentials.json
 fi
 
+# The host profile is in use by the host Firefox; copy it once (minus site storage and lock files) instead of sharing it.
+# tar exits 1 when files change mid-read, which a live profile always does.
+host_profile=(/home/dev/.firefox.host/*.dev-edition-default)
+if [[ -d ${host_profile[0]} && ! -d /home/dev/.mozilla/firefox/dev-edition-default ]]; then
+  mkdir -p /home/dev/.mozilla/firefox/dev-edition-default
+  { tar -C "${host_profile[0]}" --exclude=./storage --exclude=./lock --exclude=./.parentlock -cf - . || [[ $? -eq 1 ]]; } \
+    | tar -C /home/dev/.mozilla/firefox/dev-edition-default -xf -
+fi
+
 for f in ./.exrc ./.nvim.lua ./.nvimrc; do
   [[ -f $f ]] && nvim --headless --clean "$f" -c "trust" -c "qa"
 done

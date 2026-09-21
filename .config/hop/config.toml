@@ -12,7 +12,7 @@ position = -1
 activate              = "test -f docker-compose.dev.yml"
 prepare               = [
   "podman-compose -f docker-compose.dev.yml --in-pod=false up -d --wait",
-  """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/api.sock" \\
+  """hop bridge shim \\
        | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
          sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
   """cat "$(command -v kitten)" \\

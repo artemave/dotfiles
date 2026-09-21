@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Firefox Developer Edition
+GenericName=Web Browser
+Exec=/opt/firefox-devedition/firefox --profile /home/dev/.mozilla/firefox/dev-edition-default %u
+Icon=/opt/firefox-devedition/browser/chrome/icons/default/default128.png
+Terminal=false
+Categories=Network;WebBrowser;
+MimeType=text/html;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/about;x-scheme-handler/unknown;
+StartupNotify=true
+StartupWMClass=firefox-aurora
