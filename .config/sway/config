@@ -256,24 +256,17 @@ bindsym XF86MonBrightnessDown exec ~/.config/scripts/set_brightness.sh 10%- && p
 
 # exec gnome-settings-daemon
 
-# before-sleep only starts hyprlock when one isn't already up. Suspending twice
-# without an unlock in between (which happens whenever a resume is immediately
-# followed by another suspend) otherwise starts a second instance, sway denies
-# it the session lock ("onLockFinished ... Seems we got yeeten"), and hyprlock
-# 0.9.6 then hangs forever: that exit path joins the PAM thread while it is
-# still parked in the conversation callback waiting for a password nobody can
-# type. One orphaned process, ~20 threads and a pile of dmabufs, per occurrence.
-# The whole command is double-quoted so Sway passes it to one `sh -c`: unquoted,
-# Sway splits the exec line on `;` and rejects the `swayidle …` half as a config
-# command ("Unknown/invalid command 'swayidle'"), so swayidle never starts and
-# nothing locks the screen before suspend. It can't be two separate exec_always
-# lines either — the `pkill` job then races the `swayidle` job on reload and
-# kills the daemon it just started.
-exec_always "pkill -x swayidle; swayidle \
-  timeout 300  'swaymsg \"output * dpms off\"' \
-  resume       'swaymsg \"output * dpms on\"' \
-  timeout 300  '~/.config/scripts/suspend-if-lid-closed.sh' \
-  before-sleep 'pgrep -x hyprlock > /dev/null || hyprlock'"
+# before-sleep (in the script) only starts hyprlock when one isn't already up.
+# Suspending twice without an unlock in between (which happens whenever a
+# resume is immediately followed by another suspend) otherwise starts a
+# second instance, sway denies it the session lock ("onLockFinished ... Seems
+# we got yeeten"), and hyprlock 0.9.6 then hangs forever: that exit path joins
+# the PAM thread while it is still parked in the conversation callback
+# waiting for a password nobody can type. One orphaned process, ~20 threads
+# and a pile of dmabufs, per occurrence.
+# Plain exec, not exec_always: the script's own loop keeps swayidle running
+# across crashes, so a reload doesn't need to pkill-and-restart it too.
+exec ~/.config/scripts/idle-daemon.sh
 
 workspace_auto_back_and_forth yes
 focus_on_window_activation focus
