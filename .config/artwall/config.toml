@@ -8,19 +8,18 @@ caption_corner = "bottom-right"
 caption_pad_x = 24
 caption_pad_y = 64
 font_size = 8
-# collections = [
-#   "Q190804",   # Rijksmuseum (Amsterdam)
-#   "Q842858",   # Nationalmuseum (Sweden)
-#   "Q671384",   # Statens Museum for Kunst / SMK (Denmark)
-#   "Q214867",   # National Gallery of Art (Washington, D.C.)
-#   "Q239303",   # Art Institute of Chicago
-#   "Q731126",   # J. Paul Getty Museum (Los Angeles)
-#   "Q1075126",  # Freer Gallery of Art (Smithsonian) — Asian art, clean scans
-#   "Q49133",    # Museum of Fine Arts, Boston — large Japanese collection
-#   "Q653433",   # Tokyo National Museum
-#   "Q147286",   # Kyoto National Museum
-#   "Q128316",   # Honolulu Museum of Art
-# ]
+# Default collections, minus Cleveland Museum of Art (Q657415) — its Asian
+# collection surfaced manuscript text pages (Jain folios, Tuti-nama pages)
+# tagged as paintings on Wikidata with no way to filter those out specifically.
+collections = [
+  "Q190804",   # Rijksmuseum (Amsterdam)
+  "Q842858",   # Nationalmuseum (Sweden)
+  "Q671384",   # Statens Museum for Kunst / SMK (Denmark)
+  "Q214867",   # National Gallery of Art (Washington, D.C.)
+  "Q239303",   # Art Institute of Chicago
+  "Q731126",   # J. Paul Getty Museum (Los Angeles)
+  "Q49133",    # Museum of Fine Arts, Boston
+]
 
 # Where the published gallery is uploaded to. Inert — nothing here uploads or
 # fetches anything; it only puts a link to the live site in your own gallery.

@@ -36,7 +36,7 @@ host_translate        = "echo {host}"
 activate              = "test -d anonymiser-app"
 prepare               = [
   "$HOME/projects/devcontainers/starfish/dc up",
-  """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/api.sock" \\
+  """hop bridge shim \\
        | $HOME/projects/devcontainers/starfish/dc exec-T \\
          sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
   """cat "$(command -v kitten)" \\
@@ -48,6 +48,23 @@ port_translate        = "$HOME/projects/devcontainers/starfish/dc port {port}"
 host_translate        = "echo platform.localhost"
 interactive_prefix    = "$HOME/projects/devcontainers/starfish/dc exec"
 noninteractive_prefix = "$HOME/projects/devcontainers/starfish/dc exec-T"
+
+[backends.kitty]
+activate              = "grep -q '^module github.com/kovidgoyal/kitty$' go.mod 2>/dev/null"
+prepare               = [
+  "$HOME/projects/devcontainers/kitty/dc up",
+  """hop bridge shim \\
+       | $HOME/projects/devcontainers/kitty/dc exec-T \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
+  """cat "$(command -v kitten)" \\
+       | $HOME/projects/devcontainers/kitty/dc exec-T \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
+]
+teardown              = "$HOME/projects/devcontainers/kitty/dc down"
+port_translate        = "$HOME/projects/devcontainers/kitty/dc port {port}"
+host_translate        = "echo platform.localhost"
+interactive_prefix    = "$HOME/projects/devcontainers/kitty/dc exec"
+noninteractive_prefix = "$HOME/projects/devcontainers/kitty/dc exec-T"
 
 [layouts.rails]
 activate = "test -f bin/rails"
