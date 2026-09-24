@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -ex -o pipefail
 # set -x
 
 dotfiles=( \
@@ -58,9 +58,30 @@ function sync_system_file() {
 projects_dir=$HOME/projects
 
 command -v git &> /dev/null || fail "Install git first"
-command -v mise &> /dev/null || fail "Install mise first"
 
 case $1 in
+  -packages)
+    if command -v dnf &> /dev/null; then
+      missing=()
+      for pkg in curl zsh python3-pip tmux neovim; do
+        rpm -q "$pkg" &> /dev/null || missing+=("$pkg")
+      done
+      if (( ${#missing[@]} )); then
+        sudo dnf install -y "${missing[@]}"
+      fi
+    fi
+
+    mkdir -p ~/.local/bin
+
+    if ! command -v mise &> /dev/null && [[ ! -x ~/.local/bin/mise ]]; then
+      curl -fsSL https://mise.run | sh
+    fi
+
+    if ! command -v starship &> /dev/null && [[ ! -x ~/.local/bin/starship ]]; then
+      curl -fsSL "https://github.com/starship/starship/releases/latest/download/starship-$(uname -m)-unknown-linux-musl.tar.gz" | tar -xz -C ~/.local/bin
+    fi
+    ;;
+
   -dots)
 
     if [[ $(uname) == "Linux" ]]; then
@@ -127,7 +148,7 @@ case $1 in
 
     if [[ ! -d ~/.fzf ]]; then
       git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-      yes | ~/.fzf/install
+      ~/.fzf/install --all
     fi
 
     if [[ ! -d ~/.tmux/plugins/tpm ]]; then
@@ -222,6 +243,7 @@ case $1 in
     ;;
 
   *)
+    $0 -packages
     $0 -dots
     ;;
 esac

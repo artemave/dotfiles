@@ -6,20 +6,24 @@
 ```sh
 git clone https://github.com/artemave/dotfiles.git
 cd myrcs
-./install.sh # everything
+./install.sh # -packages, then -dots
 
-# or just vim
-./install.sh -vim # -tmux -rbenv -dots
+# or just one step
+./install.sh -packages # -dots -tmux -nvim
 
 # hyprlock + root-owned system config (PAM, systemd units, sleep hooks) — needs sudo
 ./install.sh -system
 ```
 
+`-packages` installs whatever is missing out of curl, zsh, python3-pip, tmux
+and neovim (via dnf, so it asks for sudo only when something is missing), plus
+mise and starship into `~/.local/bin`.
+
 `-system` installs hyprlock (screen locker, from the lionheartp/Hyprland COPR)
 and mirrors everything under `system/` to its absolute path (e.g.
 `system/etc/pam.d/hyprlock` → `/etc/pam.d/hyprlock`), copying only files whose
 content changed. It's kept separate from the default run so `./install.sh`
-never needs sudo.
+needs sudo only to install missing packages.
 
 Among those files are two sleep hooks: `10-network-reset.sh` (stops the network
 before suspend, which this machine hangs without) and
