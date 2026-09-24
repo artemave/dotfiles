@@ -15,9 +15,10 @@ cd myrcs
 ./install.sh -system
 ```
 
-`-packages` installs whatever is missing out of curl, zsh, python3-pip, tmux
-and neovim (via dnf, so it asks for sudo only when something is missing), plus
-mise and starship into `~/.local/bin`.
+`-packages` dnf-installs whatever is missing out of zsh, python3-pip, procps-ng
+and file, installs Homebrew into `/home/linuxbrew/.linuxbrew` if it isn't
+there, and then `brew bundle`s the `Brewfile`. Sudo is needed only for the
+missing dnf packages and for Homebrew's first install.
 
 `-system` installs hyprlock (screen locker, from the lionheartp/Hyprland COPR)
 and mirrors everything under `system/` to its absolute path (e.g.

@@ -61,25 +61,19 @@ command -v git &> /dev/null || fail "Install git first"
 
 case $1 in
   -packages)
-    if command -v dnf &> /dev/null; then
-      missing=()
-      for pkg in curl zsh python3-pip tmux neovim; do
-        rpm -q "$pkg" &> /dev/null || missing+=("$pkg")
-      done
-      if (( ${#missing[@]} )); then
-        sudo dnf install -y "${missing[@]}"
-      fi
+    missing=()
+    for pkg in zsh python3-pip procps-ng file; do
+      rpm -q "$pkg" &> /dev/null || missing+=("$pkg")
+    done
+    if (( ${#missing[@]} )); then
+      sudo dnf install -y "${missing[@]}"
     fi
 
-    mkdir -p ~/.local/bin
-
-    if ! command -v mise &> /dev/null && [[ ! -x ~/.local/bin/mise ]]; then
-      curl -fsSL https://mise.run | sh
+    brew=/home/linuxbrew/.linuxbrew/bin/brew
+    if [[ ! -x $brew ]]; then
+      NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
-
-    if ! command -v starship &> /dev/null && [[ ! -x ~/.local/bin/starship ]]; then
-      curl -fsSL "https://github.com/starship/starship/releases/latest/download/starship-$(uname -m)-unknown-linux-musl.tar.gz" | tar -xz -C ~/.local/bin
-    fi
+    $brew bundle --file "$(pwd)/Brewfile"
     ;;
 
   -dots)
