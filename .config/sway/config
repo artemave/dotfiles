@@ -284,20 +284,9 @@ bindsym Print exec 'grim -g "$(slurp)" - | swappy -f -'
 
 # exec_always ~/.config/sway/set_random_wallpaper.sh
 # exec_always swaymsg -m -t subscribe '["output"]' | while read -r _; do ~/.config/sway/set_random_wallpaper.sh; done
-exec ~/projects/artwall/bin/artwall
-# Re-roll on window focus, throttled to Config.min_interval (default 30 min). The
-# `while :` supervisor restarts the subscription if swaymsg ever exits, so the
-# rotation can't silently stop for the rest of the session (exec, not exec_always,
-# so a config reload doesn't stack a second pipeline). The whole pipeline is
-# single-quoted so Sway hands it to one `sh -c`: unquoted, Sway splits the exec
-# line on `;` and rejects it ("Unknown/invalid command 'do'").
-exec 'while :; do swaymsg -t subscribe -m "[\"window\"]" | while read -r _; do ~/projects/artwall/bin/artwall --throttle; done; sleep 1; done'
-# Also re-roll on monitor hotplug so a newly-connected screen gets a wallpaper.
-# --min-interval 5 coalesces the burst of output events one hotplug fires.
-exec 'while :; do swaymsg -t subscribe -m "[\"output\"]" | while read -r _; do ~/projects/artwall/bin/artwall --throttle --min-interval 5; done; sleep 1; done'
-# Interactive caption overlay (caption_mode = "interactive"): a persistent widget that
-# shows each painting's caption as a clickable Wikipedia link + star, gallery and
-# refresh buttons.
+# artwall's caption overlay: shows each painting's caption as a clickable
+# Wikipedia link + star, gallery and refresh buttons, and rotates the wallpaper
+# (at login, every Config.min_interval, and on monitor hotplug).
 # safe exec_always, as it automatically kills the previous instance
 # It also hosts the starred gallery (the caption's gallery button opens it) and
 # keeps ~/.local/share/artwall/public/ — the uploadable static site — in step on
