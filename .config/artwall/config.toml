@@ -3,11 +3,11 @@
 
 # Caption placement: which corner, and the inset from the screen edges in pixels
 # (absolute, so it sits the same fixed distance from the edge on every display).
+# The interactive overlay measures it from the edge of any panel or bar instead.
 # corner is one of top-left / top-right / bottom-left / bottom-right.
 caption_corner = "bottom-right"
 caption_pad_x = 24
 caption_pad_y = 64
-font_size = 8
 # Default collections, minus Cleveland Museum of Art (Q657415) — its Asian
 # collection surfaced manuscript text pages (Jain folios, Tuti-nama pages)
 # tagged as paintings on Wikidata with no way to filter those out specifically.
