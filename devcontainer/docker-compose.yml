@@ -9,12 +9,10 @@ services:
     volumes:
       - ${REPO:-.}:/workspace
       - cache:/home/dev/.cache
-      - ${HOME}/projects/dotfiles:/home/dev/dotfiles:ro
       # Reuse host Neovim installs and runtime state across dev containers.
       - ${HOME}/.local/share/nvim:/home/dev/.local/share/nvim:rw
       - ${HOME}/.cache/nvim:/home/dev/.cache/nvim:rw
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro
-      - ${HOME}/.claude/settings.json:/home/dev/.claude/settings.json.host:ro
       - ${HOME}/.claude/.credentials.json:/home/dev/.claude/.credentials.json.host:ro
       # Persist Claude Code transcripts (the `--resume` history) across container
       # recreates. The container cwd is always /workspace, so its resume slug is
