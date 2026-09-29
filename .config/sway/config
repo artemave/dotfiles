@@ -282,16 +282,8 @@ bindsym Print exec 'grim -g "$(slurp)" - | swappy -f -'
 
 # exec feh --randomize --bg-fill ~/Pictures/Wallpaper/*
 
-# exec_always ~/.config/sway/set_random_wallpaper.sh
-# exec_always swaymsg -m -t subscribe '["output"]' | while read -r _; do ~/.config/sway/set_random_wallpaper.sh; done
-# artwall: rotates the wallpaper (at login, every Config.min_interval, and on
-# monitor hotplug) and shows each painting's caption as a clickable Wikipedia
-# link + star, gallery and refresh buttons.
-# safe exec_always, as it automatically kills the previous instance
-# It also hosts the starred gallery (the caption's gallery button opens it) and
-# keeps ~/.local/share/artwall/public/ — the uploadable static site — in step on
-# every star, unstar, restore and paste. Both are on by default; opt out with
-# --no-serve-stars / --no-publish-stars.
+# artwall daemon: rotates the wallpaper, shows the captions and hosts the starred
+# gallery. exec_always is safe — a new instance replaces the running one.
 exec_always ~/projects/artwall/bin/artwall
 
 # exec unclutter --jitter 5 --ignore-scrolling --ignore-buttons 4,5 --timeout 2
