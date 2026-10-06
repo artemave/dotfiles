@@ -28,6 +28,7 @@ RUN --mount=type=cache,id=dev-base-dnf,target=/var/cache/libdnf5,sharing=locked 
   zsh \
   gh \
   xdg-utils \
+  wl-clipboard \
   sudo \
   lsof \
   ncurses-term \

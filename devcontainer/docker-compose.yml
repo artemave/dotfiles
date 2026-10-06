@@ -27,15 +27,21 @@ services:
       - ${HOME}/.aws/config:/home/dev/.aws/config:rw
       - ${SSH_AUTH_SOCK}:/run/ssh-agent.sock
       - ${XDG_RUNTIME_DIR}/hop/api.sock:/run/hop.sock
+      # Lets in-container GUI apps (the browser xdg-open launches for OAuth
+      # logins) show windows on the host. Over `hop ssh` the remote has no
+      # WAYLAND_DISPLAY, so this binds /dev/null instead (podman refuses a
+      # missing bind source) and WAYLAND_DISPLAY below stays empty.
+      - ${WAYLAND_DISPLAY:+${XDG_RUNTIME_DIR}/}${WAYLAND_DISPLAY:-/dev/null}:/run/wayland.sock
       # Expose kitty's terminfo so TERM=xterm-kitty inside the container has a
       # description to look up. Without it ncurses falls back to the basic
       # xterm entry (8 colors, no italics, no undercurl).
       - /usr/share/terminfo/x/xterm-kitty:/usr/share/terminfo/x/xterm-kitty:ro
     userns_mode: "keep-id:uid=1000,gid=1000"
     environment:
-      XDG_SESSION_TYPE: wayland
+      XDG_SESSION_TYPE: ${WAYLAND_DISPLAY:+wayland}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       SSH_AUTH_SOCK: /run/ssh-agent.sock
+      WAYLAND_DISPLAY: ${WAYLAND_DISPLAY:+/run/wayland.sock}
       # Pass kitty's terminal capabilities through to in-container apps; the
       # corresponding terminfo entry is bind-mounted above.
       TERM: ${TERM:-xterm-256color}
