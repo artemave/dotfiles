@@ -70,6 +70,7 @@ RUN curl -fsSL "https://download.mozilla.org/?product=firefox-devedition-latest-
   && ln -s /opt/firefox-devedition/firefox /usr/local/bin/firefox-devedition \
   && ln -s /opt/firefox-devedition/firefox /usr/local/bin/firefox
 
+COPY --from=dotfiles --chmod=0755 devcontainer/firefox-detached /usr/local/bin/firefox-detached
 COPY --from=dotfiles devcontainer/firefox-devedition.desktop /usr/share/applications/firefox-devedition.desktop
 
 RUN if ! getent group 1000 >/dev/null; then groupadd --gid 1000 dev; fi \

@@ -40,6 +40,13 @@ services:
     environment:
       XDG_SESSION_TYPE: ${WAYLAND_DISPLAY:+wayland}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      # The host's aws-vault keyring (secret-service over the session D-Bus)
+      # isn't reachable from here, so keep SSO sessions in a file keyring on
+      # the persistent cache volume. The passphrase only guards short-lived
+      # SSO tokens, hence empty.
+      AWS_VAULT_BACKEND: file
+      AWS_VAULT_FILE_DIR: /home/dev/.cache/awsvault
+      AWS_VAULT_FILE_PASSPHRASE: ""
       SSH_AUTH_SOCK: /run/ssh-agent.sock
       WAYLAND_DISPLAY: ${WAYLAND_DISPLAY:+/run/wayland.sock}
       # Pass kitty's terminal capabilities through to in-container apps; the

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# xdg-open (no desktop environment in here) runs the handler in the foreground,
+# and CLIs like aws-vault wait for xdg-open before polling for the login result.
+# Firefox would also inherit the caller's stdout, hanging anyone reading it
+# through a pipe (e.g. `$(aws-vault exec ...)`) until the browser quits.
+setsid -f /opt/firefox-devedition/firefox --profile /home/dev/.mozilla/firefox/dev-edition-default "$@" \
+  </dev/null &>/dev/null

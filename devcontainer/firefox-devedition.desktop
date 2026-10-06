@@ -2,7 +2,7 @@
 Type=Application
 Name=Firefox Developer Edition
 GenericName=Web Browser
-Exec=/opt/firefox-devedition/firefox --profile /home/dev/.mozilla/firefox/dev-edition-default %u
+Exec=/usr/local/bin/firefox-detached %u
 Icon=/opt/firefox-devedition/browser/chrome/icons/default/default128.png
 Terminal=false
 Categories=Network;WebBrowser;
