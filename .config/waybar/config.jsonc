@@ -19,7 +19,7 @@
     "mpd",
     "idle_inhibitor",
     "pulseaudio",
-    // "power-profiles-daemon",
+    "custom/power-profile",
     "cpu",
     "memory",
     // "temperature",
@@ -152,16 +152,10 @@
   "battery#bat2": {
     "bat": "BAT2"
   },
-  "power-profiles-daemon": {
-    "format": "{icon}",
-    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-    "tooltip": true,
-    "format-icons": {
-      "default": "",
-      "performance": "",
-      "balanced": "",
-      "power-saver": ""
-    }
+  "custom/power-profile": {
+    "exec": "busctl get-property org.freedesktop.UPower.PowerProfiles /org/freedesktop/UPower/PowerProfiles org.freedesktop.UPower.PowerProfiles ActiveProfile | grep -o power-saver || echo",
+    "interval": 5,
+    "tooltip": false
   },
   "network": {
       // "interface": "wlp2*", // (Optional) To force the use of this interface
