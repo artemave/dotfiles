@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Bring up the devcontainer of the project in the current directory, rebuilding
+# dev-base and the project image first. Builds are layer-cached, so an unchanged
+# image costs a few seconds. podman-compose only recreates a container when its
+# compose config changes, not when its image does, so a container running a
+# stale image is removed here and `up` creates it from the fresh one.
+set -euo pipefail
+
+devcontainer_dir="$(dirname "$(realpath "$0")")"
+compose=(podman-compose -f docker-compose.dev.yml --in-pod=false)
+
+podman build \
+  --build-context dotfiles="$(dirname "$devcontainer_dir")" \
+  -f "$devcontainer_dir/Dockerfile" \
+  -t dev-base:latest \
+  "$devcontainer_dir"
+"${compose[@]}" build devcontainer
+
+cid="$(podman ps -aq \
+  --filter label=io.podman.compose.project="$(basename "$PWD")" \
+  --filter label=io.podman.compose.service=devcontainer)"
+if [[ -n $cid ]]; then
+  image="$(podman inspect -f '{{.ImageName}}' "$cid")"
+  if [[ "$(podman inspect -f '{{.Image}}' "$cid")" != "$(podman image inspect -f '{{.Id}}' "$image")" ]]; then
+    podman rm -f "$cid"
+  fi
+fi
+
+"${compose[@]}" up -d --wait
