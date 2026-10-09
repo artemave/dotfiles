@@ -30,7 +30,6 @@ port_translate        = """
     | xargs -r -I@ podman port @ {port} \\
     | cut -d: -f2
 """
-host_translate        = "echo {host}"
 
 [backends.starfish]
 activate              = "test -d anonymiser-app"
