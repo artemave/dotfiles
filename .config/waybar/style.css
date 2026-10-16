@@ -1,6 +1,5 @@
 * {
-  /* `otf-font-awesome` is required to be installed for icons */
-  /* font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif; */
+  font-family: "Adwaita Sans", "Font Awesome 6 Free", "JetBrainsMono Nerd Font";
   font-size: 10px;
 }
 
