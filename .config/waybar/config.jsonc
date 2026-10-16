@@ -143,6 +143,8 @@
     "format-discharging": "󰚦 {icon}",
     "format-charging": " {icon}",
     "format-plugged": " {icon}",
+    "format-full": " {icon}",
+    "format-not-charging": " {icon}",
     "tooltip-format": "{capacity}% · {timeTo}",
     "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
