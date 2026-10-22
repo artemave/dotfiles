@@ -273,7 +273,7 @@ require("lazy").setup({
 
       diff_files = function(query)
         fzf_lua.files {
-          cmd = 'git diff --no-ext-diff --name-only --diff-filter=d ' .. diff_base(),
+          raw_cmd = 'git diff --no-ext-diff --name-only --diff-filter=d ' .. diff_base(),
           query = query,
           actions = {
             ["ctrl-g"] = function(_, opts) diff_lines(opts.last_query) end,
