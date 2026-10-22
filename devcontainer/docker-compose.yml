@@ -23,7 +23,6 @@ services:
       - ${HOME}/.codex:/home/dev/.codex:rw
       - ${HOME}/.mozilla/firefox:/home/dev/.firefox.host:ro
       - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw
-      - ${HOME}/.dust/:/home/dev/.dust:rw
       - ${HOME}/.aws/config:/home/dev/.aws/config:rw
       - ${SSH_AUTH_SOCK}:/run/ssh-agent.sock
       - ${XDG_RUNTIME_DIR}/hop/api.sock:/run/hop.sock

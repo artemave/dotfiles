@@ -57,6 +57,7 @@ RUN --mount=type=cache,id=dev-base-dnf,target=/var/cache/libdnf5,sharing=locked 
   mesa-libEGL \
   mesa-dri-drivers \
   dejavu-fonts-all \
+  poppler-utils \
   liberation-fonts
 
 ENV MISE_INSTALL_PATH=/usr/local/bin/mise
