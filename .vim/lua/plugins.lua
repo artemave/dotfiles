@@ -238,28 +238,50 @@ require("lazy").setup({
           },
         }
       })
-      vim.keymap.set("n", "<leader>d", function()
-        local main_git_branch = vim.fn.trim(vim.fn.system("git rev-parse --abbrev-ref origin/HEAD | sed 's|^origin/||'"))
-        -- inlined diff2vimgrep (source: https://stackoverflow.com/a/33249416/51209)
-        -- so this works in devcontainers where ~/bin/diff2vimgrep isn't available
-        local diff2vimgrep = [[awk '
-          match($0, "^@@ -([0-9]+),([0-9]+) [+]([0-9]+),([0-9]+) @@", a) {
-            right=a[3]
-          }
-          match($0, "^[+][+][+] b/([^ ]+)", b) {
-            path=b[1]
-          }
-          { right++ }
-          /^[+][+][+] / { next }
-          ! /^[+]/ { next }
-          { line=substr($0, 2) }
-          { printf "%s:%s:1:%s\n", path, right-2, line }
-        ']]
-        local cmd = 'git diff --no-ext-diff "$(git merge-base ' .. main_git_branch .. ' HEAD)" | ' .. diff2vimgrep .. ' | sort -u'
-        fzf_lua.grep {
-          raw_cmd = cmd
+      -- inlined diff2vimgrep (source: https://stackoverflow.com/a/33249416/51209)
+      -- so this works in devcontainers where ~/bin/diff2vimgrep isn't available
+      local diff2vimgrep = [[awk '
+        match($0, "^@@ -([0-9]+),([0-9]+) [+]([0-9]+),([0-9]+) @@", a) {
+          right=a[3]
         }
-      end, { desc = "Git diff master" })
+        match($0, "^[+][+][+] b/([^ ]+)", b) {
+          path=b[1]
+        }
+        { right++ }
+        /^[+][+][+] / { next }
+        ! /^[+]/ { next }
+        { line=substr($0, 2) }
+        { printf "%s:%s:1:%s\n", path, right-2, line }
+      ']]
+
+      local function diff_base()
+        local main_git_branch = vim.fn.trim(vim.fn.system("git rev-parse --abbrev-ref origin/HEAD | sed 's|^origin/||'"))
+        return '"$(git merge-base ' .. main_git_branch .. ' HEAD)"'
+      end
+
+      local diff_files
+
+      local function diff_lines(query)
+        fzf_lua.grep {
+          raw_cmd = 'git diff --no-ext-diff ' .. diff_base() .. ' | ' .. diff2vimgrep .. ' | sort -u',
+          query = query,
+          actions = {
+            ["ctrl-g"] = function(_, opts) diff_files(opts.last_query) end,
+          },
+        }
+      end
+
+      diff_files = function(query)
+        fzf_lua.files {
+          cmd = 'git diff --no-ext-diff --name-only --diff-filter=d ' .. diff_base(),
+          query = query,
+          actions = {
+            ["ctrl-g"] = function(_, opts) diff_lines(opts.last_query) end,
+          },
+        }
+      end
+
+      vim.keymap.set("n", "<leader>d", function() diff_lines() end, { desc = "Git diff master (ctrl-g: files only)" })
 
       vim.keymap.set('n', '<leader><leader>l', fzf_lua.builtin)
 
