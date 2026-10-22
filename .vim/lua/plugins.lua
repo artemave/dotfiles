@@ -334,7 +334,14 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      require("nvim-tree").setup()
+      require("nvim-tree").setup({
+        on_attach = function(bufnr)
+          local api = require("nvim-tree.api")
+          api.config.mappings.default_on_attach(bufnr)
+          vim.keymap.del("n", "<C-v>", { buffer = bufnr })
+          vim.keymap.set("n", "<C-t>", api.node.open.vertical, { buffer = bufnr, noremap = true, nowait = true, desc = "nvim-tree: Open: Vertical Split" })
+        end,
+      })
     end,
   },
   {
