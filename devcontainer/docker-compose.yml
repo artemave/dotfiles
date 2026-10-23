@@ -25,7 +25,7 @@ services:
       - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw
       - ${HOME}/.aws/config:/home/dev/.aws/config:rw
       - ${SSH_AUTH_SOCK}:/run/ssh-agent.sock
-      - ${XDG_RUNTIME_DIR}/hop/api.sock:/run/hop.sock
+      - ${XDG_RUNTIME_DIR}/hop/bridge:${XDG_RUNTIME_DIR}/hop/bridge
       # Lets in-container GUI apps (the browser xdg-open launches for OAuth
       # logins) show windows on the host. Over `hop ssh` the remote has no
       # WAYLAND_DISPLAY, so this binds /dev/null instead (podman refuses a

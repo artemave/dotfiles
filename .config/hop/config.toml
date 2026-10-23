@@ -12,7 +12,7 @@ position = -1
 activate              = "test -f docker-compose.dev.yml"
 prepare               = [
   "$HOME/projects/dotfiles/devcontainer/up",
-  """hop bridge shim \\
+  """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/bridge/api.sock" \\
        | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
          sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
   """cat "$(command -v kitten)" \\
@@ -35,7 +35,7 @@ port_translate        = """
 activate              = "test -d anonymiser-app"
 prepare               = [
   "$HOME/projects/devcontainers/starfish/dc up",
-  """hop bridge shim \\
+  """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/bridge/api.sock" \\
        | $HOME/projects/devcontainers/starfish/dc exec-T \\
          sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
   """cat "$(command -v kitten)" \\
@@ -52,7 +52,7 @@ noninteractive_prefix = "$HOME/projects/devcontainers/starfish/dc exec-T"
 activate              = "grep -q '^module github.com/kovidgoyal/kitty$' go.mod 2>/dev/null"
 prepare               = [
   "$HOME/projects/devcontainers/kitty/dc up",
-  """hop bridge shim \\
+  """hop bridge shim --socket "$XDG_RUNTIME_DIR/hop/bridge/api.sock" \\
        | $HOME/projects/devcontainers/kitty/dc exec-T \\
          sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
   """cat "$(command -v kitten)" \\
