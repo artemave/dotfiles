@@ -13,7 +13,6 @@ services:
       - ${HOME}/.local/share/nvim:/home/dev/.local/share/nvim:rw
       - ${HOME}/.cache/nvim:/home/dev/.cache/nvim:rw
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro
-      - ${HOME}/.claude/.credentials.json:/home/dev/.claude/.credentials.json.host:ro
       # Persist Claude Code transcripts (the `--resume` history) across container
       # recreates. The container cwd is always /workspace, so its resume slug is
       # `-workspace` for every project; keying the host dir on ${REPO} keeps each
@@ -35,10 +34,27 @@ services:
       # description to look up. Without it ncurses falls back to the basic
       # xterm entry (8 colors, no italics, no undercurl).
       - /usr/share/terminfo/x/xterm-kitty:/usr/share/terminfo/x/xterm-kitty:ro
+      - proxy-ca:/proxy-ca:ro
     userns_mode: "keep-id:uid=1000,gid=1000"
     environment:
       XDG_SESSION_TYPE: ${WAYLAND_DISPLAY:+wayland}
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      # Placeholders: secrets-proxy swaps them for the real values on the way
+      # out, so the tokens themselves never enter this container.
+      OPENAI_API_KEY: proxy-secret-openai
+      GH_TOKEN: proxy-secret-github
+      CLAUDE_CODE_OAUTH_TOKEN: proxy-secret-claude
+      HTTPS_PROXY: http://secrets-proxy:8080
+      https_proxy: http://secrets-proxy:8080
+      NO_PROXY: localhost,127.0.0.1,::1,.localhost
+      no_proxy: localhost,127.0.0.1,::1,.localhost
+      # Node's built-in fetch ignores the proxy variables without this.
+      NODE_USE_ENV_PROXY: "1"
+      NODE_OPTIONS: --disable-warning=UNDICI-EHPA
+      # The entrypoint adds the proxy's CA to the system store; point the
+      # clients that ship their own CA bundle (certifi, Node) at it.
+      SSL_CERT_FILE: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+      REQUESTS_CA_BUNDLE: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+      NODE_EXTRA_CA_CERTS: /proxy-ca/mitmproxy-ca-cert.pem
       # The host's aws-vault keyring (secret-service over the session D-Bus)
       # isn't reachable from here, so keep SSO sessions in a file keyring on
       # the persistent cache volume. The passphrase only guards short-lived
@@ -52,9 +68,11 @@ services:
       # corresponding terminfo entry is bind-mounted above.
       TERM: ${TERM:-xterm-256color}
       COLORTERM: ${COLORTERM:-truecolor}
-      # GH_TOKEN: ${GH_TOKEN}
     stdin_open: true
     tty: true
+    depends_on:
+      secrets-proxy:
+        condition: service_healthy
     # Pairs with `touch /tmp/devcontainer-ready` at the end of the entrypoint's
     # pre-exec setup. ``podman-compose up --wait`` blocks until this passes, so
     # downstream consumers (hop's editor launch, etc.) don't race the
@@ -66,5 +84,22 @@ services:
       timeout: 1s
       retries: 30
       start_period: 1s
+  secrets-proxy:
+    image: docker.io/mitmproxy/mitmproxy:12.2.3
+    # Root in a rootless container is the host user, which can read the 0600
+    # secret files written by refresh-secrets.
+    user: "0"
+    entrypoint: ["mitmdump", "--listen-port", "8080", "--set", "confdir=/proxy-ca", "-s", "/addon/inject.py"]
+    volumes:
+      - ${HOME}/projects/dotfiles/devcontainer/secrets-proxy/inject.py:/addon/inject.py:ro
+      - ${XDG_RUNTIME_DIR}/devcontainer-secrets:/run/secrets:ro,z
+      - proxy-ca:/proxy-ca
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /proxy-ca/mitmproxy-ca-cert.pem"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+      start_period: 1s
 volumes:
   cache:
+  proxy-ca:

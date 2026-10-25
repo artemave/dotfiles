@@ -26,4 +26,5 @@ if [[ -n $cid ]]; then
   fi
 fi
 
+"$devcontainer_dir/secrets-proxy/refresh-secrets"
 "${compose[@]}" up -d --wait

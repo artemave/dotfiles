@@ -41,6 +41,11 @@ prepare               = [
   """cat "$(command -v kitten)" \\
        | $HOME/projects/devcontainers/starfish/dc exec-T \\
          sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
+  """$HOME/projects/devcontainers/starfish/dc exec-T sh -c '
+       for product in jira confluence; do
+         echo proxy-secret-atlassian | acli $product auth login \\
+           --site indigolighthouse.atlassian.net --email artem@indigolighthouse.com --token
+       done'""",
 ]
 teardown              = "$HOME/projects/devcontainers/starfish/dc down"
 port_translate        = "$HOME/projects/devcontainers/starfish/dc port {port}"
