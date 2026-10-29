@@ -74,3 +74,4 @@ bin/minecraft-launcher
 __pycache__
 
 **/.claude/settings.local.json
+claude/skills/synced/
