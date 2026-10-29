@@ -78,6 +78,7 @@ command = "" # just starts an empty shell
 
 [layouts.rails.windows.server]
 command = "pkill -f '[f]oreman' 2>/dev/null; bin/dev"
+env = { AUTO_SESSION_TIMEOUT = "false" }
 
 [layouts.rails.windows.console]
 command = "bin/rails console"

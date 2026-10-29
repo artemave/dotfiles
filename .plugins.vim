@@ -60,7 +60,7 @@ imap <F6> <ESC>:GundoToggle<CR>
 " fzf configuration moved to .vim/lua/plugins.lua
 
 " Plug 'preservim/nerdtree'
-nnoremap <silent> <leader><leader>f :lua require('nvim-tree/api').tree.open({ find_file = true })<cr>
+nnoremap <silent> <leader><leader>f :lua require('nvim-tree.api').tree.open({ find_file = true })<cr>
 
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_space = 1
