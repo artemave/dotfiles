@@ -13,9 +13,29 @@
       }
     }
   },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  },
+  "permissions": {
+    "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.docker/**)",
+      "Read(~/.netrc)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.local/share/keyrings/**)",
+      "Read(~/.mozilla/**)",
+      "Read(~/.config/chromium/**)",
+      "Read(~/.config/google-chrome/**)",
+      "Read(~/.config/BraveSoftware/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Read(//run/user/1000/devcontainer-secrets/**)"
+    ]
+  },
   "alwaysThinkingEnabled": true,
   "tui": "fullscreen",
-  "skipDangerousModePermissionPrompt": true,
   "editorMode": "vim",
   "preferredNotifChannel": "terminal_bell",
   "inputNeededNotifEnabled": true,

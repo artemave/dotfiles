@@ -5,7 +5,7 @@ debug_log = true
 open_selection = "alt+f"
 
 [windows.llm]
-command = "claude --dangerously-skip-permissions"
+command = "claude"
 position = -1
 
 [backends.devcontainer]

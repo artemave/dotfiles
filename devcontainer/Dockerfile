@@ -94,6 +94,7 @@ RUN --mount=type=cache,id=dev-base-brew,target=/home/dev/.cache/Homebrew,uid=100
 ENV PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
 
 RUN curl -fsSL https://claude.ai/install.sh | bash
+COPY --from=dotfiles devcontainer/claude-managed-settings.json /etc/claude-code/managed-settings.json
 
 RUN --mount=type=cache,id=dev-base-npm,target=/root/.npm,sharing=locked \
     sudo npm install -g @openai/codex agent-browser skills @bitwarden/cli
