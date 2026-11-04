@@ -17,7 +17,7 @@ podman build \
 "${compose[@]}" build devcontainer
 
 cid="$(podman ps -aq \
-  --filter label=io.podman.compose.project="$(basename "$PWD")" \
+  --filter label=io.podman.compose.project="$(basename "$PWD" | tr A-Z a-z | tr -cd a-z0-9_-)" \
   --filter label=io.podman.compose.service=devcontainer)"
 if [[ -n $cid ]]; then
   image="$(podman inspect -f '{{.ImageName}}' "$cid")"
