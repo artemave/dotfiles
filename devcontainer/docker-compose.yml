@@ -7,22 +7,24 @@ services:
     # Firefox + geckodriver + Puma across 16 parallel JS test workers exhaust the default container PID budget.
     pids_limit: 8192
     volumes:
-      - ${REPO:-.}:/workspace
+      - ${REPO:-${COMPOSE_PROJECT_DIR}}:/workspace
       - cache:/home/dev/.cache
-      # Reuse host Neovim installs and runtime state across dev containers.
-      - ${HOME}/.local/share/nvim:/home/dev/.local/share/nvim:rw
-      - ${HOME}/.cache/nvim:/home/dev/.cache/nvim:rw
+      # Shared across all devcontainers (fixed volume names below) so plugins
+      # install once; kept off the host so a container can't plant code that
+      # host Neovim would load.
+      - nvim-share:/home/dev/.local/share/nvim
+      - nvim-cache:/home/dev/.cache/nvim
+      - codex:/home/dev/.codex
       - ${HOME}/.claude.json:/home/dev/.claude.json.host:ro
       # Persist Claude Code transcripts (the `--resume` history) across container
       # recreates. The container cwd is always /workspace, so its resume slug is
-      # `-workspace` for every project; keying the host dir on ${REPO} keeps each
-      # repo's container history separate instead of colliding on one slug.
-      - ${HOME}/.claude/devcontainer-projects${REPO:-/_default}:/home/dev/.claude/projects:rw
-      - ${HOME}/.config/Claude:/home/dev/.config/Claude:rw
-      - ${HOME}/.codex:/home/dev/.codex:rw
+      # `-workspace` for every project; keying the host dir on the project path
+      # keeps each repo's container history separate instead of colliding on
+      # one slug. REPO comes from the external `dc` wrappers, whose compose
+      # files live outside the project.
+      - ${HOME}/.claude/devcontainer-projects${REPO:-${COMPOSE_PROJECT_DIR}}:/home/dev/.claude/projects:rw
       - ${HOME}/.mozilla/firefox:/home/dev/.firefox.host:ro
-      - ${HOME}/.config/github-copilot:/home/dev/.config/github-copilot:rw
-      - ${HOME}/.aws/config:/home/dev/.aws/config:rw
+      - ${HOME}/.aws/config:/home/dev/.aws/config:ro
       - ${SSH_AUTH_SOCK}:/run/ssh-agent.sock
       - ${XDG_RUNTIME_DIR}/hop/bridge:${XDG_RUNTIME_DIR}/hop/bridge
       # Lets in-container GUI apps (the browser xdg-open launches for OAuth
@@ -103,3 +105,9 @@ services:
 volumes:
   cache:
   proxy-ca:
+  nvim-share:
+    name: devcontainer-nvim-share
+  nvim-cache:
+    name: devcontainer-nvim-cache
+  codex:
+    name: devcontainer-codex
