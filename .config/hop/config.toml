@@ -60,8 +60,6 @@ prepare               = [
          sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
 ]
 teardown              = "$HOME/projects/devcontainers/kitty/dc down"
-port_translate        = "$HOME/projects/devcontainers/kitty/dc port {port}"
-host_translate        = "echo platform.localhost"
 interactive_prefix    = "$HOME/projects/devcontainers/kitty/dc exec"
 noninteractive_prefix = "$HOME/projects/devcontainers/kitty/dc exec-T"
 
