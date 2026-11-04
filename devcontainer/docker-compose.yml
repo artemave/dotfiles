@@ -26,7 +26,9 @@ services:
       - ${HOME}/.mozilla/firefox:/home/dev/.firefox.host:ro
       - ${HOME}/.aws/config:/home/dev/.aws/config:ro
       - ${SSH_AUTH_SOCK}:/run/ssh-agent.sock
-      - ${XDG_RUNTIME_DIR}/hop/bridge:${XDG_RUNTIME_DIR}/hop/bridge
+      # Only this session's hop bridge socket: calls on it can't reach other
+      # sessions or the host.
+      - ${XDG_RUNTIME_DIR}/hop/bridge${REPO:-${COMPOSE_PROJECT_DIR}}:/run/hop
       # Lets in-container GUI apps (the browser xdg-open launches for OAuth
       # logins) show windows on the host. Over `hop ssh` the remote has no
       # WAYLAND_DISPLAY, so this binds /dev/null instead (podman refuses a
