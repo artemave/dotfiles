@@ -90,7 +90,7 @@ RUN mkdir -p /home/dev/.cache
 
 RUN NONINTERACTIVE=1 /bin/bash -lc "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 RUN --mount=type=cache,id=dev-base-brew,target=/home/dev/.cache/Homebrew,uid=1000,gid=1000,sharing=locked \
-    /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install -y neovim difftastic mergiraf aws-vault"
+    /bin/bash -lc "eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\" && brew install -y neovim tree-sitter-cli difftastic mergiraf aws-vault"
 ENV PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
 
 RUN curl -fsSL https://claude.ai/install.sh | bash
