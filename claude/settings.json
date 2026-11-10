@@ -1,4 +1,21 @@
 {
+  "permissions": {
+    "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.docker/**)",
+      "Read(~/.netrc)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.local/share/keyrings/**)",
+      "Read(~/.mozilla/**)",
+      "Read(~/.config/chromium/**)",
+      "Read(~/.config/google-chrome/**)",
+      "Read(~/.config/BraveSoftware/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Read(//run/user/1000/devcontainer-secrets/**)"
+    ]
+  },
   "enabledPlugins": {
     "web-asset-generator@web-asset-generator-marketplace": true,
     "frontend-design@claude-plugins-official": true,
@@ -17,32 +34,44 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true
   },
-  "permissions": {
-    "deny": [
-      "Read(~/.ssh/**)",
-      "Read(~/.gnupg/**)",
-      "Read(~/.aws/**)",
-      "Read(~/.docker/**)",
-      "Read(~/.netrc)",
-      "Read(~/.config/gh/**)",
-      "Read(~/.local/share/keyrings/**)",
-      "Read(~/.mozilla/**)",
-      "Read(~/.config/chromium/**)",
-      "Read(~/.config/google-chrome/**)",
-      "Read(~/.config/BraveSoftware/**)",
-      "Read(~/.claude/.credentials.json)",
-      "Read(//run/user/1000/devcontainer-secrets/**)"
-    ]
-  },
   "alwaysThinkingEnabled": true,
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "autoCompactWindow": 400000
+    }
+  },
   "tui": "fullscreen",
   "editorMode": "vim",
   "preferredNotifChannel": "terminal_bell",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "modelSettings": {
-    "claude-opus-5-5": {
-      "autoCompactWindow": 400000
-    }
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: PUBLIC — github.com:artemave/dotfiles.git (confirmed via gh)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured",
+      "**Default / protected branches**: Default branch is `master`; no rulesets or protected branches listed via gh",
+      "**CI/CD deploy targets**: None configured",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine or CI runner with open internet",
+      "**Source control**: The trusted repo (artemave/dotfiles, public, github.com) and its remote(s) only",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: None configured",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar — note `.envrc` is gitignored in this repo and `devcontainer/secrets-proxy/refresh-secrets` path exists, treat both as sensitive",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: personal dotfiles / system configuration management (hobby use)",
+      "**Trusted repo**: artemave/dotfiles (public) — the git repository the agent started in and its configured remote (github.com:artemave/dotfiles.git); since the repo is public, only this repo's own work is OK to push there — confidential material ported from elsewhere is not cleared by this repo's visibility, and secrets/credentials/personal data are never cleared into it regardless of visibility",
+      "**Org-specific CLIs**: None configured",
+      "routine shell/system-config operations (dnf, systemctl, brew, dotfile symlinking) under this repo's install scripts are routine"
+    ]
   }
 }
