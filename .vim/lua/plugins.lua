@@ -832,17 +832,17 @@ require("lazy").setup({
         }
       })
       vim.api.nvim_create_user_command("PRDiff", function()
-        local handle = io.popen(
-          "gh pr view --json baseRefName -q .baseRefName 2>/dev/null"
-        )
+        -- REST rather than `gh pr view`: devcontainers block GitHub's GraphQL API.
+        local branch = vim.fn.system({ "git", "branch", "--show-current" }):gsub("%s+$", "")
+        local base = vim.fn.system({
+          "gh", "api", "repos/{owner}/{repo}/pulls?head={owner}:" .. branch .. "&state=open",
+          "-q", ".[0].base.ref",
+        }):gsub("%s+$", "")
 
-        if not handle then
-          vim.notify("Failed to run gh", vim.log.levels.ERROR)
+        if vim.v.shell_error ~= 0 then
+          vim.notify("gh: " .. base, vim.log.levels.ERROR)
           return
         end
-
-        local base = handle:read("*a"):gsub("%s+$", "")
-        handle:close()
 
         if base == "" then
           vim.notify("Not on a PR branch?", vim.log.levels.ERROR)
