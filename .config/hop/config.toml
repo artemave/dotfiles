@@ -3,6 +3,7 @@ debug_log = true
 
 [keys]
 open_selection = "alt+f"
+preview = "shift"
 
 [windows.llm]
 command = "claude"
