@@ -59,4 +59,7 @@ if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
+CLAUDE_CODE_PLUGIN_DIRS="$(find "$HOME/.claude/mods/" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | paste -sd:)"
+export CLAUDE_CODE_PLUGIN_DIRS
+
 export COMMON_ENV_LOADED=1

@@ -1,0 +1,1 @@
+{ "name": "doc-view", "version": "0.1.0", "description": "Live pane with the document being worked on, latest changes highlighted", "types": "./types/index.d.ts" }
