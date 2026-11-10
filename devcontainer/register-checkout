@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Record $1 as a checkout shared with a devcontainer, so the host git wrapper
+# (bin/git) guards it.
+set -euo pipefail
+
+registry="${XDG_STATE_HOME:-$HOME/.local/state}/devcontainer/checkouts"
+checkout="$(realpath "$1")"
+mkdir -p "$(dirname "$registry")"
+grep -qxF "$checkout" "$registry" 2>/dev/null || echo "$checkout" >> "$registry"

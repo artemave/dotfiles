@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Print owner/name of the GitHub repository the checkout at $1 has as origin,
+# or nothing when origin is missing or not on GitHub. Reads .git/config as a
+# plain file: no includes, no insteadOf rewriting, no repository discovery.
+set -euo pipefail
+
+gitdir="$1/.git"
+if [[ ! -d $gitdir ]]; then
+  echo "github-repo: $gitdir is not a directory (worktrees and submodules are not supported)" >&2
+  exit 1
+fi
+
+url="$(git config --file "$gitdir/config" --get remote.origin.url || true)"
+re='^(https://([^@/]+@)?github\.com/|ssh://git@github\.com(:22)?/|git@github\.com:)([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)$'
+url="${url%/}"
+url="${url%.git}"
+if [[ $url =~ $re ]]; then
+  echo "${BASH_REMATCH[4],,}/${BASH_REMATCH[5],,}"
+fi

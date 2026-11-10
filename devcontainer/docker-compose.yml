@@ -25,7 +25,6 @@ services:
       - ${HOME}/.claude/devcontainer-projects${REPO:-${COMPOSE_PROJECT_DIR}}:/home/dev/.claude/projects:rw
       - ${HOME}/.mozilla/firefox:/home/dev/.firefox.host:ro
       - ${HOME}/.aws/config:/home/dev/.aws/config:ro
-      - ${SSH_AUTH_SOCK}:/run/ssh-agent.sock
       # Only this session's hop bridge socket: calls on it can't reach other
       # sessions or the host.
       - ${XDG_RUNTIME_DIR}/hop/bridge${REPO:-${COMPOSE_PROJECT_DIR}}:/run/hop
@@ -66,7 +65,6 @@ services:
       AWS_VAULT_BACKEND: file
       AWS_VAULT_FILE_DIR: /home/dev/.cache/awsvault
       AWS_VAULT_FILE_PASSPHRASE: ""
-      SSH_AUTH_SOCK: /run/ssh-agent.sock
       WAYLAND_DISPLAY: ${WAYLAND_DISPLAY:+/run/wayland.sock}
       # Pass kitty's terminal capabilities through to in-container apps; the
       # corresponding terminfo entry is bind-mounted above.
@@ -93,9 +91,13 @@ services:
     # Root in a rootless container is the host user, which can read the 0600
     # secret files written by refresh-secrets.
     user: "0"
-    entrypoint: ["mitmdump", "--listen-port", "8080", "--set", "confdir=/proxy-ca", "-s", "/addon/inject.py"]
+    entrypoint: ["mitmdump", "--listen-port", "8080", "--set", "confdir=/proxy-ca", "-s", "/addon/github_policy.py", "-s", "/addon/inject.py"]
+    environment:
+      # owner/name of the only repository the GitHub token may touch, set by
+      # `up` from the checkout's origin; empty allows none.
+      GITHUB_REPO: ${GITHUB_REPO:-}
     volumes:
-      - ${HOME}/projects/dotfiles/devcontainer/secrets-proxy/inject.py:/addon/inject.py:ro
+      - ${HOME}/projects/dotfiles/devcontainer/secrets-proxy:/addon:ro
       - ${XDG_RUNTIME_DIR}/devcontainer-secrets:/run/secrets:ro,z
       - proxy-ca:/proxy-ca
     healthcheck:

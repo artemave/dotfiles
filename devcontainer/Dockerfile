@@ -95,6 +95,15 @@ ENV PATH=${PATH}:/home/linuxbrew/.linuxbrew/bin
 
 RUN curl -fsSL https://claude.ai/install.sh | bash
 COPY --from=dotfiles devcontainer/claude-managed-settings.json /etc/claude-code/managed-settings.json
+COPY --from=dotfiles devcontainer/agent-instructions.md /etc/claude-code/CLAUDE.md
+# A TOML literal string, which can't contain '''.
+RUN ! grep -q "'''" /etc/claude-code/CLAUDE.md \
+  && { echo "developer_instructions = '''"; cat /etc/claude-code/CLAUDE.md; echo "'''"; } \
+    | sudo install -D -m 644 /dev/stdin /etc/codex/managed_config.toml
+
+# There's no SSH agent in the container; GitHub goes over HTTPS through secrets-proxy.
+RUN sudo git config --system --add url."https://github.com/".insteadOf git@github.com: \
+  && sudo git config --system --add url."https://github.com/".insteadOf ssh://git@github.com/
 
 RUN --mount=type=cache,id=dev-base-npm,target=/root/.npm,sharing=locked \
     sudo npm install -g @openai/codex agent-browser skills @bitwarden/cli
@@ -102,7 +111,7 @@ RUN --mount=type=cache,id=dev-base-npm,target=/root/.npm,sharing=locked \
 RUN --mount=type=cache,id=dev-base-dnf,target=/var/cache/libdnf5,sharing=locked \
     /bin/bash -lc "agent-browser install --with-deps"
 
-RUN npx skills add vercel-labs/agent-browser
+RUN npx skills add vercel-labs/agent-browser -y --agent claude-code --agent codex
 
 COPY --from=dotfiles --chown=dev:dev / /home/dev/dotfiles
 RUN PIP_BREAK_SYSTEM_PACKAGES=1 /bin/bash -lc "cd /home/dev/dotfiles && bash ./install.sh -dots"

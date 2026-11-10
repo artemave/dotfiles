@@ -27,4 +27,8 @@ if [[ -n $cid ]]; then
 fi
 
 "$devcontainer_dir/secrets-proxy/refresh-secrets"
+"$devcontainer_dir/register-checkout" "$PWD"
+GITHUB_REPO="$("$devcontainer_dir/github-repo" "$PWD")"
+export GITHUB_REPO
+echo "secrets-proxy: github access → ${GITHUB_REPO:-none}"
 "${compose[@]}" up -d --wait

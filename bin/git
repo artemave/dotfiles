@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# git for checkouts shared with a devcontainer (recorded by
+# devcontainer/register-checkout). Their .git is writable from inside the
+# container, so here hooks are ignored and git refuses to run while .git/config
+# sets anything beyond plain repository, remote and branch settings: keys such
+# as core.fsmonitor, credential.helper, url.*.insteadOf, filter or diff
+# drivers, aliases and includes run commands or redirect credentials on the host.
+set -euo pipefail
+
+git=/usr/bin/git
+registry="${XDG_STATE_HOME:-$HOME/.local/state}/devcontainer/checkouts"
+
+[[ -s $registry ]] || exec "$git" "$@"
+
+args=("$@")
+location=()
+i=0
+while (( i < ${#args[@]} )); do
+  case ${args[i]} in
+    -C | -c | --git-dir | --work-tree) location+=("${args[i]}" "${args[i + 1]}"); i=$((i + 2)) ;;
+    --git-dir=* | --work-tree=*) location+=("${args[i]}"); i=$((i + 1)) ;;
+    -*) i=$((i + 1)) ;;
+    *) break ;;
+  esac
+done
+
+common="$("$git" "${location[@]}" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" || exec "$git" "$@"
+grep -qxF "$(dirname "$common")" "$registry" || exec "$git" "$@"
+
+trusted='^(core\.(repositoryformatversion|filemode|bare|logallrefupdates|ignorecase|precomposeunicode|symlinks|hookspath|sparsecheckout|sparsecheckoutcone)|extensions\.(objectformat|refstorage)|index\.sparse|remote\..+\.(url|pushurl|fetch|tagopt|prune|gh-resolved|promisor|partialclonefilter)|branch\..+\.(remote|pushremote|merge|rebase|description|gh-merge-base|vscode-merge-base)|submodule\..+\.(url|active)|user\.(name|email)|lfs\.repositoryformatversion|lfs\..+\.access)$'
+untrusted="$("$git" config --file "$common/config" --name-only --list | grep -Ev "$trusted" || true)"
+if [[ -n $untrusted ]]; then
+  {
+    echo "git: $(dirname "$common") is shared with a devcontainer, and its .git/config sets keys host git won't run with:"
+    sed 's/^/  /' <<< "$untrusted"
+    echo "Run git inside the container, or remove them with: $git config --file $common/config --unset <key>"
+  } >&2
+  exit 1
+fi
+
+exec "$git" -c core.hooksPath=/dev/null "$@"
