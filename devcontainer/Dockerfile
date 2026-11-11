@@ -78,7 +78,9 @@ COPY --from=dotfiles devcontainer/firefox-devedition.desktop /usr/share/applicat
 RUN if ! getent group 1000 >/dev/null; then groupadd --gid 1000 dev; fi \
   && useradd --uid 1000 --gid 1000 --create-home --shell /usr/bin/zsh dev
 
-RUN echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev \
+RUN printf '%s\n' \
+      'Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/home/linuxbrew/.linuxbrew/bin"' \
+      'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev \
   && chmod 0440 /etc/sudoers.d/dev
 
 USER dev
