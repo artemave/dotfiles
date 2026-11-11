@@ -1,6 +1,14 @@
 ## GitHub access in this container
 
-GitHub access is limited to this checkout's own repository (its `origin`). Other repositories, account-wide endpoints (search, notifications, gists, org and user listings) and repository administration (settings, secrets, hooks, keys, collaborators, branch protection) are refused.
+GitHub requests carrying the token (`gh`, and `git` once GitHub asks for credentials) are limited to this checkout's own repository (its `origin`). Other repositories, account-wide endpoints (search, notifications, gists, org and user listings) and repository administration (settings, secrets, hooks, keys, collaborators, branch protection) are refused for them.
+
+Requests without the token are not restricted, so read other public repositories with plain `curl`, which sends no credentials, or clone them over HTTPS:
+
+```sh
+curl -fsSL https://api.github.com/repos/owner/name/pulls/123
+curl -fsSL https://raw.githubusercontent.com/owner/name/main/README.md
+git clone https://github.com/owner/name.git
+```
 
 The GitHub GraphQL API is blocked, so `gh pr …`, `gh issue …` and `gh repo view` fail with `GraphQL: Resource not accessible by personal access token`, and `gh auth status` wrongly reports the token as invalid (`gh api user` shows it works). Use `gh api` REST calls instead; `{owner}/{repo}` is filled in from the current checkout:
 
@@ -39,4 +47,4 @@ gh api repos/{owner}/{repo}/commits/"$(git rev-parse HEAD)"/check-runs --jq '.ch
 
 `git` (clone, fetch, pull, push over HTTPS), `gh pr diff`, `gh run`, `gh workflow` and `gh release` work as usual; any `gh` subcommand that fails with a GraphQL error has a `gh api` REST equivalent. Triggering workflows (`gh workflow run`), draft → ready, auto-merge, resolving review threads, Projects and Discussions are not available.
 
-A `403`, `FORBIDDEN`, `Repository not found` or `Permission … denied` from GitHub means the operation is outside this container's scope. Don't retry it, re-authenticate or look for another route; tell the user what you were trying to do.
+A `403`, `FORBIDDEN`, `Repository not found` or `Permission … denied` from GitHub on an authenticated request means the operation is outside this container's scope. Don't retry it, re-authenticate or look for another route; tell the user what you were trying to do. The only exception is reading a public repository with tokenless `curl` as shown above.
