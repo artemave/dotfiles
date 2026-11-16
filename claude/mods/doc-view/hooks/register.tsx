@@ -44,7 +44,7 @@ export const register: Register = on => {
   })
 
   on('tool.call', { tool: TOOL }, async ($, e) => {
-    const { title, markdown } = e.input as { title: string; markdown: string }
+    const { title, markdown } = e
     const shown = await update($, doc, current =>
       current?.title === title
         ? { title, text: markdown, previous: current.text, version: current.version + 1 }

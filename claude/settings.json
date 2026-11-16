@@ -20,7 +20,8 @@
     "web-asset-generator@web-asset-generator-marketplace": true,
     "frontend-design@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true,
-    "omen-development@omen": true
+    "omen-development@omen": true,
+    "clangd-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "omen": {

@@ -35,8 +35,8 @@ describe('diffBlocks', () => {
 for (const surface of SURFACES) {
   test(`pane highlights the latest revision on ${surface}`, async ($, on) => {
     on('ui.open', () => ({ value: { isPlaced: true } }))
-    await $.tool.call({ tool: TOOL, input: { title: 'Plan', markdown: 'Goal\n\nStep one' } })
-    await $.tool.call({ tool: TOOL, input: { title: 'Plan', markdown: 'Goal\n\nStep one, revised\n\nStep two' } })
+    await $.tool.call({ tool: TOOL, title: 'Plan', markdown: 'Goal\n\nStep one' })
+    await $.tool.call({ tool: TOOL, title: 'Plan', markdown: 'Goal\n\nStep one, revised\n\nStep two' })
 
     const pane = await $.ui.mount({
       plugin: 'doc-view',
@@ -55,8 +55,8 @@ for (const surface of SURFACES) {
 
 test('a new title starts a new document with nothing highlighted', async ($, on) => {
   on('ui.open', () => ({ value: { isPlaced: true } }))
-  await $.tool.call({ tool: TOOL, input: { title: 'A', markdown: 'one' } })
-  await $.tool.call({ tool: TOOL, input: { title: 'B', markdown: 'two' } })
+  await $.tool.call({ tool: TOOL, title: 'A', markdown: 'one' })
+  await $.tool.call({ tool: TOOL, title: 'B', markdown: 'two' })
 
   const pane = await $.ui.mount({
     plugin: 'doc-view',
