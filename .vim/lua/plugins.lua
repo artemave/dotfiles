@@ -219,6 +219,13 @@ require("lazy").setup({
             ["ctrl-a"] = "select-all",
           },
         },
+        actions = {
+          files = {
+            true,
+            ["ctrl-t"] = fzf_lua.actions.file_vsplit,
+            ["ctrl-v"] = false,
+          },
+        },
         winopts = {
           fullscreen = true
         },
