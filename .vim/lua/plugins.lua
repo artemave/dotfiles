@@ -864,7 +864,7 @@ require("lazy").setup({
           view:close()
           lib.dispose_view(view)
         end
-        vim.cmd("DiffviewOpen origin/" .. base .. "...HEAD")
+        vim.cmd("DiffviewOpen origin/" .. base .. "...HEAD --imply-local")
       end, {})
     end
   },
