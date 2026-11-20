@@ -160,8 +160,9 @@
       // "interface": "wlp2*", // (Optional) To force the use of this interface
       // "format-wifi": "{essid} ({signalStrength}%) ",
       "interval": 1,
-      "format-wifi": " {bandwidthDownBytes}  {bandwidthUpBytes}   {essid}",
-      "format-ethernet": " {bandwidthDownBytes}  {bandwidthUpBytes} {ipaddr}",
+      "format-wifi": "{bandwidthDownBytes:>9}  {bandwidthUpBytes:>9}  ",
+      "format-ethernet": "{bandwidthDownBytes:>9}  {bandwidthUpBytes:>9}  {ipaddr}",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%)",
       "tooltip-format": "{ifname} via {gwaddr} ",
       "format-linked": "{ifname} (No IP) ",
       "format-disconnected": "Disconnected ⚠",

@@ -1,5 +1,5 @@
 * {
-  font-family: "Adwaita Sans", "Font Awesome 6 Free", "JetBrainsMono Nerd Font";
+  font-family: "JetBrainsMono Nerd Font Propo", "Font Awesome 6 Free";
   font-size: 10px;
 }
 
@@ -170,10 +170,6 @@ label:focus {
 
 #backlight {
   background-color: #90b1b1;
-}
-
-#network {
-  /* background-color: none; */
 }
 
 #network.disconnected {
