@@ -9,29 +9,6 @@ preview = "shift"
 command = "claude"
 position = -1
 
-[backends.devcontainer]
-activate              = "test -f docker-compose.dev.yml"
-prepare               = [
-  "$HOME/projects/dotfiles/devcontainer/up",
-  """hop bridge shim --socket /run/hop/api.sock \\
-       | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
-         sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
-  """cat "$(command -v kitten)" \\
-       | podman-compose -f docker-compose.dev.yml exec -T devcontainer \\
-         sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
-]
-teardown              = "podman-compose -f docker-compose.dev.yml down"
-interactive_prefix    = "podman-compose -f docker-compose.dev.yml exec devcontainer"
-noninteractive_prefix = "podman-compose -f docker-compose.dev.yml exec -T devcontainer"
-port_translate        = """
-  podman ps -q \\
-    --filter label=io.podman.compose.project=$(basename {session_root} | tr A-Z a-z | tr -cd a-z0-9_-) \\
-    --filter label=io.podman.compose.service=devcontainer \\
-    | head -1 \\
-    | xargs -r -I@ podman port @ {port} \\
-    | cut -d: -f2
-"""
-
 [backends.starfish]
 activate              = "test -d anonymiser-app"
 prepare               = [
@@ -63,6 +40,30 @@ prepare               = [
 teardown              = "$HOME/projects/devcontainers/kitty/dc down"
 interactive_prefix    = "$HOME/projects/devcontainers/kitty/dc exec"
 noninteractive_prefix = "$HOME/projects/devcontainers/kitty/dc exec-T"
+
+# Matches every project not listed, so it must stay the last backend.
+[backends.devcontainer]
+activate              = """case "$PWD" in "$HOME/projects/dotfiles"|"$HOME/projects/artwall") false ;; esac"""
+prepare               = [
+  "$HOME/projects/dotfiles/devcontainer/up",
+  """hop bridge shim --socket /run/hop/api.sock \\
+       | $HOME/projects/dotfiles/devcontainer/compose exec -T devcontainer \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/hop""",
+  """cat "$(command -v kitten)" \\
+       | $HOME/projects/dotfiles/devcontainer/compose exec -T devcontainer \\
+         sudo install -m 755 /dev/stdin /usr/local/bin/kitten""",
+]
+teardown              = "$HOME/projects/dotfiles/devcontainer/compose down"
+interactive_prefix    = "$HOME/projects/dotfiles/devcontainer/compose exec devcontainer"
+noninteractive_prefix = "$HOME/projects/dotfiles/devcontainer/compose exec -T devcontainer"
+port_translate        = """
+  podman ps -q \\
+    --filter label=io.podman.compose.project=$(basename {session_root} | tr A-Z a-z | tr -cd a-z0-9_-) \\
+    --filter label=io.podman.compose.service=devcontainer \\
+    | head -1 \\
+    | xargs -r -I@ podman port @ {port} \\
+    | cut -d: -f2
+"""
 
 [layouts.rails]
 activate = "test -f bin/rails"

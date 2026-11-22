@@ -7,7 +7,7 @@
 set -euo pipefail
 
 devcontainer_dir="$(dirname "$(realpath "$0")")"
-compose=(podman-compose -f docker-compose.dev.yml --in-pod=false)
+compose=("$devcontainer_dir/compose" --in-pod=false)
 
 podman build \
   --build-context dotfiles="$(dirname "$devcontainer_dir")" \

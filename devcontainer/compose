@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# podman-compose for the project in the current directory, using the shared
+# default service when the project has no docker-compose.dev.yml.
+set -euo pipefail
+
+if [[ -f docker-compose.dev.yml ]]; then
+  exec podman-compose -f docker-compose.dev.yml "$@"
+fi
+
+# The compose file lives outside the project, so podman-compose can't derive
+# the mount source or project name from its location.
+export REPO="$PWD"
+COMPOSE_PROJECT_NAME="$(basename "$PWD" | tr A-Z a-z | tr -cd a-z0-9_-)"
+export COMPOSE_PROJECT_NAME
+exec podman-compose -f "$(dirname "$(realpath "$0")")/docker-compose.default.yml" "$@"

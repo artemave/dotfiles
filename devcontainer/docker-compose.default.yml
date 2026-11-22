@@ -1,0 +1,5 @@
+include:
+  - ${HOME}/projects/dotfiles/devcontainer/docker-compose.yml
+services:
+  devcontainer:
+    image: dev-base:latest
