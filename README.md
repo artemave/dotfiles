@@ -42,3 +42,12 @@ suspended the machine a few seconds later:
 ```sh
 sudo rm /etc/acpi/events/laptop-lid && sudo systemctl restart acpid
 ```
+
+Swap is compressed RAM: `etc/systemd/zram-generator.conf` sizes zram to half of
+RAM (capped at 24G) with zstd, and `etc/sysctl.d/99-zram.conf` raises swappiness
+to 180 so idle pages move there early. Both take effect on next boot; to apply
+immediately:
+
+```sh
+sudo sysctl --system && sudo systemctl daemon-reload && sudo systemctl restart systemd-zram-setup@zram0
+```
